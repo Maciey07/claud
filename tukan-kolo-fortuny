@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎡 Koło Integracji — Poznaj Swój Zespół!</title>
+<style>
+@font-face {
+  font-family: 'Axiforma';
+  src: url('https://cdn.jsdelivr.net/gh/nicholasgillespie/fonts@main/axiforma/Axiforma-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Axiforma';
+  src: url('https://cdn.jsdelivr.net/gh/nicholasgillespie/fonts@main/axiforma/Axiforma-Medium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Axiforma';
+  src: url('https://cdn.jsdelivr.net/gh/nicholasgillespie/fonts@main/axiforma/Axiforma-SemiBold.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Axiforma';
+  src: url('https://cdn.jsdelivr.net/gh/nicholasgillespie/fonts@main/axiforma/Axiforma-Bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0f0e17;
+  --surface: #1a1929;
+  --card: #222139;
+  --accent1: #ff6b6b;
+  --accent2: #feca57;
+  --accent3: #48dbfb;
+  --accent4: #ff9ff3;
+  --accent5: #54a0ff;
+  --accent6: #5f27cd;
+  --accent7: #01a3a4;
+  --accent8: #f368e0;
+  --text: #fffffe;
+  --text-dim: #a7a9be;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Axiforma', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255,107,107,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(84,160,255,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(254,202,87,0.04) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+.app { position: relative; z-index: 1; }
+
+.header { text-align: center; padding: 2rem 1rem 1rem; }
+
+.header h1 {
+  font-family: 'Axiforma', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent4));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: -0.02em; line-height: 1.2;
+}
+
+.header p { color: var(--text-dim); margin-top: 0.4rem; font-size: 1.05rem; font-weight: 400; }
+
+.setup-screen, .game-screen { max-width: 900px; margin: 0 auto; padding: 1rem 1.5rem 3rem; }
+
+.setup-card {
+  background: var(--surface); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 1.2rem; padding: 2rem; margin-top: 1rem;
+}
+
+.setup-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.2rem; color: var(--accent2); }
+
+.player-input-row { display: flex; gap: 0.7rem; margin-bottom: 1rem; }
+
+.player-input-row input {
+  flex: 1; padding: 0.8rem 1rem; border-radius: 0.8rem;
+  border: 2px solid rgba(255,255,255,0.08); background: var(--card);
+  color: var(--text); font-family: 'Axiforma', sans-serif; font-size: 1rem;
+  outline: none; transition: border-color 0.3s;
+}
+.player-input-row input:focus { border-color: var(--accent3); }
+.player-input-row input::placeholder { color: var(--text-dim); opacity: 0.5; }
+
+.btn {
+  padding: 0.8rem 1.6rem; border-radius: 0.8rem; border: none;
+  font-family: 'Axiforma', sans-serif; font-size: 1rem; font-weight: 600;
+  cursor: pointer; transition: all 0.25s; display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn-add { background: var(--accent3); color: var(--bg); }
+
+.btn-start {
+  background: linear-gradient(135deg, var(--accent1), var(--accent4)); color: #fff;
+  font-size: 1.15rem; padding: 1rem 2.5rem; border-radius: 1rem;
+  margin-top: 1.5rem; display: block; width: 100%;
+}
+.btn-start:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.players-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+
+.player-tag {
+  background: var(--card); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2rem; padding: 0.45rem 1rem; font-size: 0.9rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.player-tag .remove { cursor: pointer; opacity: 0.4; transition: opacity 0.2s; font-size: 1.1rem; line-height: 1; }
+.player-tag .remove:hover { opacity: 1; color: var(--accent1); }
+
+@keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.game-screen { text-align: center; }
+
+.turn-info { font-size: 1.3rem; font-weight: 500; margin-bottom: 1rem; color: var(--text-dim); }
+.turn-info span { color: var(--accent2); font-weight: 700; }
+
+.wheel-area {
+  position: relative; width: min(440px, 88vw); height: min(440px, 88vw); margin: 0 auto 1.5rem;
+}
+.wheel-container { width: 100%; height: 100%; position: relative; }
+
+canvas#wheel {
+  width: 100%; height: 100%; border-radius: 50%;
+  filter: drop-shadow(0 0 30px rgba(255,107,107,0.15)); transition: filter 0.3s;
+}
+canvas#wheel.spinning { filter: drop-shadow(0 0 50px rgba(254,202,87,0.3)); }
+
+.wheel-pointer {
+  position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 18px solid transparent; border-right: 18px solid transparent;
+  border-top: 36px solid var(--accent2);
+  filter: drop-shadow(0 4px 12px rgba(254,202,87,0.5)); z-index: 10;
+}
+.wheel-pointer.bounce { animation: pointerBounce 0.15s ease; }
+
+@keyframes pointerBounce {
+  0%, 100% { transform: translateX(-50%) scaleY(1); }
+  50% { transform: translateX(-50%) scaleY(0.8); }
+}
+
+.wheel-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 72px; height: 72px; border-radius: 50%; background: var(--bg);
+  border: 4px solid var(--accent2); display: flex; align-items: center;
+  justify-content: center; font-size: 1.8rem; z-index: 5; cursor: pointer;
+  transition: all 0.3s; box-shadow: 0 0 20px rgba(254,202,87,0.2);
+}
+.wheel-center:hover { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 30px rgba(254,202,87,0.4); }
+.wheel-center.disabled { pointer-events: none; opacity: 0.5; }
+
+.btn-spin {
+  background: linear-gradient(135deg, var(--accent2), var(--accent1)); color: var(--bg);
+  font-size: 1.2rem; padding: 1rem 3rem; border-radius: 1rem; margin: 0.5rem auto;
+}
+.btn-spin:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15,14,23,0.85); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.4s; padding: 1rem;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--surface); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1.5rem; padding: 2.5rem 2rem 2rem; max-width: 520px; width: 100%;
+  text-align: center; transform: scale(0.85) translateY(30px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; overflow: hidden;
+}
+.modal-overlay.active .modal { transform: scale(1) translateY(0); }
+
+.modal-category {
+  font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem;
+}
+.modal-emoji { font-size: 3rem; margin-bottom: 0.8rem; display: block; animation: float 3s ease-in-out infinite; }
+
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.modal-question { font-size: 1.3rem; font-weight: 500; line-height: 1.4; margin-bottom: 1.8rem; color: var(--text); }
+.modal-player { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem; }
+.modal-player strong { color: var(--accent2); }
+.btn-next { background: var(--accent3); color: var(--bg); font-size: 1.05rem; padding: 0.9rem 2.5rem; border-radius: 0.8rem; }
+
+.scoreboard { margin-top: 2rem; text-align: left; }
+.scoreboard h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-dim); margin-bottom: 0.8rem; text-align: center; }
+
+.score-row {
+  display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 1rem;
+  border-radius: 0.8rem; margin-bottom: 0.4rem; background: var(--card);
+  border: 1px solid rgba(255,255,255,0.04); transition: all 0.3s;
+}
+.score-row.active-player { border-color: var(--accent2); background: rgba(254,202,87,0.08); }
+
+.score-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 700; color: var(--bg); flex-shrink: 0;
+}
+.score-name { flex: 1; font-weight: 500; }
+.score-count { color: var(--text-dim); font-size: 0.85rem; }
+
+.confetti-piece {
+  position: fixed; width: 10px; height: 10px; z-index: 200;
+  pointer-events: none; animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  .setup-card { padding: 1.2rem; }
+  .modal { padding: 1.8rem 1.2rem 1.5rem; }
+  .wheel-center { width: 55px; height: 55px; font-size: 1.4rem; }
+}
+
+/* ─── Logo ─── */
+.logo-area {
+  margin-bottom: 0.8rem;
+}
+.logo {
+  width: 64px; height: 64px;
+  filter: drop-shadow(0 0 18px rgba(217,50,137,0.35));
+  animation: logoPulse 4s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%, 100% { filter: drop-shadow(0 0 18px rgba(217,50,137,0.35)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 28px rgba(250,232,0,0.4)); transform: scale(1.05); }
+}
+
+/* ─── Reset Button ─── */
+.btn-reset {
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.12);
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  padding: 0.7rem 1.8rem;
+  border-radius: 0.8rem;
+  margin-top: 1.5rem;
+  display: block;
+  width: 100%;
+  transition: all 0.3s;
+}
+.btn-reset:hover {
+  border-color: var(--accent1);
+  color: var(--accent1);
+  background: rgba(255,107,107,0.06);
+}
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="logo-area">
+      <svg class="logo" width="60" height="60" viewBox="0 0 116 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M48.6965 19.5025C51.1712 18.1086 60.515 14.3434 84.3694 18.6422C85.1573 18.7843 85.2965 19.8563 84.5676 20.1889C77.4046 23.4543 56.0036 33.2089 51.2698 35.3675C50.801 35.5811 50.2606 35.2863 50.1842 34.7768L48.0895 20.7379C48.015 20.2391 48.2577 19.751 48.6965 19.5035V19.5025Z" fill="url(#logo_grad)"/>
+        <path d="M44.5313 23.6679L42.6521 40.8678C42.599 41.9224 43.5685 41.8296 43.5685 41.8296L55.4469 41.9176C57.0651 41.8876 58.5876 42.398 59.418 43.7881C59.6162 44.1206 59.8211 44.5015 60.028 44.9375C60.4001 45.7234 60.7008 46.8418 60.9337 47.9622C61.3794 50.1014 61.5215 56.9512 61.5002 59.1359C61.389 70.674 61.1406 94.0528 60.8632 98.9867C60.8438 99.3347 60.4127 99.4835 60.1826 99.2225C58.229 97.006 52.4164 89.2011 52.7731 75.1023C52.7886 74.4807 52.3874 73.9249 51.7939 73.7412C49.4729 73.0259 43.6401 70.79 39.0658 65.3612C30.4093 55.0884 24.6692 36.8726 43.4226 23.0251C43.9117 22.6635 44.599 23.0618 44.5333 23.666L44.5313 23.6679Z" fill="white" stroke="white" stroke-miterlimit="10"/>
+        <defs><linearGradient id="logo_grad" x1="48.0759" y1="26.0401" x2="85.0442" y2="26.0401" gradientUnits="userSpaceOnUse">
+          <stop offset="0.11" stop-color="#D93289"/><stop offset="0.53" stop-color="#EBA400"/>
+          <stop offset="0.63" stop-color="#ECAB00"/><stop offset="0.78" stop-color="#F0BE00"/>
+          <stop offset="0.95" stop-color="#F7DE00"/><stop offset="1" stop-color="#FAE800"/>
+        </linearGradient></defs>
+      </svg>
+    </div>
+    <h1>Koło Integracji</h1>
+    <p>Kręć kołem, losuj pytania i poznaj swój zespół!</p>
+  </header>
+
+  <div class="setup-screen" id="setupScreen">
+    <div class="setup-card">
+      <h2>👥 Dodaj graczy</h2>
+      <div class="player-input-row">
+        <input type="text" id="playerNameInput" placeholder="Wpisz imię gracza..." maxlength="20">
+        <button class="btn btn-add" id="addPlayerBtn">+ Dodaj</button>
+      </div>
+      <div class="players-list" id="playersList"></div>
+    </div>
+    <button class="btn btn-start" id="startGameBtn" disabled>🚀 Rozpocznij grę!</button>
+  </div>
+
+  <div class="game-screen hidden" id="gameScreen">
+    <div class="turn-info">Kolej gracza: <span id="currentPlayerName">—</span></div>
+    <div class="wheel-area">
+      <div class="wheel-pointer" id="pointer"></div>
+      <div class="wheel-container">
+        <canvas id="wheel" width="440" height="440"></canvas>
+      </div>
+      <div class="wheel-center" id="spinCenterBtn">▶</div>
+    </div>
+    <button class="btn btn-spin" id="spinBtn">🎰 Kręć kołem!</button>
+    <div class="scoreboard" id="scoreboard">
+      <h3>📊 Odpowiedzi</h3>
+      <div id="scoreRows"></div>
+    </div>
+    <button class="btn btn-reset" id="resetBtn">🔄 Resetuj grę</button>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal" id="modalCard">
+      <span class="modal-emoji" id="modalEmoji">🎉</span>
+      <div class="modal-category" id="modalCategory">Kategoria</div>
+      <div class="modal-question" id="modalQuestion">Pytanie tutaj...</div>
+      <div class="modal-player">Odpowiada: <strong id="modalPlayer">Gracz</strong></div>
+      <button class="btn btn-next" id="modalNextBtn">✅ Następna tura</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = [
+  {
+    name: "Dzieciństwo", emoji: "🧒", color: "#ff6b6b",
+    questions: [
+      "Jakie było Twoje ulubione danie w dzieciństwie, którego teraz byś nie tknął/a?",
+      "Jak wyglądał Twój wymarzony zawód, gdy miałeś/aś 7 lat?",
+      "Jaka była najgłupsza rzecz, w którą wierzyłeś/aś jako dziecko?",
+      "Opowiedz o swoim najbardziej żenującym wspomnieniu ze szkoły podstawowej.",
+      "Jaka bajka lub serial z dzieciństwa kształtuje Cię do dziś?",
+      "Jakiego bohatera z bajki chciałeś/aś być na bal przebierańców?",
+      "Co zbierałeś/aś w dzieciństwie? (karty, kamienie, motyle...)",
+      "Jaka była Twoja ksywka w szkole?",
+      "Jaki był Twój najdziwniejszy pomysł na zabawę jako dziecko?",
+      "Gdybyś mógł/mogła cofnąć się i dać radę 10-letniemu sobie — co byś powiedział/a?"
+    ]
+  },
+  {
+    name: "Supermoc", emoji: "⚡", color: "#feca57",
+    questions: [
+      "Jaką supermoc wybrałbyś/aś: latanie czy niewidzialność? Dlaczego?",
+      "Gdybyś miał/a magiczną różdżkę na 1 godzinę — co byś zrobił/a?",
+      "Który superbohater jest najbardziej do Ciebie podobny i dlaczego?",
+      "Gdybyś mógł/mogła opanować jeden talent z dnia na dzień — co to by było?",
+      "Jaką supermoc potrzebowałbyś/aś w pracy, żeby być 10x bardziej efektywnym?",
+      "Gdybyś mógł/mogła mieć jedną zdolność zwierzęcia — jaką?",
+      "Jesteś superbohaterem biurowym. Jaki jest Twój przydomek?",
+      "Jaką umiejętność z gier komputerowych chciałbyś/aś mieć w życiu?",
+      "Gdybyś miał/a pilot do rzeczywistości (pauza, rewind, fast-forward) — jak byś go użył/a?"
+    ]
+  },
+  {
+    name: "Jedzenie", emoji: "🍕", color: "#48dbfb",
+    questions: [
+      "Jedno danie na resztę życia — co wybierasz?",
+      "Jaki jest Twój największy guilty pleasure jedzeniowy?",
+      "Jakie danie potrafisz przygotować z zamkniętymi oczami?",
+      "Ananas na pizzy — tak czy nie? Uzasadnij!",
+      "Jakie jest najdziwniejsze połączenie jedzenia, które uwielbiasz?",
+      "Kuchnia jakiego kraju jest Twoim faworytem?",
+      "Jaki posiłek zawsze zamawiasz na wynos?",
+      "Gdybyś otwierał/a restaurację — jaki miałaby motyw przewodni?",
+      "Co jest w Twojej lodówce ZAWSZE?",
+      "Jaki jest Twój stosunek do gotowania: master chef czy microwave chef?"
+    ]
+  },
+  {
+    name: "Podróże", emoji: "✈️", color: "#ff9ff3",
+    questions: [
+      "Jaki kraj jest numerem 1 na Twojej liście do odwiedzenia?",
+      "Opowiedz o swoim najzabawniejszym doświadczeniu z podróży.",
+      "Wolisz góry czy morze? A może miasto?",
+      "Jaka była Twoja najlepsza/najgorsza podróż służbowa?",
+      "Gdybyś mógł/mogła się teleportować na 24h — gdzie?",
+      "Z plecakiem przez Azję czy all-inclusive na Malediwach?",
+      "Jaki jest najdziwniejszy lokalny przysmak, którego spróbowałeś/aś w podróży?",
+      "Czy masz jakiś rytuał podróżny (np. zawsze kupujesz magnes)?",
+      "Jakie miejsce zmieniło Twoje życie lub sposób myślenia?",
+      "Z kim z historii chciałbyś/aś podróżować?"
+    ]
+  },
+  {
+    name: "Kariera", emoji: "💼", color: "#54a0ff",
+    questions: [
+      "Jaki był Twój pierwszy job? Czego Cię nauczył?",
+      "Opisz swój typowy poranek zanim usiądziesz do pracy.",
+      "Gdybyś nie robił/a tego co teraz — jaki zawód byś wybrał/a?",
+      "Co Cię najbardziej motywuje w pracy?",
+      "Jaki jest Twój najlepszy life hack produktywnościowy?",
+      "Kawa, herbata, czy coś innego — co napędza Twój dzień?",
+      "Jaki jest Twój ulubiony moment z pracy w tym zespole?",
+      "Gdybyś był/a CEO na jeden dzień — co byś zmienił/a?",
+      "Home office czy biuro? Uzasadnij jak prawnik!",
+      "Jaka piosenka powinna być hymnem naszego zespołu?"
+    ]
+  },
+  {
+    name: "Pop Kultura", emoji: "🎬", color: "#5f27cd",
+    questions: [
+      "Jaki film/serial możesz oglądać w nieskończoność?",
+      "Jaka piosenka jest Twoim guilty pleasure?",
+      "Gdybyś żył/a w świecie jakiegoś filmu — w jakim?",
+      "Jaka postać fikcyjna jest najbardziej do Ciebie podobna?",
+      "Ostatnia rzecz, którą binge-watchowałeś/aś?",
+      "Jaką grę komputerową/planszową mógłbyś/aś grać godzinami?",
+      "Jaki jest Twój ulubiony mem wszech czasów? Opisz go!",
+      "Gdybyś mógł/mogła zaprosić 3 osoby (żywe/martwe/fikcyjne) na kolację — kogo?",
+      "Jaka książka miała na Ciebie największy wpływ?",
+      "Karaoke — jaka jest Twoja signature song?"
+    ]
+  },
+  {
+    name: "Dziwne", emoji: "🤪", color: "#01a3a4",
+    questions: [
+      "Gdybyś był/a meblem — jakim byś był/a?",
+      "Walczyłbyś/aś z jednym koniem wielkości kaczki czy 100 kaczkami wielkości konia?",
+      "Jaki dźwięk najbardziej Cię irytuje?",
+      "Gdybyś musiał/a zmienić imię — jakie byś wybrał/a?",
+      "Czy wolisz nigdy więcej nie jeść czekolady czy sera?",
+      "Jaki jest najbardziej bezużyteczny talent, który posiadasz?",
+      "Gdybyś był/a kolorem — jakim?",
+      "Co zrobisz jako pierwsze podczas apokalipsy zombie?",
+      "Jaka jest najdziwniejsza rzecz w Twoim mieszkaniu?",
+      "Gdyby Twoje życie miało motyw muzyczny — jaki by to był gatunek?",
+      "Wolisz umieć mówić do zwierząt czy znać wszystkie języki świata?"
+    ]
+  },
+  {
+    name: "Marzenia", emoji: "🌟", color: "#f368e0",
+    questions: [
+      "Co jest na Twojej bucket list, co zaskoczyłoby ludzi?",
+      "Gdybyś wygrał/a milion złotych — co pierwszego byś kupił/a?",
+      "Jakie masz marzenie, które wydaje się szalone?",
+      "Gdzie widzisz siebie za 10 lat? (oprócz 'na kanapie')",
+      "Gdybyś mógł/mogła cofnąć czas — do jakiego momentu?",
+      "Jaki jest Twój wymarzony dzień wolny od A do Z?",
+      "Gdybyś mógł/mogła nauczyć się czegoś natychmiast — co by to było?",
+      "Jaki rekord Guinnessa chciałbyś/aś pobić?",
+      "Gdybyś napisał/a książkę — o czym by była?",
+      "Co byś zrobił/a, gdyby pieniądze nie miały znaczenia?"
+    ]
+  },
+  {
+    name: "Co gdyby…", emoji: "🤔", color: "#e67e22",
+    questions: [
+      "Co byś zrobił/a, gdyby Twój szef powiedział, że od dziś możesz pracować skąd chcesz na świecie?",
+      "Co byś zrobił/a, gdybyś rano obudził/a się w ciele swojego kolegi/koleżanki z zespołu?",
+      "Co byś zrobił/a, gdybyś musiał/a przez tydzień pracować bez komputera i telefonu?",
+      "Co byś zrobił/a, gdybyś był/a jedyną osobą w firmie przez całą sobotę — z pełnym dostępem do wszystkiego?",
+      "Co byś zrobił/a, gdyby w Twojej firmie wprowadzono obowiązkową drzemkę w pracy?",
+      "Co byś zrobił/a, gdybyś odkrył/a, że Twój kot/pies prowadzi tajne życie influencera?",
+      "Co byś zrobił/a, gdybyś mógł/mogła zamienić się życiem z dowolną osobą z zespołu na 24h?",
+      "Co byś zrobił/a, gdyby nagle wyłączono internet na cały miesiąc?",
+      "Co byś zrobił/a, gdybyś dostał/a budżet 100 000 zł na 'szalony projekt firmowy' — bez żadnych ograniczeń?",
+      "Co byś zrobił/a, gdyby Twoja lodówka mogła mówić i komentować Twoje wybory żywieniowe?",
+      "Co byś zrobił/a, gdybyś mógł/mogła cofnąć jedną decyzję zawodową?",
+      "Co byś zrobił/a, gdyby od jutra każdy meeting musiał odbywać się na spacerze?",
+      "Co byś zrobił/a, gdybyś wygrał/a roczny urlop z pełnym wynagrodzeniem?",
+      "Co byś zrobił/a, gdybyś przypadkiem wysłał/a prywatnego mema na kanał firmowy?",
+      "Co byś zrobił/a, gdyby w windzie w biurze utknął/a z Tobą osoba, którą najbardziej podziwiasz?",
+      "Co byś zrobił/a, gdybyś musiał/a przez tydzień mówić tylko prawdę — absolutnie każdemu?",
+      "Co byś zrobił/a, gdybyś obudził/a się jutro ze zdolnością czytania w myślach współpracowników?",
+      "Co byś zrobił/a, gdyby Twoje hobby musiało stać się Twoją nową pracą od poniedziałku?"
+    ]
+  }
+];
+
+let players = [];
+let currentPlayerIdx = 0;
+let answeredCount = {};
+let usedQuestions = {};
+let isSpinning = false;
+let currentAngle = 0;
+
+const playerColors = ['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0','#10ac84','#ee5a24'];
+
+const setupScreen = document.getElementById('setupScreen');
+const gameScreen = document.getElementById('gameScreen');
+const playerNameInput = document.getElementById('playerNameInput');
+const addPlayerBtn = document.getElementById('addPlayerBtn');
+const playersList = document.getElementById('playersList');
+const startGameBtn = document.getElementById('startGameBtn');
+const spinBtn = document.getElementById('spinBtn');
+const spinCenterBtn = document.getElementById('spinCenterBtn');
+const currentPlayerName = document.getElementById('currentPlayerName');
+const scoreRows = document.getElementById('scoreRows');
+const modal = document.getElementById('modal');
+const modalCard = document.getElementById('modalCard');
+const modalEmoji = document.getElementById('modalEmoji');
+const modalCategory = document.getElementById('modalCategory');
+const modalQuestion = document.getElementById('modalQuestion');
+const modalPlayer = document.getElementById('modalPlayer');
+const modalNextBtn = document.getElementById('modalNextBtn');
+const pointer = document.getElementById('pointer');
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const resetBtn = document.getElementById('resetBtn');
+
+// ── RESET GAME ──
+function resetGame() {
+  players = [];
+  currentPlayerIdx = 0;
+  answeredCount = {};
+  usedQuestions = {};
+  isSpinning = false;
+  currentAngle = 0;
+  playersList.innerHTML = '';
+  playerNameInput.value = '';
+  startGameBtn.disabled = true;
+  spinBtn.disabled = false;
+  spinCenterBtn.classList.remove('disabled');
+  gameScreen.classList.add('hidden');
+  setupScreen.classList.remove('hidden');
+}
+
+resetBtn.addEventListener('click', resetGame);
+
+// ── SETUP ──
+function addPlayer() {
+  const name = playerNameInput.value.trim();
+  if (!name || players.includes(name)) { playerNameInput.value = ''; return; }
+  if (players.length >= 10) return;
+  players.push(name);
+  renderPlayers();
+  playerNameInput.value = '';
+  playerNameInput.focus();
+  startGameBtn.disabled = players.length < 2;
+}
+
+function removePlayer(idx) {
+  players.splice(idx, 1);
+  renderPlayers();
+  startGameBtn.disabled = players.length < 2;
+}
+
+function renderPlayers() {
+  playersList.innerHTML = players.map((p, i) =>
+    `<div class="player-tag" style="border-color:${playerColors[i % playerColors.length]}40">
+      <span style="color:${playerColors[i % playerColors.length]}">${p}</span>
+      <span class="remove" onclick="removePlayer(${i})">✕</span>
+    </div>`
+  ).join('');
+}
+
+addPlayerBtn.addEventListener('click', addPlayer);
+playerNameInput.addEventListener('keydown', e => { if (e.key === 'Enter') addPlayer(); });
+
+startGameBtn.addEventListener('click', () => {
+  if (players.length < 2) return;
+  players.forEach(p => { answeredCount[p] = 0; });
+  CATEGORIES.forEach(c => { usedQuestions[c.name] = []; });
+  setupScreen.classList.add('hidden');
+  gameScreen.classList.remove('hidden');
+  updateTurnInfo();
+  renderScoreboard();
+  drawWheel(0);
+});
+
+// ══════════════════════════════════════════
+//  WHEEL DRAWING — curved text, high contrast
+// ══════════════════════════════════════════
+function drawWheel(rotation) {
+  const dpr = window.devicePixelRatio || 1;
+  const size = canvas.clientWidth;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const cx = size / 2, cy = size / 2, r = size / 2 - 6;
+  const n = CATEGORIES.length;
+  const arc = (Math.PI * 2) / n;
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rotation);
+
+  for (let i = 0; i < n; i++) {
+    const start = i * arc - Math.PI / 2;
+    const end = start + arc;
+    const cat = CATEGORIES[i];
+
+    // Segment fill
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, r, start, end);
+    ctx.closePath();
+    ctx.fillStyle = cat.color;
+    ctx.fill();
+
+    // Depth gradient
+    const grad = ctx.createRadialGradient(0, 0, r * 0.12, 0, 0, r);
+    grad.addColorStop(0, 'rgba(0,0,0,0.22)');
+    grad.addColorStop(0.45, 'rgba(0,0,0,0.04)');
+    grad.addColorStop(1, 'rgba(255,255,255,0.1)');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Segment border
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, r, start, end);
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // ── TEXT along middle of segment ──
+    ctx.save();
+    const midAngle = start + arc / 2;
+    ctx.rotate(midAngle);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // Emoji — outer
+    ctx.shadowColor = 'rgba(0,0,0,0.6)';
+    ctx.shadowBlur = 4;
+    ctx.font = `${Math.max(18, size * 0.055)}px sans-serif`;
+    ctx.fillText(cat.emoji, r * 0.78, 0);
+
+    // Category name — with dark backing pill for readability
+    const nameR = r * 0.50;
+    const fontSize = Math.max(12, size * 0.034);
+    ctx.font = `700 ${fontSize}px 'Axiforma', sans-serif`;
+    const textWidth = ctx.measureText(cat.name).width;
+
+    // Dark pill background behind text
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    const pillW = textWidth + 14;
+    const pillH = fontSize + 8;
+    ctx.beginPath();
+    const pr = pillH / 2;
+    ctx.roundRect(nameR - pillW / 2, -pillH / 2, pillW, pillH, pr);
+    ctx.fill();
+
+    // Text stroke + fill for maximum contrast
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 5;
+    ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+    ctx.lineWidth = 3;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(cat.name, nameR, 0);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(cat.name, nameR, 1);
+
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
+
+  // Outer ring
+  ctx.beginPath();
+  ctx.arc(0, 0, r, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  // Notches
+  for (let i = 0; i < n * 3; i++) {
+    const angle = (i / (n * 3)) * Math.PI * 2;
+    ctx.save();
+    ctx.rotate(angle);
+    ctx.beginPath();
+    ctx.arc(r - 1, 0, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+// ══════════════════════════════════════════
+//  SPINNING — arrow ALWAYS lands inside segment
+// ══════════════════════════════════════════
+function spin() {
+  if (isSpinning) return;
+  isSpinning = true;
+  spinBtn.disabled = true;
+  spinCenterBtn.classList.add('disabled');
+  canvas.classList.add('spinning');
+
+  const n = CATEGORIES.length;
+  const arc = (Math.PI * 2) / n;
+
+  // 1. Pick random category
+  const targetCatIdx = Math.floor(Math.random() * n);
+
+  // 2. Compute exact rotation so the pointer (at top / 12 o'clock) lands
+  //    within the center 65% of that segment — never near borders
+  //    Segment i occupies angles from i*arc to (i+1)*arc in draw space (offset by -PI/2).
+  //    Pointer reads at angle 0 (top). Wheel rotation is additive clockwise.
+  //    So to put segment center under pointer: rotation = -(i*arc + arc/2)
+  const segmentCenter = targetCatIdx * arc + arc / 2;
+  const jitter = (Math.random() - 0.5) * arc * 0.6; // ±30% of arc — well inside
+  const desiredAngle = -(segmentCenter + jitter);
+
+  // 3. Add full spins and ensure we always go forward
+  const minSpins = 6;
+  let targetAngle = desiredAngle;
+  while (targetAngle <= currentAngle + minSpins * Math.PI * 2) {
+    targetAngle += Math.PI * 2;
+  }
+
+  const duration = 4500 + Math.random() * 2000;
+  const startTime = performance.now();
+  const startAngle = currentAngle;
+  let lastNotch = -1;
+
+  function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+  function animate(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    const ease = easeOutQuart(t);
+    currentAngle = startAngle + (targetAngle - startAngle) * ease;
+    drawWheel(currentAngle);
+
+    // Notch tick
+    const norm = ((currentAngle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+    const notch = Math.floor((norm / (Math.PI * 2)) * n * 3);
+    if (notch !== lastNotch) {
+      pointer.classList.remove('bounce');
+      void pointer.offsetWidth;
+      pointer.classList.add('bounce');
+      lastNotch = notch;
+    }
+
+    if (t < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      canvas.classList.remove('spinning');
+      showQuestion(targetCatIdx);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+spinBtn.addEventListener('click', spin);
+spinCenterBtn.addEventListener('click', spin);
+
+// ── QUESTION ──
+function showQuestion(categoryIdx) {
+  const cat = CATEGORIES[categoryIdx];
+  const available = cat.questions.filter((_, i) => !usedQuestions[cat.name].includes(i));
+
+  let qIdx, question;
+  if (available.length === 0) {
+    usedQuestions[cat.name] = [];
+    qIdx = Math.floor(Math.random() * cat.questions.length);
+    question = cat.questions[qIdx];
+  } else {
+    const randomAvail = Math.floor(Math.random() * available.length);
+    question = available[randomAvail];
+    qIdx = cat.questions.indexOf(question);
+  }
+  usedQuestions[cat.name].push(qIdx);
+
+  const player = players[currentPlayerIdx];
+  modalEmoji.textContent = cat.emoji;
+  modalCategory.textContent = cat.name;
+  modalCategory.style.color = cat.color;
+  modalCard.style.borderTop = `4px solid ${cat.color}`;
+  modalQuestion.textContent = question;
+  modalPlayer.textContent = player;
+  modal.classList.add('active');
+  spawnConfetti(cat.color);
+}
+
+modalNextBtn.addEventListener('click', () => {
+  modal.classList.remove('active');
+  answeredCount[players[currentPlayerIdx]]++;
+  currentPlayerIdx = (currentPlayerIdx + 1) % players.length;
+  updateTurnInfo();
+  renderScoreboard();
+  isSpinning = false;
+  spinBtn.disabled = false;
+  spinCenterBtn.classList.remove('disabled');
+});
+
+function updateTurnInfo() {
+  currentPlayerName.textContent = players[currentPlayerIdx];
+  currentPlayerName.style.color = playerColors[currentPlayerIdx % playerColors.length];
+}
+
+function renderScoreboard() {
+  scoreRows.innerHTML = players.map((p, i) => {
+    const isActive = i === currentPlayerIdx;
+    return `<div class="score-row ${isActive ? 'active-player' : ''}">
+      <div class="score-avatar" style="background:${playerColors[i % playerColors.length]}">${p.charAt(0).toUpperCase()}</div>
+      <div class="score-name">${p}</div>
+      <div class="score-count">${answeredCount[p] || 0} odpowiedzi</div>
+    </div>`;
+  }).join('');
+}
+
+function spawnConfetti(baseColor) {
+  const colors = [baseColor, '#feca57', '#48dbfb', '#ff6b6b', '#ff9ff3', '#54a0ff'];
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.width = (6 + Math.random() * 8) + 'px';
+    el.style.height = (6 + Math.random() * 8) + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.animationDuration = (2 + Math.random() * 3) + 's';
+    el.style.animationDelay = (Math.random() * 0.8) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+}
+
+window.addEventListener('resize', () => drawWheel(currentAngle));
+drawWheel(0);
+</script>
+</body>
+</html>

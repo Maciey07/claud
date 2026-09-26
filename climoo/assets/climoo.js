@@ -535,8 +535,10 @@ function buy() {
     $$('[data-rec]').forEach(t => t.textContent = t.dataset.rec === rec ? 'Polecany dla twojego metrażu' : '');
     const m = MODELS[cfg.model];
     vis.dataset.finish = cfg.finish; $('#buyUnit').dataset.finish = cfg.finish;
+    $$('.gal-photo img', vis).forEach(img => img.classList.toggle('on', img.dataset.f === cfg.finish));
+    $('#galNote').textContent = `Climoo ${m.name} · ${FINISHES[cfg.finish]}`;
     $('#buyLabel').textContent = `Climoo ${m.name} · ${FINISHES[cfg.finish]}`;
-    $('#buyFit').textContent = `Do ${m.area} m²`; $('#buyKw').textContent = `${m.kw} chłodzenia · ${m.heat} grzania`;
+    $('#buyFit').textContent = `82 × 28,5 × 17,8 cm · do ${m.area} m²`; $('#buyKw').textContent = `${m.kw} chłodzenia · ${m.heat} grzania`;
     $('#finName').textContent = FINISHES[cfg.finish];
     const total = m.price + INSTALLS[cfg.install].price + CARES[cfg.care].price + [...cfg.accs].reduce((s, a) => s + ACCS[a].price, 0);
     $('#bbTotal').textContent = zl(total);
@@ -559,7 +561,7 @@ function buy() {
    KOSZYK
    ===================================================== */
 const lineThumb = l => l.kind === 'unit'
-  ? `<div class="unit on" data-finish="${l.finish}">${unitSVG()}</div>`
+  ? `<img class="thumb-photo" src="img/x5-${l.finish}.webp" alt="Climoo X5 w kolorze ${FINISHES[l.finish]}" loading="lazy">`
   : `<span class="acc-ico">${ICONS[ACCS[l.id].icon]}</span>`;
 const lineTitle = l => l.kind === 'unit' ? `Climoo ${MODELS[l.model].name} · ${FINISHES[l.finish]}` : ACCS[l.id].name;
 const TRUST = `<div class="trust">

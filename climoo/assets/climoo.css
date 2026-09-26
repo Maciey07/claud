@@ -676,7 +676,8 @@ legend i{font-style:normal;width:28px;height:28px;border-radius:50%;background:v
 .store-crumbs a{color:var(--ink-3)}
 .buy-vis[data-view="photo"]{padding:0}
 .gal-photo{position:absolute;inset:0;opacity:0;transition:opacity .7s var(--ease);pointer-events:none}
-.gal-photo img{width:100%;height:100%;object-fit:cover;object-position:40% 30%}
+.gal-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;opacity:0;transition:opacity .7s var(--ease)}
+.gal-photo img.on{opacity:1}
 .gal-render{transition:opacity .7s var(--ease)}
 .buy-vis[data-view="photo"] .gal-photo{opacity:1}
 .buy-vis[data-view="photo"] .gal-render,.buy-vis[data-view="photo"] .fit,.buy-vis[data-view="photo"] .wall-label{opacity:0}
@@ -736,3 +737,6 @@ legend i{font-style:normal;width:28px;height:28px;border-radius:50%;background:v
 .dark .car-ctrl .count{color:#86868b}
 .dark .more{color:#2997ff}
 .promo .btn{margin-top:0}
+.thumb-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 25%;border-radius:inherit}
+.line-img:has(.thumb-photo){padding:0;overflow:hidden}
+.mini-line .mi:has(.thumb-photo){padding:0;overflow:hidden}

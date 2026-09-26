@@ -103,12 +103,23 @@ const LOGO_SYGNET = '<path d="M24.18 0L29.14 0.62L28.21 12.4H25.11L24.18 0Z"/><p
 const LOGO_WORD = '<path d="M61.3789 41.8965C67.7181 41.8965 72.2751 37.7704 72.5684 32.0824H66.0938C65.6652 34.67 64.1537 36.3484 61.4691 36.3484C58.1303 36.3484 56.1225 33.5277 56.1225 29.0519C56.1225 24.5528 58.1077 21.7088 61.4691 21.7088C64.1311 21.7088 65.8005 23.4105 66.1389 25.9282H72.5684C72.1398 20.1935 67.6504 16.1607 61.3789 16.1607C54.2275 16.1607 49.4223 21.429 49.4223 29.0519C49.4223 36.6748 54.2049 41.8965 61.3789 41.8965Z"/><path d="M82.8167 8.01776H75.7268V41.3636H82.8167V8.01776Z"/><path d="M87.4732 41.3636H94.0798V16.8148H87.4732V41.3636ZM90.7653 13.723C92.9376 13.723 94.5277 12.1654 94.5277 10.0732C94.5277 7.981 92.9376 6.42346 90.7653 6.42346C88.5929 6.42346 87.0029 7.981 87.0029 10.0732C87.0029 12.1654 88.5929 13.723 90.7653 13.723Z"/><path d="M98.3916 41.3636H105.057V26.7548C105.057 23.5658 106.955 21.7836 109.328 21.7836C111.655 21.7836 113.282 23.4485 113.282 26.0279V41.3636H119.699V26.45C119.699 23.683 121.303 21.7836 123.879 21.7836C126.161 21.7836 127.923 23.2375 127.923 26.2155V41.3636H134.566V24.9493C134.566 19.2746 131.154 16.0855 126.568 16.0855C123.111 16.0855 120.173 17.8911 118.93 20.916C117.936 17.8911 115.248 16.0855 112.039 16.0855C109.011 16.0855 106.232 17.7035 104.809 21.0567V16.6014H98.3916V41.3636Z"/><path d="M149.917 41.8965C157.27 41.8965 162.218 36.7645 162.218 29.0432C162.218 21.3219 157.27 16.1432 149.917 16.1432C142.587 16.1432 137.64 21.3219 137.64 29.0432C137.64 36.7645 142.587 41.8965 149.917 41.8965ZM149.917 36.3213C146.642 36.3213 144.443 33.6154 144.443 29.0432C144.443 24.4477 146.665 21.7184 149.917 21.7184C153.193 21.7184 155.415 24.4477 155.415 29.0432C155.415 33.6154 153.216 36.3213 149.917 36.3213Z"/><path d="M176.597 41.8647C183.95 41.8647 188.898 36.7391 188.898 29.0273C188.898 21.3155 183.95 16.1432 176.597 16.1432C169.267 16.1432 164.319 21.3155 164.319 29.0273C164.319 36.7391 169.267 41.8647 176.597 41.8647ZM176.597 36.2964C173.321 36.2964 171.122 33.5938 171.122 29.0273C171.122 24.4375 173.344 21.7115 176.597 21.7115C179.873 21.7115 182.095 24.4375 182.095 29.0273C182.095 33.5938 179.896 36.2964 176.597 36.2964Z"/>';
 const LOGO = `<a class="logo" href="index.html" aria-label="Climoo, strona główna"><svg viewBox="0 0 189 54" fill="currentColor" aria-hidden="true">${LOGO_SYGNET}${LOGO_WORD}</svg></a>`;
 const LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="15" height="15"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';
-const NAV = `<header class="gnav"><div class="wide">${LOGO}
-  <nav aria-label="Główna"><ul>
-    <li><a href="${base}#przeglad">Climoo X5</a></li><li><a href="${base}#tryby">Tryby pracy</a></li><li><a href="${base}#miejsca">Zastosowania</a></li>
-    <li><a href="${base}#montaz">Montaż</a></li><li><a href="${base}#faq">Wsparcie</a></li></ul></nav>
-  <a class="bag" href="koszyk.html" aria-label="Koszyk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/><path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8"/></svg><span class="bag-count" id="bagCount">0</span></a>
-</div></header>`;
+const NAV_LINKS = [['przeglad', 'Przegląd', 2], ['tryby', 'Tryby pracy'], ['miejsca', 'Zastosowania'], ['porownanie', 'Porównaj'], ['specyfikacja', 'Dane techniczne'], ['faq', 'Wsparcie', 2]];
+const BAG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/><path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8"/></svg>';
+const NAV = `<header class="gnav" id="siteNav"><div class="wide">${LOGO}
+  <nav aria-label="Sekcje strony"><ul class="nav-links" id="navLinks">
+    ${NAV_LINKS.map(([id, label, pri]) => `<li${pri ? ` data-pri="${pri}"` : ''}><a href="${base}#${id}" data-sec="${id}">${label}</a></li>`).join('')}
+    <li class="nav-ind" aria-hidden="true"></li></ul></nav>
+  <div class="nav-act">
+    <a class="bag" href="koszyk.html" aria-label="Koszyk">${BAG_ICON}<span class="bag-count" id="bagCount">0</span></a>
+    <a class="btn nav-kup" href="kup.html">Kup</a>
+    <button class="menu-btn" type="button" id="menuBtn" aria-label="Otwórz menu" aria-expanded="false" aria-controls="navSheet"><span></span></button>
+  </div>
+  <div class="nav-progress" id="navProgress" aria-hidden="true"></div>
+</div></header>
+<div class="nav-sheet" id="navSheet" aria-label="Menu">
+  <ul>${NAV_LINKS.map(([id, label]) => `<li><a href="${base}#${id}">${label}</a></li>`).join('')}</ul>
+  <div class="sheet-foot"><a href="kup.html">Konfigurator</a><a href="koszyk.html">Koszyk</a><span>Darmowa dostawa · Montaż w 72 godziny</span></div>
+</div>`;
 const NAV_MIN = `<header class="gnav gnav-min"><div class="wide">${LOGO}<span class="secure">${LOCK} Bezpieczne zamówienie</span><a class="back" href="koszyk.html">Wróć do koszyka</a></div></header>`;
 const FOOTER = `<footer><div class="wide">
   <div class="notes">
@@ -127,6 +138,22 @@ const FOOTER = `<footer><div class="wide">
   <div class="legal"><span>Copyright © 2026 Climoo. Projekt koncepcyjny.</span><span>Polska</span></div>
 </div></footer>`;
 { const g = $('#gnav'); if (g) g.outerHTML = PAGE === 'checkout' ? NAV_MIN : NAV; const f = $('#footer'); if (f) f.outerHTML = FOOTER; }
+/* Pasek nawigacji: stan po przewinięciu i menu mobilne */
+const siteNav = $('#siteNav');
+if (siteNav) {
+  const btn = $('#menuBtn'), sheet = $('#navSheet');
+  const setMenu = open => {
+    siteNav.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+  };
+  btn.onclick = () => setMenu(!siteNav.classList.contains('menu-open'));
+  $$('a', sheet).forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && siteNav.classList.contains('menu-open')) { setMenu(false); btn.focus(); } });
+  addEventListener('resize', () => { if (innerWidth > 834) setMenu(false); });
+  const onNavScroll = () => siteNav.classList.toggle('scrolled', scrollY > 8);
+  addEventListener('scroll', onNavScroll, { passive: true }); onNavScroll();
+}
 if (!$('#toast')) document.body.insertAdjacentHTML('beforeend', '<div class="toast" id="toast" role="status" aria-live="polite"></div>');
 
 function paintBagCount() {
@@ -306,7 +333,12 @@ function home() {
   const story = $('#design'), storyStage = $('#storyStage'), storyUnit = $('.unit', storyStage), storySteps = $$('.story-step', story), storyBars = $$('.story-progress b', story), dims = $('#dims');
   const storyAir = airs.find(a => a.cv.parentElement === storyStage);
   const marq = $('#marq');
-  const lnLinks = $$('.lnav-r a:not(.btn)'), secIds = lnLinks.map(a => a.getAttribute('href').slice(1));
+  const navLinks = $$('#navLinks a'), navInd = $('#navLinks .nav-ind'), navProg = $('#navProgress');
+  let navActive = null;
+  function moveInd(a) {
+    if (!a || !a.offsetWidth) { navInd.classList.remove('show'); return; }
+    navInd.style.width = a.offsetWidth + 'px'; navInd.style.transform = `translateX(${a.offsetLeft}px)`; navInd.classList.add('show');
+  }
   function onScroll() {
     const vh = innerHeight;
     const wr = words.getBoundingClientRect();
@@ -325,13 +357,16 @@ function home() {
     if (storyAir) storyAir.power = sp >= 0.66 ? 2 : 1;
     const mr = marq.getBoundingClientRect();
     marq.style.transform = `translateX(${-(vh - mr.top) * 0.35}px)`;
-    let active = secIds[0];
-    secIds.forEach(id => { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top < vh * 0.4) active = id; });
-    lnLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + active));
+    let active = null;
+    navLinks.forEach(a => { const el = document.getElementById(a.dataset.sec); if (el && el.getBoundingClientRect().top < vh * 0.4) active = a; });
+    if (active && !active.offsetWidth) active = null;
+    if (active !== navActive) { navLinks.forEach(a => a.classList.toggle('on', a === active)); if (active) active.setAttribute('aria-current', 'location'); navLinks.forEach(a => { if (a !== active) a.removeAttribute('aria-current'); }); moveInd(active); navActive = active; }
+    const doc = document.documentElement;
+    navProg.style.transform = `scaleX(${clamp(scrollY / (doc.scrollHeight - vh))})`;
   }
   let ticking = false;
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
-  addEventListener('resize', onScroll);
+  addEventListener('resize', () => { navActive = undefined; onScroll(); });
   onScroll();
 
   /* noise bars */

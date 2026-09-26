@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climoo X5 · Cisza, która chłodzi</title>
+<meta name="description" content="Climoo X5. Klimatyzator, który słychać mniej niż szept. 17 dB, A+++, filtr HEPA H13, chip C2. Kup z montażem w 1 dzień.">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1d1d1f;
+  --ink-2:#6e6e73;
+  --ink-3:#86868b;
+  --line:#d2d2d7;
+  --bg:#ffffff;
+  --bg-2:#f5f5f7;
+  --blue:#0071e3;
+  --blue-h:#0077ed;
+  --link:#0066cc;
+  --ice:#5ac8fa;
+  --err:#e30000;
+  --ok:#1a9e55;
+  --grad:linear-gradient(95deg,#0a84ff 0%,#40b8ff 35%,#7a6bff 75%,#b56bff 100%);
+  --r:18px;
+  --r-lg:28px;
+  --ease:cubic-bezier(.22,.8,.2,1);
+  --wrap:1040px;
+  --wide:1260px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:17px;line-height:1.47;letter-spacing:-.012em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg,canvas{display:block}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{width:min(var(--wrap),100% - 44px);margin-inline:auto}
+.wide{width:min(var(--wide),100% - 32px);margin-inline:auto}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.muted{color:var(--ink-2)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+/* ===== Buttons ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 22px;border-radius:980px;background:var(--blue);color:#fff;font-size:17px;font-weight:500;letter-spacing:-.01em;transition:background .2s,transform .2s var(--ease),opacity .2s;white-space:nowrap}
+.btn:hover{background:var(--blue-h);text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn.sm{height:30px;padding:0 14px;font-size:13px}
+.btn.lg{height:56px;padding:0 32px;font-size:18px}
+.btn.ghost{background:transparent;color:var(--blue);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.btn.ghost:hover{background:var(--blue);color:#fff}
+.btn.dark{background:var(--ink)}
+.btn.dark:hover{background:#000}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.more{font-size:17px;display:inline-flex;align-items:center;gap:4px}
+.more::after{content:"›";font-size:1.25em;line-height:1;transform:translateY(-1px)}
+
+/* ===== Global nav ===== */
+.gnav{position:relative;z-index:60;height:48px;background:rgba(250,250,252,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+body:not([data-page="home"]) .gnav{position:sticky;top:0;border-bottom:1px solid rgba(0,0,0,.06)}
+.gnav .wide{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:700;letter-spacing:-.03em;font-size:19px}
+.logo:hover{text-decoration:none}
+.logo svg{width:22px;height:22px}
+.gnav ul{list-style:none;display:flex;gap:34px;font-size:12.5px}
+.gnav ul a{color:rgba(0,0,0,.8)}
+.gnav ul a:hover{color:#000;text-decoration:none}
+.bag{position:relative;width:32px;height:32px;display:grid;place-items:center;color:var(--ink)}
+.bag svg{width:17px;height:17px}
+.bag-count{position:absolute;right:0;bottom:2px;min-width:15px;height:15px;padding:0 4px;border-radius:8px;background:var(--ink);color:#fff;font-size:10px;font-weight:600;display:grid;place-items:center;transform:scale(0);transition:transform .3s var(--ease)}
+.bag-count.show{transform:scale(1)}
+.bag.bump{animation:bump .5s var(--ease)}
+@keyframes bump{40%{transform:scale(1.25)}}
+
+/* ===== Local nav ===== */
+.lnav{position:sticky;top:0;z-index:50;height:52px;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.lnav .wide{height:100%;display:flex;align-items:center;justify-content:space-between}
+.lnav-title{font-size:21px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.lnav-title:hover{text-decoration:none}
+.lnav-r{display:flex;align-items:center;gap:26px}
+.lnav-r a:not(.btn){font-size:12.5px;color:var(--ink)}
+.lnav-r a.on{color:var(--ink-3)}
+
+/* ===== Reveal ===== */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+
+/* ===== Unit (product render) ===== */
+.unit{--u1:#fff;--u2:#f1f2f4;--u3:#d6dae0;--lv:#e3e6ea;--mark:rgba(0,0,0,.22);position:relative;width:100%}
+.unit svg{width:100%;height:auto;overflow:visible}
+.unit .louver{transform-box:fill-box;transform-origin:50% 0;transition:transform 1.2s var(--ease)}
+.unit .slot{opacity:0;transition:opacity .8s var(--ease)}
+.unit .disp{opacity:0;transition:opacity .8s var(--ease)}
+.unit .led{opacity:0;transition:opacity 1.2s var(--ease)}
+.unit.open .louver{transform:translateY(16px) scaleY(.55)}
+.unit.open .slot{opacity:1}
+.unit.on .disp,.unit.on .led{opacity:1}
+.unit .stops stop{transition:stop-color .8s var(--ease)}
+[data-finish="white"]{--u1:#ffffff;--u2:#f0f1f3;--u3:#d4d8de;--lv:#e2e5e9;--mark:rgba(0,0,0,.22)}
+[data-finish="graphite"]{--u1:#73767d;--u2:#46484e;--u3:#26272b;--lv:#3a3c41;--mark:rgba(255,255,255,.34)}
+[data-finish="sage"]{--u1:#e6ecdf;--u2:#c6d0bd;--u3:#9aa891;--lv:#b5c0ab;--mark:rgba(0,0,0,.24)}
+[data-finish="sand"]{--u1:#f8f0e4;--u2:#e5d8c4;--u3:#c2b095;--lv:#d6c8b1;--mark:rgba(0,0,0,.24)}
+.stage{position:relative}
+.stage canvas.air{position:absolute;left:0;width:100%;pointer-events:none}
+
+/* ===== Hero ===== */
+.hero{position:relative;padding:72px 0 0;text-align:center;overflow:hidden;background:radial-gradient(120% 60% at 50% 100%,#e6f4ff 0%,rgba(230,244,255,0) 60%),#fff}
+.hero-eyebrow{font-size:clamp(20px,2.4vw,28px);font-weight:600;letter-spacing:-.01em;margin-bottom:10px}
+.hero h1{font-size:clamp(46px,9vw,112px);line-height:1.02;letter-spacing:-.045em;font-weight:700}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.08em}
+.hero h1 .ln>span{display:inline-block;transform:translateY(110%);transition:transform 1.3s var(--ease)}
+.loaded .hero h1 .ln>span{transform:none}
+.hero h1 .ln:nth-child(2)>span{transition-delay:.12s}
+.hero .stage{width:min(1080px,94vw);margin:56px auto 0;opacity:0;transform:translateY(80px) scale(.94);transition:opacity 1.6s var(--ease) .3s,transform 1.8s var(--ease) .3s}
+.loaded .hero .stage{opacity:1;transform:none}
+.hero .stage canvas.air{top:72%;height:260px}
+.hero-buy{position:relative;padding:190px 0 72px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.hero-price{font-size:19px;font-weight:500}
+.hero-price small{display:block;font-size:14px;color:var(--ink-2);font-weight:400;margin-top:4px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+
+/* ===== Section commons ===== */
+section{position:relative}
+.sec{padding:clamp(90px,12vw,160px) 0}
+.sec.gray{background:var(--bg-2)}
+.sec.dark{background:#000;color:#f5f5f7}
+.sec.dark .muted{color:#a1a1a6}
+.eyebrow{font-size:clamp(19px,2vw,24px);font-weight:600;color:var(--ink-2);margin-bottom:12px;letter-spacing:-.01em}
+.dark .eyebrow{color:#86868b}
+.h2{font-size:clamp(40px,6.4vw,80px);line-height:1.04;letter-spacing:-.04em;font-weight:700}
+.h3{font-size:clamp(28px,3.6vw,48px);line-height:1.08;letter-spacing:-.035em;font-weight:700}
+.lede{font-size:clamp(19px,1.9vw,24px);line-height:1.38;letter-spacing:-.015em;font-weight:500;color:var(--ink-2);max-width:760px}
+.lede b{color:var(--ink);font-weight:600}
+.dark .lede{color:#a1a1a6}
+.dark .lede b{color:#f5f5f7}
+.center{text-align:center}
+.center .lede{margin-inline:auto}
+
+/* ===== Highlights carousel ===== */
+.hl-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:40px}
+.hl-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 max(22px,calc((100vw - var(--wide)) / 2));scroll-padding:0 max(22px,calc((100vw - var(--wide)) / 2))}
+.hl-track::-webkit-scrollbar{display:none}
+.hl{flex:0 0 min(880px,86vw);height:min(560px,120vw);border-radius:var(--r-lg);scroll-snap-align:start;position:relative;overflow:hidden;padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:space-between;color:#fff}
+.hl p{font-size:clamp(21px,2.4vw,28px);font-weight:600;letter-spacing:-.02em;line-height:1.2;max-width:460px;position:relative;z-index:2}
+.hl .big{font-size:clamp(90px,17vw,220px);font-weight:800;letter-spacing:-.06em;line-height:.9;position:relative;z-index:2}
+.hl-1{background:radial-gradient(80% 90% at 80% 100%,#1b2c4d,#05070c 70%)}
+.hl-2{background:linear-gradient(160deg,#d9f1ff,#8fd3ff 50%,#3d8bff);color:#04213f}
+.hl-3{background:radial-gradient(90% 90% at 20% 100%,#ff9a4d,#ff5e3a 45%,#7a1c3a)}
+.hl-4{background:linear-gradient(160deg,#f5f5f7,#e3e8ef);color:var(--ink)}
+.hl-5{background:radial-gradient(90% 100% at 90% 0%,#9d8cff,#5b3df5 45%,#1d0f63)}
+.hl .deco{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hl-ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:30px}
+.dots{display:flex;gap:10px;align-items:center;padding:0 18px;height:56px;border-radius:28px;background:rgba(232,232,237,.7);backdrop-filter:blur(10px)}
+.dot{width:8px;height:8px;border-radius:4px;background:#86868b;transition:width .4s var(--ease),background .3s;position:relative;overflow:hidden}
+.dot.on{width:48px;background:#b5b5ba}
+.dot.on i{position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+.playbtn{width:56px;height:56px;border-radius:50%;background:rgba(232,232,237,.7);display:grid;place-items:center}
+.playbtn svg{width:16px;height:16px}
+
+/* ===== Word highlight ===== */
+.words{font-size:clamp(34px,5.4vw,68px);line-height:1.1;letter-spacing:-.04em;font-weight:700;max-width:1000px}
+.words span{opacity:.14;transition:opacity .25s linear}
+.words span.on{opacity:1}
+
+/* ===== Story (pinned) ===== */
+.story{height:420vh;background:linear-gradient(#fff,#f4f7fa 40%,#eaf1f7)}
+.story-pin{position:sticky;top:52px;height:calc(100vh - 52px);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.story-copy{position:relative;height:210px;width:min(900px,92vw);text-align:center}
+.story-step{position:absolute;inset:0;opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.story-step.on{opacity:1;transform:none}
+.story-step .h3{margin-bottom:12px}
+.story-step .lede{margin-inline:auto;font-size:clamp(17px,1.6vw,21px)}
+.story-stage{width:min(980px,90vw);perspective:1600px;margin-top:10px}
+.story-stage .stage{transform-style:preserve-3d;will-change:transform}
+.story-stage canvas.air{top:74%;height:300px}
+.dims{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s}
+.dims.on{opacity:1}
+.dim-w{position:absolute;left:3%;right:3%;top:-8%;height:1px;background:var(--ink-3)}
+.dim-w::before,.dim-w::after{content:"";position:absolute;top:-6px;width:1px;height:13px;background:var(--ink-3)}
+.dim-w::before{left:0}.dim-w::after{right:0}
+.dim-w b{position:absolute;left:50%;top:-12px;transform:translateX(-50%);background:#fff;padding:0 10px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.dim-h{position:absolute;top:9%;bottom:22%;right:-3%;width:1px;background:var(--ink-3)}
+.dim-h::before,.dim-h::after{content:"";position:absolute;left:-6px;height:1px;width:13px;background:var(--ink-3)}
+.dim-h::before{top:0}.dim-h::after{bottom:0}
+.dim-h b{position:absolute;top:50%;left:10px;transform:translateY(-50%);font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.story-progress{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.story-progress i{width:26px;height:3px;border-radius:2px;background:rgba(0,0,0,.12);overflow:hidden;position:relative}
+.story-progress i b{position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+
+/* ===== Stats ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:var(--r-lg);overflow:hidden;margin-top:70px}
+.stat{background:#fff;padding:40px 28px}
+.stat .n{font-size:clamp(44px,5.4vw,72px);font-weight:700;letter-spacing:-.05em;line-height:1}
+.stat .l{margin-top:12px;font-size:15px;color:var(--ink-2);line-height:1.35}
+
+/* ===== Marquee ===== */
+.marq{overflow:hidden;padding:30px 0;white-space:nowrap;border-block:1px solid rgba(0,0,0,.06);background:#fff}
+.marq-in{display:inline-block;font-size:clamp(60px,10vw,150px);font-weight:800;letter-spacing:-.055em;line-height:1;will-change:transform}
+.marq-in span{margin-right:.35em}
+.marq-in span:nth-child(odd){-webkit-text-stroke:1.5px var(--ink);color:transparent}
+
+/* ===== Colors ===== */
+.colors{text-align:center;transition:background 1s var(--ease)}
+.colors .stage{width:min(900px,90vw);margin:64px auto 0}
+.colors[data-finish="white"]{background:#f5f5f7}
+.colors[data-finish="graphite"]{background:#e6e7ea}
+.colors[data-finish="sage"]{background:#eef1ea}
+.colors[data-finish="sand"]{background:#f6f1ea}
+.swatches{display:flex;justify-content:center;gap:18px;margin-top:70px}
+.sw{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 -2px 4px rgba(0,0,0,.18),inset 0 2px 3px rgba(255,255,255,.6);position:relative;transition:transform .3s var(--ease)}
+.sw::after{content:"";position:absolute;inset:-5px;border-radius:50%;box-shadow:0 0 0 2px transparent;transition:box-shadow .3s}
+.sw[aria-pressed="true"]::after{box-shadow:0 0 0 2px var(--ink)}
+.sw:hover{transform:scale(1.08)}
+.sw-white{background:#f2f3f5}.sw-graphite{background:#4a4c52}.sw-sage{background:#bfcab6}.sw-sand{background:#e2d4be}
+.sw-name{margin-top:18px;font-size:14px;font-weight:600;color:var(--ink-2);height:20px}
+
+/* ===== Chip ===== */
+.chip-wrap{display:grid;place-items:center;margin:70px 0}
+.chip{width:min(360px,70vw);aspect-ratio:1;position:relative}
+.chip svg{width:100%;height:100%}
+.chip .trace{stroke-dasharray:8 160;animation:trace 3.6s linear infinite}
+@keyframes trace{to{stroke-dashoffset:-168}}
+.chip-glow{position:absolute;inset:-30%;background:radial-gradient(closest-side,rgba(74,144,255,.45),rgba(122,107,255,.15) 60%,transparent);filter:blur(20px);animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55;transform:scale(.94)}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:80px}
+.feat .n{font-size:clamp(34px,3.6vw,48px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.feat p{margin-top:10px;color:var(--ink-2);font-size:17px}
+.dark .feat p{color:#a1a1a6}
+.feat .n.grad{display:inline-block}
+
+/* ===== Noise ===== */
+.noise{margin-top:70px;display:grid;gap:18px}
+.nrow{display:grid;grid-template-columns:200px 1fr 70px;align-items:center;gap:18px;font-size:15px}
+.nbar{height:14px;border-radius:7px;background:#e8e8ed;overflow:hidden}
+.nbar i{display:block;height:100%;border-radius:7px;background:#b9b9c0;width:0;transition:width 1.6s var(--ease)}
+.nrow.me .nbar i{background:var(--grad)}
+.nrow.me{font-weight:600}
+.nrow b{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ===== Bento ===== */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;margin-top:70px}
+.tile{background:#fff;border-radius:var(--r-lg);padding:36px;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column;justify-content:space-between}
+.tile h4{font-size:clamp(24px,2.4vw,32px);line-height:1.1;letter-spacing:-.03em;font-weight:700}
+.tile p{color:var(--ink-2);font-size:16px;margin-top:10px;max-width:360px}
+.tile .big{font-size:clamp(56px,7vw,96px);font-weight:800;letter-spacing:-.055em;line-height:1}
+.t-a{grid-column:span 4;background:linear-gradient(135deg,#0b1a33,#0a2d5c 60%,#1a5fb4);color:#fff}
+.t-a p{color:#b4c6e0}
+.t-b{grid-column:span 2}
+.t-c{grid-column:span 2}
+.t-d{grid-column:span 2;background:linear-gradient(160deg,#efe9ff,#dcd2ff);}
+.t-e{grid-column:span 2}
+.aq{display:flex;align-items:center;gap:14px;margin-top:20px}
+.aq-ring{width:86px;height:86px}
+.pm{display:flex;gap:6px;align-items:end;height:90px;margin-top:20px}
+.pm i{flex:1;border-radius:4px 4px 2px 2px;background:linear-gradient(#5ac8fa,#0a84ff);transform-origin:bottom;transform:scaleY(0);transition:transform 1.2s var(--ease)}
+.in .pm i{transform:scaleY(1)}
+.filter-vis{position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:300px;opacity:.9}
+
+/* ===== Energy calculator ===== */
+.calc{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;margin-top:70px}
+.calc-in,.calc-out{background:#fff;border-radius:var(--r-lg);padding:40px}
+.calc-out{background:#0b0b0d;color:#f5f5f7}
+.field{margin-bottom:34px}
+.field label{display:flex;justify-content:space-between;font-size:15px;font-weight:600;margin-bottom:14px}
+.field label output{font-variant-numeric:tabular-nums;color:var(--blue)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--blue) var(--p,50%),#e3e3e8 var(--p,50%));outline-offset:6px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25),0 0 0 .5px rgba(0,0,0,.1)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.seg{display:inline-flex;background:#e8e8ed;border-radius:10px;padding:3px}
+.seg button{padding:7px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink-2);transition:background .2s,color .2s}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.calc-out .kpi{font-size:clamp(48px,5.6vw,76px);font-weight:700;letter-spacing:-.05em;line-height:1}
+.calc-out .row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2a2a2e;font-size:15px;color:#a1a1a6}
+.calc-out .row b{color:#f5f5f7;font-variant-numeric:tabular-nums}
+.calc-out small{display:block;font-size:12px;color:#6e6e73;margin-top:18px}
+
+/* ===== App ===== */
+.app{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.phone{width:320px;max-width:84vw;aspect-ratio:9/19.3;margin:0 auto;border-radius:52px;background:#0b0b0d;padding:12px;box-shadow:0 0 0 2px #2c2c2e,0 40px 80px -20px rgba(0,0,0,.35),inset 0 0 0 1px #3a3a3c}
+.screen{height:100%;border-radius:42px;background:linear-gradient(180deg,#f5f7fb,#e9eef6);overflow:hidden;position:relative;padding:54px 22px 24px;display:flex;flex-direction:column}
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:96px;height:28px;border-radius:14px;background:#000}
+.app-top{display:flex;justify-content:space-between;align-items:center}
+.app-top b{font-size:22px;letter-spacing:-.03em}
+.app-top span{font-size:12px;color:var(--ink-2)}
+.dial{position:relative;width:220px;aspect-ratio:1;margin:18px auto 10px}
+.dial svg{width:100%;height:100%;transform:rotate(135deg)}
+.dial .val{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.dial .val b{font-size:58px;font-weight:300;letter-spacing:-.05em;line-height:1}
+.dial .val span{display:block;font-size:12px;color:var(--ink-2);margin-top:4px}
+.dial-arc{transition:stroke-dasharray .6s var(--ease),stroke .6s}
+.dial-btns{display:flex;justify-content:center;gap:40px;margin-top:-6px}
+.dial-btns button{width:46px;height:46px;border-radius:50%;background:#fff;font-size:24px;font-weight:300;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.modes button{padding:10px 0;border-radius:14px;background:#fff;font-size:11px;font-weight:600;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;gap:4px;transition:background .3s,color .3s}
+.modes button svg{width:18px;height:18px}
+.modes button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.app-card{margin-top:auto;background:#fff;border-radius:18px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.app-card b{font-size:14px;display:block}
+.app-card .ok{color:var(--ok);font-weight:700}
+.app-list{list-style:none;margin-top:34px;display:grid;gap:22px}
+.app-list li{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.app-list .ico{width:40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.app-list .ico svg{width:20px;height:20px;color:var(--blue)}
+.app-list b{display:block;font-size:17px}
+.app-list span{color:var(--ink-2);font-size:15px}
+
+/* ===== Install ===== */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:70px;counter-reset:s}
+.step{padding:30px 26px;border-radius:var(--r-lg);background:var(--bg-2);position:relative}
+.step::before{counter-increment:s;content:"0" counter(s);font-size:13px;font-weight:700;color:var(--blue);letter-spacing:.04em}
+.step h4{font-size:21px;letter-spacing:-.02em;margin:40px 0 8px;line-height:1.2}
+.step p{font-size:15px;color:var(--ink-2)}
+
+/* ===== Compare ===== */
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:70px}
+.cmp-col{text-align:center;padding:40px 24px;border-radius:var(--r-lg);background:#fff;display:flex;flex-direction:column;align-items:center}
+.cmp-col.feat-col{box-shadow:0 0 0 2px var(--blue)}
+.cmp-col .badge{font-size:12px;font-weight:600;color:#b64400;height:18px}
+.cmp-col .unit{width:88%;margin:26px 0 30px}
+.cmp-col h4{font-size:28px;letter-spacing:-.03em}
+.cmp-col .pr{margin:6px 0 20px;font-size:17px}
+.cmp-col ul{list-style:none;margin-top:30px;width:100%;border-top:1px solid var(--line)}
+.cmp-col li{padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+.cmp-col li b{display:block;font-size:24px;letter-spacing:-.03em}
+.cmp-col li span{color:var(--ink-2);font-size:13px}
+
+/* ===== Specs ===== */
+.specs{margin-top:60px;border-top:1px solid var(--line)}
+.spec{display:grid;grid-template-columns:260px 1fr;gap:30px;padding:34px 0;border-bottom:1px solid var(--line)}
+.spec h4{font-size:24px;letter-spacing:-.025em}
+.spec dl{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 40px}
+.spec dt{font-size:13px;color:var(--ink-2)}
+.spec dd{font-size:17px;font-weight:500}
+.box{display:flex;gap:30px;flex-wrap:wrap}
+.box span{font-size:15px}
+
+/* ===== FAQ ===== */
+.faq{margin-top:50px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:26px 44px 26px 0;font-size:21px;font-weight:600;letter-spacing:-.02em;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:8px;top:50%;width:12px;height:12px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:translateY(-70%) rotate(45deg);transition:transform .4s var(--ease)}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq details p{padding:0 44px 28px 0;color:var(--ink-2);max-width:780px}
+
+/* ===== Final CTA ===== */
+.final{padding:clamp(110px,14vw,190px) 0 0;text-align:center;overflow:hidden;background:radial-gradient(100% 70% at 50% 100%,#dff0ff,#fff 60%)}
+.final .stage{width:min(1000px,92vw);margin:70px auto 0}
+.final .stage canvas.air{top:72%;height:220px}
+
+/* ===== Footer ===== */
+footer{background:var(--bg-2);font-size:12px;color:var(--ink-2);padding:30px 0 40px}
+footer .notes{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px;display:grid;gap:10px;line-height:1.5}
+footer .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:10px 0 24px}
+footer h5{font-size:12px;color:var(--ink);font-weight:600;margin-bottom:10px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer ul a{color:var(--ink-2)}
+footer .legal{border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* ===== Store pages ===== */
+.page-store{min-height:calc(100vh - 48px);background:#fff}
+.store-head{padding:56px 0 36px}
+.store-head .h3{font-size:clamp(34px,4.6vw,56px)}
+.store-head p{margin-top:8px;color:var(--ink-2)}
+.buy{display:grid;grid-template-columns:1.25fr 1fr;gap:60px;align-items:start;padding-bottom:160px}
+.buy-vis{position:sticky;top:90px;border-radius:var(--r-lg);background:var(--bg-2);aspect-ratio:1.05;display:flex;flex-direction:column;justify-content:center;padding:40px;overflow:hidden;transition:background .8s var(--ease)}
+.buy-vis[data-finish="graphite"]{background:#e8e9ec}
+.buy-vis[data-finish="sage"]{background:#eff2ec}
+.buy-vis[data-finish="sand"]{background:#f7f2ec}
+.buy-vis .wall-label{position:absolute;left:28px;top:24px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.buy-vis .stage canvas.air{top:74%;height:180px}
+.buy-vis .fit{position:absolute;left:28px;bottom:24px;right:28px;display:flex;justify-content:space-between;font-size:13px;color:var(--ink-2)}
+.opt-group{padding:34px 0;border-bottom:1px solid var(--line)}
+.opt-group:first-child{padding-top:0}
+.opt-group h3{font-size:24px;letter-spacing:-.025em;line-height:1.2;margin-bottom:4px}
+.opt-group h3 span{color:var(--ink-2)}
+.opt-group>p{color:var(--ink-2);font-size:15px;margin-bottom:20px}
+.opts{display:grid;gap:12px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;width:100%;padding:18px 20px;border-radius:14px;box-shadow:inset 0 0 0 1px #86868b;transition:box-shadow .2s;min-height:76px}
+.opt:hover{box-shadow:inset 0 0 0 1px var(--ink)}
+.opt[aria-checked="true"]{box-shadow:inset 0 0 0 2px var(--blue)}
+.opt b{display:block;font-size:17px;font-weight:600}
+.opt small{display:block;font-size:13px;color:var(--ink-2);margin-top:2px}
+.opt .p{font-size:14px;white-space:nowrap;text-align:right}
+.opt .tag{display:inline-block;font-size:11px;font-weight:600;color:#b64400;margin-bottom:2px}
+.opt.rec{box-shadow:inset 0 0 0 1px #86868b,0 0 0 3px rgba(0,113,227,.0)}
+.helper{background:var(--bg-2);border-radius:14px;padding:18px 20px;margin-bottom:16px;font-size:14px}
+.helper label{display:flex;justify-content:space-between;font-weight:600;margin-bottom:12px}
+.helper output{color:var(--blue)}
+.helper .hint{margin-top:10px;color:var(--ink-2)}
+.fin-opts{display:flex;gap:14px;flex-wrap:wrap}
+.fin{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 10px;border-radius:14px;width:96px;box-shadow:inset 0 0 0 1px var(--line);font-size:12px;font-weight:600;transition:box-shadow .2s}
+.fin[aria-checked="true"]{box-shadow:inset 0 0 0 2px var(--blue)}
+.fin .sw{pointer-events:none}
+.check-opt{display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:14px;box-shadow:inset 0 0 0 1px #86868b;cursor:pointer;transition:box-shadow .2s}
+.check-opt:has(input:checked){box-shadow:inset 0 0 0 2px var(--blue)}
+.check-opt input{width:20px;height:20px;accent-color:var(--blue);flex:none}
+.check-opt .t{flex:1}
+.check-opt b{display:block;font-size:16px}
+.check-opt small{font-size:13px;color:var(--ink-2)}
+.acc-ico{width:46px;height:46px;border-radius:12px;background:var(--bg-2);display:grid;place-items:center;flex:none}
+.acc-ico svg{width:24px;height:24px}
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:1px solid rgba(0,0,0,.08);transform:translateY(100%);visibility:hidden;transition:transform .5s var(--ease),visibility 0s .5s}
+body[data-page="buy"] .buybar{transform:none;visibility:visible;transition:transform .5s var(--ease)}
+.buybar .wide{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0}
+.buybar .sum b{font-size:21px;letter-spacing:-.02em;display:block}
+.buybar .sum span{font-size:13px;color:var(--ink-2)}
+.buybar .perks{display:flex;gap:28px;font-size:12px;color:var(--ink-2)}
+.buybar .perks div{display:flex;gap:8px;align-items:center}
+.buybar .perks svg{width:20px;height:20px;color:var(--ink)}
+
+/* bag */
+.bag-page{padding-bottom:120px}
+.bag-grid{display:grid;grid-template-columns:1fr 380px;gap:60px;align-items:start}
+.bag-grid>*{min-width:0}
+.line{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:30px 0;border-bottom:1px solid var(--line)}
+.line:first-child{border-top:1px solid var(--line)}
+.line-img{background:var(--bg-2);border-radius:14px;aspect-ratio:1;display:grid;place-items:center;padding:14px}
+.line-img .unit{width:100%}
+.line-img .acc-ico{width:70px;height:70px;background:#fff}
+.line-img .acc-ico svg{width:36px;height:36px}
+.line-top{display:flex;justify-content:space-between;gap:20px;align-items:start}
+.line h3{font-size:21px;letter-spacing:-.02em;line-height:1.2}
+.line .lp{font-size:21px;font-weight:600;white-space:nowrap}
+.line ul{list-style:none;margin-top:10px;font-size:14px;color:var(--ink-2);display:grid;gap:4px}
+.line ul li{display:flex;justify-content:space-between;gap:20px}
+.line-act{display:flex;align-items:center;gap:20px;margin-top:16px;font-size:14px}
+.qty{display:inline-flex;align-items:center;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line);height:36px}
+.qty button{width:36px;height:36px;font-size:18px;color:var(--ink-2)}
+.qty span{min-width:22px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.linkbtn{color:var(--link);font-size:14px}
+.linkbtn:hover{text-decoration:underline}
+.summary{position:sticky;top:80px;background:var(--bg-2);border-radius:var(--r-lg);padding:30px}
+.summary h3{font-size:21px;letter-spacing:-.02em;margin-bottom:18px}
+.srow{display:flex;justify-content:space-between;gap:16px;padding:7px 0;font-size:15px}
+.srow.total{border-top:1px solid var(--line);margin-top:10px;padding-top:18px;font-size:21px;font-weight:700;letter-spacing:-.02em}
+.srow.disc{color:var(--ok)}
+.srow .muted{font-size:13px}
+.promo{display:flex;gap:8px;margin:16px 0 4px}
+.promo input{flex:1;min-width:0}
+.promo-msg{font-size:13px;min-height:18px}
+.promo-msg.ok{color:var(--ok)}.promo-msg.err{color:var(--err)}
+.monthly{font-size:13px;color:var(--ink-2);text-align:right;margin-top:4px}
+.summary .btn{margin-top:22px}
+.empty{padding:90px 0 140px;text-align:center}
+.empty .h3{margin-bottom:12px}
+.empty .btn{margin-top:26px}
+.trust{display:grid;gap:14px;margin-top:22px;font-size:13px;color:var(--ink-2)}
+.trust div{display:flex;gap:10px;align-items:center}
+.trust svg{width:18px;height:18px;flex:none;color:var(--ink)}
+
+/* checkout */
+.co-steps{display:flex;gap:10px;font-size:13px;color:var(--ink-3);margin-top:14px;flex-wrap:wrap}
+.co-steps span.on{color:var(--ink);font-weight:600}
+fieldset{border:0;min-width:0;padding:34px 0;border-bottom:1px solid var(--line)}
+fieldset:first-of-type{padding-top:0}
+legend{float:left;width:100%;font-size:24px;font-weight:700;letter-spacing:-.025em;margin-bottom:6px;padding:0;display:flex;align-items:center;gap:12px}
+legend i{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;display:grid;place-items:center}
+.fs-note{clear:both;color:var(--ink-2);font-size:14px;margin-bottom:20px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fgrid .full{grid-column:1/-1}
+.inp{position:relative}
+.inp input,.inp select,.promo input{width:100%;height:56px;border-radius:12px;border:1px solid #86868b;padding:22px 16px 6px;font-size:17px;background:#fff;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+.promo input{padding:0 16px;height:44px;font-size:15px}
+.inp label{position:absolute;left:17px;top:17px;font-size:17px;color:var(--ink-3);pointer-events:none;transition:all .2s var(--ease)}
+.inp input:focus,.inp select:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,.2)}
+.inp input:focus+label,.inp input:not(:placeholder-shown)+label,.inp select+label{top:8px;font-size:12px}
+.inp.bad input{border-color:var(--err);background:#fff5f5}
+.inp .emsg{display:none;font-size:12px;color:var(--err);margin-top:6px;padding-left:4px}
+.inp.bad .emsg{display:block}
+.chips{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:thin}
+.chip-d{flex:none;width:78px;padding:12px 0;border-radius:14px;box-shadow:inset 0 0 0 1px #86868b;text-align:center;transition:box-shadow .2s}
+.chip-d small{display:block;font-size:11px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.05em}
+.chip-d b{display:block;font-size:22px;letter-spacing:-.03em;line-height:1.2}
+.chip-d[aria-checked="true"]{box-shadow:inset 0 0 0 2px var(--blue);background:#f0f7ff}
+.chip-d:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.slot-b{padding:14px 8px;border-radius:12px;box-shadow:inset 0 0 0 1px #86868b;font-size:14px;font-weight:600}
+.slot-b[aria-checked="true"]{box-shadow:inset 0 0 0 2px var(--blue);background:#f0f7ff}
+.pay{display:grid;gap:12px}
+.pay-opt{border-radius:14px;box-shadow:inset 0 0 0 1px #86868b;overflow:hidden;transition:box-shadow .2s}
+.pay-opt.on{box-shadow:inset 0 0 0 2px var(--blue)}
+.pay-opt>label{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer}
+.pay-opt>label input{width:20px;height:20px;accent-color:var(--blue)}
+.pay-opt>label b{flex:1;font-size:16px}
+.pay-opt>label small{color:var(--ink-2);font-size:13px}
+.pay-body{padding:0 20px 20px;display:none}
+.pay-opt.on .pay-body{display:block}
+.pay-body p{font-size:14px;color:var(--ink-2);margin-bottom:12px}
+.demo-note{display:flex;gap:10px;align-items:center;font-size:13px;color:#7a5b00;background:#fff8e1;border-radius:12px;padding:12px 14px;margin-top:16px}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--ink-2);margin-top:14px;cursor:pointer}
+.consent input{width:18px;height:18px;margin-top:2px;accent-color:var(--blue);flex:none}
+.consent.bad{color:var(--err)}
+.err-banner{display:none;margin-top:20px;padding:14px 16px;border-radius:12px;background:#fff0f0;color:var(--err);font-size:14px}
+.err-banner.show{display:block}
+.mini-line{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.mini-line .mi{width:64px;height:64px;border-radius:10px;background:#fff;display:grid;place-items:center;padding:6px;flex:none}
+.mini-line .mi .acc-ico{width:44px;height:44px}
+.mini-line .t{flex:1;line-height:1.3}
+.mini-line .t small{display:block;color:var(--ink-2);font-size:12px}
+.spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* done */
+.done{text-align:center;padding:80px 0 140px}
+.done .check{width:96px;height:96px;margin:0 auto 34px}
+.done .check circle{stroke-dasharray:290;stroke-dashoffset:290;animation:draw 1s var(--ease) forwards}
+.done .check path{stroke-dasharray:60;stroke-dashoffset:60;animation:draw .6s var(--ease) .7s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done .h2{font-size:clamp(38px,5.6vw,68px)}
+.done .lede{margin:18px auto 0}
+.order-no{display:inline-block;margin-top:26px;padding:10px 18px;border-radius:980px;background:var(--bg-2);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.timeline{max-width:560px;margin:60px auto 0;text-align:left;list-style:none;position:relative}
+.timeline::before{content:"";position:absolute;left:13px;top:14px;bottom:14px;width:2px;background:var(--line)}
+.timeline li{position:relative;padding:0 0 30px 50px}
+.timeline li::before{content:"";position:absolute;left:6px;top:4px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 2px var(--line)}
+.timeline li.ok::before{background:var(--blue);box-shadow:inset 0 0 0 4px #cfe4ff}
+.timeline b{display:block;font-size:17px}
+.timeline span{color:var(--ink-2);font-size:15px}
+.done-sum{max-width:560px;margin:40px auto 0;background:var(--bg-2);border-radius:var(--r-lg);padding:26px 30px;text-align:left}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:30px;z-index:90;transform:translate(-50%,calc(100% + 60px));opacity:0;background:var(--ink);color:#fff;padding:14px 22px;border-radius:14px;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:transform .5s var(--ease),opacity .4s;max-width:calc(100vw - 32px)}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+/* ===== Responsive ===== */
+@media (max-width:1068px){
+  .gnav ul{gap:22px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .bag-grid{grid-template-columns:1fr 330px;gap:40px}
+}
+@media (max-width:834px){
+  .gnav ul,.lnav-r a:not(.btn){display:none}
+  .grid3{grid-template-columns:1fr;gap:34px}
+  .bento{grid-template-columns:1fr}
+  .t-a,.t-b,.t-c,.t-d,.t-e{grid-column:auto}
+  .calc,.app{grid-template-columns:1fr}
+  .app{gap:40px}
+  .cmp{grid-template-columns:1fr}
+  .spec{grid-template-columns:1fr;gap:18px}
+  .buy{grid-template-columns:1fr;gap:34px}
+  .buy-vis{position:relative;top:0;aspect-ratio:1.3;padding:24px}
+  .bag-grid{grid-template-columns:1fr}
+  .summary{position:static}
+  footer .cols{grid-template-columns:repeat(2,1fr)}
+  .buybar .perks{display:none}
+  .filter-vis{opacity:.25}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .hero{padding-top:48px}
+  .hero .stage{margin-top:36px}
+  .hero-buy{padding-top:110px}
+  .hl-head{flex-direction:column;align-items:start}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:28px 20px}
+  .steps{grid-template-columns:1fr}
+  .nrow{grid-template-columns:1fr 56px;gap:8px 12px}
+  .nrow .nbar{grid-column:1/-1;grid-row:2}
+  .spec dl{grid-template-columns:1fr}
+  .line{grid-template-columns:90px 1fr;gap:16px}
+  .line h3,.line .lp{font-size:17px}
+  .fgrid{grid-template-columns:1fr}
+  .slots{grid-template-columns:1fr}
+  .tile{padding:28px;min-height:240px}
+  .calc-in,.calc-out{padding:28px}
+  .story-copy{height:230px}
+  .buybar .sum b{font-size:17px}
+  .dim-h{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body data-page="home">
+
+<!-- ================= GLOBAL NAV ================= -->
+<header class="gnav">
+  <div class="wide">
+    <a class="logo" href="#" aria-label="Climoo, strona główna">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a84ff"/><stop offset="1" stop-color="#7a6bff"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="7" fill="url(#lg)"/><path d="M6 10.5c2-2 4-2 6 0s4 2 6 0M6 14.5c2-2 4-2 6 0s4 2 6 0" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+      climoo
+    </a>
+    <nav aria-label="Główna">
+      <ul>
+        <li><a href="#">Klimatyzatory</a></li>
+        <li><a href="#powietrze">Oczyszczanie</a></li>
+        <li><a href="#aplikacja">Aplikacja</a></li>
+        <li><a href="#montaz">Montaż</a></li>
+        <li><a href="#faq">Wsparcie</a></li>
+      </ul>
+    </nav>
+    <a class="bag" href="#koszyk" aria-label="Koszyk">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/><path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8"/></svg>
+      <span class="bag-count" id="bagCount">0</span>
+    </a>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<main class="page" data-page="home">
+
+  <nav class="lnav" aria-label="Climoo X5">
+    <div class="wide">
+      <a class="lnav-title" href="#przeglad">Climoo X5</a>
+      <div class="lnav-r">
+        <a href="#przeglad" class="on">Przegląd</a>
+        <a href="#cisza">Dlaczego X5</a>
+        <a href="#porownanie">Porównaj modele</a>
+        <a href="#specyfikacja">Dane techniczne</a>
+        <a class="btn sm" href="#kup">Kup</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="przeglad">
+    <div class="wrap">
+      <p class="hero-eyebrow">Climoo X5</p>
+      <h1><span class="ln"><span>Chłodzi szybko.</span></span><span class="ln"><span class="grad">Słychać tylko ciszę.</span></span></h1>
+    </div>
+    <div class="stage" id="heroStage">
+      <div class="unit on open" data-unit data-finish="white" data-temp="22°"></div>
+      <canvas class="air" data-air="light"></canvas>
+    </div>
+    <div class="hero-buy">
+      <a class="btn lg" href="#kup">Kup</a>
+      <p class="hero-price">Od 5 499 zł <small>lub 274,95 zł/mies. w 20 ratach 0%*</small></p>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section class="sec gray" id="highlights" style="padding-bottom:110px">
+    <div class="wide hl-head">
+      <h2 class="h2 rv">Najważniejsze.<br><span class="muted">W pięciu kadrach.</span></h2>
+      <a class="more rv d1" href="#specyfikacja">Pełna specyfikacja</a>
+    </div>
+    <div class="hl-track" id="hlTrack">
+      <article class="hl hl-1">
+        <svg class="deco" viewBox="0 0 880 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="rgba(120,180,255,.18)"><circle cx="700" cy="430" r="90"/><circle cx="700" cy="430" r="170"/><circle cx="700" cy="430" r="260"/><circle cx="700" cy="430" r="360"/></g></svg>
+        <p>Tryb Whisper pracuje z głośnością <b>17 dB</b>. To ciszej niż szelest liści za oknem.</p>
+        <div class="big">17 dB</div>
+      </article>
+      <article class="hl hl-2">
+        <p>Turbo Chill schładza salon z 30° do 22° w zaledwie trzy minuty.²</p>
+        <div class="big">3 min</div>
+      </article>
+      <article class="hl hl-3">
+        <p>Pompa ciepła grzeje z pełną mocą nawet przy mrozie. Zimą X5 zastępuje grzejnik.</p>
+        <div class="big">-25°C</div>
+      </article>
+      <article class="hl hl-4">
+        <p>Filtr medyczny HEPA H13 i lampa UV-C zatrzymują 99,97% pyłków, kurzu i wirusów.³</p>
+        <div class="big grad">H13</div>
+      </article>
+      <article class="hl hl-5">
+        <p>Klasa A+++ w chłodzeniu i grzaniu. Rachunki niższe nawet o 38%.⁴</p>
+        <div class="big">A+++</div>
+      </article>
+    </div>
+    <div class="hl-ctrl">
+      <div class="dots" id="hlDots" role="tablist" aria-label="Slajdy"></div>
+      <button class="playbtn" id="hlPlay" aria-label="Wstrzymaj"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg></button>
+    </div>
+  </section>
+
+  <!-- WORDS -->
+  <section class="sec" id="manifest">
+    <div class="wrap">
+      <p class="words" id="words">Klimatyzator powinien być jak dobre powietrze w górach. Nie widzisz go, nie słyszysz, po prostu czujesz się lepiej. Dlatego zaprojektowaliśmy X5 tak, by zniknął.</p>
+    </div>
+  </section>
+
+  <!-- STORY PINNED -->
+  <section class="story" id="design" aria-label="Design">
+    <div class="story-pin">
+      <div class="story-copy">
+        <div class="story-step on">
+          <p class="eyebrow">Design</p>
+          <h2 class="h3">Tylko 17,8 cm głębokości.</h2>
+          <p class="lede">Jednolity korpus z aluminium z recyklingu. Bez kratek, bez śrub, bez wystających krawędzi.</p>
+        </div>
+        <div class="story-step">
+          <p class="eyebrow">Klapa FlowGate</p>
+          <h2 class="h3">Otwiera się bezszelestnie.</h2>
+          <p class="lede">Gdy X5 odpoczywa, klapa szczelnie zamyka wnętrze. Kurz nie ma którędy wejść.</p>
+        </div>
+        <div class="story-step">
+          <p class="eyebrow">Wind-Free Direct</p>
+          <h2 class="h3">Chłód, którego nie czujesz na skórze.</h2>
+          <p class="lede">Radar Aura wie, gdzie siedzisz, i prowadzi strumień wokół ciebie. 12 000 mikrootworów rozprasza powietrze jak mgła.</p>
+        </div>
+      </div>
+      <div class="story-stage">
+        <div class="stage" id="storyStage">
+          <div class="unit" data-unit data-finish="white" data-temp="21°"></div>
+          <canvas class="air" data-air="light"></canvas>
+          <div class="dims on" id="dims"><div class="dim-w"><b>82 cm</b></div><div class="dim-h"><b>28,5 cm</b></div></div>
+        </div>
+      </div>
+      <div class="story-progress" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marq" aria-hidden="true"><div class="marq-in" id="marq"><span>Cisza</span><span>Chłód</span><span>Czystość</span><span>Ciepło</span><span>Cisza</span><span>Chłód</span><span>Czystość</span><span>Ciepło</span></div></div>
+
+  <!-- SILENCE -->
+  <section class="sec" id="cisza">
+    <div class="wrap">
+      <p class="eyebrow rv">Akustyka</p>
+      <h2 class="h2 rv d1">Najcichszy<br>w swojej klasie.</h2>
+      <p class="lede rv d2" style="margin-top:24px">Wentylator z 41 łopatkami o profilu sowiego skrzydła i silnik BLDC na łożyskach magnetycznych. <b>W trybie Whisper X5 pracuje ciszej, niż oddychasz.</b></p>
+      <div class="noise rv d3" id="noise">
+        <div class="nrow me"><span>Climoo X5 · Whisper</span><div class="nbar"><i data-w="17"></i></div><b>17 dB</b></div>
+        <div class="nrow"><span>Szelest liści</span><div class="nbar"><i data-w="20"></i></div><b>20 dB</b></div>
+        <div class="nrow"><span>Typowy klimatyzator</span><div class="nbar"><i data-w="26"></i></div><b>26 dB</b></div>
+        <div class="nrow"><span>Szept</span><div class="nbar"><i data-w="30"></i></div><b>30 dB</b></div>
+        <div class="nrow"><span>Lodówka</span><div class="nbar"><i data-w="40"></i></div><b>40 dB</b></div>
+      </div>
+      <div class="stats">
+        <div class="stat rv"><div class="n"><span data-count="17">0</span> dB</div><div class="l">Głośność w trybie Whisper</div></div>
+        <div class="stat rv d1"><div class="n" data-count="9.1" data-dec="1">0</div><div class="l">SEER, klasa A+++ w chłodzeniu</div></div>
+        <div class="stat rv d2"><div class="n"><span data-count="3">0</span> min</div><div class="l">Z 30° do 22° w trybie Turbo Chill²</div></div>
+        <div class="stat rv d3"><div class="n"><span data-count="7">0</span> lat</div><div class="l">Gwarancji na całe urządzenie</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLORS -->
+  <section class="sec colors" id="kolory" data-finish="white">
+    <div class="wrap">
+      <p class="eyebrow rv">Wykończenia</p>
+      <h2 class="h2 rv d1">Cztery kolory.<br>Każdy pasuje do ściany.</h2>
+    </div>
+    <div class="stage">
+      <div class="unit on" data-unit data-finish="white" id="colorUnit" data-temp="23°"></div>
+    </div>
+    <div class="swatches" role="radiogroup" aria-label="Kolor" id="colorSw">
+      <button class="sw sw-white" data-f="white" aria-pressed="true" aria-label="Arktyczna biel"></button>
+      <button class="sw sw-graphite" data-f="graphite" aria-pressed="false" aria-label="Grafit"></button>
+      <button class="sw sw-sage" data-f="sage" aria-pressed="false" aria-label="Szałwia"></button>
+      <button class="sw sw-sand" data-f="sand" aria-pressed="false" aria-label="Piasek"></button>
+    </div>
+    <p class="sw-name" id="swName">Arktyczna biel</p>
+  </section>
+
+  <!-- CHIP -->
+  <section class="sec dark" id="chip">
+    <div class="wrap center">
+      <p class="eyebrow rv">Chip Climoo C2</p>
+      <h2 class="h2 rv d1">Mózg, który<br><span class="grad">czuje pokój.</span></h2>
+      <div class="chip-wrap rv d2">
+        <div class="chip">
+          <div class="chip-glow"></div>
+          <svg viewBox="0 0 300 300" aria-hidden="true" style="position:relative">
+            <defs>
+              <linearGradient id="chipB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ab8ff"/><stop offset=".5" stop-color="#7a6bff"/><stop offset="1" stop-color="#c07bff"/></linearGradient>
+              <linearGradient id="chipF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1c20"/><stop offset="1" stop-color="#0c0c0e"/></linearGradient>
+              <linearGradient id="chipT" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8f4ff"/><stop offset="1" stop-color="#9aa8ff"/></linearGradient>
+            </defs>
+            <g stroke="#2a2a30" stroke-width="2">
+              <path d="M70 20v30M100 20v30M130 20v30M160 20v30M190 20v30M220 20v30M70 250v30M100 250v30M130 250v30M160 250v30M190 250v30M220 250v30M20 70h30M20 100h30M20 130h30M20 160h30M20 190h30M20 220h30M250 70h30M250 100h30M250 130h30M250 160h30M250 190h30M250 220h30"/>
+            </g>
+            <g stroke="url(#chipB)" stroke-width="2" fill="none" class="trace">
+              <path d="M70 20v30M160 250v30M20 130h30M250 190h30M130 20v30M250 100h30M100 250v30M20 220h30"/>
+            </g>
+            <rect x="48" y="48" width="204" height="204" rx="28" fill="url(#chipF)" stroke="url(#chipB)" stroke-width="2.5"/>
+            <rect x="60" y="60" width="180" height="180" rx="20" fill="none" stroke="rgba(255,255,255,.06)"/>
+            <text x="150" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" letter-spacing="5" fill="#8e8e96" font-weight="600">CLIMOO</text>
+            <text x="150" y="196" text-anchor="middle" font-family="Inter,sans-serif" font-size="76" font-weight="800" fill="url(#chipT)" letter-spacing="-3">C2</text>
+          </svg>
+        </div>
+      </div>
+      <p class="lede rv">C2 łączy 12 czujników: temperatury, wilgotności, PM2.5, CO₂, lotnych związków organicznych i radar Aura 60 GHz. <b>Co sekundę podejmuje decyzję, by w pokoju było dokładnie tak, jak lubisz.</b></p>
+      <div class="grid3" style="text-align:left">
+        <div class="feat rv"><div class="n grad">12</div><p>Czujników środowiska zintegrowanych w jednej obudowie.</p></div>
+        <div class="feat rv d1"><div class="n grad">60 GHz</div><p>Radar Aura wykrywa obecność i położenie ludzi bez kamery. Prywatnie z założenia.</p></div>
+        <div class="feat rv d2"><div class="n grad">-22%</div><p>Mniej zużytej energii dzięki uczeniu się twojego rytmu dnia.⁴</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AIR -->
+  <section class="sec gray" id="powietrze">
+    <div class="wide">
+      <div class="wrap" style="width:100%;max-width:var(--wrap);margin:0">
+        <p class="eyebrow rv">Jakość powietrza</p>
+        <h2 class="h2 rv d1">Oddychaj jak<br>po burzy.</h2>
+      </div>
+      <div class="bento">
+        <div class="tile t-a rv">
+          <div>
+            <h4>Filtracja w czterech etapach.</h4>
+            <p>Siatka wstępna, filtr węglowy, HEPA H13 i sterylizacja UV-C. Powietrze, które wychodzi z X5, jest czystsze niż to, które weszło.</p>
+          </div>
+          <div class="big">99,97%</div>
+          <svg class="filter-vis" viewBox="0 0 300 300" aria-hidden="true"><g fill="none" stroke="rgba(160,200,255,.35)" stroke-width="1.5"><rect x="60" y="40" width="160" height="220" rx="16"/><rect x="80" y="30" width="160" height="220" rx="16" stroke="rgba(160,200,255,.5)"/><rect x="100" y="20" width="160" height="220" rx="16" stroke="rgba(160,200,255,.75)"/><path d="M120 50v160M140 50v160M160 50v160M180 50v160M200 50v160M220 50v160M240 50v160" stroke="rgba(160,200,255,.25)"/></g></svg>
+        </div>
+        <div class="tile t-b rv d1">
+          <div><h4>Czujnik PM2.5 na żywo.</h4><p>Pokazuje jakość powietrza w aplikacji minuta po minucie.</p></div>
+          <div class="pm" aria-hidden="true"><i style="height:80%"></i><i style="height:62%;transition-delay:.05s"></i><i style="height:48%;transition-delay:.1s"></i><i style="height:34%;transition-delay:.15s"></i><i style="height:22%;transition-delay:.2s"></i><i style="height:14%;transition-delay:.25s"></i><i style="height:9%;transition-delay:.3s"></i><i style="height:7%;transition-delay:.35s"></i></div>
+        </div>
+        <div class="tile t-c rv">
+          <div><h4>Osuszanie.</h4><p>Do 1,8 litra wilgoci na godzinę. Koniec z pleśnią i parującymi szybami.</p></div>
+          <div class="big">1,8 l/h</div>
+        </div>
+        <div class="tile t-d rv d1">
+          <div><h4>Samooczyszczanie.</h4><p>Po każdym cyklu X5 zamraża wymiennik, a lód spłukuje osadzony brud. Potem suszy się ciepłem w 56°C.</p></div>
+          <div class="big" style="color:#5b3df5">56°C</div>
+        </div>
+        <div class="tile t-e rv d2">
+          <div><h4>Filtry wymieniasz raz w roku.</h4><p>Aplikacja przypomni sama. Zestaw na cały rok kosztuje 149 zł.</p></div>
+          <div class="aq">
+            <svg class="aq-ring" viewBox="0 0 86 86" aria-hidden="true"><circle cx="43" cy="43" r="36" fill="none" stroke="#e8e8ed" stroke-width="8"/><circle cx="43" cy="43" r="36" fill="none" stroke="#1a9e55" stroke-width="8" stroke-linecap="round" stroke-dasharray="170 227" transform="rotate(-90 43 43)"/><text x="43" y="49" text-anchor="middle" font-size="18" font-weight="700" fill="#1d1d1f" font-family="Inter,sans-serif">74%</text></svg>
+            <span class="muted" style="font-size:14px">Stan filtra<br>Wymiana za 94 dni</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENERGY -->
+  <section class="sec" id="energia">
+    <div class="wrap">
+      <p class="eyebrow rv">Efektywność</p>
+      <h2 class="h2 rv d1">Policz,<br>ile zostaje w portfelu.</h2>
+      <p class="lede rv d2" style="margin-top:24px">SEER do 9,1 i SCOP 5,2 to wyniki, które stawiają X5 w czołówce Europy. <b>Sprawdź, ile zaoszczędzisz w porównaniu z typowym klimatyzatorem klasy A++.</b></p>
+      <div class="calc rv d3">
+        <div class="calc-in" style="background:var(--bg-2)">
+          <div class="field">
+            <label for="cArea">Powierzchnia pomieszczenia <output id="oArea">35 m²</output></label>
+            <input type="range" id="cArea" min="10" max="65" value="35">
+          </div>
+          <div class="field">
+            <label for="cHours">Godziny pracy dziennie <output id="oHours">8 h</output></label>
+            <input type="range" id="cHours" min="2" max="16" value="8">
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Zastosowanie</label>
+            <div class="seg" id="cMode"><button aria-pressed="false" data-m="cool">Tylko chłodzenie</button><button aria-pressed="true" data-m="both">Chłodzenie i grzanie</button></div>
+          </div>
+        </div>
+        <div class="calc-out">
+          <p style="font-size:15px;color:#a1a1a6">Oszczędzasz rocznie</p>
+          <div class="kpi grad" id="oSave">0 zł</div>
+          <div style="margin-top:26px">
+            <div class="row"><span>Koszt roczny z X5</span><b id="oX5">0 zł</b></div>
+            <div class="row"><span>Typowy klimatyzator A++</span><b id="oStd">0 zł</b></div>
+            <div class="row"><span>Oszczędność w 10 lat</span><b id="o10">0 zł</b></div>
+            <div class="row"><span>Rekomendowany model</span><b id="oModel">X5 35</b></div>
+          </div>
+          <small>Szacunek przy cenie 1,15 zł/kWh, 120 dniach chłodzenia i 180 dniach grzania w roku. Rzeczywiste wyniki zależą od izolacji budynku i nawyków.</small>
+          <a class="btn" style="margin-top:22px" id="oBuy" href="#kup?model=35">Kup polecany model</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section class="sec gray" id="aplikacja">
+    <div class="wrap app">
+      <div>
+        <p class="eyebrow rv">Aplikacja Climoo Home</p>
+        <h2 class="h2 rv d1">Pilot?<br>Masz go<br>w kieszeni.</h2>
+        <ul class="app-list">
+          <li class="rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><b>Geofencing</b><span>X5 schłodzi mieszkanie, zanim wrócisz z pracy.</span></div></li>
+          <li class="rv d1"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span><div><b>Raporty zużycia</b><span>Kilowatogodziny i złotówki, dzień po dniu.</span></div></li>
+          <li class="rv d2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 12h6M12 9v6"/></svg></span><div><b>Matter, Thread i Wi-Fi 6</b><span>Działa z popularnymi asystentami głosowymi i systemami smart home.</span></div></li>
+        </ul>
+      </div>
+      <div class="rv d2">
+        <div class="phone">
+          <div class="screen">
+            <div class="island"></div>
+            <div class="app-top"><div><span>Salon</span><br><b>Climoo X5</b></div><span id="appNow">24,1° teraz</span></div>
+            <div class="dial">
+              <svg viewBox="0 0 220 220" aria-hidden="true">
+                <defs><linearGradient id="dialG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" id="dG1" stop-color="#5ac8fa"/><stop offset="1" id="dG2" stop-color="#0a84ff"/></linearGradient></defs>
+                <circle cx="110" cy="110" r="92" fill="none" stroke="#dde3ec" stroke-width="14" stroke-linecap="round" stroke-dasharray="433.5 578"/>
+                <circle class="dial-arc" id="dialArc" cx="110" cy="110" r="92" fill="none" stroke="url(#dialG)" stroke-width="14" stroke-linecap="round" stroke-dasharray="200 578"/>
+              </svg>
+              <div class="val"><div><b id="appT">22°</b><span id="appMode">Chłodzenie</span></div></div>
+            </div>
+            <div class="dial-btns"><button id="appMinus" aria-label="Obniż temperaturę">−</button><button id="appPlus" aria-label="Podnieś temperaturę">+</button></div>
+            <div class="modes" id="appModes">
+              <button aria-pressed="true" data-m="cool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/></svg>Chłód</button>
+              <button aria-pressed="false" data-m="heat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5" stroke-linecap="round"/></svg>Ciepło</button>
+              <button aria-pressed="false" data-m="auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 14a8 8 0 1 1 16 0" stroke-linecap="round"/><path d="M12 14l4-5" stroke-linecap="round"/></svg>Auto</button>
+              <button aria-pressed="false" data-m="quiet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>Cisza</button>
+            </div>
+            <div class="app-card"><div><span class="muted">Jakość powietrza</span><b class="ok">Doskonała</b></div><div style="text-align:right"><span class="muted">PM2.5</span><b>4 µg/m³</b></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section class="sec" id="montaz">
+    <div class="wrap">
+      <p class="eyebrow rv">Montaż Climoo</p>
+      <h2 class="h2 rv d1">Od zamówienia<br>do chłodu w 72 godziny.</h2>
+      <p class="lede rv d2" style="margin-top:24px">Nie szukasz instalatora, nie umawiasz wizji lokalnej, nie liczysz metrów rurek. <b>Wybierasz termin przy zamówieniu. Resztą zajmujemy się my.</b></p>
+      <div class="steps">
+        <div class="step rv"><h4>Wybierz model i termin</h4><p>W koszyku od razu rezerwujesz dzień i godzinę montażu.</p></div>
+        <div class="step rv d1"><h4>Wideoweryfikacja</h4><p>15 minut rozmowy z technikiem. Pokazujesz ścianę, on dobiera miejsce.</p></div>
+        <div class="step rv d2"><h4>Montaż w 4 godziny</h4><p>Certyfikowany instalator F-gaz. Czysto, bez kucia, z odkurzaniem po sobie.</p></div>
+        <div class="step rv d3"><h4>Uruchomienie</h4><p>Parowanie z aplikacją, kalibracja radaru Aura i 7 lat gwarancji.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARE -->
+  <section class="sec gray" id="porownanie">
+    <div class="wrap">
+      <h2 class="h2 center rv">Który X5 jest dla ciebie?</h2>
+      <div class="cmp">
+        <div class="cmp-col rv">
+          <span class="badge"></span>
+          <div class="unit" data-unit data-finish="white"></div>
+          <h4>X5 25</h4><p class="pr">Od 5 499 zł</p>
+          <a class="btn sm" href="#kup?model=25">Kup</a>
+          <ul><li><b>2,5 kW</b><span>Moc chłodzenia</span></li><li><b>do 30 m²</b><span>Sypialnia, gabinet</span></li><li><b>17 dB</b><span>Tryb Whisper</span></li><li><b>SEER 9,1</b><span>A+++</span></li></ul>
+        </div>
+        <div class="cmp-col feat-col rv d1">
+          <span class="badge">Najczęściej wybierany</span>
+          <div class="unit" data-unit data-finish="graphite"></div>
+          <h4>X5 35</h4><p class="pr">Od 6 299 zł</p>
+          <a class="btn sm" href="#kup?model=35">Kup</a>
+          <ul><li><b>3,5 kW</b><span>Moc chłodzenia</span></li><li><b>do 45 m²</b><span>Salon, otwarta kuchnia</span></li><li><b>18 dB</b><span>Tryb Whisper</span></li><li><b>SEER 8,8</b><span>A+++</span></li></ul>
+        </div>
+        <div class="cmp-col rv d2">
+          <span class="badge"></span>
+          <div class="unit" data-unit data-finish="sage"></div>
+          <h4>X5 50</h4><p class="pr">Od 7 499 zł</p>
+          <a class="btn sm" href="#kup?model=50">Kup</a>
+          <ul><li><b>5,0 kW</b><span>Moc chłodzenia</span></li><li><b>do 65 m²</b><span>Duże przestrzenie, biuro</span></li><li><b>21 dB</b><span>Tryb Whisper</span></li><li><b>SEER 8,5</b><span>A+++</span></li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section class="sec" id="specyfikacja">
+    <div class="wrap">
+      <h2 class="h2 rv">Dane techniczne.</h2>
+      <div class="specs">
+        <div class="spec rv"><h4>Wydajność</h4><dl>
+          <div><dt>Moc chłodzenia (X5 35)</dt><dd>3,5 kW (1,1 do 4,2 kW)</dd></div>
+          <div><dt>Moc grzania (X5 35)</dt><dd>4,0 kW (1,0 do 5,4 kW)</dd></div>
+          <div><dt>SEER / SCOP</dt><dd>8,8 / 5,2 · A+++ / A+++</dd></div>
+          <div><dt>Zakres pracy</dt><dd>Chłodzenie do 50°C, grzanie od -25°C</dd></div>
+        </dl></div>
+        <div class="spec rv"><h4>Akustyka</h4><dl>
+          <div><dt>Jednostka wewnętrzna</dt><dd>17 do 42 dB(A)</dd></div>
+          <div><dt>Jednostka zewnętrzna</dt><dd>46 dB(A)</dd></div>
+          <div><dt>Wentylator</dt><dd>41 łopatek, profil Owl-Wing</dd></div>
+          <div><dt>Silnik</dt><dd>BLDC, łożyska magnetyczne</dd></div>
+        </dl></div>
+        <div class="spec rv"><h4>Powietrze</h4><dl>
+          <div><dt>Filtracja</dt><dd>Wstępna, węglowa, HEPA H13, UV-C</dd></div>
+          <div><dt>Przepływ</dt><dd>Do 820 m³/h</dd></div>
+          <div><dt>Osuszanie</dt><dd>Do 1,8 l/h</dd></div>
+          <div><dt>Czujniki</dt><dd>Temp., RH, PM2.5, CO₂, VOC, radar 60 GHz</dd></div>
+        </dl></div>
+        <div class="spec rv"><h4>Wymiary i waga</h4><dl>
+          <div><dt>Jednostka wewnętrzna</dt><dd>820 × 285 × 178 mm · 9,8 kg</dd></div>
+          <div><dt>Jednostka zewnętrzna</dt><dd>780 × 560 × 290 mm · 32 kg</dd></div>
+          <div><dt>Obudowa</dt><dd>Aluminium z recyklingu w 92%</dd></div>
+          <div><dt>Czynnik chłodniczy</dt><dd>R290 (naturalny, GWP 3)</dd></div>
+        </dl></div>
+        <div class="spec rv"><h4>Łączność</h4><dl>
+          <div><dt>Sieć</dt><dd>Wi-Fi 6, Bluetooth 5.3, Thread</dd></div>
+          <div><dt>Standard</dt><dd>Matter 1.3</dd></div>
+          <div><dt>Aplikacja</dt><dd>Climoo Home na iOS i Android</dd></div>
+          <div><dt>Aktualizacje</dt><dd>Bezprzewodowo, przez 10 lat</dd></div>
+        </dl></div>
+        <div class="spec rv"><h4>W zestawie</h4><div class="box"><span>Jednostka wewnętrzna X5</span><span>Jednostka zewnętrzna ODX5</span><span>Pilot Climoo Dial Lite</span><span>Filtr HEPA H13</span><span>Uchwyt ścienny</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec gray" id="faq">
+    <div class="wrap">
+      <h2 class="h2 rv">Pytania i odpowiedzi.</h2>
+      <div class="faq">
+        <details><summary>Jak dobrać moc do pomieszczenia?</summary><p>Przyjmij orientacyjnie 100 W na 1 m² przy standardowej wysokości i dobrej izolacji. Do 30 m² wystarczy X5 25, do 45 m² X5 35, a do 65 m² X5 50. W konfiguratorze wpiszesz metraż, a my podpowiemy model.</p></details>
+        <details><summary>Czy mogę ogrzewać dom klimatyzatorem?</summary><p>Tak. X5 to pompa ciepła powietrze-powietrze z SCOP 5,2. Z 1 kWh prądu oddaje średnio 5,2 kWh ciepła i utrzymuje pełną wydajność do -15°C, a pracuje nawet przy -25°C.</p></details>
+        <details><summary>Ile trwa montaż i co jest w cenie?</summary><p>Montaż standard trwa około 4 godzin i obejmuje do 3 m instalacji, uchwyt jednostki zewnętrznej, próbę szczelności, uruchomienie i konfigurację aplikacji. Montaż Premium to instalacja podtynkowa do 5 m i maskownica w kolorze urządzenia.</p></details>
+        <details><summary>Czy mogę zapłacić w ratach?</summary><p>Tak. Oferujemy 20 rat 0% bez dodatkowych kosztów. Decyzja w kilka minut, w pełni online, wybierasz ją w kroku płatności.</p></details>
+        <details><summary>Jak działa zwrot?</summary><p>Masz 30 dni na zwrot bez podania przyczyny. Jeśli X5 został zamontowany przez nasz serwis, demontaż i odbiór są bezpłatne.</p></details>
+        <details><summary>Czy mogę skorzystać z dofinansowania?</summary><p>X5 spełnia wymagania programów wspierających pompy ciepła powietrze-powietrze. Fakturę i karty techniczne potrzebne do wniosku znajdziesz w aplikacji po zakupie.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final" id="finał">
+    <div class="wrap">
+      <h2 class="h2 rv">Lato bez kompromisów<br><span class="grad">zaczyna się tutaj.</span></h2>
+      <p class="lede rv d1" style="margin:22px auto 0">Zamów dziś, a montaż odbędzie się nawet w ciągu 72 godzin.</p>
+      <div class="hero-cta rv d2" style="margin-top:32px"><a class="btn lg" href="#kup">Kup Climoo X5</a><a class="btn lg ghost" href="#porownanie">Porównaj modele</a></div>
+    </div>
+    <div class="stage">
+      <div class="unit on open" data-unit data-finish="graphite" data-temp="21°"></div>
+      <canvas class="air" data-air="light"></canvas>
+    </div>
+    <div style="height:200px"></div>
+  </section>
+</main>
+
+<!-- ================= BUY ================= -->
+<main class="page page-store" data-page="buy" hidden>
+  <div class="wide">
+    <div class="store-head">
+      <h1 class="h3">Kup Climoo X5</h1>
+      <p>Darmowa dostawa · Montaż w 72 godziny · 30 dni na zwrot</p>
+    </div>
+    <div class="buy">
+      <div class="buy-vis" id="buyVis" data-finish="white">
+        <span class="wall-label" id="buyLabel">Climoo X5 35 · Arktyczna biel</span>
+        <div class="stage">
+          <div class="unit on open" data-unit data-finish="white" id="buyUnit" data-temp="22°"></div>
+          <canvas class="air" data-air="light"></canvas>
+        </div>
+        <div class="fit"><span id="buyFit">Do 45 m²</span><span id="buyKw">3,5 kW chłodzenia · 4,0 kW grzania</span></div>
+      </div>
+      <div>
+        <div class="opt-group">
+          <h3>Model. <span>Który pasuje do twojego pokoju?</span></h3>
+          <p>&nbsp;</p>
+          <div class="helper">
+            <label for="bArea">Metraż pomieszczenia <output id="bAreaO">35 m²</output></label>
+            <input type="range" id="bArea" min="8" max="70" value="35">
+            <p class="hint" id="bHint">Polecamy X5 35.</p>
+          </div>
+          <div class="opts" role="radiogroup" id="optModel"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Wykończenie. <span>Wybierz kolor.</span></h3>
+          <p id="finName">Arktyczna biel</p>
+          <div class="fin-opts" role="radiogroup" id="optFin"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Montaż. <span>Zrobimy to za ciebie.</span></h3>
+          <p>Certyfikowany instalator, termin wybierasz w kasie.</p>
+          <div class="opts" role="radiogroup" id="optInst"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Climoo Care+. <span>Spokój na lata.</span></h3>
+          <p>Coroczny przegląd, czyszczenie i nowe filtry przez 5 lat.</p>
+          <div class="opts" role="radiogroup" id="optCare"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Akcesoria. <span>Opcjonalnie.</span></h3>
+          <p>Dodawane do koszyka jako osobne pozycje.</p>
+          <div class="opts" id="optAcc"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="buybar" aria-hidden="true" id="buybar">
+  <div class="wide">
+    <div class="sum"><b id="bbTotal">6 299 zł</b><span id="bbMonthly">lub 314,95 zł/mies. w 20 ratach 0%</span></div>
+    <div class="perks">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>Darmowa dostawa</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>7 lat gwarancji</div>
+    </div>
+    <button class="btn" id="addToBag">Dodaj do koszyka</button>
+  </div>
+</div>
+
+<!-- ================= BAG ================= -->
+<main class="page page-store bag-page" data-page="bag" hidden>
+  <div class="wide">
+    <div class="store-head">
+      <h1 class="h3" id="bagTitle">Twój koszyk.</h1>
+      <p id="bagSub">Darmowa dostawa i zwrot w ciągu 30 dni.</p>
+    </div>
+    <div id="bagBody"></div>
+  </div>
+</main>
+
+<!-- ================= CHECKOUT ================= -->
+<main class="page page-store" data-page="checkout" hidden>
+  <div class="wide">
+    <div class="store-head">
+      <h1 class="h3">Kasa.</h1>
+      <div class="co-steps"><span>Koszyk</span><span>›</span><span class="on">Dane i płatność</span><span>›</span><span>Potwierdzenie</span></div>
+    </div>
+    <div class="bag-grid" style="padding-bottom:120px">
+      <form id="coForm" novalidate>
+        <fieldset>
+          <legend><i>1</i>Kontakt</legend>
+          <p class="fs-note">Na ten adres wyślemy potwierdzenie i link do śledzenia.</p>
+          <div class="fgrid">
+            <div class="inp"><input id="fEmail" type="email" placeholder=" " autocomplete="email" data-v="email"><label for="fEmail">E-mail</label><span class="emsg">Podaj poprawny adres e-mail.</span></div>
+            <div class="inp"><input id="fPhone" type="tel" placeholder=" " autocomplete="tel" data-v="phone"><label for="fPhone">Telefon</label><span class="emsg">Podaj 9-cyfrowy numer telefonu.</span></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend><i>2</i><span id="addrLegend">Adres montażu</span></legend>
+          <p class="fs-note" id="addrNote">Instalator przyjedzie pod ten adres. Tu dostarczymy też urządzenie.</p>
+          <div class="fgrid">
+            <div class="inp"><input id="fFirst" placeholder=" " autocomplete="given-name" data-v="req"><label for="fFirst">Imię</label><span class="emsg">Wpisz imię.</span></div>
+            <div class="inp"><input id="fLast" placeholder=" " autocomplete="family-name" data-v="req"><label for="fLast">Nazwisko</label><span class="emsg">Wpisz nazwisko.</span></div>
+            <div class="inp full"><input id="fStreet" placeholder=" " autocomplete="street-address" data-v="req"><label for="fStreet">Ulica, numer domu i mieszkania</label><span class="emsg">Wpisz adres.</span></div>
+            <div class="inp"><input id="fZip" placeholder=" " autocomplete="postal-code" inputmode="numeric" data-v="zip" maxlength="6"><label for="fZip">Kod pocztowy</label><span class="emsg">Format: 00-000.</span></div>
+            <div class="inp"><input id="fCity" placeholder=" " autocomplete="address-level2" data-v="req"><label for="fCity">Miejscowość</label><span class="emsg">Wpisz miejscowość.</span></div>
+          </div>
+          <label class="consent" style="margin-top:18px"><input type="checkbox" id="fInvoice"> Chcę fakturę VAT na firmę</label>
+          <div class="fgrid" id="invoiceBox" hidden style="margin-top:14px">
+            <div class="inp"><input id="fNip" placeholder=" " inputmode="numeric" data-v="nip" maxlength="13"><label for="fNip">NIP</label><span class="emsg">NIP ma 10 cyfr.</span></div>
+            <div class="inp"><input id="fCompany" placeholder=" " data-v="reqinv"><label for="fCompany">Nazwa firmy</label><span class="emsg">Wpisz nazwę firmy.</span></div>
+          </div>
+        </fieldset>
+        <fieldset id="fsWhen">
+          <legend><i>3</i><span id="whenLegend">Termin montażu</span></legend>
+          <p class="fs-note" id="whenNote">Wybierz dzień i przedział godzin. Instalator zadzwoni dzień wcześniej.</p>
+          <div id="whenBody"></div>
+          <p class="emsg" id="whenErr" style="display:none;color:var(--err);font-size:13px;margin-top:8px">Wybierz dzień i godzinę montażu.</p>
+        </fieldset>
+        <fieldset>
+          <legend><i>4</i>Płatność</legend>
+          <p class="fs-note">Płatność jest szyfrowana. Zapłacisz dopiero po złożeniu zamówienia.</p>
+          <div class="pay" id="payOpts">
+            <div class="pay-opt on" data-pay="blik">
+              <label><input type="radio" name="pay" value="blik" checked><b>BLIK</b><small>Natychmiast</small></label>
+              <div class="pay-body"><p>Wpisz 6-cyfrowy kod z aplikacji bankowej.</p><div class="inp" style="max-width:220px"><input id="fBlik" placeholder=" " inputmode="numeric" maxlength="7" data-v="blik"><label for="fBlik">Kod BLIK</label><span class="emsg">Kod ma 6 cyfr.</span></div></div>
+            </div>
+            <div class="pay-opt" data-pay="card">
+              <label><input type="radio" name="pay" value="card"><b>Karta płatnicza</b><small>Visa, Mastercard</small></label>
+              <div class="pay-body"><div class="fgrid">
+                <div class="inp full"><input id="fCard" placeholder=" " inputmode="numeric" maxlength="19" autocomplete="off" data-v="card"><label for="fCard">Numer karty</label><span class="emsg">Numer karty ma 16 cyfr.</span></div>
+                <div class="inp"><input id="fExp" placeholder=" " inputmode="numeric" maxlength="5" autocomplete="off" data-v="exp"><label for="fExp">Ważna do (MM/RR)</label><span class="emsg">Podaj poprawną datę.</span></div>
+                <div class="inp"><input id="fCvc" placeholder=" " inputmode="numeric" maxlength="3" autocomplete="off" data-v="cvc"><label for="fCvc">CVC</label><span class="emsg">3 cyfry z tyłu karty.</span></div>
+              </div></div>
+            </div>
+            <div class="pay-opt" data-pay="raty">
+              <label><input type="radio" name="pay" value="raty"><b>Raty 0%</b><small id="ratyInfo">20 × 0 zł</small></label>
+              <div class="pay-body"><p>20 rat 0%, RRSO 0%. Po złożeniu zamówienia przeprowadzimy cię przez krótki wniosek online. Decyzja zwykle w 5 minut.</p></div>
+            </div>
+            <div class="pay-opt" data-pay="transfer">
+              <label><input type="radio" name="pay" value="transfer"><b>Przelew tradycyjny</b><small>1 do 2 dni</small></label>
+              <div class="pay-body"><p>Dane do przelewu otrzymasz w potwierdzeniu. Termin montażu rezerwujemy na 48 godzin.</p></div>
+            </div>
+          </div>
+          <div class="demo-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Wersja demonstracyjna. Climoo to marka koncepcyjna, żadne dane nie są nigdzie wysyłane.</div>
+          <label class="consent" id="cTerms"><input type="checkbox" id="fTerms"> Akceptuję regulamin sklepu i politykę prywatności Climoo.</label>
+          <label class="consent"><input type="checkbox" id="fNews"> Chcę otrzymywać porady dotyczące oszczędzania energii (maks. 1 e-mail w miesiącu).</label>
+          <div class="err-banner" id="coErr">Uzupełnij zaznaczone pola, aby złożyć zamówienie.</div>
+        </fieldset>
+      </form>
+      <aside class="summary" id="coSummary"></aside>
+    </div>
+  </div>
+</main>
+
+<!-- ================= DONE ================= -->
+<main class="page page-store" data-page="done" hidden>
+  <div class="wrap done" id="doneBody"></div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wide">
+    <div class="notes">
+      <p>* Raty 0% na 20 miesięcy, RRSO 0%. Przykład dla X5 25: cena 5 499 zł, 20 rat po 274,95 zł. Oferta podlega ocenie zdolności kredytowej.</p>
+      <p>² Pomiar w pomieszczeniu 25 m² o wysokości 2,6 m z modelem X5 35 w trybie Turbo Chill, temperatura zewnętrzna 32°C.</p>
+      <p>³ Skuteczność filtra HEPA H13 dla cząstek 0,3 µm zgodnie z normą EN 1822. Lampa UV-C działa wewnątrz obudowy.</p>
+      <p>⁴ W porównaniu z klimatyzatorem klasy A++ (SEER 6,1, SCOP 4,0) przy identycznym profilu użytkowania.</p>
+      <p>Climoo jest marką fikcyjną stworzoną na potrzeby projektu koncepcyjnego. Produkt, parametry, ceny i proces zakupu są przykładowe.</p>
+    </div>
+    <div class="cols">
+      <div><h5>Produkty</h5><ul><li><a href="#">Climoo X5</a></li><li><a href="#porownanie">Porównanie modeli</a></li><li><a href="#kup">Akcesoria</a></li></ul></div>
+      <div><h5>Zakupy</h5><ul><li><a href="#kup">Konfigurator</a></li><li><a href="#koszyk">Koszyk</a></li><li><a href="#faq">Raty 0%</a></li></ul></div>
+      <div><h5>Wsparcie</h5><ul><li><a href="#montaz">Montaż</a></li><li><a href="#faq">Zwroty</a></li><li><a href="#faq">Gwarancja</a></li></ul></div>
+      <div><h5>Climoo</h5><ul><li><a href="#chip">Technologia</a></li><li><a href="#specyfikacja">Środowisko</a></li><li><a href="#">Kontakt</a></li></ul></div>
+    </div>
+    <div class="legal"><span>Copyright © 2026 Climoo. Projekt koncepcyjny.</span><span>Polska</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const group = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const zl = n => (n < 0 ? '-' : '') + group(Math.abs(n)) + ' zł';
+const zl2 = n => { const [a, b] = Math.abs(n).toFixed(2).split('.'); return group(+a) + ',' + b + ' zł'; };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+
+/* ---------- Data ---------- */
+const MODELS = {
+  '25': { name: 'X5 25', kw: '2,5 kW', heat: '3,2 kW', area: 30, price: 5499 },
+  '35': { name: 'X5 35', kw: '3,5 kW', heat: '4,0 kW', area: 45, price: 6299 },
+  '50': { name: 'X5 50', kw: '5,0 kW', heat: '5,8 kW', area: 65, price: 7499 }
+};
+const FINISHES = { white: 'Arktyczna biel', graphite: 'Grafit', sage: 'Szałwia', sand: 'Piasek' };
+const INSTALLS = {
+  none: { name: 'Bez montażu', desc: 'Mam własnego instalatora z uprawnieniami F-gaz.', price: 0 },
+  standard: { name: 'Montaż Standard', desc: 'Do 3 m instalacji, uruchomienie i konfiguracja.', price: 899, tag: 'Polecany' },
+  premium: { name: 'Montaż Premium', desc: 'Instalacja podtynkowa do 5 m i maskownica w kolorze X5.', price: 1499 }
+};
+const CARES = {
+  none: { name: 'Bez Climoo Care+', desc: 'Standardowa gwarancja 7 lat.', price: 0 },
+  care: { name: 'Climoo Care+ na 5 lat', desc: 'Przegląd co roku, filtry w cenie, priorytetowy serwis w 24 h.', price: 699 }
+};
+const ICONS = {
+  dial: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 4v2"/></svg>',
+  sense: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 14v-4"/><circle cx="12" cy="16" r="1.5"/></svg>',
+  filter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5v14M12 5v14M16 5v14"/></svg>',
+  cover: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10 12 4l9 6"/><rect x="5" y="10" width="14" height="10" rx="1"/><circle cx="12" cy="15" r="3"/></svg>'
+};
+const ACCS = {
+  dial: { name: 'Pilot Climoo Dial', desc: 'Aluminiowe pokrętło z ekranem e-ink.', price: 249, icon: 'dial' },
+  sense: { name: 'Czujnik Climoo Sense', desc: 'Mierzy temperaturę tam, gdzie siedzisz.', price: 199, icon: 'sense' },
+  filter: { name: 'Zestaw filtrów na rok', desc: 'HEPA H13 i filtr węglowy.', price: 149, icon: 'filter' },
+  cover: { name: 'Osłona jednostki zewnętrznej', desc: 'Stal lakierowana proszkowo, chroni przed śniegiem.', price: 399, icon: 'cover' }
+};
+const PROMOS = { LATO26: 0.05, CLIMOO10: 0.10 };
+const RATY = 20;
+
+/* ---------- Product render ---------- */
+let uid = 0;
+function unitSVG(temp) {
+  const i = ++uid;
+  return `<svg viewBox="0 0 1000 300" aria-hidden="true">
+  <defs>
+    <linearGradient id="ub${i}" x1="0" y1="0" x2="0" y2="1" class="stops"><stop offset="0" style="stop-color:var(--u1)"/><stop offset=".6" style="stop-color:var(--u2)"/><stop offset="1" style="stop-color:var(--u3)"/></linearGradient>
+    <linearGradient id="us${i}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".16"/><stop offset=".06" stop-color="#000" stop-opacity="0"/><stop offset=".94" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+    <linearGradient id="ul${i}" x1="0" y1="0" x2="0" y2="1" class="stops"><stop offset="0" style="stop-color:var(--lv)"/><stop offset="1" style="stop-color:var(--u3)"/></linearGradient>
+    <linearGradient id="ug${i}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5ac8fa" stop-opacity="0"/><stop offset=".5" stop-color="#5ac8fa"/><stop offset="1" stop-color="#5ac8fa" stop-opacity="0"/></linearGradient>
+    <filter id="uf${i}" x="-20%" y="-50%" width="140%" height="220%"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="ud${i}"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <rect x="70" y="70" width="860" height="200" rx="60" fill="#000" opacity=".22" filter="url(#uf${i})"/>
+  <rect x="30" y="24" width="940" height="212" rx="52" fill="url(#ub${i})"/>
+  <rect x="30" y="24" width="940" height="212" rx="52" fill="url(#us${i})"/>
+  <rect x="30.5" y="24.5" width="939" height="211" rx="51.5" fill="none" stroke="#000" stroke-opacity=".07"/>
+  <path d="M84 27.5H916" stroke="#fff" stroke-opacity=".85" stroke-width="3" stroke-linecap="round"/>
+  <path d="M60 184H940" stroke="#000" stroke-opacity=".07" stroke-width="1.5"/>
+  <path d="M60 185.5H940" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>
+  <text x="92" y="118" font-family="Inter,sans-serif" font-size="22" font-weight="700" letter-spacing="-.5" style="fill:var(--mark)">climoo</text>
+  <g class="disp">
+    <rect x="806" y="92" width="96" height="36" rx="18" fill="#000" fill-opacity=".05"/>
+    <circle cx="854" cy="110" r="24" fill="#5ac8fa" opacity=".25" filter="url(#ud${i})"/>
+    <text x="854" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="22" font-weight="500" fill="#2aa7ff">${temp || '22°'}</text>
+  </g>
+  <rect class="slot" x="78" y="206" width="844" height="26" rx="13" fill="#0e1014" opacity=".9"/>
+  <g class="slot"><path d="M110 219H890" stroke="#2a2e36" stroke-width="10" stroke-dasharray="2 8"/></g>
+  <g class="louver"><rect x="66" y="198" width="868" height="36" rx="18" fill="url(#ul${i})"/><path d="M96 199.5H904" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/></g>
+  <rect class="led" x="300" y="182" width="400" height="3" rx="1.5" fill="url(#ug${i})"/>
+</svg>`;
+}
+$$('[data-unit]').forEach(el => { el.innerHTML = unitSVG(el.dataset.temp); });
+
+/* ---------- Airflow particles ---------- */
+class Air {
+  constructor(cv) {
+    this.cv = cv; this.ctx = cv.getContext('2d'); this.p = []; this.on = false; this.vis = false; this.power = 1;
+    this.dark = cv.dataset.air === 'dark';
+    this.resize(); addEventListener('resize', () => this.resize());
+    new IntersectionObserver(e => { this.vis = e[0].isIntersecting; if (this.vis) this.loop(); }).observe(cv);
+    this.unit = cv.parentElement.querySelector('.unit');
+  }
+  resize() {
+    const r = this.cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    this.w = r.width; this.h = r.height; this.cv.width = r.width * d; this.cv.height = r.height * d;
+    this.ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  loop() {
+    if (this.running) return; this.running = true;
+    const step = () => {
+      if (!this.vis || !this.cv.offsetParent) { this.running = false; return; }
+      const active = this.unit && this.unit.classList.contains('open') && !reduce;
+      const { ctx, w, h } = this;
+      ctx.clearRect(0, 0, w, h);
+      if (active) for (let k = 0; k < 3 * this.power; k++) {
+        const x = w * (0.1 + Math.random() * 0.8), c = (x / w - 0.5);
+        this.p.push({ x, y: 2, vx: c * (0.8 + Math.random()), vy: 0.9 + Math.random() * 1.3, life: 0, max: 70 + Math.random() * 70 });
+      }
+      ctx.lineCap = 'round';
+      for (let i = this.p.length - 1; i >= 0; i--) {
+        const q = this.p[i]; q.life++; q.x += q.vx; q.y += q.vy; q.vy *= 0.992; q.vx *= 1.004;
+        const t = q.life / q.max; if (t >= 1) { this.p.splice(i, 1); continue; }
+        const a = Math.sin(t * Math.PI) * 0.5;
+        ctx.strokeStyle = this.dark ? `rgba(160,215,255,${a})` : `rgba(64,160,255,${a})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(q.x, q.y); ctx.lineTo(q.x - q.vx * 9, q.y - q.vy * 9); ctx.stroke();
+      }
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+}
+const airs = $$('canvas.air').map(c => new Air(c));
+
+/* ---------- Reveal & counters ---------- */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in'); io.unobserve(e.target);
+}), { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+$$('.rv, .tile').forEach(el => io.observe(el));
+
+const cio = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; cio.unobserve(e.target);
+  const el = e.target, to = parseFloat(el.dataset.count), dec = +(el.dataset.dec || 0), t0 = performance.now(), dur = reduce ? 1 : 1600;
+  const tick = now => {
+    const k = clamp((now - t0) / dur), v = to * (1 - Math.pow(1 - k, 4));
+    el.textContent = v.toFixed(dec).replace('.', ',');
+    if (k < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}), { threshold: 0.6 });
+$$('[data-count]').forEach(el => cio.observe(el));
+
+const nio = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; nio.unobserve(e.target);
+  $$('.nbar i', e.target).forEach((b, i) => setTimeout(() => b.style.width = (b.dataset.w / 45 * 100) + '%', i * 120));
+}), { threshold: 0.3 });
+nio.observe($('#noise'));
+
+/* ---------- Highlights carousel ---------- */
+const track = $('#hlTrack'), slides = $$('.hl', track), dotsEl = $('#hlDots');
+let hlIdx = 0, hlPlaying = !reduce, hlT0 = performance.now(), hlDur = 5200, hlVisible = false;
+slides.forEach((_, i) => {
+  const d = document.createElement('button'); d.className = 'dot'; d.setAttribute('aria-label', 'Slajd ' + (i + 1)); d.innerHTML = '<i></i>';
+  d.onclick = () => goHl(i, true); dotsEl.appendChild(d);
+});
+const dots = $$('.dot', dotsEl);
+function goHl(i, user) {
+  hlIdx = (i + slides.length) % slides.length;
+  track.scrollTo({ left: slides[hlIdx].offsetLeft - slides[0].offsetLeft, behavior: 'smooth' });
+  hlT0 = performance.now(); paintDots();
+  if (user) { hlPlaying = false; setPlayIcon(); }
+}
+function paintDots() { dots.forEach((d, i) => { d.classList.toggle('on', i === hlIdx); d.firstChild.style.transform = 'scaleX(0)'; }); }
+function setPlayIcon() {
+  $('#hlPlay').innerHTML = hlPlaying
+    ? '<svg viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>'
+    : '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11a.8.8 0 0 0 1.2.7l9-5.5a.8.8 0 0 0 0-1.4l-9-5.5A.8.8 0 0 0 4 2.5Z"/></svg>';
+  $('#hlPlay').setAttribute('aria-label', hlPlaying ? 'Wstrzymaj' : 'Odtwórz');
+}
+$('#hlPlay').onclick = () => { hlPlaying = !hlPlaying; hlT0 = performance.now(); setPlayIcon(); };
+let scrollTO;
+track.addEventListener('scroll', () => {
+  clearTimeout(scrollTO);
+  scrollTO = setTimeout(() => {
+    const x = track.scrollLeft; let best = 0, bd = 1e9;
+    slides.forEach((s, i) => { const d = Math.abs(s.offsetLeft - slides[0].offsetLeft - x); if (d < bd) { bd = d; best = i; } });
+    if (best !== hlIdx) { hlIdx = best; hlT0 = performance.now(); paintDots(); }
+  }, 120);
+}, { passive: true });
+new IntersectionObserver(e => { hlVisible = e[0].isIntersecting; if (hlVisible) hlT0 = performance.now(); }, { threshold: 0.4 }).observe(track);
+function hlTick(now) {
+  if (hlPlaying && hlVisible && currentPage === 'home') {
+    const k = clamp((now - hlT0) / hlDur);
+    dots[hlIdx].firstChild.style.transform = `scaleX(${k})`;
+    if (k >= 1) goHl(hlIdx + 1 === slides.length ? 0 : hlIdx + 1);
+  }
+  requestAnimationFrame(hlTick);
+}
+paintDots(); setPlayIcon(); requestAnimationFrame(hlTick);
+
+/* ---------- Word highlight ---------- */
+const words = $('#words');
+words.innerHTML = words.textContent.trim().split(/\s+/).map(w => `<span>${w}</span>`).join(' ');
+const wSpans = $$('span', words);
+
+/* ---------- Story pinned ---------- */
+const story = $('#design'), storyStage = $('#storyStage'), storyUnit = $('.unit', storyStage), storySteps = $$('.story-step', story), storyBars = $$('.story-progress b', story), dims = $('#dims');
+const storyAir = airs.find(a => a.cv.parentElement === storyStage);
+
+/* ---------- Marquee ---------- */
+const marq = $('#marq');
+
+/* ---------- Local nav active ---------- */
+const lnLinks = $$('.lnav-r a:not(.btn)');
+const secIds = lnLinks.map(a => a.getAttribute('href').slice(1));
+
+function onScroll() {
+  if (currentPage !== 'home') return;
+  const vh = innerHeight;
+  // words
+  const wr = words.getBoundingClientRect();
+  const wp = clamp((vh * 0.85 - wr.top) / (wr.height + vh * 0.35));
+  const lit = Math.round(wp * wSpans.length);
+  wSpans.forEach((s, i) => s.classList.toggle('on', i < lit));
+  // story
+  const sr = story.getBoundingClientRect();
+  const sp = clamp(-sr.top / (sr.height - vh));
+  const stepI = sp < 0.33 ? 0 : sp < 0.66 ? 1 : 2;
+  storySteps.forEach((s, i) => s.classList.toggle('on', i === stepI));
+  storyBars.forEach((b, i) => b.style.transform = `scaleX(${clamp(sp * 3 - i)})`);
+  storyUnit.classList.toggle('open', sp >= 0.33);
+  storyUnit.classList.toggle('on', sp >= 0.2);
+  dims.classList.toggle('on', sp < 0.3);
+  const rx = stepI === 0 ? 0 : sp < 0.66 ? (sp - 0.33) / 0.33 * 16 : 16;
+  const sc = 0.92 + sp * 0.14;
+  storyStage.style.transform = reduce ? '' : `rotateX(${-rx}deg) scale(${sc})`;
+  if (storyAir) storyAir.power = sp >= 0.66 ? 2 : 1;
+  // marquee
+  const mr = marq.getBoundingClientRect();
+  marq.style.transform = `translateX(${-(vh - mr.top) * 0.35}px)`;
+  // local nav
+  let active = secIds[0];
+  secIds.forEach(id => { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top < vh * 0.4) active = id; });
+  lnLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + active));
+}
+let ticking = false;
+addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
+addEventListener('resize', onScroll);
+
+/* ---------- Colors ---------- */
+const colorSec = $('#kolory'), colorUnit = $('#colorUnit');
+$$('#colorSw .sw').forEach(b => b.onclick = () => {
+  const f = b.dataset.f;
+  $$('#colorSw .sw').forEach(x => x.setAttribute('aria-pressed', x === b));
+  colorUnit.dataset.finish = f; colorSec.dataset.finish = f; $('#swName').textContent = FINISHES[f];
+});
+
+/* ---------- Energy calc ---------- */
+const cArea = $('#cArea'), cHours = $('#cHours');
+let cMode = 'both';
+function setRangeFill(r) { r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min) * 100) + '%'); }
+function recommend(a) { return a <= 30 ? '25' : a <= 45 ? '35' : '50'; }
+function calc() {
+  const a = +cArea.value, h = +cHours.value, price = 1.15;
+  const coolTh = a * 0.07 * h * 120, heatTh = cMode === 'both' ? a * 0.055 * h * 180 : 0;
+  const x5 = (coolTh / 8.8 + heatTh / 5.2) * price, std = (coolTh / 6.1 + heatTh / 4.0) * price;
+  $('#oArea').textContent = a + ' m²'; $('#oHours').textContent = h + ' h';
+  $('#oX5').textContent = zl(x5); $('#oStd').textContent = zl(std);
+  $('#oSave').textContent = zl(std - x5); $('#o10').textContent = zl((std - x5) * 10);
+  const m = recommend(a); $('#oModel').textContent = MODELS[m].name; $('#oBuy').href = '#kup?model=' + m;
+  setRangeFill(cArea); setRangeFill(cHours);
+}
+cArea.oninput = cHours.oninput = calc;
+$$('#cMode button').forEach(b => b.onclick = () => { cMode = b.dataset.m; $$('#cMode button').forEach(x => x.setAttribute('aria-pressed', x === b)); calc(); });
+calc();
+
+/* ---------- App mock ---------- */
+let appT = 22, appM = 'cool';
+const MODECOL = { cool: ['#5ac8fa', '#0a84ff', 'Chłodzenie'], heat: ['#ffb340', '#ff5e3a', 'Grzanie'], auto: ['#7ee0b0', '#1a9e55', 'Auto'], quiet: ['#b9a8ff', '#5b3df5', 'Cisza · 17 dB'] };
+function paintApp() {
+  const arc = 433.5, k = (appT - 16) / 14;
+  $('#dialArc').setAttribute('stroke-dasharray', `${Math.max(8, arc * k)} 578`);
+  $('#appT').textContent = appT + '°';
+  const c = MODECOL[appM]; $('#dG1').setAttribute('stop-color', c[0]); $('#dG2').setAttribute('stop-color', c[1]); $('#appMode').textContent = c[2];
+}
+$('#appPlus').onclick = () => { appT = Math.min(30, appT + 1); paintApp(); };
+$('#appMinus').onclick = () => { appT = Math.max(16, appT - 1); paintApp(); };
+$$('#appModes button').forEach(b => b.onclick = () => { appM = b.dataset.m; $$('#appModes button').forEach(x => x.setAttribute('aria-pressed', x === b)); paintApp(); });
+paintApp();
+
+/* =====================================================
+   STORE
+   ===================================================== */
+let cart = store.get('climoo.cart', []);
+let promo = store.get('climoo.promo', null);
+let lastOrder = store.get('climoo.order', null);
+const cfg = { model: '35', finish: 'white', install: 'standard', care: 'none', accs: new Set() };
+
+function saveCart() { store.set('climoo.cart', cart); store.set('climoo.promo', promo); paintBagCount(); }
+function paintBagCount() {
+  const n = cart.reduce((s, l) => s + l.qty, 0), el = $('#bagCount');
+  el.textContent = n; el.classList.toggle('show', n > 0);
+}
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2600); }
+
+function unitPrice(l) { return MODELS[l.model].price + INSTALLS[l.install].price + CARES[l.care].price; }
+function linePrice(l) { return (l.kind === 'unit' ? unitPrice(l) : ACCS[l.id].price) * l.qty; }
+function totals() {
+  const sub = cart.reduce((s, l) => s + linePrice(l), 0);
+  const disc = promo && PROMOS[promo] ? Math.round(sub * PROMOS[promo]) : 0;
+  const total = sub - disc;
+  return { sub, disc, total, vat: Math.round(total - total / 1.23) };
+}
+const hasInstall = () => cart.some(l => l.kind === 'unit' && l.install !== 'none');
+
+/* ---- Buy page ---- */
+function optHTML(key, val, o, checked, extra = '') {
+  return `<button class="opt" role="radio" data-k="${key}" data-v="${val}" aria-checked="${checked}">
+    <span>${o.tag ? `<span class="tag">${o.tag}</span>` : ''}<b>${o.name}</b><small>${o.desc}</small>${extra}</span>
+    <span class="p">${o.price ? '+ ' + zl(o.price) : 'W cenie'}</span></button>`;
+}
+function buildBuy() {
+  $('#optModel').innerHTML = Object.entries(MODELS).map(([k, m]) =>
+    `<button class="opt" role="radio" data-k="model" data-v="${k}" aria-checked="false">
+      <span><span class="tag" data-rec="${k}"></span><b>Climoo ${m.name}</b><small>${m.kw} chłodzenia · ${m.heat} grzania · do ${m.area} m²</small></span>
+      <span class="p">${zl(m.price)}<br><small>lub ${zl2(m.price / RATY)}/mies.</small></span></button>`).join('');
+  $('#optFin').innerHTML = Object.entries(FINISHES).map(([k, n]) =>
+    `<button class="fin" role="radio" data-k="finish" data-v="${k}" aria-checked="false" aria-label="${n}"><span class="sw sw-${k}"></span>${n}</button>`).join('');
+  $('#optInst').innerHTML = Object.entries(INSTALLS).map(([k, o]) => optHTML('install', k, o, false)).join('');
+  $('#optCare').innerHTML = Object.entries(CARES).map(([k, o]) => optHTML('care', k, o, false)).join('');
+  $('#optAcc').innerHTML = Object.entries(ACCS).map(([k, a]) =>
+    `<label class="check-opt"><input type="checkbox" value="${k}"><span class="acc-ico">${ICONS[a.icon]}</span><span class="t"><b>${a.name}</b><small>${a.desc}</small></span><span class="p">${zl(a.price)}</span></label>`).join('');
+  $$('.page[data-page="buy"] [role="radio"]').forEach(b => b.onclick = () => { cfg[b.dataset.k] = b.dataset.v; paintBuy(); });
+  $$('#optAcc input').forEach(c => c.onchange = () => { c.checked ? cfg.accs.add(c.value) : cfg.accs.delete(c.value); paintBuy(); });
+  const bArea = $('#bArea');
+  bArea.oninput = () => {
+    const m = recommend(+bArea.value);
+    $('#bAreaO').textContent = bArea.value + ' m²';
+    $('#bHint').innerHTML = +bArea.value > 65 ? 'Powyżej 65 m² polecamy dwa urządzenia. <a href="#faq">Zapytaj eksperta</a>.' : `Polecamy <b>Climoo ${MODELS[m].name}</b>.`;
+    cfg.model = m; setRangeFill(bArea); paintBuy();
+  };
+  setRangeFill(bArea);
+}
+function paintBuy() {
+  $$('.page[data-page="buy"] [role="radio"]').forEach(b => b.setAttribute('aria-checked', cfg[b.dataset.k] === b.dataset.v));
+  const rec = recommend(+$('#bArea').value);
+  $$('[data-rec]').forEach(t => t.textContent = t.dataset.rec === rec ? 'Polecany dla twojego metrażu' : '');
+  $$('#optAcc input').forEach(c => c.checked = cfg.accs.has(c.value));
+  const m = MODELS[cfg.model];
+  $('#buyVis').dataset.finish = cfg.finish; $('#buyUnit').dataset.finish = cfg.finish;
+  $('#buyLabel').textContent = `Climoo ${m.name} · ${FINISHES[cfg.finish]}`;
+  $('#buyFit').textContent = `Do ${m.area} m²`; $('#buyKw').textContent = `${m.kw} chłodzenia · ${m.heat} grzania`;
+  $('#finName').textContent = FINISHES[cfg.finish];
+  const total = m.price + INSTALLS[cfg.install].price + CARES[cfg.care].price + [...cfg.accs].reduce((s, a) => s + ACCS[a].price, 0);
+  $('#bbTotal').textContent = zl(total);
+  $('#bbMonthly').textContent = `lub ${zl2(total / RATY)}/mies. w ${RATY} ratach 0%`;
+}
+$('#addToBag').onclick = () => {
+  const key = ['u', cfg.model, cfg.finish, cfg.install, cfg.care].join('-');
+  const ex = cart.find(l => l.key === key);
+  if (ex) ex.qty++; else cart.push({ key, kind: 'unit', model: cfg.model, finish: cfg.finish, install: cfg.install, care: cfg.care, qty: 1 });
+  cfg.accs.forEach(a => { const k = 'a-' + a, e = cart.find(l => l.key === k); if (e) e.qty++; else cart.push({ key: k, kind: 'acc', id: a, qty: 1 }); });
+  cfg.accs.clear();
+  saveCart();
+  const b = $('.bag'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+  location.hash = '#koszyk';
+};
+
+/* ---- Bag page ---- */
+function lineThumb(l) {
+  return l.kind === 'unit'
+    ? `<div class="unit on" data-finish="${l.finish}">${unitSVG()}</div>`
+    : `<span class="acc-ico">${ICONS[ACCS[l.id].icon]}</span>`;
+}
+function renderBag() {
+  const body = $('#bagBody');
+  if (!cart.length) {
+    $('#bagTitle').textContent = 'Twój koszyk jest pusty.'; $('#bagSub').textContent = '';
+    body.innerHTML = `<div class="empty"><p class="lede" style="margin:0 auto">Lato nie czeka. Skonfiguruj swojego Climoo X5 w mniej niż minutę.</p><a class="btn lg" href="#kup">Skonfiguruj X5</a></div>`;
+    return;
+  }
+  const t = totals();
+  $('#bagTitle').textContent = `Łącznie w koszyku: ${zl(t.total)}.`;
+  $('#bagSub').textContent = 'Darmowa dostawa i zwrot w ciągu 30 dni.';
+  body.innerHTML = `<div class="bag-grid"><div>${cart.map((l, i) => {
+    const isU = l.kind === 'unit';
+    const title = isU ? `Climoo ${MODELS[l.model].name} · ${FINISHES[l.finish]}` : ACCS[l.id].name;
+    const sub = isU ? `<ul>
+        <li><span>Urządzenie (${MODELS[l.model].kw}, do ${MODELS[l.model].area} m²)</span><span>${zl(MODELS[l.model].price)}</span></li>
+        <li><span>${INSTALLS[l.install].name}</span><span>${INSTALLS[l.install].price ? zl(INSTALLS[l.install].price) : '0 zł'}</span></li>
+        ${l.care !== 'none' ? `<li><span>${CARES[l.care].name}</span><span>${zl(CARES[l.care].price)}</span></li>` : ''}
+      </ul>` : `<ul><li><span>${ACCS[l.id].desc}</span></li></ul>`;
+    return `<div class="line">
+      <div class="line-img">${lineThumb(l)}</div>
+      <div>
+        <div class="line-top"><h3>${title}</h3><div class="lp">${zl(linePrice(l))}</div></div>
+        ${sub}
+        <div class="line-act">
+          <div class="qty"><button data-q="-1" data-i="${i}" aria-label="Mniej">−</button><span>${l.qty}</span><button data-q="1" data-i="${i}" aria-label="Więcej">+</button></div>
+          ${isU ? `<button class="linkbtn" data-edit="${i}">Zmień konfigurację</button>` : ''}
+          <button class="linkbtn" data-rm="${i}">Usuń</button>
+        </div>
+      </div></div>`;
+  }).join('')}</div>
+  <aside class="summary">${summaryHTML(true)}</aside></div>`;
+  $$('[data-q]', body).forEach(b => b.onclick = () => {
+    const l = cart[+b.dataset.i]; l.qty = Math.min(9, l.qty + +b.dataset.q);
+    if (l.qty <= 0) cart.splice(+b.dataset.i, 1);
+    saveCart(); renderBag();
+  });
+  $$('[data-rm]', body).forEach(b => b.onclick = () => { cart.splice(+b.dataset.rm, 1); saveCart(); renderBag(); toast('Usunięto z koszyka.'); });
+  $$('[data-edit]', body).forEach(b => b.onclick = () => {
+    const l = cart[+b.dataset.edit]; Object.assign(cfg, { model: l.model, finish: l.finish, install: l.install, care: l.care });
+    cart.splice(+b.dataset.edit, 1); saveCart(); location.hash = '#kup';
+  });
+  bindPromo(body);
+}
+function summaryHTML(withPromo, withLines) {
+  const t = totals();
+  return `<h3>Podsumowanie</h3>
+    ${withLines ? cart.map(l => `<div class="mini-line"><div class="mi">${lineThumb(l)}</div><div class="t">${l.kind === 'unit' ? `Climoo ${MODELS[l.model].name}<small>${FINISHES[l.finish]} · ${INSTALLS[l.install].name}${l.care !== 'none' ? ' · Care+' : ''}</small>` : ACCS[l.id].name}${l.qty > 1 ? `<small>Ilość: ${l.qty}</small>` : ''}</div><b>${zl(linePrice(l))}</b></div>`).join('') + '<div style="height:10px"></div>' : ''}
+    <div class="srow"><span>Wartość produktów</span><span>${zl(t.sub)}</span></div>
+    ${t.disc ? `<div class="srow disc"><span>Kod ${promo}</span><span>${zl(-t.disc)}</span></div>` : ''}
+    <div class="srow"><span>Dostawa</span><span>Bezpłatna</span></div>
+    <div class="srow total"><span>Do zapłaty</span><span>${zl(t.total)}</span></div>
+    <div class="srow"><span class="muted">w tym VAT 23%</span><span class="muted">${zl(t.vat)}</span></div>
+    <p class="monthly">lub ${zl2(t.total / RATY)}/mies. w ${RATY} ratach 0%</p>
+    ${withPromo ? `<div class="promo"><input id="promoIn" placeholder="Kod rabatowy" value="${promo || ''}" aria-label="Kod rabatowy"><button class="btn ghost sm" style="height:44px" id="promoBtn">${promo ? 'Usuń' : 'Zastosuj'}</button></div><p class="promo-msg" id="promoMsg">${promo ? 'Kod aktywny.' : 'Wypróbuj kod LATO26.'}</p>` : ''}
+    ${withPromo ? `<a class="btn block lg" href="#kasa">Przejdź do kasy</a>` : `<button class="btn block lg" id="placeOrder" type="submit" form="coForm">Zamawiam i płacę</button>`}
+    <div class="trust">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>7 lat gwarancji producenta</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12a8 8 0 1 0 3-6.3"/><path d="M4 4v4h4"/></svg>30 dni na zwrot, odbiór gratis</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Bezpieczna, szyfrowana płatność</div>
+    </div>`;
+}
+function bindPromo(root) {
+  const btn = $('#promoBtn', root); if (!btn) return;
+  const apply = () => {
+    if (promo) { promo = null; saveCart(); renderBag(); return; }
+    const code = $('#promoIn', root).value.trim().toUpperCase();
+    if (PROMOS[code]) { promo = code; saveCart(); renderBag(); toast(`Kod ${code} obniżył cenę o ${PROMOS[code] * 100}%.`); }
+    else { const m = $('#promoMsg', root); m.textContent = 'Ten kod jest nieprawidłowy lub wygasł.'; m.className = 'promo-msg err'; }
+  };
+  btn.onclick = apply;
+  $('#promoIn', root).onkeydown = e => { if (e.key === 'Enter') apply(); };
+}
+
+/* ---- Checkout ---- */
+const co = { date: null, slot: null, delivery: 'courier', pay: 'blik' };
+const DAYN = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'Sb'];
+const MONN = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+const SLOTS = ['8:00 do 12:00', '12:00 do 16:00', '16:00 do 20:00'];
+function nextDays() {
+  const out = []; const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + 3);
+  let n = 0;
+  while (out.length < 14) {
+    if (d.getDay() !== 0) out.push({ iso: d.toISOString().slice(0, 10), d: new Date(d), full: (n * 7 + 3) % 5 === 0 });
+    d.setDate(d.getDate() + 1); n++;
+  }
+  return out;
+}
+const fmtDate = iso => { const d = new Date(iso + 'T12:00:00'); return `${d.getDate()} ${MONN[d.getMonth()]}`; };
+function renderCheckout() {
+  const inst = hasInstall();
+  $('#addrLegend').textContent = inst ? 'Adres montażu' : 'Adres dostawy';
+  $('#addrNote').textContent = inst ? 'Instalator przyjedzie pod ten adres. Tu dostarczymy też urządzenie.' : 'Tu dostarczymy twoje zamówienie.';
+  $('#whenLegend').textContent = inst ? 'Termin montażu' : 'Sposób dostawy';
+  $('#whenNote').textContent = inst ? 'Wybierz dzień i przedział godzin. Instalator zadzwoni dzień wcześniej.' : 'Wysyłka w 24 godziny od zaksięgowania płatności.';
+  const wb = $('#whenBody');
+  if (inst) {
+    wb.innerHTML = `<div class="chips" role="radiogroup" aria-label="Dzień">${nextDays().map(x =>
+      `<button type="button" class="chip-d" role="radio" data-date="${x.iso}" aria-checked="${co.date === x.iso}" ${x.full ? 'disabled title="Brak wolnych terminów"' : ''}><small>${DAYN[x.d.getDay()]}</small><b>${x.d.getDate()}</b><small>${MONN[x.d.getMonth()].slice(0, 3)}</small></button>`).join('')}</div>
+      <div class="slots" role="radiogroup" aria-label="Godzina">${SLOTS.map(s => `<button type="button" class="slot-b" role="radio" data-slot="${s}" aria-checked="${co.slot === s}">${s}</button>`).join('')}</div>`;
+    $$('[data-date]', wb).forEach(b => b.onclick = () => { co.date = b.dataset.date; $$('[data-date]', wb).forEach(x => x.setAttribute('aria-checked', x === b)); $('#whenErr').style.display = 'none'; });
+    $$('[data-slot]', wb).forEach(b => b.onclick = () => { co.slot = b.dataset.slot; $$('[data-slot]', wb).forEach(x => x.setAttribute('aria-checked', x === b)); $('#whenErr').style.display = 'none'; });
+  } else {
+    wb.innerHTML = `<div class="opts" role="radiogroup">
+      <button type="button" class="opt" role="radio" data-del="courier" aria-checked="${co.delivery === 'courier'}"><span><b>Kurier z wniesieniem</b><small>Dostawa w 1 do 2 dni roboczych</small></span><span class="p">Bezpłatnie</span></button>
+      <button type="button" class="opt" role="radio" data-del="pickup" aria-checked="${co.delivery === 'pickup'}"><span><b>Odbiór w Climoo Studio</b><small>Warszawa, ul. Chłodna 22 · od jutra</small></span><span class="p">Bezpłatnie</span></button></div>`;
+    $$('[data-del]', wb).forEach(b => b.onclick = () => { co.delivery = b.dataset.del; $$('[data-del]', wb).forEach(x => x.setAttribute('aria-checked', x === b)); });
+  }
+  $('#ratyInfo').textContent = `${RATY} × ${zl2(totals().total / RATY)}`;
+  $('#coSummary').innerHTML = summaryHTML(false, true);
+}
+// payment switching
+$$('#payOpts input[name=pay]').forEach(r => r.onchange = () => {
+  co.pay = r.value; $$('.pay-opt').forEach(p => p.classList.toggle('on', p.dataset.pay === r.value));
+});
+$('#fInvoice').onchange = e => { $('#invoiceBox').hidden = !e.target.checked; };
+// input masks
+const mask = (id, fn) => $(id).addEventListener('input', e => { const el = e.target, v = fn(el.value); if (v !== el.value) el.value = v; el.closest('.inp').classList.remove('bad'); });
+mask('#fZip', v => { const d = v.replace(/\D/g, '').slice(0, 5); return d.length > 2 ? d.slice(0, 2) + '-' + d.slice(2) : d; });
+mask('#fBlik', v => { const d = v.replace(/\D/g, '').slice(0, 6); return d.length > 3 ? d.slice(0, 3) + ' ' + d.slice(3) : d; });
+mask('#fCard', v => v.replace(/\D/g, '').slice(0, 16).replace(/(\d{4})(?=\d)/g, '$1 '));
+mask('#fExp', v => { const d = v.replace(/\D/g, '').slice(0, 4); return d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d; });
+mask('#fCvc', v => v.replace(/\D/g, '').slice(0, 3));
+mask('#fNip', v => v.replace(/[^\d]/g, '').slice(0, 10));
+mask('#fPhone', v => v.replace(/[^\d+ ]/g, '').slice(0, 15));
+['#fEmail', '#fFirst', '#fLast', '#fStreet', '#fCity', '#fCompany'].forEach(id => $(id).addEventListener('input', e => e.target.closest('.inp').classList.remove('bad')));
+$('#fTerms').onchange = () => $('#cTerms').classList.remove('bad');
+
+const V = {
+  req: v => v.trim().length > 1,
+  email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()),
+  phone: v => v.replace(/\D/g, '').replace(/^48/, '').length === 9,
+  zip: v => /^\d{2}-\d{3}$/.test(v),
+  nip: v => /^\d{10}$/.test(v),
+  reqinv: v => v.trim().length > 1,
+  blik: v => /^\d{6}$/.test(v.replace(/\s/g, '')),
+  card: v => /^\d{16}$/.test(v.replace(/\s/g, '')),
+  exp: v => { const m = /^(\d{2})\/(\d{2})$/.exec(v); if (!m) return false; const mm = +m[1], yy = 2000 + +m[2]; if (mm < 1 || mm > 12) return false; const now = new Date(); return yy > now.getFullYear() || (yy === now.getFullYear() && mm >= now.getMonth() + 1); },
+  cvc: v => /^\d{3}$/.test(v)
+};
+function validate() {
+  let first = null;
+  const check = el => {
+    const ok = V[el.dataset.v](el.value);
+    el.closest('.inp').classList.toggle('bad', !ok);
+    if (!ok && !first) first = el;
+  };
+  ['#fEmail', '#fPhone', '#fFirst', '#fLast', '#fStreet', '#fZip', '#fCity'].forEach(id => check($(id)));
+  if ($('#fInvoice').checked) ['#fNip', '#fCompany'].forEach(id => check($(id)));
+  if (hasInstall() && (!co.date || !co.slot)) { $('#whenErr').style.display = 'block'; if (!first) first = $('#fsWhen'); }
+  if (co.pay === 'blik') check($('#fBlik'));
+  if (co.pay === 'card') ['#fCard', '#fExp', '#fCvc'].forEach(id => check($(id)));
+  if (!$('#fTerms').checked) { $('#cTerms').classList.add('bad'); if (!first) first = $('#fTerms'); }
+  $('#coErr').classList.toggle('show', !!first);
+  if (first) { first.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (first.focus) setTimeout(() => first.focus({ preventScroll: true }), 400); }
+  return !first;
+}
+$('#coForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!validate()) return;
+  const btn = $('#placeOrder'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Przetwarzanie płatności';
+  setTimeout(() => {
+    const t = totals();
+    lastOrder = {
+      no: 'CL-' + new Date().getFullYear().toString().slice(2) + String(Math.floor(100000 + Math.random() * 899999)),
+      name: $('#fFirst').value.trim(), email: $('#fEmail').value.trim(),
+      addr: `${$('#fStreet').value.trim()}, ${$('#fZip').value} ${$('#fCity').value.trim()}`,
+      install: hasInstall(), date: co.date, slot: co.slot, delivery: co.delivery, pay: co.pay,
+      total: t.total, lines: cart.map(l => l.kind === 'unit' ? `Climoo ${MODELS[l.model].name} · ${FINISHES[l.finish]}${l.qty > 1 ? ' × ' + l.qty : ''}` : ACCS[l.id].name + (l.qty > 1 ? ' × ' + l.qty : ''))
+    };
+    store.set('climoo.order', lastOrder);
+    cart = []; promo = null; saveCart();
+    $('#coForm').reset(); co.date = co.slot = null; co.pay = 'blik';
+    $$('.pay-opt').forEach(p => p.classList.toggle('on', p.dataset.pay === 'blik')); $('#invoiceBox').hidden = true;
+    location.hash = '#zamowienie';
+  }, 1800);
+});
+
+/* ---- Done ---- */
+function renderDone() {
+  const o = lastOrder;
+  const PAYN = { blik: 'BLIK', card: 'Karta płatnicza', raty: `Raty 0% (${RATY} × ${zl2(o.total / RATY)})`, transfer: 'Przelew tradycyjny' };
+  const steps = o.install ? [
+    ['Zamówienie przyjęte', 'Potwierdzenie wysłaliśmy na ' + o.email, true],
+    ['Wideoweryfikacja', 'Technik zadzwoni w ciągu 24 godzin, by umówić 15-minutową rozmowę.'],
+    ['Montaż', `${fmtDate(o.date)}, ${o.slot}. Urządzenie przywiezie instalator.`],
+    ['Pierwszy chłodny wieczór', 'Pobierz aplikację Climoo Home, by sparować X5 od razu po montażu.']
+  ] : [
+    ['Zamówienie przyjęte', 'Potwierdzenie wysłaliśmy na ' + o.email, true],
+    ['Pakowanie', 'Wysyłka w ciągu 24 godzin.'],
+    [o.delivery === 'pickup' ? 'Odbiór w Climoo Studio' : 'Dostawa kurierem', o.delivery === 'pickup' ? 'Powiadomimy cię SMS-em, gdy paczka będzie gotowa.' : 'Kurier wniesie przesyłkę pod wskazany adres.'],
+    ['Montaż', 'Pamiętaj, że instalację musi wykonać osoba z uprawnieniami F-gaz.']
+  ];
+  $('#doneBody').innerHTML = `
+    <svg class="check" viewBox="0 0 96 96" fill="none" aria-hidden="true"><circle cx="48" cy="48" r="45" stroke="#0071e3" stroke-width="3"/><path d="M30 49l12 12 24-26" stroke="#0071e3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h1 class="h2">Dziękujemy, ${o.name.replace(/[<>&"]/g, '')}.<br><span class="grad">Chłód jest w drodze.</span></h1>
+    <p class="lede">Twoje zamówienie zostało złożone. Wszystko, co ważne, znajdziesz też w e-mailu.</p>
+    <span class="order-no">Numer zamówienia: ${o.no}</span>
+    <ol class="timeline">${steps.map(s => `<li class="${s[2] ? 'ok' : ''}"><b>${s[0]}</b><span>${s[1].replace(/[<>&"]/g, '')}</span></li>`).join('')}</ol>
+    <div class="done-sum">
+      ${o.lines.map(l => `<div class="srow"><span>${l}</span></div>`).join('')}
+      <div class="srow"><span class="muted">Adres</span><span class="muted" style="text-align:right">${o.addr.replace(/[<>&"]/g, '')}</span></div>
+      <div class="srow"><span class="muted">Płatność</span><span class="muted">${PAYN[o.pay]}</span></div>
+      <div class="srow total"><span>Zapłacono</span><span>${zl(o.total)}</span></div>
+    </div>
+    <div class="hero-cta" style="margin-top:40px"><a class="btn lg" href="#">Wróć do Climoo X5</a></div>`;
+}
+
+/* ---------- Router ---------- */
+const ROUTES = { '#kup': 'buy', '#koszyk': 'bag', '#kasa': 'checkout', '#zamowienie': 'done' };
+let currentPage = null;
+function route() {
+  const [h, q] = location.hash.split('?');
+  let page = ROUTES[h] || 'home';
+  if (page === 'checkout' && !cart.length) { location.replace('#koszyk'); return; }
+  if (page === 'done' && !lastOrder) { location.replace('#'); return; }
+  const prev = currentPage; currentPage = page;
+  $$('.page').forEach(p => p.hidden = p.dataset.page !== page);
+  document.body.dataset.page = page;
+  $('#buybar').setAttribute('aria-hidden', page !== 'buy');
+  if (page === 'buy') {
+    const m = new URLSearchParams(q || '').get('model');
+    if (MODELS[m]) { cfg.model = m; const r = $('#bArea'); r.value = Math.min(MODELS[m].area - 5, 70); r.oninput(); cfg.model = m; }
+    paintBuy();
+  }
+  if (page === 'bag') renderBag();
+  if (page === 'checkout') renderCheckout();
+  if (page === 'done') renderDone();
+  if (page === 'home') {
+    const target = h && h.length > 1 ? document.getElementById(decodeURIComponent(h.slice(1))) : null;
+    if (target) requestAnimationFrame(() => target.scrollIntoView());
+    else if (prev && prev !== 'home') scrollTo(0, 0);
+    requestAnimationFrame(onScroll);
+  } else scrollTo({ top: 0, behavior: 'instant' });
+  airs.forEach(a => { a.resize(); if (a.vis) a.loop(); });
+  document.title = { home: 'Climoo X5 · Cisza, która chłodzi', buy: 'Kup Climoo X5', bag: 'Koszyk · Climoo', checkout: 'Kasa · Climoo', done: 'Dziękujemy · Climoo' }[page];
+}
+addEventListener('hashchange', route);
+buildBuy(); paintBagCount(); route();
+requestAnimationFrame(() => document.documentElement.classList.add('loaded'));
+})();
+</script>
+</body>
+</html>

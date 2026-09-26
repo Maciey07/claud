@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kup Climoo X5 · Climoo</title>
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/climoo.css">
+</head>
+<body data-page="buy">
+<div id="gnav"></div>
+<main class="page-store">
+  <div class="wide">
+    <div class="store-head">
+      <nav class="store-crumbs" aria-label="Kroki zakupu"><span class="on">1. Konfiguracja</span><span>›</span><a href="koszyk.html">2. Koszyk</a><span>›</span><span>3. Kasa</span></nav>
+      <h1 class="h3">Kup Climoo X5</h1>
+      <p>Darmowa dostawa · Montaż w 72 godziny · 30 dni na zwrot</p>
+    </div>
+    <div class="buy">
+      <div class="buy-vis" id="buyVis" data-finish="white" data-view="render">
+        <span class="wall-label" id="buyLabel">Climoo X5 35 · Arktyczna biel</span>
+        <div class="gal-render stage">
+          <div class="unit on open" data-unit data-finish="white" id="buyUnit" data-temp="22°"></div>
+          <canvas class="air" data-air="light"></canvas>
+        </div>
+        <div class="gal-photo"><img src="img/x5-detal.webp" alt="Climoo X5 w kolorze Arktyczna biel zamontowany na ścianie przy oknie" width="1536" height="1024"><span class="gal-note">Zdjęcie: Arktyczna biel</span></div>
+        <div class="gal-tabs" id="galTabs" role="group" aria-label="Widok produktu">
+          <button type="button" data-view="render" aria-pressed="true">Twój kolor</button>
+          <button type="button" data-view="photo" aria-pressed="false">Na ścianie</button>
+        </div>
+        <div class="fit"><span id="buyFit">Do 45 m²</span><span id="buyKw">3,5 kW chłodzenia · 4,0 kW grzania</span></div>
+      </div>
+      <div>
+        <div class="opt-group">
+          <h3>Model. <span>Który pasuje do twojego pokoju?</span></h3>
+          <p>&nbsp;</p>
+          <div class="helper">
+            <label for="bArea">Metraż pomieszczenia <output id="bAreaO">35 m²</output></label>
+            <input type="range" id="bArea" min="8" max="70" value="35">
+            <p class="hint" id="bHint">Polecamy X5 35.</p>
+          </div>
+          <div class="opts" role="radiogroup" aria-label="Model" id="optModel"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Wykończenie. <span>Wybierz kolor.</span></h3>
+          <p id="finName">Arktyczna biel</p>
+          <div class="fin-opts" role="radiogroup" aria-label="Kolor" id="optFin"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Montaż. <span>Zrobimy to za ciebie.</span></h3>
+          <p>Certyfikowany instalator, termin wybierasz w kasie.</p>
+          <div class="opts" role="radiogroup" aria-label="Montaż" id="optInst"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Climoo Care+. <span>Spokój na lata.</span></h3>
+          <p>Coroczny przegląd, czyszczenie i nowe filtry przez 5 lat.</p>
+          <div class="opts" role="radiogroup" aria-label="Ochrona" id="optCare"></div>
+        </div>
+        <div class="opt-group">
+          <h3>Akcesoria. <span>Opcjonalnie.</span></h3>
+          <p>Dodawane do koszyka jako osobne pozycje.</p>
+          <div class="opts" id="optAcc"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="buybar" id="buybar">
+  <div class="wide">
+    <div class="sum"><b id="bbTotal">6 299 zł</b><span id="bbMonthly">lub 314,95 zł/mies. w 20 ratach 0%</span><small id="bbEta"></small></div>
+    <div class="perks">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>Darmowa dostawa</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>7 lat gwarancji</div>
+    </div>
+    <button class="btn" id="addToBag">Dodaj do koszyka</button>
+  </div>
+</div>
+<div id="footer"></div>
+<script src="assets/climoo.js"></script>
+</body>
+</html>

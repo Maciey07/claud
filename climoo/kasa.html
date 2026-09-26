@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasa · Climoo</title>
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/climoo.css">
+</head>
+<body data-page="checkout">
+<div id="gnav"></div>
+<main class="page-store">
+  <div class="wide">
+    <div class="store-head">
+      <nav class="store-crumbs" aria-label="Kroki zakupu"><a href="kup.html">1. Konfiguracja</a><span>›</span><a href="koszyk.html">2. Koszyk</a><span>›</span><span class="on">3. Kasa</span></nav>
+      <h1 class="h3">Kasa.</h1>
+      <p>Jeszcze tylko cztery kroki. Zajmie ci to około dwóch minut.</p>
+    </div>
+    <button type="button" class="sum-toggle" id="sumToggle" aria-expanded="false" aria-controls="coSummary"><span id="sumToggleLabel">Pokaż podsumowanie</span><b id="sumToggleTotal"></b></button>
+    <div class="bag-grid co-grid" style="padding-bottom:120px">
+      <form id="coForm" novalidate>
+        <fieldset>
+          <legend><i>1</i>Kontakt</legend>
+          <p class="fs-note">Na ten adres wyślemy potwierdzenie i link do śledzenia.</p>
+          <div class="fgrid">
+            <div class="inp"><input id="fEmail" type="email" placeholder=" " autocomplete="email" data-v="email"><label for="fEmail">E-mail</label><span class="emsg">Podaj poprawny adres e-mail.</span></div>
+            <div class="inp"><input id="fPhone" type="tel" placeholder=" " autocomplete="tel" data-v="phone"><label for="fPhone">Telefon</label><span class="emsg">Podaj 9-cyfrowy numer telefonu.</span></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend><i>2</i><span id="addrLegend">Adres montażu</span></legend>
+          <p class="fs-note" id="addrNote">Instalator przyjedzie pod ten adres.</p>
+          <div class="fgrid">
+            <div class="inp"><input id="fFirst" placeholder=" " autocomplete="given-name" data-v="req"><label for="fFirst">Imię</label><span class="emsg">Wpisz imię.</span></div>
+            <div class="inp"><input id="fLast" placeholder=" " autocomplete="family-name" data-v="req"><label for="fLast">Nazwisko</label><span class="emsg">Wpisz nazwisko.</span></div>
+            <div class="inp full"><input id="fStreet" placeholder=" " autocomplete="street-address" data-v="req"><label for="fStreet">Ulica, numer domu i mieszkania</label><span class="emsg">Wpisz adres.</span></div>
+            <div class="inp"><input id="fZip" placeholder=" " autocomplete="postal-code" inputmode="numeric" data-v="zip" maxlength="6"><label for="fZip">Kod pocztowy</label><span class="emsg">Format: 00-000.</span></div>
+            <div class="inp"><input id="fCity" placeholder=" " autocomplete="address-level2" data-v="req"><label for="fCity">Miejscowość</label><span class="emsg">Wpisz miejscowość.</span></div>
+          </div>
+          <label class="consent" style="margin-top:18px"><input type="checkbox" id="fInvoice"> Chcę fakturę VAT na firmę</label>
+          <div class="fgrid" id="invoiceBox" hidden style="margin-top:14px">
+            <div class="inp"><input id="fNip" placeholder=" " inputmode="numeric" data-v="nip" maxlength="10"><label for="fNip">NIP</label><span class="emsg">NIP ma 10 cyfr.</span></div>
+            <div class="inp"><input id="fCompany" placeholder=" " data-v="reqinv"><label for="fCompany">Nazwa firmy</label><span class="emsg">Wpisz nazwę firmy.</span></div>
+          </div>
+        </fieldset>
+        <fieldset id="fsWhen" tabindex="-1">
+          <legend><i>3</i><span id="whenLegend">Termin montażu</span></legend>
+          <p class="fs-note" id="whenNote"></p>
+          <div id="whenBody"></div>
+          <p id="whenErr" role="alert" style="display:none;color:var(--err);font-size:13px;margin-top:8px">Wybierz dzień i godzinę montażu.</p>
+        </fieldset>
+        <fieldset>
+          <legend><i>4</i>Płatność</legend>
+          <p class="fs-note">Płatność jest szyfrowana. Obciążymy cię dopiero po złożeniu zamówienia.</p>
+          <div class="pay" id="payOpts">
+            <div class="pay-opt on" data-pay="blik">
+              <label><input type="radio" name="pay" value="blik" checked><b>BLIK</b><small>Natychmiast</small></label>
+              <div class="pay-body"><p>Wpisz 6-cyfrowy kod z aplikacji bankowej.</p><div class="inp" style="max-width:220px"><input id="fBlik" placeholder=" " inputmode="numeric" maxlength="7" autocomplete="off" data-v="blik"><label for="fBlik">Kod BLIK</label><span class="emsg">Kod ma 6 cyfr.</span></div></div>
+            </div>
+            <div class="pay-opt" data-pay="card">
+              <label><input type="radio" name="pay" value="card"><b>Karta płatnicza</b><small>Visa, Mastercard</small></label>
+              <div class="pay-body"><div class="fgrid">
+                <div class="inp full"><input id="fCard" placeholder=" " inputmode="numeric" maxlength="19" autocomplete="off" data-v="card"><label for="fCard">Numer karty</label><span class="emsg">Numer karty ma 16 cyfr.</span></div>
+                <div class="inp"><input id="fExp" placeholder=" " inputmode="numeric" maxlength="5" autocomplete="off" data-v="exp"><label for="fExp">Ważna do (MM/RR)</label><span class="emsg">Podaj poprawną datę.</span></div>
+                <div class="inp"><input id="fCvc" placeholder=" " inputmode="numeric" maxlength="3" autocomplete="off" data-v="cvc"><label for="fCvc">CVC</label><span class="emsg">3 cyfry z tyłu karty.</span></div>
+              </div></div>
+            </div>
+            <div class="pay-opt" data-pay="raty">
+              <label><input type="radio" name="pay" value="raty"><b>Raty 0%</b><small id="ratyInfo"></small></label>
+              <div class="pay-body"><p>20 rat 0%, RRSO 0%. Po złożeniu zamówienia przeprowadzimy cię przez krótki wniosek online. Decyzja zwykle w 5 minut.</p></div>
+            </div>
+            <div class="pay-opt" data-pay="transfer">
+              <label><input type="radio" name="pay" value="transfer"><b>Przelew tradycyjny</b><small>1 do 2 dni</small></label>
+              <div class="pay-body"><p>Dane do przelewu otrzymasz w potwierdzeniu. Termin montażu rezerwujemy na 48 godzin.</p></div>
+            </div>
+          </div>
+          <div class="demo-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Wersja demonstracyjna. Climoo to marka koncepcyjna, żadne dane nie są nigdzie wysyłane.</div>
+          <label class="consent" id="cTerms"><input type="checkbox" id="fTerms"> Akceptuję regulamin sklepu i politykę prywatności Climoo.</label>
+          <label class="consent"><input type="checkbox" id="fNews"> Chcę otrzymywać porady dotyczące oszczędzania energii (maks. 1 e-mail w miesiącu).</label>
+          <div class="err-banner" id="coErr" role="alert">Uzupełnij zaznaczone pola, aby złożyć zamówienie.</div>
+          <button class="btn block lg place-order mobile-submit" type="submit">Zamawiam i płacę</button>
+        </fieldset>
+      </form>
+      <aside class="summary" id="coSummary" aria-label="Podsumowanie zamówienia"></aside>
+    </div>
+  </div>
+</main>
+<div id="footer"></div>
+<script src="assets/climoo.js"></script>
+</body>
+</html>

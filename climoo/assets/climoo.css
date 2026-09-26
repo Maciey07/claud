@@ -51,7 +51,7 @@ a:hover{text-decoration:underline}
 
 /* ===== Global nav ===== */
 .gnav{position:relative;z-index:60;height:48px;background:rgba(250,250,252,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
-body:not([data-page="home"]) .gnav{position:sticky;top:0;border-bottom:1px solid rgba(0,0,0,.06)}
+body:not([data-page="home"]) .gnav{position:sticky;top:env(safe-area-inset-top,0px);border-bottom:1px solid rgba(0,0,0,.06)}
 .gnav .wide{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .logo{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:700;letter-spacing:-.03em;font-size:19px}
 .logo:hover{text-decoration:none}
@@ -67,7 +67,7 @@ body:not([data-page="home"]) .gnav{position:sticky;top:0;border-bottom:1px solid
 @keyframes bump{40%{transform:scale(1.25)}}
 
 /* ===== Local nav ===== */
-.lnav{position:sticky;top:0;z-index:50;height:52px;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.lnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:52px;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
 .lnav .wide{height:100%;display:flex;align-items:center;justify-content:space-between}
 .lnav-title{font-size:21px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
 .lnav-title:hover{text-decoration:none}
@@ -397,7 +397,7 @@ footer .legal{border-top:1px solid var(--line);padding-top:16px;display:flex;jus
 .acc-ico svg{width:24px;height:24px}
 .buybar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:1px solid rgba(0,0,0,.08);transform:translateY(100%);visibility:hidden;transition:transform .5s var(--ease),visibility 0s .5s}
 body[data-page="buy"] .buybar{transform:none;visibility:visible;transition:transform .5s var(--ease)}
-.buybar .wide{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0}
+.buybar .wide{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0 calc(16px + env(safe-area-inset-bottom,0px))}
 .buybar .sum b{font-size:21px;letter-spacing:-.02em;display:block}
 .buybar .sum span{font-size:13px;color:var(--ink-2)}
 .buybar .perks{display:flex;gap:28px;font-size:12px;color:var(--ink-2)}

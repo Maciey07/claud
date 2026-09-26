@@ -734,7 +734,7 @@ function done() {
       <div class="srow"><span class="muted">Płatność</span><span class="muted">${PAYN[o.pay]}</span></div>
       <div class="srow total"><span>${o.pay === 'transfer' ? 'Do zapłaty przelewem' : 'Zapłacono'}</span><span>${zl(o.total)}</span></div>
     </div>
-    <div class="hero-cta" style="margin-top:40px"><a class="btn lg" href="index.html">Wróć do Climoo X5</a><button class="btn lg ghost" onclick="print()">Drukuj potwierdzenie</button></div>`;
+    <div class="hero-cta" style="margin-top:40px"><a class="btn lg" href="index.html">Wróć do Climoo X5</a><a class="btn lg ghost" href="kup.html">Kup kolejny X5</a></div>`;
 }
 
 ({ home, buy, bag, checkout, done })[PAGE]?.();

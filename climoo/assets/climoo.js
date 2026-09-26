@@ -70,11 +70,12 @@ const ICONS = {
   cover: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10 12 4l9 6"/><rect x="5" y="10" width="14" height="10" rx="1"/><circle cx="12" cy="15" r="3"/></svg>'
 };
 const ACCS = {
-  dial: { name: 'Pilot Climoo Dial', desc: 'Aluminiowe pokrętło z ekranem e-ink.', price: 249, icon: 'dial' },
-  sense: { name: 'Czujnik Climoo Sense', desc: 'Mierzy temperaturę tam, gdzie siedzisz.', price: 199, icon: 'sense' },
+  dial: { name: 'Dodatkowy pilot Climoo Remote', desc: 'Podświetlany ekran, USB-C, Bluetooth i podczerwień.', price: 189, icon: 'dial', img: 'img/pilot.webp' },
+  sense: { name: 'Czujnik Climoo Sense', desc: 'Mierzy temperaturę tam, gdzie siedzisz. Bateria na 2 lata.', price: 199, icon: 'sense', img: 'img/czujnik.webp' },
   filter: { name: 'Zestaw filtrów na rok', desc: 'HEPA H13 i filtr węglowy.', price: 149, icon: 'filter' },
   cover: { name: 'Osłona jednostki zewnętrznej', desc: 'Stal lakierowana proszkowo, chroni przed śniegiem.', price: 399, icon: 'cover' }
 };
+const accVisual = id => ACCS[id].img ? `<img src="${ACCS[id].img}" alt="">` : ICONS[ACCS[id].icon];
 const PROMOS = { LATO26: 0.05, CLIMOO10: 0.10 };
 const RATY = 20;
 const recommend = a => a <= 30 ? '25' : a <= 45 ? '35' : '50';
@@ -154,6 +155,11 @@ if (siteNav) {
   const onNavScroll = () => siteNav.classList.toggle('scrolled', scrollY > 8);
   addEventListener('scroll', onNavScroll, { passive: true }); onNavScroll();
 }
+document.addEventListener('click', e => {
+  const st = e.target.closest('.store'); if (!st) return;
+  e.preventDefault();
+  toast(`Climoo Home to aplikacja koncepcyjna. W ${st.dataset.store} pojawi się razem z premierą X5.`);
+});
 if (!$('#toast')) document.body.insertAdjacentHTML('beforeend', '<div class="toast" id="toast" role="status" aria-live="polite"></div>');
 
 function paintBagCount() {
@@ -335,6 +341,7 @@ function home() {
   const marq = $('#marq');
   const navLinks = $$('#navLinks a'), navInd = $('#navLinks .nav-ind'), navProg = $('#navProgress');
   let navActive = null;
+  const homeSections = $$('main > section[id]');
   function moveInd(a) {
     if (!a || !a.offsetWidth) { navInd.classList.remove('show'); return; }
     navInd.style.width = a.offsetWidth + 'px'; navInd.style.transform = `translateX(${a.offsetLeft}px)`; navInd.classList.add('show');
@@ -357,8 +364,10 @@ function home() {
     if (storyAir) storyAir.power = sp >= 0.66 ? 2 : 1;
     const mr = marq.getBoundingClientRect();
     marq.style.transform = `translateX(${-(vh - mr.top) * 0.35}px)`;
-    let active = null;
-    navLinks.forEach(a => { const el = document.getElementById(a.dataset.sec); if (el && el.getBoundingClientRect().top < vh * 0.4) active = a; });
+    // Podświetlamy link tylko wtedy, gdy bieżąca sekcja jest w menu.
+    let cur = null;
+    homeSections.forEach(sec => { if (sec.getBoundingClientRect().top < vh * 0.4) cur = sec.id; });
+    let active = navLinks.find(a => a.dataset.sec === cur) || null;
     if (active && !active.offsetWidth) active = null;
     if (active !== navActive) { navLinks.forEach(a => a.classList.toggle('on', a === active)); if (active) active.setAttribute('aria-current', 'location'); navLinks.forEach(a => { if (a !== active) a.removeAttribute('aria-current'); }); moveInd(active); navActive = active; }
     const doc = document.documentElement;
@@ -404,18 +413,15 @@ function home() {
   $$('#cMode button').forEach(b => b.onclick = () => { cMode = b.dataset.m; $$('#cMode button').forEach(x => x.setAttribute('aria-pressed', x === b)); calc(); });
   calc();
 
-  /* app mock */
-  let appT = 22, appM = 'cool';
-  const MODECOL = { cool: ['#5ac8fa', '#0a84ff', 'Chłodzenie'], heat: ['#ffb340', '#ff5e3a', 'Grzanie'], auto: ['#7ee0b0', '#1a9e55', 'Auto'], quiet: ['#b9a8ff', '#5b3df5', 'Tryb nocny · 17 dB'] };
-  function paintApp() {
-    $('#dialArc').setAttribute('stroke-dasharray', `${Math.max(8, 433.5 * (appT - 16) / 14)} 578`);
-    $('#appT').textContent = appT + '°';
-    const c = MODECOL[appM]; $('#dG1').setAttribute('stop-color', c[0]); $('#dG2').setAttribute('stop-color', c[1]); $('#appMode').textContent = c[2];
-  }
-  $('#appPlus').onclick = () => { appT = Math.min(30, appT + 1); paintApp(); };
-  $('#appMinus').onclick = () => { appT = Math.max(16, appT - 1); paintApp(); };
-  $$('#appModes button').forEach(b => b.onclick = () => { appM = b.dataset.m; $$('#appModes button').forEach(x => x.setAttribute('aria-pressed', x === b)); paintApp(); });
-  paintApp();
+  /* remote: podświetlanie przycisku na zdjęciu */
+  const remKeys = $$('#remKeys button'), remRing = $('#remRing');
+  const setKey = k => {
+    remKeys.forEach(x => x.setAttribute('aria-pressed', x === k));
+    const d = k.dataset;
+    Object.assign(remRing.style, { left: d.x + '%', top: d.y + '%', width: d.w + '%', height: d.h + '%', borderRadius: d.r });
+  };
+  remKeys.forEach(k => { k.onclick = () => setKey(k); k.onmouseenter = () => setKey(k); k.onfocus = () => setKey(k); });
+  if (remKeys.length) setKey(remKeys[0]);
 
   /* places */
   carousel($('#placeTrack'), $('#plPrev'), $('#plNext'), $('#plCount'));
@@ -501,7 +507,7 @@ function buy() {
     finish: FINISHES[q.get('finish')] ? q.get('finish') : 'white',
     install: INSTALLS[q.get('install')] ? q.get('install') : 'standard',
     care: CARES[q.get('care')] ? q.get('care') : 'none',
-    accs: new Set()
+    accs: new Set(q.getAll('acc').filter(k => ACCS[k]))
   };
   const optHTML = (key, val, o) => `<button class="opt" role="radio" data-k="${key}" data-v="${val}" aria-checked="false">
     <span>${o.tag ? `<span class="tag">${o.tag}</span>` : ''}<b>${o.name}</b><small>${o.desc}</small></span>
@@ -515,7 +521,7 @@ function buy() {
   $('#optInst').innerHTML = Object.entries(INSTALLS).map(([k, o]) => optHTML('install', k, o)).join('');
   $('#optCare').innerHTML = Object.entries(CARES).map(([k, o]) => optHTML('care', k, o)).join('');
   $('#optAcc').innerHTML = Object.entries(ACCS).map(([k, a]) =>
-    `<label class="check-opt"><input type="checkbox" value="${k}"><span class="acc-ico">${ICONS[a.icon]}</span><span class="t"><b>${a.name}</b><small>${a.desc}</small></span><span class="p">${zl(a.price)}</span></label>`).join('');
+    `<label class="check-opt"><input type="checkbox" value="${k}"><span class="acc-ico">${accVisual(k)}</span><span class="t"><b>${a.name}</b><small>${a.desc}</small></span><span class="p">${zl(a.price)}</span></label>`).join('');
   $$('[role="radio"]', $('.buy')).forEach(b => b.onclick = () => { cfg[b.dataset.k] = b.dataset.v; paint(); });
   $$('#optAcc input').forEach(c => c.onchange = () => { c.checked ? cfg.accs.add(c.value) : cfg.accs.delete(c.value); paint(); });
   const bArea = $('#bArea');
@@ -530,6 +536,7 @@ function buy() {
   $$('#galTabs button').forEach(b => b.onclick = () => { vis.dataset.view = b.dataset.view; $$('#galTabs button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
   function paint() {
     $$('[role="radio"]', $('.buy')).forEach(b => b.setAttribute('aria-checked', cfg[b.dataset.k] === b.dataset.v));
+    $$('#optAcc input').forEach(c => { c.checked = cfg.accs.has(c.value); });
     const rec = recommend(+bArea.value);
     $('#bAreaO').textContent = bArea.value + ' m²'; setRangeFill(bArea);
     $$('[data-rec]').forEach(t => t.textContent = t.dataset.rec === rec ? 'Polecany dla twojego metrażu' : '');
@@ -562,7 +569,7 @@ function buy() {
    ===================================================== */
 const lineThumb = l => l.kind === 'unit'
   ? `<img class="thumb-photo" src="img/x5-${l.finish}.webp" alt="Climoo X5 w kolorze ${FINISHES[l.finish]}" loading="lazy">`
-  : `<span class="acc-ico">${ICONS[ACCS[l.id].icon]}</span>`;
+  : `<span class="acc-ico">${accVisual(l.id)}</span>`;
 const lineTitle = l => l.kind === 'unit' ? `Climoo ${MODELS[l.model].name} · ${FINISHES[l.finish]}` : ACCS[l.id].name;
 const TRUST = `<div class="trust">
   <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>7 lat gwarancji producenta</div>
@@ -615,7 +622,7 @@ function bag() {
           </div></div>`;
       }).join('')}
       ${missing.length ? `<div class="upsell"><h3>Często dokupowane z X5</h3><div class="upsell-grid">${missing.map(a => `
-        <div class="ups"><span class="acc-ico">${ICONS[ACCS[a].icon]}</span><div class="t"><b>${ACCS[a].name}</b><small>${zl(ACCS[a].price)}</small></div><button class="btn ghost sm" data-add="${a}">Dodaj</button></div>`).join('')}</div></div>` : ''}
+        <div class="ups"><span class="acc-ico">${accVisual(a)}</span><div class="t"><b>${ACCS[a].name}</b><small>${zl(ACCS[a].price)}</small></div><button class="btn ghost sm" data-add="${a}">Dodaj</button></div>`).join('')}</div></div>` : ''}
       </div>
       <aside class="summary"><h3>Podsumowanie</h3>${totalsHTML()}
         <div class="promo"><input id="promoIn" placeholder="Kod rabatowy" value="${esc(S.promo || '')}" aria-label="Kod rabatowy" ${S.promo ? 'readonly' : ''}><button class="btn ghost sm" style="height:44px" id="promoBtn">${S.promo ? 'Usuń' : 'Zastosuj'}</button></div>

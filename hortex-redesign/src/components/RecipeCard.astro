@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import type { Recipe } from '../lib/data';
+import { t, timeLabel, timeBucket, productBySlug } from '../lib/data';
+import { img } from '../lib/images';
+
+interface Props { r: Recipe; ratio?: '4x5' | '3x2'; eager?: boolean; showProduct?: boolean; size?: 'md' | 'lg'; reveal?: boolean }
+const { r, ratio = '4x5', eager = false, showProduct = true, size = 'md', reveal = true } = Astro.props;
+const product = productBySlug(r.products[0]);
+const [w, h] = ratio === '4x5' ? [800, 1000] : [1200, 800];
+---
+<article class={`card card--recipe card--${size}`} data-item data-category={r.category} data-time={timeBucket(r.time)} data-difficulty={r.difficulty} data-diet={r.diet.join(' ')} data-products={r.products.join(' ')} data-collections={r.collections.join(' ')} data-title={r.title.toLowerCase()}>
+  <div class="media" style={`--ratio: ${ratio === '4x5' ? '4/5' : '3/2'}`} data-reveal={reveal ? '' : undefined}>
+    <img src={img.dish(r.slug, ratio)} alt={`${r.title}: podanie na talerzu`} width={w} height={h} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    {showProduct && product && (
+      <span class="recipe-card__product" title={`Użyty produkt: ${product.name}`}>
+        <img src={img.pack(product.slug)} alt="" width="400" height="500" loading="lazy" />
+      </span>
+    )}
+  </div>
+  <h3 class={`card__title${size === 'lg' ? ' t-h3' : ''}`}><a href={`/przepisy/${r.slug}/`}>{t(r.title)}</a></h3>
+  <p class="card__meta">
+    <span><Icon name="clock" />{timeLabel(r.time)}</span>
+    <span><Icon name="level" />{r.difficulty}</span>
+    {r.diet.includes('wege') && <span><Icon name="leaf" />wege</span>}
+  </p>
+</article>

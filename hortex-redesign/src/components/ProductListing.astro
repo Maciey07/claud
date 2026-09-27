@@ -1,0 +1,128 @@
+---
+import Icon from './Icon.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import ProductCard from './ProductCard.astro';
+import CategoryVisual from './CategoryVisual.astro';
+import type { Category, Product } from '../lib/data';
+import { categories, PREP_LABELS, t } from '../lib/data';
+
+interface Props {
+  title: string;
+  lead: string;
+  items: Product[];
+  crumbs: { label: string; href?: string }[];
+  category?: Category;
+  showCategoryChips?: boolean;
+  showPackToggle?: boolean;
+}
+const { title, lead, items, crumbs, category, showCategoryChips = false, showPackToggle = true } = Astro.props;
+const isHoreca = category?.slug === 'horeca';
+const cats = categories.filter((c) => c.group !== 'b2b' && items.some((p) => p.category === c.slug));
+const subs = category?.subcategories.filter((s) => items.some((p) => p.sub === s)) ?? [];
+const preps = Object.keys(PREP_LABELS).filter((k) => items.some((p) => p.prep[k] !== undefined && p.prep[k] !== ''));
+const hasBoth = items.some((p) => p.pack === 'gastronomiczne') && items.some((p) => p.pack === 'konsumenckie');
+const heroProduct = category ? items.find((p) => p.isNew) ?? items[0] : undefined;
+---
+<div data-filter-root data-noun="produkt|produkty|produktów" style={category ? `--section-tint: var(--tint-${category.slug})` : undefined}>
+  <section class="listing-hero band--tint">
+    <div class="container listing-hero__grid">
+      <div class="listing-hero__text">
+        <Breadcrumbs items={crumbs} />
+        <h1>{title}</h1>
+        <p class="t-lead">{t(lead)}</p>
+        {isHoreca && (
+          <div class="cluster" style="--cluster: var(--s-2); margin-top: var(--s-4)">
+            <a class="btn" href="/dla-biznesu/#zapytanie">Zapytaj o ofertę <Icon name="arrow" /></a>
+            <a class="btn btn--ghost" href="/dla-biznesu/katalogi/"><Icon name="download" />Pobierz katalog</a>
+          </div>
+        )}
+      </div>
+      {category && heroProduct && <CategoryVisual category={category} product={heroProduct} />}
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="list-title">
+    <div class="container">
+      <h2 id="list-title" class="visually-hidden">Lista produktów</h2>
+      <div class="filters" role="search" aria-label="Filtry produktów">
+        {showCategoryChips && (
+          <div class="filters__row">
+            <span class="t-meta filters__label" id="f-cat">Kategoria</span>
+            <div class="chip-row chip-row--scroll" data-filter-group data-param="kategoria" data-attr="category" data-tint role="group" aria-labelledby="f-cat">
+              <button type="button" class="chip" data-value="" aria-pressed="true">Wszystkie</button>
+              {cats.map((c) => (
+                <button type="button" class="chip" data-value={c.slug} data-tint={`var(--tint-${c.slug})`} aria-pressed="false"><span class="chip-dot" style={`--dot: var(--tint-${c.slug}); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .15)`}></span>{c.name}</button>
+              ))}
+            </div>
+          </div>
+        )}
+        {subs.length > 1 && (
+          <div class="filters__row">
+            <span class="t-meta filters__label" id="f-sub">Rodzaj</span>
+            <div class="chip-row chip-row--scroll" data-filter-group data-param="rodzaj" data-attr="sub" role="group" aria-labelledby="f-sub">
+              <button type="button" class="chip" data-value="" aria-pressed="true">Wszystkie</button>
+              {subs.map((s) => <button type="button" class="chip" data-value={s} aria-pressed="false">{s}</button>)}
+            </div>
+          </div>
+        )}
+        <div class="filters__row filters__row--split">
+          {preps.length > 1 && (
+            <div class="filters__inline">
+              <span class="t-meta filters__label" id="f-prep">Przygotowanie</span>
+              <div class="chip-row chip-row--scroll" data-filter-group data-toggle data-param="przygotowanie" data-attr="prep" role="group" aria-labelledby="f-prep">
+                {preps.map((k) => <button type="button" class="chip" data-value={k} aria-pressed="false">{PREP_LABELS[k]}</button>)}
+              </div>
+            </div>
+          )}
+          {showPackToggle && hasBoth && (
+            <div class="filters__inline">
+              <span class="t-meta filters__label" id="f-pack">Opakowania</span>
+              <div class="segmented" data-filter-group data-param="opakowanie" data-attr="pack" role="group" aria-labelledby="f-pack">
+                <button type="button" data-value="konsumenckie" aria-pressed="true">Konsumenckie</button>
+                <button type="button" data-value="gastronomiczne" aria-pressed="false">Gastronomiczne 2–2,5&nbsp;kg</button>
+              </div>
+            </div>
+          )}
+        </div>
+        <p class="filters__count t-small t-muted" aria-live="polite"><span data-filter-count>{items.length} produktów</span></p>
+      </div>
+
+      <div class="product-grid" data-filter-list>
+        {items.map((p, i) => <ProductCard p={p} eager={i < 4} />)}
+      </div>
+      <div class="empty-state" data-filter-empty hidden>
+        <p class="t-h3">Nic tu nie pasuje</p>
+        <p class="t-muted">Zmień filtry albo zobacz całą ofertę.</p>
+        <button type="button" class="btn btn--ghost" data-filter-reset>Wyczyść filtry</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  import '../scripts/filters';
+</script>
+
+<style>
+  .listing-hero { padding-block: var(--s-6) var(--s-8); }
+  .listing-hero__grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--s-6); align-items: center; }
+  .listing-hero__grid:has(> :only-child) { grid-template-columns: 1fr; }
+  .listing-hero__text { display: grid; gap: var(--s-3); max-width: 44rem; }
+  .listing-hero__text .t-lead { color: var(--c-ink-muted); }
+  .filters { display: grid; gap: var(--s-2); margin-bottom: var(--s-6); padding-bottom: var(--s-3); border-bottom: 1px solid var(--c-line); }
+  .filters__row { display: grid; grid-template-columns: 120px 1fr; gap: var(--s-2); align-items: center; }
+  .filters__row--split { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); }
+  .filters__inline { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
+  .filters__label { color: var(--c-ink-muted); }
+  .filters__row--split .filters__label { width: auto; }
+  .filters__count { margin-top: var(--s-1); }
+  .segmented { display: inline-flex; padding: 3px; border-radius: var(--r-pill); background: var(--c-sunk); }
+  .segmented button { border: 0; background: none; padding: 0.5em 1.1em; border-radius: var(--r-pill); font-weight: 500; font-size: 0.9375rem; min-height: 38px; }
+  .segmented button[aria-pressed='true'] { background: var(--c-ink); color: var(--c-bg); }
+  .empty-state { text-align: center; padding: var(--s-8) 0; display: grid; gap: var(--s-2); justify-items: center; }
+  @media (max-width: 900px) {
+    .listing-hero__grid { grid-template-columns: 1fr; }
+    .listing-hero :global(.cat-visual) { max-width: 360px; }
+    .filters__row { grid-template-columns: 1fr; gap: var(--s-1); }
+  }
+</style>

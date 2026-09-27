@@ -1,0 +1,1986 @@
+[
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "mix-brokul-i-kalafior",
+    "name": "Mix brokuł i kalafior",
+    "category": "warzywa",
+    "sub": "Mieszanki",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "5–7 min",
+      "patelnia": "8–10 min",
+      "piekarnik": "20 min"
+    },
+    "description": "Różyczki brokułu i kalafiora w proporcji pół na pół. Blanszowane i zamrożone kilka godzin po zbiorze, więc zachowują jędrność i kolor. Dobre na parze, do zapiekanek, placuszków i zup kremów.",
+    "ingredients": [
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 50
+      },
+      {
+        "key": "cauliflower",
+        "name": "kalafior",
+        "pct": 50
+      }
+    ],
+    "nutrition": {
+      "kj": 113,
+      "kcal": 27,
+      "fat": 0.3,
+      "sat": 0.1,
+      "carbs": 2.9,
+      "sugars": 2.1,
+      "fiber": 2.6,
+      "protein": 2.6,
+      "salt": 0.03
+    },
+    "horeca": "mix-brokul-i-kalafior-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "brokuly-rozyczki",
+    "name": "Brokuły różyczki",
+    "category": "warzywa",
+    "sub": "Pojedyncze warzywa",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "5–6 min",
+      "patelnia": "8 min",
+      "piekarnik": "18–20 min"
+    },
+    "description": "Równe różyczki brokułu bez twardych łodyg. Wystarczy kilka minut na parze albo krótkie smażenie z czosnkiem.",
+    "ingredients": [
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 120,
+      "kcal": 29,
+      "fat": 0.4,
+      "sat": 0.1,
+      "carbs": 2.7,
+      "sugars": 1.5,
+      "fiber": 2.9,
+      "protein": 2.8,
+      "salt": 0.03
+    },
+    "horeca": "brokuly-rozyczki-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "kalafior-rozyczki",
+    "name": "Kalafior różyczki",
+    "category": "warzywa",
+    "sub": "Pojedyncze warzywa",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "6–8 min",
+      "patelnia": "10 min",
+      "piekarnik": "20–25 min"
+    },
+    "description": "Śnieżnobiałe różyczki kalafiora. Do zupy kremu, na parze z bułką tartą albo pieczone z przyprawami.",
+    "ingredients": [
+      {
+        "key": "cauliflower",
+        "name": "kalafior",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 96,
+      "kcal": 23,
+      "fat": 0.2,
+      "sat": 0.1,
+      "carbs": 2.9,
+      "sugars": 2.2,
+      "fiber": 2.2,
+      "protein": 1.9,
+      "salt": 0.02
+    },
+    "horeca": "kalafior-rozyczki-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "fasolka-szparagowa-zielona",
+    "name": "Fasolka szparagowa zielona",
+    "category": "warzywa",
+    "sub": "Pojedyncze warzywa",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "7–9 min",
+      "patelnia": "10–12 min"
+    },
+    "description": "Cięta fasolka szparagowa, cienka i krucha. Klasyka z masłem i bułką tartą, ale też baza sałatek i dań z woka.",
+    "ingredients": [
+      {
+        "key": "bean",
+        "name": "fasolka szparagowa zielona",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 113,
+      "kcal": 27,
+      "fat": 0.2,
+      "sat": 0.1,
+      "carbs": 3.9,
+      "sugars": 2.3,
+      "fiber": 3.2,
+      "protein": 1.9,
+      "salt": 0.01
+    },
+    "horeca": "fasolka-szparagowa-zielona-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "groszek-zielony",
+    "name": "Groszek zielony",
+    "category": "warzywa",
+    "sub": "Pojedyncze warzywa",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "4–5 min",
+      "patelnia": "5–6 min"
+    },
+    "description": "Słodki, drobny groszek łuskany w dniu zbioru. Do makaronów, risotto, sałatek i jako dodatek do obiadu.",
+    "ingredients": [
+      {
+        "key": "pea",
+        "name": "groszek zielony",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 305,
+      "kcal": 73,
+      "fat": 0.4,
+      "sat": 0.1,
+      "carbs": 9.9,
+      "sugars": 4.4,
+      "fiber": 5.3,
+      "protein": 5.4,
+      "salt": 0.01
+    },
+    "horeca": "groszek-zielony-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "marchewka-mini",
+    "name": "Marchewka mini",
+    "category": "warzywa",
+    "sub": "Pojedyncze warzywa",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "8–10 min",
+      "patelnia": "10–12 min",
+      "piekarnik": "25 min"
+    },
+    "description": "Całe, młode marchewki. Glazurowane masłem i miodem albo pieczone z tymiankiem.",
+    "ingredients": [
+      {
+        "key": "carrot",
+        "name": "marchew",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 150,
+      "kcal": 36,
+      "fat": 0.2,
+      "sat": 0,
+      "carbs": 6.9,
+      "sugars": 5.4,
+      "fiber": 2.8,
+      "protein": 0.8,
+      "salt": 0.1
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "brukselka",
+    "name": "Brukselka",
+    "category": "warzywa",
+    "sub": "Pojedyncze warzywa",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "8–10 min",
+      "piekarnik": "25–30 min"
+    },
+    "description": "Drobne, zwarte główki brukselki. Najlepsze pieczone do chrupkości, z miodem i orzechami.",
+    "ingredients": [
+      {
+        "key": "brussels",
+        "name": "brukselka",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 179,
+      "kcal": 43,
+      "fat": 0.4,
+      "sat": 0.1,
+      "carbs": 5.6,
+      "sugars": 2.2,
+      "fiber": 3.8,
+      "protein": 3.4,
+      "salt": 0.03
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "szpinak-liscie",
+    "name": "Szpinak liście",
+    "category": "warzywa",
+    "sub": "Pojedyncze warzywa",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "patelnia": "6–8 min",
+      "gotowanie": "5 min"
+    },
+    "description": "Całe liście szpinaku porcjowane w kulkach, więc łatwo odmierzyć tyle, ile potrzeba.",
+    "ingredients": [
+      {
+        "key": "spinach",
+        "name": "szpinak",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 100,
+      "kcal": 24,
+      "fat": 0.4,
+      "sat": 0.1,
+      "carbs": 1.2,
+      "sugars": 0.4,
+      "fiber": 2.1,
+      "protein": 2.9,
+      "salt": 0.2
+    },
+    "horeca": "szpinak-liscie-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [
+      "seler",
+      "gorczyca"
+    ],
+    "portion": 150,
+    "slug": "warzywa-na-patelnie-orientalne",
+    "name": "Warzywa na patelnię orientalne",
+    "category": "warzywa",
+    "sub": "Na patelnię",
+    "weight": "450 g",
+    "line": "Na patelnię",
+    "prep": {
+      "patelnia": "8–10 min"
+    },
+    "description": "Fasolka, marchew, papryka, brokuł i cebula w sosie przyprawowym. Z ryżem to pełny obiad w dziesięć minut.",
+    "ingredients": [
+      {
+        "key": "bean",
+        "name": "fasolka szparagowa",
+        "pct": 26
+      },
+      {
+        "key": "carrot",
+        "name": "marchew",
+        "pct": 22
+      },
+      {
+        "key": "pepper",
+        "name": "papryka czerwona",
+        "pct": 18
+      },
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 18
+      },
+      {
+        "key": "onion",
+        "name": "cebula",
+        "pct": 10
+      }
+    ],
+    "composition": "warzywa w zmiennych proporcjach 94% (fasolka szparagowa, marchew, papryka czerwona, brokuł, cebula), olej rzepakowy, przyprawy, sól, cukier, skrobia kukurydziana",
+    "nutrition": {
+      "kj": 230,
+      "kcal": 55,
+      "fat": 2.1,
+      "sat": 0.2,
+      "carbs": 6.2,
+      "sugars": 3.9,
+      "fiber": 2.6,
+      "protein": 1.8,
+      "salt": 0.62
+    },
+    "horeca": "warzywa-na-patelnie-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "mieszanka-warzywna-z-marchewka-i-groszkiem",
+    "name": "Mieszanka z marchewką i groszkiem",
+    "category": "warzywa",
+    "sub": "Mieszanki",
+    "weight": "450 g",
+    "line": "Klasyczne",
+    "prep": {
+      "gotowanie": "6–8 min",
+      "patelnia": "8–10 min"
+    },
+    "description": "Groszek z marchewką w kostce. Do sałatki jarzynowej, ryżu i jako szybki dodatek do obiadu.",
+    "ingredients": [
+      {
+        "key": "pea",
+        "name": "groszek zielony",
+        "pct": 50
+      },
+      {
+        "key": "carrot-cube",
+        "name": "marchew w kostce",
+        "pct": 50
+      }
+    ],
+    "nutrition": {
+      "kj": 230,
+      "kcal": 55,
+      "fat": 0.3,
+      "sat": 0.1,
+      "carbs": 8.6,
+      "sugars": 5.1,
+      "fiber": 4.1,
+      "protein": 3.1,
+      "salt": 0.06
+    },
+    "horeca": "marchew-z-groszkiem-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 200,
+    "slug": "warzywa-do-zapiekania-po-prowansalsku",
+    "name": "Warzywa do zapiekania po prowansalsku",
+    "category": "warzywa-do-zapiekania",
+    "weight": "450 g",
+    "line": "Do piekarnika",
+    "prep": {
+      "piekarnik": "30–35 min"
+    },
+    "description": "Ziemniaki, cukinia, papryka i brokuł z ziołami prowansalskimi. Wystarczy wyłożyć do naczynia i zapiec.",
+    "ingredients": [
+      {
+        "key": "potato-cube",
+        "name": "ziemniaki",
+        "pct": 45
+      },
+      {
+        "key": "zucchini",
+        "name": "cukinia",
+        "pct": 20
+      },
+      {
+        "key": "pepper",
+        "name": "papryka",
+        "pct": 18
+      },
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 17
+      }
+    ],
+    "composition": "ziemniaki 45%, cukinia, papryka czerwona, brokuł, olej słonecznikowy, zioła prowansalskie, sól",
+    "nutrition": {
+      "kj": 310,
+      "kcal": 74,
+      "fat": 2.5,
+      "sat": 0.3,
+      "carbs": 10.8,
+      "sugars": 2.1,
+      "fiber": 2.2,
+      "protein": 1.9,
+      "salt": 0.55
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 200,
+    "slug": "ziemniaki-z-brokulem-do-zapiekania",
+    "name": "Ziemniaki z brokułem do zapiekania",
+    "category": "warzywa-do-zapiekania",
+    "weight": "450 g",
+    "line": "Do piekarnika",
+    "prep": {
+      "piekarnik": "30 min"
+    },
+    "description": "Plastry ziemniaków z różyczkami brokułu. Zalej śmietaną, posyp serem i piecz do zrumienienia.",
+    "ingredients": [
+      {
+        "key": "potato-cube",
+        "name": "ziemniaki",
+        "pct": 60
+      },
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 40
+      }
+    ],
+    "nutrition": {
+      "kj": 290,
+      "kcal": 69,
+      "fat": 0.2,
+      "sat": 0,
+      "carbs": 13.9,
+      "sugars": 0.9,
+      "fiber": 2.4,
+      "protein": 2.3,
+      "salt": 0.02
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 100,
+    "slug": "truskawki",
+    "name": "Truskawki",
+    "category": "owoce",
+    "sub": "Owoce pojedyncze",
+    "weight": "300 g",
+    "line": "Owoce",
+    "prep": {
+      "rozmrazanie": "2–3 h w lodówce"
+    },
+    "description": "Całe truskawki z polskich plantacji, zamrożone w pełni dojrzałości. Do koktajli, sosów, kompotów i ciast.",
+    "ingredients": [
+      {
+        "key": "strawberry",
+        "name": "truskawki",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 136,
+      "kcal": 32,
+      "fat": 0.3,
+      "sat": 0,
+      "carbs": 5.7,
+      "sugars": 4.9,
+      "fiber": 1.8,
+      "protein": 0.7,
+      "salt": 0
+    },
+    "horeca": "truskawki-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [
+      "pestki lub ich fragmenty"
+    ],
+    "portion": 100,
+    "slug": "wisnie-bez-pestek",
+    "name": "Wiśnie bez pestek",
+    "category": "owoce",
+    "sub": "Owoce pojedyncze",
+    "weight": "300 g",
+    "line": "Owoce",
+    "prep": {
+      "rozmrazanie": "2 h w lodówce"
+    },
+    "description": "Drylowane wiśnie o wyrazistej kwasowości. Do szarlotki, knedli, sosów do mięs i domowego kompotu.",
+    "ingredients": [
+      {
+        "key": "cherry",
+        "name": "wiśnie",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 211,
+      "kcal": 50,
+      "fat": 0.3,
+      "sat": 0.1,
+      "carbs": 10.2,
+      "sugars": 10,
+      "fiber": 1.1,
+      "protein": 1,
+      "salt": 0
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 100,
+    "slug": "maliny",
+    "name": "Maliny",
+    "category": "owoce",
+    "sub": "Owoce pojedyncze",
+    "weight": "300 g",
+    "line": "Owoce",
+    "prep": {
+      "rozmrazanie": "1–2 h w lodówce"
+    },
+    "description": "Maliny zamrożone pojedynczo, więc nie sklejają się w bryłę. Do owsianki, deserów i sosów.",
+    "ingredients": [
+      {
+        "key": "raspberry",
+        "name": "maliny",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 186,
+      "kcal": 44,
+      "fat": 0.3,
+      "sat": 0,
+      "carbs": 4.8,
+      "sugars": 4.4,
+      "fiber": 6.5,
+      "protein": 1.2,
+      "salt": 0
+    },
+    "horeca": "maliny-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 100,
+    "slug": "owoce-lesne",
+    "name": "Owoce leśne",
+    "category": "owoce",
+    "sub": "Mieszanki owocowe",
+    "weight": "300 g",
+    "line": "Owoce",
+    "prep": {
+      "rozmrazanie": "2 h w lodówce"
+    },
+    "description": "Jeżyny, borówki, maliny i czarne porzeczki. Gotowa mieszanka do crumble, jogurtu i ciast drożdżowych.",
+    "ingredients": [
+      {
+        "key": "raspberry",
+        "name": "maliny",
+        "pct": 30
+      },
+      {
+        "key": "blueberry",
+        "name": "borówki",
+        "pct": 30
+      },
+      {
+        "key": "currant",
+        "name": "czarna porzeczka",
+        "pct": 20
+      },
+      {
+        "key": "cherry",
+        "name": "wiśnie",
+        "pct": 20
+      }
+    ],
+    "nutrition": {
+      "kj": 180,
+      "kcal": 43,
+      "fat": 0.3,
+      "sat": 0,
+      "carbs": 7.1,
+      "sugars": 6.8,
+      "fiber": 4.2,
+      "protein": 1,
+      "salt": 0
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 100,
+    "slug": "borowki",
+    "name": "Borówki amerykańskie",
+    "category": "owoce",
+    "sub": "Owoce pojedyncze",
+    "weight": "300 g",
+    "line": "Owoce",
+    "prep": {
+      "rozmrazanie": "1 h w lodówce"
+    },
+    "description": "Duże, słodkie borówki. Do pancakes, muffinów i smoothie bowl.",
+    "ingredients": [
+      {
+        "key": "blueberry",
+        "name": "borówka amerykańska",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 234,
+      "kcal": 56,
+      "fat": 0.3,
+      "sat": 0,
+      "carbs": 12,
+      "sugars": 10,
+      "fiber": 2.4,
+      "protein": 0.7,
+      "salt": 0
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "seler"
+    ],
+    "mayContain": [],
+    "portion": 200,
+    "slug": "zupa-jarzynowa",
+    "name": "Zupa jarzynowa",
+    "category": "zupy",
+    "weight": "450 g",
+    "line": "Do zupy",
+    "prep": {
+      "gotowanie": "15–20 min"
+    },
+    "description": "Ziemniaki, marchew, groszek, fasolka i kalafior pokrojone na jedną łyżkę. Z bulionem i koperkiem to domowa jarzynowa bez obierania.",
+    "ingredients": [
+      {
+        "key": "potato-cube",
+        "name": "ziemniaki",
+        "pct": 30
+      },
+      {
+        "key": "carrot",
+        "name": "marchew",
+        "pct": 20
+      },
+      {
+        "key": "pea",
+        "name": "groszek",
+        "pct": 15
+      },
+      {
+        "key": "cauliflower",
+        "name": "kalafior",
+        "pct": 15
+      }
+    ],
+    "composition": "ziemniaki 30%, marchew 20%, groszek zielony 15%, kalafior 15%, fasolka szparagowa 10%, pietruszka korzeń, seler korzeń, por",
+    "nutrition": {
+      "kj": 170,
+      "kcal": 40,
+      "fat": 0.2,
+      "sat": 0,
+      "carbs": 7.4,
+      "sugars": 2.6,
+      "fiber": 2.4,
+      "protein": 1.8,
+      "salt": 0.04
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "seler"
+    ],
+    "mayContain": [],
+    "portion": 200,
+    "slug": "zupa-kalafiorowa",
+    "name": "Zupa kalafiorowa",
+    "category": "zupy",
+    "weight": "450 g",
+    "line": "Do zupy",
+    "prep": {
+      "gotowanie": "15 min"
+    },
+    "description": "Kalafior z ziemniakami, marchwią i porem, dobrany do klasycznej kalafiorowej.",
+    "ingredients": [
+      {
+        "key": "cauliflower",
+        "name": "kalafior",
+        "pct": 50
+      },
+      {
+        "key": "potato-cube",
+        "name": "ziemniaki",
+        "pct": 25
+      },
+      {
+        "key": "carrot",
+        "name": "marchew",
+        "pct": 15
+      },
+      {
+        "key": "onion",
+        "name": "por",
+        "pct": 10
+      }
+    ],
+    "nutrition": {
+      "kj": 140,
+      "kcal": 33,
+      "fat": 0.2,
+      "sat": 0,
+      "carbs": 5.2,
+      "sugars": 2.3,
+      "fiber": 2.3,
+      "protein": 1.8,
+      "salt": 0.03
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "seler"
+    ],
+    "mayContain": [],
+    "portion": 200,
+    "slug": "barszcz-ukrainski",
+    "name": "Barszcz ukraiński",
+    "category": "zupy",
+    "weight": "450 g",
+    "line": "Do zupy",
+    "prep": {
+      "gotowanie": "20 min"
+    },
+    "description": "Burak, fasola, kapusta, marchew i ziemniaki. Treściwa zupa na chłodniejsze dni.",
+    "ingredients": [
+      {
+        "key": "potato-cube",
+        "name": "ziemniaki",
+        "pct": 25
+      },
+      {
+        "key": "carrot",
+        "name": "marchew",
+        "pct": 20
+      },
+      {
+        "key": "bean",
+        "name": "fasolka",
+        "pct": 15
+      },
+      {
+        "key": "beet",
+        "name": "burak ćwikłowy",
+        "pct": 20
+      }
+    ],
+    "nutrition": {
+      "kj": 180,
+      "kcal": 43,
+      "fat": 0.2,
+      "sat": 0,
+      "carbs": 7.8,
+      "sugars": 3.9,
+      "fiber": 2.9,
+      "protein": 1.7,
+      "salt": 0.05
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "gluten",
+      "mleko",
+      "jaja"
+    ],
+    "mayContain": [],
+    "portion": 225,
+    "slug": "pierogi-ruskie",
+    "name": "Pierogi ruskie",
+    "category": "dania-gotowe",
+    "weight": "450 g",
+    "line": "Dania gotowe",
+    "prep": {
+      "gotowanie": "5–6 min",
+      "patelnia": "8–10 min"
+    },
+    "description": "Farsz z ziemniaków, twarogu i podsmażanej cebuli w cienkim cieście. Z okrasą lub śmietaną.",
+    "ingredients": [
+      {
+        "key": "potato",
+        "name": "ziemniaki",
+        "pct": 32
+      },
+      {
+        "key": "cheese",
+        "name": "twaróg",
+        "pct": 14
+      },
+      {
+        "key": "onion",
+        "name": "cebula",
+        "pct": 6
+      }
+    ],
+    "composition": "ciasto 52% (mąka pszenna, woda, olej rzepakowy, jaja, sól), farsz 48% (ziemniaki, twaróg, cebula smażona, olej rzepakowy, sól, pieprz)",
+    "nutrition": {
+      "kj": 790,
+      "kcal": 188,
+      "fat": 4.2,
+      "sat": 1.4,
+      "carbs": 31,
+      "sugars": 2.2,
+      "fiber": 2,
+      "protein": 6.5,
+      "salt": 1.1
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "gluten",
+      "jaja"
+    ],
+    "mayContain": [],
+    "portion": 225,
+    "slug": "kopytka",
+    "name": "Kopytka",
+    "category": "dania-gotowe",
+    "weight": "450 g",
+    "line": "Dania gotowe",
+    "prep": {
+      "gotowanie": "3–4 min",
+      "patelnia": "6–8 min"
+    },
+    "description": "Miękkie kopytka ziemniaczane. Z masłem i bułką tartą, z sosem pieczarkowym albo kurkowym.",
+    "ingredients": [
+      {
+        "key": "potato",
+        "name": "ziemniaki",
+        "pct": 72
+      }
+    ],
+    "composition": "ziemniaki 72%, mąka pszenna, skrobia ziemniaczana, jaja, sól",
+    "nutrition": {
+      "kj": 690,
+      "kcal": 163,
+      "fat": 0.6,
+      "sat": 0.1,
+      "carbs": 35,
+      "sugars": 0.8,
+      "fiber": 2.1,
+      "protein": 3.9,
+      "salt": 0.9
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [
+      "gluten",
+      "jaja"
+    ],
+    "mayContain": [],
+    "portion": 225,
+    "slug": "knedle-ze-sliwkami",
+    "name": "Knedle ze śliwkami",
+    "category": "dania-gotowe",
+    "weight": "450 g",
+    "line": "Dania gotowe",
+    "prep": {
+      "gotowanie": "8–10 min"
+    },
+    "description": "Ciasto ziemniaczane z całą śliwką w środku. Podawaj z masłem, cukrem i cynamonem.",
+    "ingredients": [
+      {
+        "key": "potato",
+        "name": "ziemniaki",
+        "pct": 48
+      },
+      {
+        "key": "plum",
+        "name": "śliwki",
+        "pct": 20
+      }
+    ],
+    "nutrition": {
+      "kj": 760,
+      "kcal": 180,
+      "fat": 1.1,
+      "sat": 0.3,
+      "carbs": 38,
+      "sugars": 9.2,
+      "fiber": 2.4,
+      "protein": 3.1,
+      "salt": 0.4
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "gluten",
+      "mleko"
+    ],
+    "mayContain": [],
+    "portion": 175,
+    "slug": "pizza-margherita",
+    "name": "Pizza Margherita",
+    "category": "pizza",
+    "weight": "350 g",
+    "line": "Pizza",
+    "prep": {
+      "piekarnik": "12–14 min"
+    },
+    "description": "Cienkie ciasto, sos pomidorowy i mozzarella. Piecz bezpośrednio na ruszcie.",
+    "ingredients": [
+      {
+        "key": "tomato",
+        "name": "sos pomidorowy",
+        "pct": 24
+      },
+      {
+        "key": "cheese",
+        "name": "ser mozzarella",
+        "pct": 18
+      },
+      {
+        "key": "basil",
+        "name": "bazylia",
+        "pct": 1
+      }
+    ],
+    "nutrition": {
+      "kj": 1010,
+      "kcal": 240,
+      "fat": 8.6,
+      "sat": 4.1,
+      "carbs": 30,
+      "sugars": 3.2,
+      "fiber": 1.9,
+      "protein": 10.2,
+      "salt": 1.2
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "gluten",
+      "mleko"
+    ],
+    "mayContain": [],
+    "portion": 190,
+    "slug": "pizza-z-warzywami",
+    "name": "Pizza z warzywami",
+    "category": "pizza",
+    "weight": "380 g",
+    "line": "Pizza",
+    "prep": {
+      "piekarnik": "13–15 min"
+    },
+    "description": "Papryka, pieczarki, cukinia i mozzarella na cienkim cieście.",
+    "ingredients": [
+      {
+        "key": "pepper",
+        "name": "papryka",
+        "pct": 9
+      },
+      {
+        "key": "mushroom",
+        "name": "pieczarki",
+        "pct": 8
+      },
+      {
+        "key": "zucchini",
+        "name": "cukinia",
+        "pct": 7
+      },
+      {
+        "key": "cheese",
+        "name": "mozzarella",
+        "pct": 16
+      }
+    ],
+    "nutrition": {
+      "kj": 900,
+      "kcal": 214,
+      "fat": 7.2,
+      "sat": 3.3,
+      "carbs": 28,
+      "sugars": 3.6,
+      "fiber": 2.4,
+      "protein": 8.9,
+      "salt": 1.1
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 115,
+    "slug": "kurki",
+    "name": "Kurki",
+    "category": "menu-kurkowe",
+    "weight": "230 g",
+    "line": "Menu kurkowe",
+    "prep": {
+      "patelnia": "10–12 min"
+    },
+    "description": "Całe kurki, oczyszczone i zamrożone w sezonie. Do sosu śmietanowego, jajecznicy i risotto.",
+    "ingredients": [
+      {
+        "key": "chanterelle",
+        "name": "kurki",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 140,
+      "kcal": 34,
+      "fat": 0.5,
+      "sat": 0.1,
+      "carbs": 2.2,
+      "sugars": 0.2,
+      "fiber": 3.8,
+      "protein": 1.5,
+      "salt": 0.02
+    },
+    "horeca": "kurki-2-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [
+      "mleko"
+    ],
+    "mayContain": [],
+    "portion": 200,
+    "slug": "kurki-z-ziemniakami-na-patelnie",
+    "name": "Kurki z ziemniakami na patelnię",
+    "category": "menu-kurkowe",
+    "weight": "400 g",
+    "line": "Menu kurkowe",
+    "prep": {
+      "patelnia": "12–15 min"
+    },
+    "description": "Ziemniaki, kurki i cebula z koperkiem. Leśny obiad w kwadrans.",
+    "ingredients": [
+      {
+        "key": "potato-cube",
+        "name": "ziemniaki",
+        "pct": 55
+      },
+      {
+        "key": "chanterelle",
+        "name": "kurki",
+        "pct": 25
+      },
+      {
+        "key": "onion",
+        "name": "cebula",
+        "pct": 12
+      },
+      {
+        "key": "dill",
+        "name": "koperek",
+        "pct": 1
+      }
+    ],
+    "composition": "ziemniaki 55%, kurki 25%, cebula, olej rzepakowy, masło, koperek, sól, pieprz",
+    "nutrition": {
+      "kj": 360,
+      "kcal": 86,
+      "fat": 3.1,
+      "sat": 0.9,
+      "carbs": 11.4,
+      "sugars": 1.1,
+      "fiber": 2.6,
+      "protein": 1.9,
+      "salt": 0.7
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "frytki-proste",
+    "name": "Frytki proste",
+    "category": "frytki",
+    "weight": "750 g",
+    "line": "Frytki",
+    "prep": {
+      "piekarnik": "18–20 min",
+      "frytkownica": "3–4 min",
+      "airfryer": "14–16 min"
+    },
+    "description": "Klasyczne frytki 9 × 9 mm z polskich ziemniaków, podsmażone na oleju słonecznikowym.",
+    "ingredients": [
+      {
+        "key": "fry",
+        "name": "ziemniaki",
+        "pct": 96
+      }
+    ],
+    "composition": "ziemniaki 96%, olej słonecznikowy",
+    "nutrition": {
+      "kj": 560,
+      "kcal": 133,
+      "fat": 4.2,
+      "sat": 0.5,
+      "carbs": 21,
+      "sugars": 0.4,
+      "fiber": 2.3,
+      "protein": 2.2,
+      "salt": 0.05
+    },
+    "horeca": "frytki-proste-2-5-kg"
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "frytki-karbowane",
+    "name": "Frytki karbowane",
+    "category": "frytki",
+    "weight": "750 g",
+    "line": "Frytki",
+    "prep": {
+      "piekarnik": "20 min",
+      "frytkownica": "4 min",
+      "airfryer": "15 min"
+    },
+    "description": "Karbowane frytki, które lepiej trzymają sos i dłużej zostają chrupiące.",
+    "ingredients": [
+      {
+        "key": "fry",
+        "name": "ziemniaki",
+        "pct": 95
+      }
+    ],
+    "nutrition": {
+      "kj": 590,
+      "kcal": 140,
+      "fat": 4.6,
+      "sat": 0.5,
+      "carbs": 21.6,
+      "sugars": 0.4,
+      "fiber": 2.4,
+      "protein": 2.2,
+      "salt": 0.05
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "frytki-steakhouse",
+    "name": "Frytki steakhouse",
+    "category": "frytki",
+    "weight": "750 g",
+    "line": "Frytki",
+    "prep": {
+      "piekarnik": "22–25 min",
+      "frytkownica": "5 min",
+      "airfryer": "18 min"
+    },
+    "description": "Grube frytki ze skórką, miękkie w środku. Do burgerów i steków.",
+    "ingredients": [
+      {
+        "key": "fry",
+        "name": "ziemniaki ze skórką",
+        "pct": 96
+      }
+    ],
+    "nutrition": {
+      "kj": 540,
+      "kcal": 128,
+      "fat": 3.8,
+      "sat": 0.4,
+      "carbs": 21,
+      "sugars": 0.5,
+      "fiber": 2.6,
+      "protein": 2.3,
+      "salt": 0.05
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "szparagi-zielone",
+    "name": "Szparagi zielone",
+    "category": "linia-szparagowa",
+    "weight": "300 g",
+    "line": "Linia szparagowa",
+    "prep": {
+      "gotowanie": "4–5 min",
+      "patelnia": "6–8 min",
+      "piekarnik": "12 min"
+    },
+    "description": "Całe zielone szparagi z główkami. Blanszowane, więc na patelni są gotowe po kilku minutach.",
+    "ingredients": [
+      {
+        "key": "asparagus",
+        "name": "szparagi zielone",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 88,
+      "kcal": 21,
+      "fat": 0.2,
+      "sat": 0,
+      "carbs": 2,
+      "sugars": 1.9,
+      "fiber": 2.1,
+      "protein": 2.2,
+      "salt": 0.01
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": true,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "slug": "szparagi-biale",
+    "name": "Szparagi białe",
+    "category": "linia-szparagowa",
+    "weight": "300 g",
+    "line": "Linia szparagowa",
+    "prep": {
+      "gotowanie": "8–10 min"
+    },
+    "description": "Obrane białe szparagi. Z masłem i bułką tartą albo sosem holenderskim.",
+    "ingredients": [
+      {
+        "key": "asparagus-white",
+        "name": "szparagi białe",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 80,
+      "kcal": 19,
+      "fat": 0.1,
+      "sat": 0,
+      "carbs": 2.2,
+      "sugars": 1.8,
+      "fiber": 1.5,
+      "protein": 1.9,
+      "salt": 0.01
+    }
+  },
+  {
+    "pack": "konsumenckie",
+    "isNew": false,
+    "allergens": [
+      "mleko"
+    ],
+    "mayContain": [],
+    "portion": 200,
+    "slug": "warzywa-ze-szparagami-na-patelnie",
+    "name": "Warzywa ze szparagami na patelnię",
+    "category": "linia-szparagowa",
+    "weight": "400 g",
+    "line": "Linia szparagowa",
+    "prep": {
+      "patelnia": "8–10 min"
+    },
+    "description": "Szparagi, groszek cukrowy i fasolka z masłem ziołowym.",
+    "ingredients": [
+      {
+        "key": "asparagus",
+        "name": "szparagi",
+        "pct": 35
+      },
+      {
+        "key": "pea",
+        "name": "groszek cukrowy",
+        "pct": 30
+      },
+      {
+        "key": "bean",
+        "name": "fasolka",
+        "pct": 25
+      },
+      {
+        "key": "dill",
+        "name": "zioła",
+        "pct": 1
+      }
+    ],
+    "nutrition": {
+      "kj": 240,
+      "kcal": 58,
+      "fat": 3.1,
+      "sat": 1.8,
+      "carbs": 4.2,
+      "sugars": 2.4,
+      "fiber": 2.8,
+      "protein": 2.6,
+      "salt": 0.5
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "gotowanie": "5–7 min",
+      "patelnia": "8–10 min",
+      "piekarnik": "20 min"
+    },
+    "slug": "mix-brokul-i-kalafior-2-5-kg",
+    "name": "Mix brokuł i kalafior",
+    "sub": "Warzywa",
+    "consumer": "mix-brokul-i-kalafior",
+    "description": "Mix brokuł i kalafior w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 50
+      },
+      {
+        "key": "cauliflower",
+        "name": "kalafior",
+        "pct": 50
+      }
+    ],
+    "nutrition": {
+      "kj": 113,
+      "kcal": 27,
+      "fat": 0.3,
+      "sat": 0.1,
+      "carbs": 2.9,
+      "sugars": 2.1,
+      "fiber": 2.6,
+      "protein": 2.6,
+      "salt": 0.03
+    },
+    "proPrep": "Piec konwekcyjno-parowy: para 100°C, 6–8 min, bez rozmrażania. Wydajność po obróbce ok. 95%.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "gotowanie": "5–6 min",
+      "patelnia": "8 min",
+      "piekarnik": "18–20 min"
+    },
+    "slug": "brokuly-rozyczki-2-5-kg",
+    "name": "Brokuły różyczki",
+    "sub": "Warzywa",
+    "consumer": "brokuly-rozyczki",
+    "description": "Brokuły różyczki w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 120,
+      "kcal": 29,
+      "fat": 0.4,
+      "sat": 0.1,
+      "carbs": 2.7,
+      "sugars": 1.5,
+      "fiber": 2.9,
+      "protein": 2.8,
+      "salt": 0.03
+    },
+    "proPrep": "Piec konwekcyjno-parowy: para 100°C, 6–8 min, bez rozmrażania. Wydajność po obróbce ok. 95%.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska",
+      "calibre": "różyczki 30–50 mm"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "gotowanie": "6–8 min",
+      "patelnia": "10 min",
+      "piekarnik": "20–25 min"
+    },
+    "slug": "kalafior-rozyczki-2-5-kg",
+    "name": "Kalafior różyczki",
+    "sub": "Warzywa",
+    "consumer": "kalafior-rozyczki",
+    "description": "Kalafior różyczki w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "cauliflower",
+        "name": "kalafior",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 96,
+      "kcal": 23,
+      "fat": 0.2,
+      "sat": 0.1,
+      "carbs": 2.9,
+      "sugars": 2.2,
+      "fiber": 2.2,
+      "protein": 1.9,
+      "salt": 0.02
+    },
+    "proPrep": "Piec konwekcyjno-parowy: para 100°C, 6–8 min, bez rozmrażania. Wydajność po obróbce ok. 95%.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska",
+      "calibre": "różyczki 20–40 mm"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "gotowanie": "7–9 min",
+      "patelnia": "10–12 min"
+    },
+    "slug": "fasolka-szparagowa-zielona-2-5-kg",
+    "name": "Fasolka szparagowa zielona cięta",
+    "sub": "Warzywa",
+    "consumer": "fasolka-szparagowa-zielona",
+    "description": "Fasolka szparagowa zielona cięta w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "bean",
+        "name": "fasolka szparagowa zielona",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 113,
+      "kcal": 27,
+      "fat": 0.2,
+      "sat": 0.1,
+      "carbs": 3.9,
+      "sugars": 2.3,
+      "fiber": 3.2,
+      "protein": 1.9,
+      "salt": 0.01
+    },
+    "proPrep": "Piec konwekcyjno-parowy: para 100°C, 6–8 min, bez rozmrażania. Wydajność po obróbce ok. 95%.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska",
+      "calibre": "cięta 25–40 mm"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "gotowanie": "4–5 min",
+      "patelnia": "5–6 min"
+    },
+    "slug": "groszek-zielony-2-5-kg",
+    "name": "Groszek zielony",
+    "sub": "Warzywa",
+    "consumer": "groszek-zielony",
+    "description": "Groszek zielony w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "pea",
+        "name": "groszek zielony",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 305,
+      "kcal": 73,
+      "fat": 0.4,
+      "sat": 0.1,
+      "carbs": 9.9,
+      "sugars": 4.4,
+      "fiber": 5.3,
+      "protein": 5.4,
+      "salt": 0.01
+    },
+    "proPrep": "Gotowanie w osolonej wodzie 3–4 min lub piec parowy 100°C, 4 min.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "gotowanie": "6–8 min",
+      "patelnia": "8–10 min"
+    },
+    "slug": "marchew-z-groszkiem-2-5-kg",
+    "name": "Marchew z groszkiem",
+    "sub": "Warzywa",
+    "consumer": "mieszanka-warzywna-z-marchewka-i-groszkiem",
+    "description": "Marchew z groszkiem w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "pea",
+        "name": "groszek zielony",
+        "pct": 50
+      },
+      {
+        "key": "carrot-cube",
+        "name": "marchew w kostce",
+        "pct": 50
+      }
+    ],
+    "nutrition": {
+      "kj": 230,
+      "kcal": 55,
+      "fat": 0.3,
+      "sat": 0.1,
+      "carbs": 8.6,
+      "sugars": 5.1,
+      "fiber": 4.1,
+      "protein": 3.1,
+      "salt": 0.06
+    },
+    "proPrep": "Piec konwekcyjno-parowy: para 100°C, 6–8 min, bez rozmrażania. Wydajność po obróbce ok. 95%.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska",
+      "calibre": "kostka 10 × 10 mm"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "patelnia": "6–8 min",
+      "gotowanie": "5 min"
+    },
+    "slug": "szpinak-liscie-2-5-kg",
+    "name": "Szpinak liście porcjowany",
+    "sub": "Warzywa",
+    "consumer": "szpinak-liscie",
+    "description": "Szpinak liście porcjowany w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "spinach",
+        "name": "szpinak",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 100,
+      "kcal": 24,
+      "fat": 0.4,
+      "sat": 0.1,
+      "carbs": 1.2,
+      "sugars": 0.4,
+      "fiber": 2.1,
+      "protein": 2.9,
+      "salt": 0.2
+    },
+    "proPrep": "Patelnia lub kocioł warzelny, 5–6 min od zamrożenia. Porcje ok. 25 g ułatwiają dozowanie.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [
+      "seler",
+      "gorczyca"
+    ],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "patelnia": "8–10 min"
+    },
+    "slug": "warzywa-na-patelnie-2-5-kg",
+    "name": "Warzywa na patelnię orientalne",
+    "sub": "Warzywa",
+    "consumer": "warzywa-na-patelnie-orientalne",
+    "description": "Warzywa na patelnię orientalne w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "bean",
+        "name": "fasolka szparagowa",
+        "pct": 26
+      },
+      {
+        "key": "carrot",
+        "name": "marchew",
+        "pct": 22
+      },
+      {
+        "key": "pepper",
+        "name": "papryka czerwona",
+        "pct": 18
+      },
+      {
+        "key": "broccoli",
+        "name": "brokuł",
+        "pct": 18
+      },
+      {
+        "key": "onion",
+        "name": "cebula",
+        "pct": 10
+      }
+    ],
+    "composition": "warzywa w zmiennych proporcjach 94% (fasolka szparagowa, marchew, papryka czerwona, brokuł, cebula), olej rzepakowy, przyprawy, sól, cukier, skrobia kukurydziana",
+    "nutrition": {
+      "kj": 230,
+      "kcal": 55,
+      "fat": 2.1,
+      "sat": 0.2,
+      "carbs": 6.2,
+      "sugars": 3.9,
+      "fiber": 2.6,
+      "protein": 1.8,
+      "salt": 0.62
+    },
+    "proPrep": "Patelnia uchylna lub wok, 6–8 min na dużym ogniu, bez dodatku tłuszczu.",
+    "yield": "ok. 16 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "piekarnik": "18–20 min",
+      "frytkownica": "3–4 min",
+      "airfryer": "14–16 min"
+    },
+    "slug": "frytki-proste-2-5-kg",
+    "name": "Frytki proste 9 × 9 mm",
+    "sub": "Frytki",
+    "consumer": "frytki-proste",
+    "description": "Frytki proste 9 × 9 mm w opakowaniu gastronomicznym 2,5 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "fry",
+        "name": "ziemniaki",
+        "pct": 96
+      }
+    ],
+    "composition": "ziemniaki 96%, olej słonecznikowy",
+    "nutrition": {
+      "kj": 560,
+      "kcal": 133,
+      "fat": 4.2,
+      "sat": 0.5,
+      "carbs": 21,
+      "sugars": 0.4,
+      "fiber": 2.3,
+      "protein": 2.2,
+      "salt": 0.05
+    },
+    "proPrep": "Frytownica 175°C, 3 min. Piec konwekcyjny 220°C, 14–16 min.",
+    "yield": "ok. 17 porcji po 150 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska",
+      "calibre": "9 × 9 mm"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2 kg",
+    "prep": {
+      "patelnia": "10–12 min"
+    },
+    "slug": "kurki-2-kg",
+    "name": "Kurki całe",
+    "sub": "Grzyby",
+    "consumer": "kurki",
+    "description": "Kurki całe w opakowaniu gastronomicznym 2 kg. Stała kalibracja i szybka obróbka w kuchni profesjonalnej: z zamrożenia prosto do pieca konwekcyjno-parowego lub na patelnię.",
+    "ingredients": [
+      {
+        "key": "chanterelle",
+        "name": "kurki",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 140,
+      "kcal": 34,
+      "fat": 0.5,
+      "sat": 0.1,
+      "carbs": 2.2,
+      "sugars": 0.2,
+      "fiber": 3.8,
+      "protein": 1.5,
+      "salt": 0.02
+    },
+    "proPrep": "Patelnia, 8–10 min od zamrożenia, na maśle klarowanym.",
+    "yield": "ok. 20 porcji po 100 g",
+    "spec": {
+      "collective": "5 × 2 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska",
+      "calibre": "kapelusz 15–40 mm"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "rozmrazanie": "2–3 h w lodówce"
+    },
+    "slug": "truskawki-2-5-kg",
+    "name": "Truskawki całe",
+    "sub": "Owoce",
+    "consumer": "truskawki",
+    "description": "Truskawki całe w opakowaniu gastronomicznym 2,5 kg. Owoce mrożone pojedynczo (IQF), łatwe do porcjowania w deserach, sosach i koktajlach, bez rozmrażania całego opakowania.",
+    "ingredients": [
+      {
+        "key": "strawberry",
+        "name": "truskawki",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 136,
+      "kcal": 32,
+      "fat": 0.3,
+      "sat": 0,
+      "carbs": 5.7,
+      "sugars": 4.9,
+      "fiber": 1.8,
+      "protein": 0.7,
+      "salt": 0
+    },
+    "proPrep": "Do sosów i musów bez rozmrażania. Do dekoracji rozmrażać w chłodni 4–6 h.",
+    "yield": "ok. 25 porcji po 100 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska",
+      "calibre": "20–35 mm"
+    }
+  },
+  {
+    "pack": "gastronomiczne",
+    "isNew": false,
+    "allergens": [],
+    "mayContain": [],
+    "portion": 150,
+    "category": "horeca",
+    "weight": "2,5 kg",
+    "prep": {
+      "rozmrazanie": "1–2 h w lodówce"
+    },
+    "slug": "maliny-2-5-kg",
+    "name": "Maliny",
+    "sub": "Owoce",
+    "consumer": "maliny",
+    "description": "Maliny w opakowaniu gastronomicznym 2,5 kg. Owoce mrożone pojedynczo (IQF), łatwe do porcjowania w deserach, sosach i koktajlach, bez rozmrażania całego opakowania.",
+    "ingredients": [
+      {
+        "key": "raspberry",
+        "name": "maliny",
+        "pct": 100
+      }
+    ],
+    "nutrition": {
+      "kj": 186,
+      "kcal": 44,
+      "fat": 0.3,
+      "sat": 0,
+      "carbs": 4.8,
+      "sugars": 4.4,
+      "fiber": 6.5,
+      "protein": 1.2,
+      "salt": 0
+    },
+    "proPrep": "Do sosów i deserów bez rozmrażania. Owoce IQF, łatwe dozowanie.",
+    "yield": "ok. 25 porcji po 100 g",
+    "spec": {
+      "collective": "4 × 2,5 kg (karton 10 kg)",
+      "pallet": "80 kartonów / 800 kg",
+      "ean": null,
+      "shelfLife": "24 miesiące",
+      "storage": "-18°C lub niżej",
+      "origin": "Polska"
+    }
+  }
+]

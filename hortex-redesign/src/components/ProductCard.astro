@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import type { Product } from '../lib/data';
+import { t } from '../lib/data';
+import { img } from '../lib/images';
+
+interface Props { p: Product; eager?: boolean; showInquiry?: boolean; headingLevel?: 'h2' | 'h3' }
+const { p, eager = false, showInquiry = p.pack === 'gastronomiczne', headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<article class="card card--product" data-item data-category={p.category} data-pack={p.pack} data-sub={p.sub ?? ''} data-line={p.line ?? ''} data-prep={Object.keys(p.prep).join(' ')} data-new={p.isNew ? '1' : '0'}>
+  <div class="media media--contain" style={`--ratio: 4/5; --media-bg: var(--tint-${p.pack === 'gastronomiczne' ? 'horeca' : p.category})`}>
+    <img src={img.pack(p.slug)} alt={`Opakowanie: ${p.name}, ${p.weight}`} width="400" height="500" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  </div>
+  {(p.isNew || p.pack === 'gastronomiczne') && (
+    <div class="card__badges">
+      {p.isNew && <span class="badge badge--brand">Nowość</span>}
+      {p.pack === 'gastronomiczne' && <span class="badge">HoReCa</span>}
+    </div>
+  )}
+  <H class="card__title"><a href={`/produkty/${p.slug}/`}>{t(p.name)}</a></H>
+  <p class="card__meta"><span class="t-num">{p.weight}</span>{p.line && <span>{p.line}</span>}</p>
+  {showInquiry && (
+    <div class="card__actions">
+      <button type="button" class="btn btn--ghost btn--sm inquiry-btn" data-inquiry-add={p.slug} aria-pressed="false">
+        <Icon name="plus" /><span data-label>Dodaj do zapytania</span>
+      </button>
+    </div>
+  )}
+</article>

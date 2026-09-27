@@ -1,0 +1,362 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { horecaProducts, site, t } from '../../lib/data';
+import { img } from '../../lib/images';
+
+const subs = [...new Set(horecaProducts.map((p) => p.sub!))];
+const productIndex = Object.fromEntries(horecaProducts.map((p) => [p.slug, { name: p.name, weight: p.weight, img: img.pack(p.slug) }]));
+const regions = ['dolnośląskie', 'kujawsko-pomorskie', 'lubelskie', 'lubuskie', 'łódzkie', 'małopolskie', 'mazowieckie', 'opolskie', 'podkarpackie', 'podlaskie', 'pomorskie', 'śląskie', 'świętokrzyskie', 'warmińsko-mazurskie', 'wielkopolskie', 'zachodniopomorskie', 'poza Polską'];
+const segments = [
+  { icon: 'chef', title: 'HoReCa i catering', text: 'Restauracje, hotele, stołówki i catering. Opakowania 2–2,5 kg, stała kalibracja, wydajność po obróbce.', href: '/kategorie-produktow/horeca/', cta: 'Asortyment HoReCa' },
+  { icon: 'cart', title: 'Sieci i dystrybucja', text: 'Pełna oferta konsumencka, nowości sezonowe i wsparcie półki. Katalog handlowy i opiekun sieci.', href: '/dla-biznesu/katalogi/', cta: 'Katalog handlowy' },
+  { icon: 'truck', title: 'Eksport', text: 'Produkty pod marką Hortex i marki własne. Zakres współpracy eksportowej do potwierdzenia z działem handlowym.', href: '#zapytanie', cta: 'Zapytaj o eksport' },
+] as const;
+---
+<Base title="Dla biznesu" description="Hortex dla gastronomii, handlu i eksportu: asortyment HoReCa 2–2,5 kg, karty specyfikacji, katalogi i zapytanie ofertowe." audience="biznes">
+  <section class="biz-hero band--deep">
+    <div class="container biz-hero__grid">
+      <div class="biz-hero__copy">
+        <Breadcrumbs items={[{ label: 'Dla biznesu' }]} />
+        <h1>Dla gastronomii i&nbsp;handlu</h1>
+        <p class="t-lead">{t('Warzywa, owoce, grzyby i frytki w opakowaniach gastronomicznych. Specyfikacje bez logowania, katalog jednym kliknięciem, odpowiedź handlowca w dwa dni robocze.')}</p>
+        <div class="cluster" style="--cluster: var(--s-2)">
+          <a class="btn btn--light" href="#zapytanie">Zapytaj o ofertę <Icon name="arrow" /></a>
+          <a class="btn btn--ghost-light" href="/pliki/katalog-horeca-2026.pdf" download><Icon name="download" />Pobierz katalog HoReCa</a>
+        </div>
+      </div>
+      <div class="media biz-hero__img" style="--ratio: 16/9; --media-bg: #aeb6b6">
+        <img src={img.scene('kitchen-pro')} alt="Kuchnia profesjonalna: pojemniki GN z brokułem, marchewką, groszkiem, frytkami i kurkami" width="1600" height="900" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="seg-title">
+    <div class="container">
+      <SectionHeader id="seg-title" eyebrow="Z kim pracujemy" title="Trzy kanały, jeden dostawca" />
+      <ul class="segments" role="list">
+        {segments.map((s) => (
+          <li class="segment">
+            <Icon name={s.icon} class="segment__icon" />
+            <h3>{s.title}</h3>
+            <p class="t-muted">{t(s.text)}</p>
+            <a class="link-arrow" href={s.href}>{s.cta} <Icon name="arrow" /></a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band--surface" aria-labelledby="facts-title">
+    <div class="container facts-grid">
+      <SectionHeader id="facts-title" eyebrow="Fakty" title="Produkcja w Polsce, blisko pól" />
+      <dl class="biz-facts">
+        {site.facts.plants.map((p) => (
+          <div><dt><Icon name="factory" />Zakład {p.city}</dt><dd>{t(p.role)}</dd></div>
+        ))}
+        <div><dt><Icon name="users" />Zatrudnienie</dt><dd>{site.facts.employees} pracowników</dd></div>
+        <div><dt><Icon name="truck" />Kanały sprzedaży</dt><dd>{site.facts.channels.join(', ')}</dd></div>
+        <div class="biz-facts__todo"><dt><Icon name="shield" />Jakość i&nbsp;certyfikaty</dt><dd>Lista certyfikatów do uzyskania od Hortex <span class="badge badge--outline">do uzupełnienia</span></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" id="asortyment" aria-labelledby="range-title" data-filter-root data-noun="produkt|produkty|produktów">
+    <div class="container">
+      <SectionHeader id="range-title" eyebrow="Asortyment HoReCa" title="Opakowania 2–2,5 kg" text="Dodaj produkty do zapytania. Lista trafi do formularza poniżej.">
+        <div class="view-toggle" role="group" aria-label="Widok listy">
+          <button type="button" aria-pressed="true" data-view="table"><Icon name="table" />Tabela</button>
+          <button type="button" aria-pressed="false" data-view="grid"><Icon name="grid" />Siatka</button>
+        </div>
+      </SectionHeader>
+      <div class="chip-row chip-row--scroll range-filters" data-filter-group data-param="grupa" data-attr="sub" role="group" aria-label="Grupa produktów">
+        <button type="button" class="chip" data-value="" aria-pressed="true">Wszystkie</button>
+        {subs.map((s) => <button type="button" class="chip" data-value={s} aria-pressed="false">{s}</button>)}
+        <span class="t-small t-muted range-count" aria-live="polite" data-filter-count></span>
+      </div>
+
+      <div class="range" data-range-view="table">
+        <div class="range__table-wrap">
+          <table class="data-table range__table">
+            <caption class="visually-hidden">Asortyment HoReCa ze specyfikacją</caption>
+            <thead>
+              <tr><th scope="col"><span class="visually-hidden">Zdjęcie</span></th><th scope="col">Produkt</th><th scope="col">Gramatura</th><th scope="col">Kalibracja</th><th scope="col">Opakowanie zbiorcze</th><th scope="col">Wydajność</th><th scope="col"><span class="visually-hidden">Akcja</span></th></tr>
+            </thead>
+            <tbody data-filter-list>
+              {horecaProducts.map((p) => (
+                <tr data-item data-sub={p.sub}>
+                  <td><img src={img.pack(p.slug)} alt="" width="400" height="500" loading="lazy" class="range__thumb" /></td>
+                  <th scope="row"><a href={`/produkty/${p.slug}/`}>{p.name}</a></th>
+                  <td class="t-num">{p.weight}</td>
+                  <td>{p.spec?.calibre ?? <span class="todo">do uzupełnienia</span>}</td>
+                  <td>{p.spec?.collective}</td>
+                  <td>{p.yield}</td>
+                  <td><button type="button" class="btn btn--ghost btn--sm inquiry-btn" data-inquiry-add={p.slug} aria-pressed="false"><Icon name="plus" /><span data-label>Dodaj do zapytania</span></button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div class="product-grid range__grid">
+          {horecaProducts.map((p) => <ProductCard p={p} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band--surface" aria-labelledby="mat-title">
+    <div class="container">
+      <SectionHeader id="mat-title" eyebrow="Materiały" title="Katalogi i karty specyfikacji">
+        <a class="link-arrow" href="/dla-biznesu/katalogi/">Wszystkie materiały <Icon name="arrow" /></a>
+      </SectionHeader>
+      <ul class="materials" role="list">
+        <li><a href="/pliki/katalog-horeca-2026.pdf" download><Icon name="file" /><span><strong>Katalog HoReCa 2026</strong><span class="t-small t-muted">PDF · pobierz bez rejestracji</span></span><Icon name="download" /></a></li>
+        <li><a href="/pliki/karty-specyfikacji-horeca.pdf" download><Icon name="file" /><span><strong>Karty specyfikacji HoReCa</strong><span class="t-small t-muted">PDF · wszystkie produkty 2–2,5&nbsp;kg</span></span><Icon name="download" /></a></li>
+        <li><a href="/dla-biznesu/katalogi/#katalog-handlowy"><Icon name="file" /><span><strong>Katalog handlowy dla sieci</strong><span class="t-small t-muted">PDF · po krótkim formularzu</span></span><Icon name="arrow" /></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="zapytanie" aria-labelledby="form-title">
+    <div class="container inquiry">
+      <div class="inquiry__intro">
+        <SectionHeader id="form-title" eyebrow="Zapytanie ofertowe" title="Zapytaj o ofertę" text="Wypełnij formularz, a handlowiec z Twojego regionu odezwie się w ciągu dwóch dni roboczych." />
+        <div class="inquiry__contact">
+          <p class="t-meta t-muted">Dział handlowy</p>
+          <p><a href="tel:+48000000000"><Icon name="phone" />+48 00 000 00 00</a></p>
+          <p><a href="mailto:handel@example.com"><Icon name="mail" />handel@example.com</a></p>
+        </div>
+      </div>
+
+      <form class="inquiry__form" data-inquiry-form novalidate>
+        <fieldset class="inquiry__products">
+          <legend class="t-h3">Wybrane produkty</legend>
+          <p class="t-small t-muted" data-inquiry-empty>Lista jest pusta. Dodaj produkty z tabeli powyżej albo opisz potrzeby w polu „Inne produkty”.</p>
+          <ul role="list" class="inquiry__list" data-inquiry-list></ul>
+          <div class="field">
+            <label for="q-other">Inne produkty lub uwagi</label>
+            <textarea id="q-other" name="other" class="textarea" rows="3" placeholder="np. mieszanka meksykańska 2,5 kg, 200 kg miesięcznie"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-grid">
+          <legend class="t-h3">Twoja firma</legend>
+          <div class="field">
+            <label for="q-company">Nazwa firmy</label>
+            <input id="q-company" name="company" class="input" required autocomplete="organization" />
+            <p class="error">Podaj nazwę firmy.</p>
+          </div>
+          <div class="field">
+            <label for="q-type">Typ działalności</label>
+            <select id="q-type" name="type" class="select" required>
+              <option value="">Wybierz</option>
+              <option>Restauracja</option><option>Hotel</option><option>Catering</option><option>Stołówka / żywienie zbiorowe</option>
+              <option>Hurtownia / dystrybucja</option><option>Sieć handlowa</option><option>Eksport</option><option>Inne</option>
+            </select>
+            <p class="error">Wybierz typ działalności.</p>
+          </div>
+          <div class="field">
+            <label for="q-region">Region</label>
+            <select id="q-region" name="region" class="select" required>
+              <option value="">Wybierz województwo</option>
+              {regions.map((r) => <option>{r}</option>)}
+            </select>
+            <p class="error">Wybierz region.</p>
+          </div>
+          <div class="field">
+            <label for="q-nip">NIP <span class="hint">(opcjonalnie)</span></label>
+            <input id="q-nip" name="nip" class="input" inputmode="numeric" pattern="[0-9\- ]{10,13}" />
+            <p class="error">NIP ma 10 cyfr.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-grid">
+          <legend class="t-h3">Kontakt</legend>
+          <div class="field span-2">
+            <label for="q-name">Imię i nazwisko</label>
+            <input id="q-name" name="name" class="input" required autocomplete="name" />
+            <p class="error">Podaj imię i nazwisko.</p>
+          </div>
+          <div class="field">
+            <label for="q-email">E-mail</label>
+            <input id="q-email" name="email" type="email" class="input" required autocomplete="email" />
+            <p class="error">Wpisz poprawny adres e-mail.</p>
+          </div>
+          <div class="field">
+            <label for="q-phone">Telefon</label>
+            <input id="q-phone" name="phone" type="tel" class="input" autocomplete="tel" pattern="[0-9+ ()\-]{9,}" />
+            <p class="error">Wpisz poprawny numer telefonu.</p>
+          </div>
+          <div class="field span-2">
+            <label class="check"><input type="checkbox" name="consent" required /><span>Zgadzam się na kontakt handlowy w sprawie zapytania. <a href="/klauzula-rodo/">Klauzula RODO</a></span></label>
+            <p class="error">Zgoda jest potrzebna, żeby handlowiec mógł odpowiedzieć.</p>
+          </div>
+        </fieldset>
+
+        <div class="inquiry__submit">
+          <button class="btn" type="submit" data-submit>Wyślij zapytanie <Icon name="arrow" /></button>
+          <p class="prototype-note">Prototyp: formularz nie wysyła danych (mock endpoint).</p>
+        </div>
+      </form>
+
+      <div class="form-success inquiry__success" data-inquiry-success hidden tabindex="-1" role="status">
+        <Icon name="check" class="success-icon" />
+        <h3>Dziękujemy, zapytanie przyjęte</h3>
+        <p>Numer zgłoszenia: <strong class="t-num" data-ticket></strong>. Handlowiec z regionu <strong data-region></strong> odpowie w ciągu dwóch dni roboczych.</p>
+        <ul data-summary class="t-small"></ul>
+        <button type="button" class="btn btn--ghost" data-inquiry-new>Nowe zapytanie</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/json" id="horeca-index" set:html={JSON.stringify(productIndex)} />
+</Base>
+
+<script>
+  import { validateForm } from '../../scripts/site';
+
+  // Przełącznik tabela / siatka
+  const range = document.querySelector<HTMLElement>('[data-range-view]')!;
+  document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((b) =>
+    b.addEventListener('click', () => {
+      range.dataset.rangeView = b.dataset.view!;
+      document.querySelectorAll('[data-view]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    }),
+  );
+  // Filtr grupy działa na obu widokach
+  document.querySelectorAll<HTMLButtonElement>('.range-filters [data-value]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const v = b.dataset.value;
+      document.querySelectorAll<HTMLElement>('.range__grid [data-item]').forEach((c) => {
+        c.hidden = !!v && c.dataset.sub !== v;
+      });
+    }),
+  );
+
+  // Lista zapytania w formularzu
+  const index = JSON.parse(document.getElementById('horeca-index')!.textContent!) as Record<string, { name: string; weight: string; img: string }>;
+  const list = document.querySelector<HTMLElement>('[data-inquiry-list]')!;
+  const emptyNote = document.querySelector<HTMLElement>('[data-inquiry-empty]')!;
+  const store = () => (window as any).__inquiry as { get: () => string[]; set: (l: string[]) => void };
+  const volumes: Record<string, string> = {};
+  const renderList = () => {
+    const items = store().get().filter((s) => index[s]);
+    emptyNote.hidden = items.length > 0;
+    list.innerHTML = items
+      .map((s) => {
+        const p = index[s];
+        const id = `vol-${s}`;
+        return `<li class="inquiry__item"><img src="${p.img}" alt="" width="48" height="60"><span class="inquiry__name"><strong>${p.name}</strong><span class="t-small t-muted">${p.weight}</span></span>
+        <span class="field"><label for="${id}" class="t-small">Wolumen / mies.</label><input id="${id}" class="input" data-volume="${s}" inputmode="numeric" placeholder="np. 100 kg" value="${volumes[s] ?? ''}"></span>
+        <button type="button" class="inquiry__remove" data-inquiry-remove="${s}" aria-label="Usuń ${p.name} z zapytania">×</button></li>`;
+      })
+      .join('');
+  };
+  list.addEventListener('input', (e) => {
+    const el = e.target as HTMLInputElement;
+    if (el.dataset.volume) volumes[el.dataset.volume] = el.value;
+  });
+  document.addEventListener('inquiry:change', renderList);
+  renderList();
+
+  // Wysyłka do mock endpointu + stan sukcesu
+  const form = document.querySelector<HTMLFormElement>('[data-inquiry-form]')!;
+  const success = document.querySelector<HTMLElement>('[data-inquiry-success]')!;
+  const mockEndpoint = (data: unknown) => new Promise<{ ticket: string }>((res) => setTimeout(() => res({ ticket: `HX-${Date.now().toString().slice(-6)}` }), 700));
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateForm(form)) return;
+    const btn = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    btn.disabled = true;
+    btn.firstChild!.textContent = 'Wysyłanie…';
+    const data = Object.fromEntries(new FormData(form));
+    const items = store().get().filter((s) => index[s]).map((s) => ({ product: index[s].name, volume: volumes[s] ?? '' }));
+    const { ticket } = await mockEndpoint({ ...data, items });
+    success.querySelector('[data-ticket]')!.textContent = ticket;
+    success.querySelector('[data-region]')!.textContent = String(data.region);
+    success.querySelector('[data-summary]')!.innerHTML = items.map((i) => `<li>${i.product}${i.volume ? `: ${i.volume}` : ''}</li>`).join('');
+    form.hidden = true;
+    success.hidden = false;
+    success.focus();
+    store().set([]);
+  });
+  success.querySelector('[data-inquiry-new]')!.addEventListener('click', () => {
+    form.reset();
+    const btn = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    btn.disabled = false;
+    btn.firstChild!.textContent = 'Wyślij zapytanie ';
+    form.hidden = false;
+    success.hidden = true;
+  });
+</script>
+
+<script>
+  import '../../scripts/filters';
+</script>
+
+<style>
+  .biz-hero { padding-block: var(--s-4) var(--s-8); }
+  .biz-hero__grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: var(--s-6); align-items: center; }
+  .biz-hero__copy { display: grid; gap: var(--s-3); justify-items: start; }
+  .biz-hero__copy :global(.breadcrumbs ol), .biz-hero__copy :global(.breadcrumbs [aria-current]) { color: color-mix(in srgb, var(--c-on-brand) 80%, transparent); }
+  .biz-hero__copy .t-lead { color: color-mix(in srgb, var(--c-on-brand) 85%, transparent); max-width: 36rem; }
+  .segments { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); }
+  .segment { display: grid; gap: var(--s-2); align-content: start; justify-items: start; padding: var(--s-4); border-radius: var(--r-img); background: var(--c-surface); }
+  .segment :global(.segment__icon) { width: 36px; height: 36px; color: var(--c-brand); }
+  .facts-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: var(--s-6); }
+  .biz-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4) var(--grid-gap); }
+  .biz-facts div { border-top: 1.5px solid var(--c-ink); padding-top: var(--s-2); }
+  .biz-facts dt { display: flex; gap: 0.5em; align-items: center; font-weight: 700; }
+  .biz-facts dt :global(svg) { width: 22px; height: 22px; color: var(--c-brand); }
+  .biz-facts dd { color: var(--c-ink-muted); margin-top: 4px; }
+  .view-toggle { display: inline-flex; padding: 3px; border-radius: var(--r-pill); background: var(--c-sunk); }
+  .view-toggle button { display: inline-flex; gap: 0.4em; align-items: center; border: 0; background: none; padding: 0.5em 1em; border-radius: var(--r-pill); font-weight: 500; min-height: 40px; }
+  .view-toggle button[aria-pressed='true'] { background: var(--c-ink); color: var(--c-bg); }
+  .view-toggle :global(svg) { width: 18px; height: 18px; }
+  .range-filters { margin-bottom: var(--s-3); align-items: center; }
+  .range-count { margin-left: auto; }
+  .range[data-range-view='table'] .range__grid { display: none; }
+  .range[data-range-view='grid'] .range__table-wrap { display: none; }
+  .range__table-wrap { overflow-x: auto; }
+  .range__table { min-width: 860px; }
+  .range__table td, .range__table th { vertical-align: middle; }
+  .range__table tbody th a { text-decoration: none; font-weight: 600; }
+  .range__table tbody th a:hover { text-decoration: underline; }
+  .range__thumb { width: 44px; }
+  .materials { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); }
+  .materials a { display: grid; grid-template-columns: auto 1fr auto; gap: var(--s-2); align-items: center; padding: var(--s-3); border-radius: var(--r-img); background: var(--c-bg); text-decoration: none; border: 1.5px solid transparent; transition: border-color var(--t-ui); }
+  .materials a:hover { border-color: var(--c-brand); }
+  .materials a > span { display: grid; }
+  .materials :global(svg) { width: 26px; height: 26px; color: var(--c-brand); }
+  .inquiry { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: var(--s-8); align-items: start; }
+  .inquiry__intro { position: sticky; top: calc(var(--header-h) + var(--s-2)); }
+  .inquiry__contact { display: grid; gap: var(--s-1); }
+  .inquiry__contact a { display: inline-flex; gap: 0.5em; align-items: center; font-weight: 600; text-decoration: none; }
+  .inquiry__contact :global(svg) { width: 18px; height: 18px; color: var(--c-brand); }
+  .inquiry__form { display: grid; gap: var(--s-6); }
+  .inquiry__form fieldset { border: 0; padding: 0; }
+  .inquiry__form legend { margin-bottom: var(--s-3); }
+  .inquiry__products { display: grid; gap: var(--s-3); padding: var(--s-4) !important; background: var(--c-surface); border-radius: var(--r-img); }
+  .inquiry__list { list-style: none; padding: 0; display: grid; gap: var(--s-1); }
+  .inquiry__list :global(.inquiry__item) { display: grid; grid-template-columns: 48px 1fr 180px auto; gap: var(--s-2); align-items: center; padding: var(--s-1) 0; border-bottom: 1px solid var(--c-line); }
+  .inquiry__list :global(.inquiry__name) { display: grid; }
+  .inquiry__list :global(.inquiry__remove) { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--c-line-strong); background: none; font-size: 1.25rem; line-height: 1; }
+  .inquiry__list :global(.inquiry__remove:hover) { background: var(--c-danger-soft); border-color: var(--c-danger); }
+  .inquiry__list :global(.input) { min-height: 40px; }
+  .inquiry__submit { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+  .inquiry__success { display: grid; gap: var(--s-2); justify-items: start; }
+  .inquiry__success :global(.success-icon) { width: 48px; height: 48px; padding: 10px; border-radius: 50%; background: var(--c-brand); color: var(--c-on-brand); }
+  @media (max-width: 960px) {
+    .biz-hero__grid, .facts-grid, .inquiry { grid-template-columns: 1fr; }
+    .segments, .materials { grid-template-columns: 1fr; }
+    .inquiry__intro { position: static; }
+  }
+  @media (max-width: 560px) {
+    .biz-facts { grid-template-columns: 1fr; }
+    .inquiry__list :global(.inquiry__item) { grid-template-columns: 40px 1fr auto; }
+    .inquiry__list :global(.inquiry__item .field) { grid-column: 2 / -1; grid-row: 2; }
+  }
+</style>

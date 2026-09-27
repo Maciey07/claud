@@ -1,0 +1,29 @@
+---
+import type { Nutrition } from '../lib/data';
+import { num } from '../lib/data';
+interface Props { n: Nutrition; portion: number }
+const { n, portion } = Astro.props;
+const f = portion / 100;
+const rows: [string, (x: Nutrition) => string, boolean?][] = [
+  ['Wartość energetyczna', (x) => `${Math.round(x.kj)} kJ / ${Math.round(x.kcal)} kcal`],
+  ['Tłuszcz', (x) => `${num(x.fat)} g`],
+  ['w tym kwasy tłuszczowe nasycone', (x) => `${num(x.sat)} g`, true],
+  ['Węglowodany', (x) => `${num(x.carbs)} g`],
+  ['w tym cukry', (x) => `${num(x.sugars)} g`, true],
+  ['Błonnik', (x) => `${num(x.fiber)} g`],
+  ['Białko', (x) => `${num(x.protein)} g`],
+  ['Sól', (x) => `${num(x.salt, 2)} g`],
+];
+const scaled: Nutrition = Object.fromEntries(Object.entries(n).map(([k, v]) => [k, v * f])) as Nutrition;
+---
+<table class="data-table nutrition">
+  <caption>Wartości odżywcze</caption>
+  <thead>
+    <tr><th scope="col">Składnik</th><th scope="col" class="num">100&nbsp;g</th><th scope="col" class="num">Porcja {portion}&nbsp;g</th></tr>
+  </thead>
+  <tbody>
+    {rows.map(([label, fn, sub]) => (
+      <tr class={sub ? 'sub' : undefined}><th scope="row">{label}</th><td class="num">{fn(n)}</td><td class="num">{fn(scaled)}</td></tr>
+    ))}
+  </tbody>
+</table>

@@ -1,0 +1,80 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+---
+<Base title="Katalogi" description="Katalogi Hortex do pobrania: katalog HoReCa, karty specyfikacji i katalog handlowy dla sieci." audience="biznes">
+  <section class="container kat">
+    <Breadcrumbs items={[{ label: 'Dla biznesu', href: '/dla-biznesu/' }, { label: 'Katalogi' }]} />
+    <h1>Katalogi i&nbsp;materiały</h1>
+    <p class="t-lead t-muted kat__lead">Stała podstrona zamiast wpisu w Aktualnościach. Stary adres <code>/aktualnosci/katalogi-hortex/</code> przekierowuje tutaj (301).</p>
+
+    <ul class="kat__list" role="list">
+      <li class="kat__item">
+        <div class="kat__cover kat__cover--horeca" aria-hidden="true"><span>Katalog<br />HoReCa<br />2026</span></div>
+        <div class="kat__body">
+          <h2 class="t-h3">Katalog HoReCa 2026</h2>
+          <p class="t-muted">Wszystkie produkty w opakowaniach 2–2,5&nbsp;kg: gramatury, kalibracja, wydajność i sposób przygotowania w kuchni profesjonalnej.</p>
+          <a class="btn" href="/pliki/katalog-horeca-2026.pdf" download><Icon name="download" />Pobierz PDF</a>
+        </div>
+      </li>
+      <li class="kat__item">
+        <div class="kat__cover kat__cover--spec" aria-hidden="true"><span>Karty<br />specyfikacji</span></div>
+        <div class="kat__body">
+          <h2 class="t-h3">Karty specyfikacji HoReCa</h2>
+          <p class="t-muted">Jedna karta na produkt: skład, alergeny, wartości odżywcze, logistyka i paletyzacja.</p>
+          <a class="btn" href="/pliki/karty-specyfikacji-horeca.pdf" download><Icon name="download" />Pobierz PDF</a>
+        </div>
+      </li>
+      <li class="kat__item" id="katalog-handlowy">
+        <div class="kat__cover kat__cover--trade" aria-hidden="true"><span>Katalog<br />handlowy</span></div>
+        <div class="kat__body">
+          <h2 class="t-h3">Katalog handlowy dla sieci i dystrybucji</h2>
+          <p class="t-muted">Pełna oferta konsumencka z nowościami sezonu. Po krótkim formularzu przypiszemy Ci opiekuna handlowego.</p>
+          <form class="kat__form" data-demo-form data-replace novalidate>
+            <div class="field">
+              <label for="k-company">Firma</label>
+              <input id="k-company" name="company" class="input" required autocomplete="organization" />
+              <p class="error">Podaj nazwę firmy.</p>
+            </div>
+            <div class="field">
+              <label for="k-email">E-mail służbowy</label>
+              <input id="k-email" name="email" type="email" class="input" required autocomplete="email" />
+              <p class="error">Wpisz poprawny adres e-mail.</p>
+            </div>
+            <div class="field kat__consent">
+              <label class="check"><input type="checkbox" required /><span>Zgadzam się na kontakt handlowy. <a href="/klauzula-rodo/">Klauzula RODO</a></span></label>
+              <p class="error">Zaznacz zgodę.</p>
+            </div>
+            <button class="btn" type="submit">Odblokuj katalog</button>
+            <div class="form-success" data-success hidden tabindex="-1" role="status">
+              <h3>Gotowe</h3>
+              <p>Katalog jest gotowy do pobrania. (Prototyp: dane nie zostały wysłane.)</p>
+              <a class="btn" href="/pliki/katalog-handlowy-2026.pdf" download><Icon name="download" />Pobierz katalog handlowy</a>
+            </div>
+          </form>
+        </div>
+      </li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .kat { padding-block: var(--s-4) var(--s-section); display: grid; gap: var(--s-3); }
+  .kat h1 { margin-top: var(--s-2); }
+  .kat__lead { max-width: 44rem; }
+  .kat__lead code { font-size: 0.85em; background: var(--c-sunk); padding: 0.1em 0.4em; border-radius: 4px; }
+  .kat__list { list-style: none; padding: 0; display: grid; gap: var(--s-4); margin-top: var(--s-4); }
+  .kat__item { display: grid; grid-template-columns: 200px 1fr; gap: var(--s-5); padding-bottom: var(--s-4); border-bottom: 1px solid var(--c-line); }
+  .kat__cover { aspect-ratio: 210 / 297; border-radius: var(--r-img); display: flex; align-items: flex-end; padding: var(--s-2); font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; line-height: 1.05; color: var(--c-on-brand); box-shadow: 8px 8px 0 var(--c-sunk); }
+  .kat__cover--horeca { background: #2b3a36; }
+  .kat__cover--spec { background: var(--c-brand); }
+  .kat__cover--trade { background: #b8323f; }
+  .kat__body { display: grid; gap: var(--s-2); align-content: start; justify-items: start; max-width: 40rem; }
+  .kat__form { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); width: 100%; margin-top: var(--s-1); align-items: start; }
+  .kat__consent, .kat__form .form-success { grid-column: 1 / -1; }
+  .kat__form .form-success { display: grid; gap: var(--s-2); justify-items: start; }
+  .kat__form .form-success[hidden] { display: none; }
+  .kat__form[hidden] { display: none; }
+  @media (max-width: 640px) { .kat__item { grid-template-columns: 1fr; } .kat__cover { width: 140px; } .kat__form { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,203 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import RecipeCard from '../../components/RecipeCard.astro';
+import NutritionTable from '../../components/NutritionTable.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import { productBySlug, recipes } from '../../lib/data';
+import { img } from '../../lib/images';
+import { ingredientKeys, ingredientLabel } from '../../lib/art';
+
+const p = productBySlug('mix-brokul-i-kalafior')!;
+const pNew = productBySlug('szparagi-zielone')!;
+const pro = productBySlug('brokuly-rozyczki-2-5-kg')!;
+const colors = [
+  ['--c-bg', 'Tło bazowe (beż)'], ['--c-surface', 'Płaszczyzna'], ['--c-sunk', 'Zagłębienie'], ['--c-ink', 'Tekst'], ['--c-ink-muted', 'Tekst drugorzędny'],
+  ['--c-line', 'Linie'], ['--c-brand', 'Marka'], ['--c-brand-deep', 'Marka ciemna'], ['--c-brand-soft', 'Marka jasna'], ['--c-danger', 'Błąd / alergeny'],
+];
+const tints = ['warzywa', 'warzywa-do-zapiekania', 'owoce', 'zupy', 'dania-gotowe', 'pizza', 'menu-kurkowe', 'frytki', 'linia-szparagowa', 'horeca'];
+const variants = [
+  { key: 'A', label: 'A (rekomendowany): Bricolage Grotesque + Inter', display: "'Bricolage Grotesque'", text: "'Inter'", w: 780 },
+  { key: 'B', label: 'B: Instrument Sans', display: "'Instrument Sans SG'", text: "'Instrument Sans SG'", w: 700, stretch: '85%' },
+  { key: 'C', label: 'C: Plus Jakarta Sans', display: "'Plus Jakarta SG'", text: "'Plus Jakarta SG'", w: 800 },
+];
+const scale = [
+  ['Display', 'var(--fs-display)', 'var(--lh-display)', 'Prosto z natury'],
+  ['H1', 'var(--fs-h1)', 'var(--lh-h1)', 'Mix brokuł i kalafior'],
+  ['H2', 'var(--fs-h2)', 'var(--lh-h2)', 'Co dziś ugotować?'],
+  ['H3', 'var(--fs-h3)', 'var(--lh-h3)', 'Placuszki z brokuła i kalafiora'],
+  ['Lead', 'var(--fs-lead)', 'var(--lh-lead)', 'Zbieramy w sezonie, mrozimy w kilka godzin.'],
+  ['Tekst', 'var(--fs-body)', 'var(--lh-body)', 'Różyczki brokułu i kalafiora w proporcji pół na pół. Źdźbło, gęś, żółć, ćma, łąka, ńę.'],
+];
+---
+<Base title="Styleguide" description="Design system prototypu: tokeny, typografia, komponenty.">
+  <style is:inline>
+    @font-face { font-family: 'Instrument Sans SG'; font-weight: 400 700; font-stretch: 75% 100%; font-display: swap; src: url('/fonts/instrument-sans-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+2000-206F; }
+    @font-face { font-family: 'Instrument Sans SG'; font-weight: 400 700; font-stretch: 75% 100%; font-display: swap; src: url('/fonts/instrument-sans-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+1E00-1EFF; }
+    @font-face { font-family: 'Plus Jakarta SG'; font-weight: 200 800; font-display: swap; src: url('/fonts/plus-jakarta-sans-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+2000-206F; }
+    @font-face { font-family: 'Plus Jakarta SG'; font-weight: 200 800; font-display: swap; src: url('/fonts/plus-jakarta-sans-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+1E00-1EFF; }
+  </style>
+  <div class="container sg">
+    <Breadcrumbs items={[{ label: 'Styleguide' }]} />
+    <h1>Styleguide</h1>
+    <p class="t-lead t-muted sg__lead">Tokeny i komponenty prototypu. Wszystkie wartości pochodzą z <code>src/styles/tokens.css</code>.</p>
+
+    <nav class="sg__toc" aria-label="Spis treści">
+      <a href="#kolor">Kolor</a><a href="#typografia">Typografia</a><a href="#warianty">Warianty krojów</a><a href="#przyciski">Przyciski i chipy</a><a href="#karty">Karty</a><a href="#tabele">Tabele</a><a href="#formularze">Formularze</a><a href="#nawigacja">Zakładki i akordeon</a><a href="#ilustracje">Ilustracje</a>
+    </nav>
+
+    <section id="kolor" class="sg__section">
+      <h2>Kolor</h2>
+      <ul class="swatches" role="list">
+        {colors.map(([v, l]) => <li><span class="swatch" style={`background: var(${v})`}></span><strong>{l}</strong><code>{v}</code></li>)}
+      </ul>
+      <h3 class="sg__h3">Tony kategorii</h3>
+      <ul class="swatches swatches--sm" role="list">
+        {tints.map((c) => <li><span class="swatch" style={`background: var(--tint-${c})`}></span><code>--tint-{c}</code></li>)}
+      </ul>
+    </section>
+
+    <section id="typografia" class="sg__section">
+      <h2>Skala typografii</h2>
+      <div class="scale">
+        {scale.map(([n, fs, lh, s]) => (
+          <div class="scale__row">
+            <code>{n}<br /><span>{fs}</span></code>
+            <p style={`font-size:${fs};line-height:${lh};${['Display', 'H1', 'H2'].includes(n) ? `font-family:var(--font-display);font-weight:${n === 'Display' ? 780 : n === 'H1' ? 700 : 620};letter-spacing:${n === 'Display' ? 'var(--tr-display)' : n === 'H1' ? 'var(--tr-h1)' : 'var(--tr-h2)'}` : n === 'H3' ? 'font-weight:600' : ''}`}>{s}</p>
+          </div>
+        ))}
+        <div class="scale__row"><code>Meta</code><p class="t-meta">Etykieta · 35&nbsp;min</p></div>
+      </div>
+    </section>
+
+    <section id="warianty" class="sg__section">
+      <h2>Warianty krojów</h2>
+      <p class="t-muted">Te same nagłówki hero i karta produktu, z pełnym zestawem polskich znaków: ą ę ł ś ż ź ć ń ó Ą Ę Ł Ś Ż Ź Ć Ń Ó.</p>
+      <div class="variants">
+        {variants.map((v) => (
+          <article class="variant" style={`--vd: ${v.display}; --vt: ${v.text}; --vw: ${v.w}; --vs: ${v.stretch ?? '100%'}`}>
+            <p class="t-meta t-muted">{v.label}</p>
+            <p class="variant__display">Prosto z&nbsp;natury</p>
+            <p class="variant__h">Zupa jarzynowa, źródło błonnika</p>
+            <p class="variant__text">Ziemniaki, marchew, groszek i fasolka pokrojone na jedną łyżkę. Żółte, zielone i białe warzywa gotowe w 15&nbsp;min.</p>
+            <div class="variant__card">
+              <img src={img.pack(p.slug)} alt="" width="400" height="500" loading="lazy" />
+              <div><p class="variant__h variant__h--sm">{p.name}</p><p class="variant__text">450&nbsp;g · Gdzie kupić</p></div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="przyciski" class="sg__section">
+      <h2>Przyciski i chipy</h2>
+      <div class="sg__row">
+        <button class="btn" type="button">Znajdź przepis <Icon name="arrow" /></button>
+        <button class="btn btn--ghost" type="button">Zobacz produkty</button>
+        <button class="btn btn--sm" type="button"><Icon name="plus" />Mały</button>
+        <button class="btn" type="button" disabled>Nieaktywny</button>
+        <a class="link-arrow" href="#przyciski">Link ze strzałką <Icon name="arrow" /></a>
+      </div>
+      <div class="sg__row sg__row--brand band--brand">
+        <button class="btn btn--light" type="button">Pobierz katalog</button>
+        <button class="btn btn--ghost-light" type="button">Kontakt handlowy</button>
+      </div>
+      <div class="sg__row">
+        <button class="chip" type="button" aria-pressed="false">Do 30&nbsp;min</button>
+        <button class="chip" type="button" aria-pressed="true">Wege (aktywny)</button>
+        <button class="chip" type="button" disabled>Nieaktywny</button>
+        <span class="badge badge--brand">Nowość</span><span class="badge">HoReCa</span><span class="badge badge--soft">Na patelnię</span><span class="badge badge--outline">dane przykładowe</span>
+      </div>
+    </section>
+
+    <section id="karty" class="sg__section">
+      <SectionHeader title="Karty" text="Bez cieni i ramek. Hover to ruch zdjęcia, nie zmiana tła." split={false} />
+      <div class="sg__cards">
+        <ProductCard p={p} />
+        <ProductCard p={pNew} />
+        <ProductCard p={pro} />
+        <RecipeCard r={recipes[0]} reveal={false} />
+      </div>
+    </section>
+
+    <section id="tabele" class="sg__section sg__tables">
+      <NutritionTable n={p.nutrition} portion={p.portion} />
+      <SpecTable p={pro} />
+    </section>
+
+    <section id="formularze" class="sg__section">
+      <h2>Formularze</h2>
+      <div class="form-grid sg__form">
+        <div class="field"><label for="sg1">Pole tekstowe</label><input id="sg1" class="input" placeholder="Placeholder" /><p class="hint">Podpowiedź pod polem.</p></div>
+        <div class="field" data-invalid><label for="sg2">Pole z błędem</label><input id="sg2" class="input" value="brak@" aria-invalid="true" aria-describedby="sg2e" /><p class="error" id="sg2e">Wpisz poprawny adres e-mail.</p></div>
+        <div class="field"><label for="sg3">Lista</label><select id="sg3" class="select"><option>Restauracja</option></select></div>
+        <div class="field"><label class="check"><input type="checkbox" checked /><span>Pole wyboru</span></label></div>
+      </div>
+      <div class="form-success sg__success"><h3>Stan sukcesu</h3><p>Dziękujemy, zapytanie przyjęte.</p></div>
+    </section>
+
+    <section id="nawigacja" class="sg__section">
+      <h2>Zakładki i akordeon</h2>
+      <div data-tabs>
+        <div class="tabs__list" role="tablist" aria-label="Przykład">
+          <button class="tabs__tab" role="tab" type="button" id="sgt1" aria-controls="sgp1" aria-selected="true"><Icon name="pan" />Patelnia</button>
+          <button class="tabs__tab" role="tab" type="button" id="sgt2" aria-controls="sgp2" aria-selected="false" tabindex="-1"><Icon name="pot" />Gotowanie</button>
+          <button class="tabs__tab" role="tab" type="button" id="sgt3" aria-controls="sgp3" aria-selected="false" tabindex="-1"><Icon name="oven" />Piekarnik</button>
+        </div>
+        <div role="tabpanel" id="sgp1" aria-labelledby="sgt1" tabindex="0"><p>8–10&nbsp;min na średnim ogniu.</p></div>
+        <div role="tabpanel" id="sgp2" aria-labelledby="sgt2" tabindex="0" hidden><p>5–7&nbsp;min od zagotowania.</p></div>
+        <div role="tabpanel" id="sgp3" aria-labelledby="sgt3" tabindex="0" hidden><p>20&nbsp;min w 200°C.</p></div>
+      </div>
+      <div class="accordion sg__acc">
+        <details open><summary>Jak przechowywać?</summary><div class="accordion__body">W temperaturze -18°C lub niższej.</div></details>
+        <details><summary>Czy można zamrozić ponownie?</summary><div class="accordion__body">Nie. Rozmrożony produkt zużyj od razu.</div></details>
+      </div>
+    </section>
+
+    <section id="ilustracje" class="sg__section">
+      <h2>Ilustracje zastępcze: składniki 1:1</h2>
+      <p class="t-muted">Generowane w <code>src/lib/art.ts</code>. Po sesji zdjęciowej podmieniamy adresy w <code>src/lib/images.ts</code>.</p>
+      <ul class="ings" role="list">
+        {ingredientKeys.map((k) => <li><img src={img.ing(k)} alt="" width="200" height="200" loading="lazy" /><span class="t-small">{ingredientLabel(k)}</span></li>)}
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .sg { padding-block: var(--s-4) var(--s-section); }
+  .sg h1 { margin-top: var(--s-3); }
+  .sg__lead { margin-top: var(--s-2); }
+  .sg code { font-size: 0.8125rem; background: var(--c-sunk); padding: 0.1em 0.4em; border-radius: 4px; }
+  .sg__toc { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); margin-top: var(--s-4); padding-block: var(--s-2); border-block: 1px solid var(--c-line); position: sticky; top: 0; background: var(--c-bg); z-index: 5; }
+  .sg__toc a { font-weight: 500; text-decoration: none; }
+  .sg__toc a:hover { text-decoration: underline; }
+  .sg__section { padding-top: var(--s-10); display: grid; gap: var(--s-3); }
+  .sg__h3 { margin-top: var(--s-3); }
+  .swatches { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--s-2); }
+  .swatches li { display: grid; gap: 4px; font-size: var(--fs-small); }
+  .swatch { aspect-ratio: 3/2; border-radius: var(--r-img); box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08); }
+  .scale { display: grid; gap: var(--s-3); }
+  .scale__row { display: grid; grid-template-columns: 200px 1fr; gap: var(--s-3); align-items: baseline; border-bottom: 1px solid var(--c-line); padding-bottom: var(--s-3); }
+  .scale__row code span { opacity: 0.6; font-size: 0.7rem; }
+  .variants { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); }
+  .variant { display: grid; gap: var(--s-2); align-content: start; padding: var(--s-4); background: var(--c-surface); border-radius: var(--r-img); }
+  .variant__display { font-family: var(--vd); font-weight: var(--vw); font-stretch: var(--vs); font-size: clamp(2.5rem, 1.5rem + 2.5vw, 4rem); line-height: 0.92; letter-spacing: -0.03em; color: var(--c-brand-deep); }
+  .variant__h { font-family: var(--vd); font-weight: 650; font-stretch: var(--vs); font-size: 1.5rem; line-height: 1.1; letter-spacing: -0.02em; }
+  .variant__h--sm { font-size: 1.125rem; }
+  .variant__text { font-family: var(--vt); font-size: 1rem; line-height: 1.55; }
+  .variant__card { display: grid; grid-template-columns: 80px 1fr; gap: var(--s-2); align-items: center; padding-top: var(--s-2); border-top: 1px solid var(--c-line); }
+  .sg__row { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+  .sg__row--brand { padding: var(--s-3); border-radius: var(--r-img); }
+  .sg__cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--grid-gap); }
+  .sg__tables { grid-template-columns: 1fr 1fr; gap: var(--s-6); }
+  .sg__form { max-width: 720px; }
+  .sg__success { max-width: 720px; }
+  .sg__acc { max-width: 720px; margin-top: var(--s-4); }
+  .ings { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: var(--s-2); }
+  .ings li { display: grid; justify-items: center; gap: 4px; text-align: center; }
+  @media (max-width: 960px) { .variants, .sg__tables { grid-template-columns: 1fr; } .sg__cards { grid-template-columns: repeat(2, 1fr); } .scale__row { grid-template-columns: 1fr; } }
+</style>

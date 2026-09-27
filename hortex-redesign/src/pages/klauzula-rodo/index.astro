@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+---
+<Base title="Klauzula informacyjna RODO">
+  <section class="container doc">
+    <Breadcrumbs items={[{ label: 'Klauzula informacyjna RODO' }]} />
+    <h1>Klauzula informacyjna RODO</h1>
+    <div class="prose">
+      <p>Dokument formalny przeniesiony ze strony głównej do stopki. W prototypie to miejsce na treść dostarczoną przez dział prawny Hortex.</p>
+      <p class="prototype-note">Treść do uzupełnienia.</p>
+    </div>
+  </section>
+</Base>
+<style>
+  .doc { padding-block: var(--s-4) var(--s-section); display: grid; gap: var(--s-3); }
+  .doc h1 { margin-top: var(--s-2); }
+</style>

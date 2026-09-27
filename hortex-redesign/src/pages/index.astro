@@ -1,0 +1,411 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import RecipeCard from '../components/RecipeCard.astro';
+import { categories, recipes, productBySlug, consumerProducts, site, t, formatDate, recipesForProduct } from '../lib/data';
+import { img } from '../lib/images';
+import { ingredientLabel } from '../lib/art';
+
+const hero = productBySlug('warzywa-na-patelnie-orientalne')!;
+// Pozycje składników wokół packshotu (statyczna kompozycja = wariant reduced motion)
+const heroPos = [
+  { x: '-150%', y: '-95%', r: -18, w: 128 },
+  { x: '110%', y: '-110%', r: 14, w: 120 },
+  { x: '140%', y: '30%', r: -8, w: 132 },
+  { x: '-170%', y: '40%', r: 10, w: 124 },
+  { x: '-10%', y: '185%', r: 0, w: 104 },
+];
+
+const stale = categories.filter((c) => c.group === 'stale');
+const linie = categories.filter((c) => c.group === 'linie');
+const lineProducts = linie.map((c) => ({ c, p: consumerProducts.find((p) => p.category === c.slug && p.isNew) ?? consumerProducts.find((p) => p.category === c.slug)! }));
+
+const [featured, ...more] = recipes;
+const threeMore = more.slice(0, 3);
+
+// "Co masz w zamrażarce?": produkty, do których mamy przepisy
+const fridge = consumerProducts.filter((p) => recipesForProduct(p).length > 0).slice(0, 10);
+const news = site.news.slice(0, 3);
+
+// Piece layout dla kafli kategorii (procenty w kaflu)
+const tileSpots = [
+  [22, 30, 30, -12], [64, 22, 28, 14], [78, 58, 26, -6], [36, 62, 30, 8], [55, 42, 22, -18],
+];
+---
+<Base title="Hortex" preloadImage={img.pack(hero.slug)}>
+  <!-- 2. Hero -->
+  <section class="hero" data-hero-pin aria-labelledby="hero-title">
+    <div class="container hero__grid">
+      <div class="hero__copy" data-hero-copy>
+        <p class="t-meta hero__eyebrow">Warzywa, owoce i&nbsp;dania z&nbsp;zamrażarki</p>
+        <h1 id="hero-title" class="t-display">Prosto z&nbsp;natury</h1>
+        <p class="t-lead hero__lead">{t('Zbieramy w sezonie, mrozimy w kilka godzin. Ty wybierasz, co dziś ugotować, a my podpowiadamy, jak.')}</p>
+        <div class="cluster hero__ctas" style="--cluster: var(--s-2)">
+          <a class="btn" href="/przepisy/">Znajdź przepis <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href="/produkty/">Zobacz produkty</a>
+        </div>
+        <a class="hero__b2b" href="/dla-biznesu/"><Icon name="briefcase" />Dla biznesu: oferta HoReCa i katalogi</a>
+      </div>
+      <div class="hero__visual" data-hero-visual>
+        <div class="hero__disc" aria-hidden="true"></div>
+        <a class="hero__pack" href={`/produkty/${hero.slug}/`} aria-label={`${hero.name}, zobacz produkt`}>
+          <img data-hero-pack src={img.pack(hero.slug)} alt={`Opakowanie: ${hero.name}, ${hero.weight}`} width="400" height="500" fetchpriority="high" loading="eager" />
+        </a>
+        {hero.ingredients.slice(0, 5).map((ing, i) => (
+          <figure class="hero__ing" data-hero-ing style={`--x:${heroPos[i].x};--y:${heroPos[i].y};--w:${heroPos[i].w}px`}>
+            <div data-hero-intro><img src={img.ing(ing.key)} alt="" width="200" height="200" style={`rotate: ${heroPos[i].r}deg`} /></div>
+            <figcaption>{ing.name}{ing.pct ? <span class="t-num"> {ing.pct}%</span> : null}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Kategorie -->
+  <section class="section" aria-labelledby="cat-title">
+    <div class="container">
+      <SectionHeader id="cat-title" eyebrow="Produkty" title="Co masz ochotę dziś zjeść?">
+        <a class="link-arrow" href="/produkty/">Wszystkie produkty <Icon name="arrow" /></a>
+      </SectionHeader>
+      <ul class="cat-grid" role="list">
+        {stale.map((c, ci) => (
+          <li>
+            <a class="cat-tile" href={`/kategorie-produktow/${c.slug}/`} style={`--tint: var(--tint-${c.slug})`} data-motif={c.motif === 'dania' ? 'dania' : c.motif}>
+              <span class="cat-tile__art" aria-hidden="true" data-plate={c.motif === 'dania' ? '' : undefined}>
+                {c.pieces.slice(0, 5).map((k, i) => (
+                  <img data-piece src={img.ing(k)} alt="" width="200" height="200" loading="lazy" style={`left:${tileSpots[i][0]}%;top:${tileSpots[i][1]}%;--w:${tileSpots[i][2]}%;--r:${tileSpots[i][3] + ci * 7}deg`} />
+                ))}
+              </span>
+              <span class="cat-tile__label"><span class="t-h3">{c.name}</span><Icon name="arrow" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="t-meta lines-title">Nowości i&nbsp;linie sezonowe</h3>
+      <ul class="lines" role="list">
+        {lineProducts.map(({ c, p }) => (
+          <li>
+            <a class="line-card" href={`/kategorie-produktow/${c.slug}/`} style={`--tint: var(--tint-${c.slug})`}>
+              <img src={img.pack(p.slug)} alt="" width="400" height="500" loading="lazy" />
+              <span>
+                {p.isNew && <span class="badge badge--brand">Nowość</span>}
+                <span class="line-card__title t-h3">{c.name}</span>
+                <span class="t-small t-muted">{t(c.description)}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Przepisy -->
+  <section class="section band--surface" aria-labelledby="rec-title">
+    <div class="container">
+      <SectionHeader id="rec-title" eyebrow="Przepisy" title="Co dziś ugotować?" text={t('Ponad sto przepisów z produktami, które masz w zamrażarce. Poniżej najnowsze.')}>
+        <div class="chip-row chip-row--scroll">
+          <a class="chip" href="/przepisy/?czas=30"><Icon name="clock" />Do 30&nbsp;min</a>
+          <a class="chip" href="/przepisy/?dieta=wege"><Icon name="leaf" />Wege</a>
+          <a class="chip" href="/kategorie-przepisow/dania-glowne/">Obiad</a>
+        </div>
+      </SectionHeader>
+      <div class="rec-layout">
+        <div class="rec-layout__featured"><RecipeCard r={featured} ratio="4x5" size="lg" /></div>
+        <div class="rec-layout__more">
+          {threeMore.map((r) => <RecipeCard r={r} ratio="3x2" />)}
+        </div>
+      </div>
+      <p class="center-cta"><a class="btn btn--ghost" href="/przepisy/">Wszystkie przepisy <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <!-- 5. Co masz w zamrażarce? -->
+  <section class="section band--tint fridge" aria-labelledby="fridge-title" data-fridge style="--section-tint: var(--tint-warzywa)">
+    <div class="container fridge__grid">
+      <div>
+        <SectionHeader id="fridge-title" eyebrow="Szybki wybór" title="Co masz w zamrażarce?" text="Wybierz produkt Hortex, a pokażemy przepisy, w których gra główną rolę." />
+        <fieldset class="fridge__choices">
+          <legend class="visually-hidden">Produkt w zamrażarce</legend>
+          {fridge.map((p, i) => (
+            <label class="fridge__choice" style={`--tint: var(--tint-${p.category})`} data-tint={`var(--tint-${p.category})`}>
+              <input type="radio" name="fridge" value={p.slug} checked={i === 0} />
+              <img src={img.pack(p.slug)} alt="" width="400" height="500" loading="lazy" />
+              <span>{t(p.name)}</span>
+            </label>
+          ))}
+        </fieldset>
+      </div>
+      <div class="fridge__results" aria-live="polite">
+        <p class="t-meta fridge__count" data-fridge-count></p>
+        <ul class="fridge__list" role="list" data-fridge-list>
+          {recipes.map((r) => (
+            <li data-products={r.products.join(' ')} data-item>
+              <a href={`/przepisy/${r.slug}/`} class="fridge__recipe">
+                <img src={img.dish(r.slug, '1x1')} alt="" width="900" height="900" loading="lazy" />
+                <span><span class="fridge__recipe-title">{t(r.title)}</span><span class="t-small t-muted">{r.time}&nbsp;min · {r.difficulty}</span></span>
+                <Icon name="arrow" />
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a class="link-arrow" href="/przepisy/" data-fridge-all>Wszystkie przepisy z tym produktem <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Moduł kampanii (zastępuje rotator 3 wideo) -->
+  <section class="campaign" aria-labelledby="camp-title">
+    <div class="container campaign__grid">
+      <div class="campaign__copy">
+        <span class="badge badge--outline">Kampania · lato 2026</span>
+        <h2 id="camp-title" class="t-h1" data-split>Lody WOWOC. Owoce w&nbsp;roli głównej.</h2>
+        <p class="t-lead">{t('Jedna kampania naraz, z nagłówkiem i CTA. Zamiast niskiego paska z trzema wideo.')}</p>
+        <a class="btn btn--light" href="/aktualnosci/lody-wowoc-lato-2026/">Poznaj kampanię <Icon name="arrow" /></a>
+      </div>
+      <div class="campaign__art" data-motif="lody" aria-hidden="true">
+        <img data-piece src={img.ing('scoop-strawberry')} alt="" width="200" height="200" loading="lazy" style="left: 8%; top: 18%; width: 34%" />
+        <img data-piece src={img.ing('scoop-vanilla')} alt="" width="200" height="200" loading="lazy" style="left: 40%; top: 4%; width: 38%" />
+        <img data-piece src={img.ing('scoop-chocolate')} alt="" width="200" height="200" loading="lazy" style="left: 58%; top: 42%; width: 32%" />
+        <img data-piece src={img.ing('strawberry')} alt="" width="200" height="200" loading="lazy" style="left: 22%; top: 60%; width: 20%" />
+        <img data-piece src={img.ing('raspberry')} alt="" width="200" height="200" loading="lazy" style="left: 80%; top: 12%; width: 16%" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Pas B2B -->
+  <section class="section band--deep b2b" aria-labelledby="b2b-title">
+    <div class="container b2b__grid">
+      <div>
+        <SectionHeader id="b2b-title" eyebrow="Dla biznesu" title="Dla gastronomii i handlu" text={t('Opakowania 2–2,5 kg, karty specyfikacji i opiekun handlowy. Bez logowania.')} />
+        <dl class="facts">
+          <div><dt>Zakłady</dt><dd><span class="facts__num">2</span>Skierniewice i&nbsp;Maków</dd></div>
+          <div><dt>Pracownicy</dt><dd><span class="facts__num">~500</span>osób w&nbsp;produkcji i&nbsp;handlu</dd></div>
+          <div><dt>Kanały sprzedaży</dt><dd><span class="facts__num">3</span>detal, HoReCa, eksport</dd></div>
+        </dl>
+        <div class="cluster" style="--cluster: var(--s-2)">
+          <a class="btn btn--light" href="/dla-biznesu/katalogi/"><Icon name="download" />Pobierz katalog</a>
+          <a class="btn btn--ghost-light" href="/dla-biznesu/#zapytanie">Kontakt handlowy</a>
+        </div>
+      </div>
+      <div class="media b2b__img" style="--ratio: 16/9" data-reveal>
+        <img src={img.scene('kitchen-pro')} alt="Kuchnia profesjonalna: pojemniki GN z warzywami i frytkami Hortex" width="1600" height="900" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. O nas w skrócie -->
+  <section class="section about" aria-labelledby="about-title">
+    <div class="container">
+      <div class="about__text">
+        <span class="t-meta t-muted">O nas</span>
+        <h2 id="about-title" class="about__quote" data-split>{t('Od pola do zamrażarki w kilka godzin. Tak zatrzymujemy smak i wartości odżywcze warzyw i owoców.')}</h2>
+        <a class="link-arrow" href="/o-nas/">Poznaj Hortex <Icon name="arrow" /></a>
+      </div>
+      <div class="about__img">
+        <div class="media" style="--ratio: 21/9" data-reveal>
+          <img src={img.scene('field')} alt="Pole uprawne z rzędami warzyw o poranku" width="2100" height="900" loading="lazy" />
+        </div>
+        <img class="about__deco about__deco--1" data-parallax="50" src={img.ing('broccoli')} alt="" width="200" height="200" loading="lazy" />
+        <img class="about__deco about__deco--2" data-parallax="40" src={img.ing('carrot')} alt="" width="200" height="200" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Aktualności -->
+  <section class="section band--surface" aria-labelledby="news-title">
+    <div class="container">
+      <SectionHeader id="news-title" eyebrow="Aktualności" title="Co słychać w Hortex">
+        <a class="link-arrow" href="/aktualnosci/">Wszystkie aktualności <Icon name="arrow" /></a>
+      </SectionHeader>
+      <ul class="news-grid" role="list">
+        {news.map((n) => (
+          <li>
+            <article class="card">
+              <div class="media" style="--ratio: 3/2" data-reveal>
+                <img src={img.path(n.image)} alt="" width="1200" height="800" loading="lazy" />
+              </div>
+              <p class="card__meta"><span>{n.tag}</span><time datetime={n.date}>{formatDate(n.date)}</time></p>
+              <h3 class="card__title"><a href={`/aktualnosci/${n.slug}/`}>{t(n.title)}</a></h3>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10. Gdzie kupić -->
+  <section class="section section--tight" id="gdzie-kupic" aria-labelledby="buy-title">
+    <div class="container">
+      <SectionHeader id="buy-title" eyebrow="Gdzie kupić" title="W zamrażarkach sklepów w całej Polsce" split={false} />
+      <p class="t-meta t-muted buy__label">Sieci handlowe</p>
+      <ul class="stores" role="list">
+        {site.stores.retail.map((s) => <li>{s}</li>)}
+      </ul>
+      <p class="t-meta t-muted buy__label">Sklepy online</p>
+      <ul class="stores stores--online" role="list">
+        {site.stores.online.map((s) => <li>{s}</li>)}
+      </ul>
+      <p class="t-small t-muted buy__note">W prototypie nazwy sieci zastępują logotypy, które wymagają zgody partnerów.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { flipUpdate } from '../scripts/motion/listFlip';
+
+  const root = document.querySelector<HTMLElement>('[data-fridge]');
+  if (root) {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-fridge-list] > li'));
+    const count = root.querySelector('[data-fridge-count]')!;
+    const all = root.querySelector<HTMLAnchorElement>('[data-fridge-all]')!;
+    const update = (slug: string, animate = true) => {
+      const apply = () => {
+        let n = 0;
+        items.forEach((li) => {
+          const show = li.dataset.products!.split(' ').includes(slug) && n < 4;
+          if (show) n++;
+          li.hidden = !show;
+        });
+        count.textContent = n === 1 ? '1 przepis' : `${n} przepisy`;
+      };
+      animate ? flipUpdate(items, apply) : apply();
+      all.href = `/przepisy/?produkt=${slug}`;
+      const choice = root.querySelector<HTMLInputElement>(`input[value="${slug}"]`)!.closest<HTMLElement>('label')!;
+      root.style.setProperty('--section-tint', choice.dataset.tint!);
+    };
+    root.addEventListener('change', (e) => update((e.target as HTMLInputElement).value));
+    update(root.querySelector<HTMLInputElement>('input[name="fridge"]:checked')!.value, false);
+  }
+</script>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: clip; }
+  .hero__grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: center; gap: var(--s-6);
+    min-height: calc(100svh - var(--header-h) - var(--topbar-h));
+    padding-block: var(--s-6);
+  }
+  .hero__eyebrow { color: var(--c-ink-muted); margin-bottom: var(--s-3); }
+  .hero h1 { color: var(--c-brand-deep); max-width: 8ch; }
+  .hero__lead { margin-top: var(--s-4); max-width: 34rem; color: var(--c-ink-muted); }
+  .hero__ctas { margin-top: var(--s-5); }
+  .hero__b2b { display: inline-flex; gap: 0.5em; align-items: center; margin-top: var(--s-4); font-size: var(--fs-small); font-weight: 500; color: var(--c-ink-muted); text-underline-offset: 3px; }
+  .hero__b2b:hover { color: var(--c-ink); }
+  .hero__visual { position: relative; aspect-ratio: 1; width: 100%; max-width: 680px; justify-self: center; }
+  .hero__disc { position: absolute; inset: 8%; border-radius: 50%; background: var(--tint-warzywa); }
+  .hero__pack { position: absolute; left: 50%; top: 50%; width: 46%; translate: -50% -52%; z-index: 2; }
+  .hero__pack img { width: 100%; }
+  /* Pozycja przez właściwość translate, żeby nie kolidowała z transformacjami GSAP */
+  .hero__ing {
+    position: absolute; left: 50%; top: 50%; z-index: 3;
+    width: var(--w); margin: calc(var(--w) / -2) 0 0 calc(var(--w) / -2);
+    translate: calc(var(--x) * var(--spread, 1)) calc(var(--y) * var(--spread, 1));
+  }
+  .hero__ing img { width: 100%; filter: drop-shadow(0 12px 16px rgb(60 40 10 / 0.18)); }
+  .hero__ing figcaption {
+    position: absolute; left: 50%; top: 96%; translate: -50% 0; white-space: nowrap;
+    font-size: var(--fs-meta); font-weight: 600; background: var(--c-surface); padding: 0.25em 0.7em; border-radius: var(--r-pill);
+  }
+  @media (max-width: 900px) {
+    .hero__grid { grid-template-columns: 1fr; min-height: 0; padding-top: var(--s-4); gap: var(--s-2); }
+    .hero__visual { max-width: 460px; }
+    .hero__ing { --w: 84px !important; --spread: 0.78; }
+    .hero__ing figcaption { font-size: 0.72rem; }
+  }
+
+  /* ---------- Kategorie ---------- */
+  .cat-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); }
+  .cat-tile { position: relative; display: grid; grid-template-rows: 1fr auto; aspect-ratio: 5 / 4; border-radius: var(--r-img); background: var(--tint); text-decoration: none; overflow: hidden; }
+  .cat-tile__art { position: relative; }
+  .cat-tile__art img { position: absolute; width: var(--w); margin: calc(var(--w) / -2) 0 0 calc(var(--w) / -2); rotate: var(--r); transition: scale var(--t-reveal) var(--ease-hortex), rotate var(--t-reveal) var(--ease-hortex); }
+  .cat-tile:hover .cat-tile__art img { scale: 1.1; rotate: calc(var(--r) + 12deg); }
+  .cat-tile__label { display: flex; justify-content: space-between; align-items: center; padding: var(--s-3); }
+  .cat-tile__label :global(svg) { width: 24px; height: 24px; transition: transform var(--t-ui) var(--ease-hortex); }
+  .cat-tile:hover .cat-tile__label :global(svg) { transform: translateX(6px); }
+  .lines-title { margin: var(--s-8) 0 var(--s-3); color: var(--c-ink-muted); }
+  .lines { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); }
+  .line-card { display: grid; grid-template-columns: 38% 1fr; gap: var(--s-3); align-items: center; padding: var(--s-3); border-radius: var(--r-img); background: var(--tint); text-decoration: none; height: 100%; }
+  .line-card img { transition: transform var(--t-reveal) var(--ease-hortex); }
+  .line-card:hover img { transform: translateY(-6px) rotate(-3deg); }
+  .line-card > span { display: grid; gap: var(--s-1); justify-items: start; }
+  @media (max-width: 960px) {
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .lines { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) { .cat-grid { gap: 12px; } .cat-tile__label { padding: var(--s-2); } .cat-tile__label .t-h3 { font-size: 1.05rem; } }
+
+  /* ---------- Przepisy ---------- */
+  .rec-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--s-6) var(--grid-gap); }
+  .rec-layout__more { display: grid; gap: var(--s-4); }
+  .rec-layout__more :global(.card) { display: grid; grid-template-columns: 44% 1fr; column-gap: var(--s-3); align-content: start; }
+  .rec-layout__more :global(.card .media) { grid-row: span 3; }
+  .rec-layout__more :global(.card .card__title) { margin-top: 0; align-self: end; }
+  .rec-layout__more :global(.recipe-card__product) { width: 48px; }
+  .center-cta { text-align: center; margin-top: var(--s-8); }
+  @media (max-width: 900px) { .rec-layout { grid-template-columns: 1fr; } }
+
+  /* ---------- Zamrażarka ---------- */
+  .fridge__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
+  .fridge__choices { border: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--s-1); }
+  .fridge__choice { display: flex; align-items: center; gap: var(--s-1); padding: 6px 12px 6px 6px; border-radius: var(--r-ui); background: color-mix(in srgb, var(--c-surface) 70%, transparent); border: 1.5px solid transparent; cursor: pointer; font-size: var(--fs-small); font-weight: 500; line-height: 1.25; transition: border-color var(--t-ui), background-color var(--t-ui); }
+  .fridge__choice:hover { border-color: var(--c-ink-muted); }
+  .fridge__choice:has(input:checked) { border-color: var(--c-brand); background: var(--c-surface); }
+  .fridge__choice:has(input:focus-visible) { outline: 3px solid var(--c-brand); outline-offset: 2px; }
+  .fridge__choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .fridge__choice img { width: 40px; flex: none; }
+  .fridge__results { background: var(--c-surface); border-radius: var(--r-img); padding: var(--s-4); display: grid; gap: var(--s-3); }
+  .fridge__count { color: var(--c-ink-muted); }
+  .fridge__list { list-style: none; padding: 0; display: grid; gap: var(--s-1); position: relative; }
+  .fridge__recipe { display: grid; grid-template-columns: 72px 1fr auto; gap: var(--s-2); align-items: center; text-decoration: none; padding: 6px; border-radius: var(--r-ui); transition: background-color var(--t-ui); }
+  .fridge__recipe:hover { background: var(--c-sunk); }
+  .fridge__recipe img { border-radius: var(--r-img); }
+  .fridge__recipe > span { display: grid; }
+  .fridge__recipe-title { font-weight: 600; }
+  @media (max-width: 900px) { .fridge__grid { grid-template-columns: 1fr; gap: var(--s-4); } }
+
+  /* ---------- Kampania ---------- */
+  .campaign { background: #f3c9cf; color: #3a1320; overflow: hidden; }
+  .campaign__grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: var(--s-6); min-height: 560px; padding-block: var(--s-8); }
+  .campaign__copy { display: grid; gap: var(--s-3); justify-items: start; }
+  .campaign__copy .badge { color: #3a1320; }
+  .campaign__copy h2 { color: #5a1a2c; }
+  .campaign__copy :global(.btn--light) { --btn-bg: #5a1a2c; --btn-fg: #fff3f4; --btn-bd: #5a1a2c; }
+  .campaign__copy :global(.btn--light:hover) { --btn-bg: #3a1320; --btn-bd: #3a1320; }
+  .campaign__art { position: relative; aspect-ratio: 1; }
+  .campaign__art img { position: absolute; filter: drop-shadow(0 20px 20px rgb(90 26 44 / 0.2)); }
+  @media (max-width: 900px) { .campaign__grid { grid-template-columns: 1fr; min-height: 0; } .campaign__art { max-width: 420px; width: 100%; justify-self: center; } }
+
+  /* ---------- B2B ---------- */
+  .b2b__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--s-8); align-items: center; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); margin-bottom: var(--s-6); }
+  .facts div { border-top: 1px solid color-mix(in srgb, var(--c-on-brand) 35%, transparent); padding-top: var(--s-2); }
+  .facts dt { font-size: var(--fs-meta); letter-spacing: var(--tr-meta); text-transform: uppercase; font-weight: 600; opacity: 0.75; }
+  .facts dd { font-size: var(--fs-small); opacity: 0.9; }
+  .facts__num { display: block; font-family: var(--font-display); font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing: var(--tr-h2); margin-block: var(--s-1) 4px; }
+  @media (max-width: 900px) { .b2b__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .facts { grid-template-columns: 1fr; } }
+
+  /* ---------- O nas ---------- */
+  .about__text { display: grid; gap: var(--s-3); justify-items: start; max-width: 60rem; margin-bottom: var(--s-8); }
+  .about__quote { font-size: var(--fs-h2); font-weight: 600; }
+  .about__img { position: relative; }
+  .about__deco { position: absolute; width: clamp(80px, 12vw, 180px); z-index: 2; filter: drop-shadow(0 20px 20px rgb(60 40 10 / 0.2)); }
+  .about__deco--1 { right: 6%; top: -12%; }
+  .about__deco--2 { left: 4%; bottom: -10%; rotate: 30deg; }
+
+  /* ---------- Aktualności ---------- */
+  .news-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap); }
+  .news-grid .card__meta { margin-top: var(--s-2); }
+  .news-grid .card__title { margin-top: var(--s-1); }
+  @media (max-width: 900px) { .news-grid { grid-template-columns: 1fr; gap: var(--s-6); } }
+
+  /* ---------- Gdzie kupić ---------- */
+  .buy__label { margin: var(--s-4) 0 var(--s-2); }
+  .stores { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px; background: var(--c-line); border: 1px solid var(--c-line); border-radius: var(--r-img); overflow: hidden; }
+  .stores li { background: var(--c-bg); padding: var(--s-3) var(--s-2); text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; color: var(--c-ink-muted); }
+  .stores--online li { font-size: 1.05rem; }
+  .buy__note { margin-top: var(--s-2); }
+</style>

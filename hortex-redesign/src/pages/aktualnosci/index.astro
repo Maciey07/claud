@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site, t, formatDate } from '../../lib/data';
+import { img } from '../../lib/images';
+---
+<Base title="Aktualności" description="Aktualności Hortex: nowości, kampanie, wydarzenia dla biznesu." current="aktualnosci">
+  <section class="container list-page">
+    <Breadcrumbs items={[{ label: 'Aktualności' }]} />
+    <h1>Aktualności</h1>
+    <p class="t-lead t-muted">Nowości, kampanie i wiadomości z zakładów. Dokumenty formalne (np. RODO) są w stopce, nie tutaj.</p>
+    <ul class="news" role="list">
+      {site.news.map((n, i) => (
+        <li class={`card news__item${i === 0 ? ' news__item--lead' : ''}`}>
+          <div class="media" style="--ratio: 3/2" data-reveal={i > 0 ? '' : undefined}><img src={img.path(n.image)} alt="" width="1200" height="800" loading={i === 0 ? 'eager' : 'lazy'} /></div>
+          <div>
+            <p class="card__meta"><span class="badge badge--soft">{n.tag}</span><time datetime={n.date}>{formatDate(n.date)}</time></p>
+            <h2 class={`card__title ${i === 0 ? 't-h2' : 't-h3'}`}><a href={`/aktualnosci/${n.slug}/`}>{t(n.title)}</a></h2>
+            <p class="t-muted news__ex">{t(n.excerpt)}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+<style>
+  .list-page { padding-block: var(--s-4) var(--s-section); display: grid; gap: var(--s-3); }
+  .list-page h1 { margin-top: var(--s-2); }
+  .news { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-6) var(--grid-gap); margin-top: var(--s-4); }
+  .news__item--lead { grid-column: 1 / -1; display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--s-6); align-items: center; }
+  .news__item .card__meta { margin-top: var(--s-2); align-items: center; }
+  .news__ex { margin-top: var(--s-1); }
+  @media (max-width: 900px) { .news { grid-template-columns: 1fr; } .news__item--lead { grid-template-columns: 1fr; gap: 0; } }
+</style>

@@ -1,0 +1,21 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { img } from '../../lib/images';
+---
+<Base title="Hortex in English" description="Hortex: frozen vegetables, fruit, fries and ready meals from Poland. Foodservice and export.">
+  <section class="container en" lang="en">
+    <p class="t-meta t-muted">English version</p>
+    <h1>Straight from nature</h1>
+    <p class="t-lead t-muted">Frozen vegetables, fruit, fries and ready meals from two plants in central Poland. For retail, foodservice and export partners.</p>
+    <div class="media" style="--ratio: 16/9"><img src={img.scene('kitchen-pro')} alt="Professional kitchen with Hortex vegetables in gastronorm containers" width="1600" height="900" /></div>
+    <div class="cluster" style="--cluster: var(--s-2)">
+      <a class="btn" href="/dla-biznesu/#zapytanie" hreflang="pl">Request an offer <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href="/pliki/katalog-horeca-2026.pdf" download><Icon name="download" />Foodservice catalogue (PDF)</a>
+    </div>
+    <p class="prototype-note">Prototype: the English section keeps its existing URL. Full translation is out of scope for the concept.</p>
+  </section>
+</Base>
+<style>
+  .en { padding-block: var(--s-8) var(--s-section); display: grid; gap: var(--s-3); max-width: 1000px; }
+</style>

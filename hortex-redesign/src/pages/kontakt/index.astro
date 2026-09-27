@@ -1,0 +1,220 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { consumerProducts } from '../../lib/data';
+
+const topics = [
+  { key: 'reklamacje', icon: 'alert', title: 'Reklamacje', text: 'Produkt mrożony nie spełnił oczekiwań' },
+  { key: 'handel', icon: 'briefcase', title: 'Współpraca handlowa', text: 'Gastronomia, sieci, dystrybucja, eksport' },
+  { key: 'skup', icon: 'sprout', title: 'Skup surowca', text: 'Plantatorzy i dostawcy warzyw i owoców' },
+  { key: 'media', icon: 'mic', title: 'Media', text: 'Materiały prasowe i wywiady' },
+  { key: 'kariera', icon: 'users', title: 'Kariera', text: 'Oferty pracy i praktyki' },
+  { key: 'inne', icon: 'chat', title: 'Inne', text: 'Pytania o produkty, przepisy, stronę' },
+] as const;
+---
+<Base title="Kontakt" description="Kontakt z Hortex: reklamacje, współpraca handlowa, skup surowca, media, kariera." current="kontakt">
+  <section class="container contact-head">
+    <Breadcrumbs items={[{ label: 'Kontakt' }]} />
+    <h1>W czym możemy pomóc?</h1>
+    <p class="t-lead t-muted">Wybierz temat, a formularz dopasuje się do sprawy i trafi do właściwego działu.</p>
+  </section>
+
+  <section class="container contact" data-contact>
+    <div class="topics" role="radiogroup" aria-label="Temat wiadomości">
+      {topics.map((tp, i) => (
+        <label class="topic">
+          <input type="radio" name="topic-pick" value={tp.key} checked={i === 0} />
+          <Icon name={tp.icon} />
+          <span><strong>{tp.title}</strong><span class="t-small t-muted">{tp.text}</span></span>
+        </label>
+      ))}
+    </div>
+
+    <div class="contact__panel">
+      <div class="route" data-route="handel" hidden>
+        <h2 class="t-h3">Współpraca handlowa</h2>
+        <p>Zapytania ofertowe obsługujemy w strefie Dla biznesu: lista produktów, wolumeny i region w jednym formularzu.</p>
+        <a class="btn" href="/dla-biznesu/#zapytanie">Przejdź do zapytania ofertowego <Icon name="arrow" /></a>
+      </div>
+      <div class="route" data-route="skup" hidden>
+        <h2 class="t-h3">Skup surowca: Skierniewice</h2>
+        <p>Dział skupu odpowiada za kontraktację warzyw i owoców. Najszybciej: telefonicznie w sezonie, pon.–pt. 7:00–15:00.</p>
+        <a class="btn" href="tel:+48000000001"><Icon name="phone" />Zadzwoń do działu skupu</a>
+        <p class="t-small t-muted">Lub napisz przez formularz poniżej.</p>
+      </div>
+      <div class="route" data-route="kariera" hidden>
+        <h2 class="t-h3">Kariera</h2>
+        <p>Aktualne oferty pracy w Skierniewicach, Makowie i biurze handlowym.</p>
+        <a class="btn" href="/kariera/">Zobacz oferty pracy <Icon name="arrow" /></a>
+      </div>
+      <div class="route" data-route="media" hidden>
+        <h2 class="t-h3">Kontakt dla mediów</h2>
+        <p>Rzecznik prasowy: <a href="mailto:media@example.com">media@example.com</a>. Materiały prasowe i zdjęcia produktów udostępniamy na prośbę.</p>
+      </div>
+
+      <form class="contact-form" data-demo-form data-replace novalidate data-contact-form>
+        <input type="hidden" name="topic" value="reklamacje" data-topic />
+        <h2 class="t-h3" data-form-title>Formularz reklamacji</h2>
+        <div class="form-grid">
+          <div class="field" data-for="reklamacje">
+            <label for="c-product">Produkt</label>
+            <select id="c-product" name="product" class="select" required>
+              <option value="">Wybierz produkt</option>
+              {consumerProducts.map((p) => <option>{p.name} {p.weight}</option>)}
+            </select>
+            <p class="error">Wybierz produkt.</p>
+          </div>
+          <div class="field" data-for="reklamacje">
+            <label for="c-batch">Numer partii</label>
+            <input id="c-batch" name="batch" class="input" required placeholder="np. L2609A" />
+            <p class="hint">Nadruk obok daty na opakowaniu.</p>
+            <p class="error">Podaj numer partii z opakowania.</p>
+          </div>
+          <div class="field" data-for="reklamacje">
+            <label for="c-date">Data minimalnej trwałości</label>
+            <input id="c-date" name="date" type="date" class="input" required />
+            <p class="error">Podaj datę z opakowania.</p>
+          </div>
+          <div class="field" data-for="reklamacje">
+            <label for="c-shop">Sklep i miejscowość</label>
+            <input id="c-shop" name="shop" class="input" />
+          </div>
+          <div class="field">
+            <label for="c-name">Imię i nazwisko</label>
+            <input id="c-name" name="name" class="input" required autocomplete="name" />
+            <p class="error">Podaj imię i nazwisko.</p>
+          </div>
+          <div class="field">
+            <label for="c-email">E-mail</label>
+            <input id="c-email" name="email" type="email" class="input" required autocomplete="email" />
+            <p class="error">Wpisz poprawny adres e-mail.</p>
+          </div>
+          <div class="field span-2">
+            <label for="c-msg">Wiadomość</label>
+            <textarea id="c-msg" name="message" class="textarea" required></textarea>
+            <p class="error">Napisz kilka słów.</p>
+          </div>
+          <div class="field span-2">
+            <label class="check"><input type="checkbox" required /><span>Zapoznałem się z <a href="/klauzula-rodo/">klauzulą RODO</a>.</span></label>
+            <p class="error">Zaznacz, żeby wysłać wiadomość.</p>
+          </div>
+        </div>
+        <div class="contact-form__foot">
+          <button class="btn" type="submit">Wyślij</button>
+          <p class="prototype-note">Prototyp: formularz nie wysyła danych.</p>
+        </div>
+        <div class="form-success" data-success hidden tabindex="-1" role="status">
+          <h3>Dziękujemy za wiadomość</h3>
+          <p>Odpowiemy w ciągu 3 dni roboczych na podany adres e-mail.</p>
+        </div>
+      </form>
+      <p class="t-small t-muted juice">Reklamacje soków i napojów Hortex: <a href="https://sokihortex.pl/" rel="noopener">sokihortex.pl</a> (inna spółka).</p>
+    </div>
+  </section>
+
+  <section class="section band--surface" aria-labelledby="loc-title">
+    <div class="container">
+      <h2 id="loc-title" class="loc-title">Oddziały</h2>
+      <div class="locations">
+        <article class="loc">
+          <p class="t-meta t-muted">Siedziba i zakład</p>
+          <h3>Skierniewice</h3>
+          <address>ul. Przykładowa 1<br />96-100 Skierniewice</address>
+          <ul role="list" class="loc__contacts">
+            <li><Icon name="phone" /><a href="tel:+48000000000">Centrala: +48 00 000 00 00</a></li>
+            <li><Icon name="sprout" /><a href="tel:+48000000001">Skup surowca: +48 00 000 00 01</a></li>
+            <li><Icon name="mail" /><a href="mailto:kontakt@example.com">kontakt@example.com</a></li>
+          </ul>
+          <a class="link-arrow" href="https://www.google.com/maps/search/?api=1&query=Skierniewice" rel="noopener">Otwórz w Mapach <Icon name="arrow" /></a>
+        </article>
+        <article class="loc">
+          <p class="t-meta t-muted">Zakład</p>
+          <h3>Maków</h3>
+          <address>ul. Przykładowa 2<br />96-124 Maków</address>
+          <ul role="list" class="loc__contacts">
+            <li><Icon name="phone" /><a href="tel:+48000000002">+48 00 000 00 02</a></li>
+            <li><Icon name="briefcase" /><a href="/kariera/">Rekrutacja: oferty w Makowie</a></li>
+          </ul>
+          <a class="link-arrow" href="https://www.google.com/maps/search/?api=1&query=Mak%C3%B3w+Skierniewicki" rel="noopener">Otwórz w Mapach <Icon name="arrow" /></a>
+        </article>
+        <div class="map" role="img" aria-label="Schemat lokalizacji: Skierniewice i Maków, około 10 km od siebie">
+          <svg viewBox="0 0 400 300" aria-hidden="true">
+            <rect width="400" height="300" fill="#e3e8d6" />
+            <path d="M0 210 C80 190 140 230 220 200 S340 150 400 170" stroke="#fff" stroke-width="10" fill="none" />
+            <path d="M120 0 C130 80 110 160 150 300" stroke="#fff" stroke-width="7" fill="none" />
+            <path d="M260 0 C250 90 300 140 290 300" stroke="#fff" stroke-width="5" fill="none" />
+            <path d="M0 90 C120 110 260 70 400 100" stroke="#cfd9bd" stroke-width="18" fill="none" />
+            <g transform="translate(150 190)"><path d="M0 0 C-14 -18 -14 -36 0 -36 C14 -36 14 -18 0 0Z" fill="#1f6b3a" /><circle cy="-24" r="5" fill="#fff" /><text x="14" y="-20" font-family="Inter,Arial" font-size="15" font-weight="700" fill="#1c231d">Skierniewice</text></g>
+            <g transform="translate(290 120)"><path d="M0 0 C-14 -18 -14 -36 0 -36 C14 -36 14 -18 0 0Z" fill="#1f6b3a" /><circle cy="-24" r="5" fill="#fff" /><text x="14" y="-20" font-family="Inter,Arial" font-size="15" font-weight="700" fill="#1c231d">Maków</text></g>
+          </svg>
+          <p class="t-small t-muted">Mapa ładowana dopiero po kliknięciu „Otwórz w Mapach”: bez skryptów i ciasteczek zewnętrznych.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-contact]')!;
+  const form = root.querySelector<HTMLFormElement>('[data-contact-form]')!;
+  const hidden = form.querySelector<HTMLInputElement>('[data-topic]')!;
+  const title = form.querySelector('[data-form-title]')!;
+  const titles: Record<string, string> = { reklamacje: 'Formularz reklamacji', skup: 'Napisz do działu skupu', media: 'Napisz do biura prasowego', inne: 'Napisz do nas' };
+  const set = (topic: string) => {
+    hidden.value = topic;
+    root.querySelectorAll<HTMLElement>('[data-route]').forEach((r) => (r.hidden = r.dataset.route !== topic));
+    const showForm = topic in titles;
+    form.hidden = !showForm;
+    title.textContent = titles[topic] ?? '';
+    form.querySelectorAll<HTMLElement>('[data-for]').forEach((f) => {
+      const on = f.dataset.for === topic;
+      f.hidden = !on;
+      f.querySelectorAll<HTMLInputElement>('input, select').forEach((i) => (i.disabled = !on));
+    });
+    const url = new URL(location.href);
+    url.searchParams.set('temat', topic);
+    history.replaceState(null, '', url);
+  };
+  root.addEventListener('change', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name === 'topic-pick') set(t.value);
+  });
+  const initial = new URL(location.href).searchParams.get('temat');
+  const radio = initial && root.querySelector<HTMLInputElement>(`input[name="topic-pick"][value="${initial}"]`);
+  if (radio) radio.checked = true;
+  set(radio ? radio.value : 'reklamacje');
+</script>
+
+<style>
+  .contact-head { padding-top: var(--s-4); display: grid; gap: var(--s-2); }
+  .contact-head h1 { margin-top: var(--s-2); }
+  .contact { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--s-6); padding-block: var(--s-6) var(--s-section); align-items: start; }
+  .topics { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-1); }
+  .topic { display: flex; gap: var(--s-2); align-items: flex-start; padding: var(--s-3); border-radius: var(--r-img); background: var(--c-surface); border: 1.5px solid transparent; cursor: pointer; transition: border-color var(--t-ui), background-color var(--t-ui); }
+  .topic span { display: grid; gap: 2px; }
+  .topic:hover { border-color: var(--c-line-strong); }
+  .topic:has(input:checked) { border-color: var(--c-brand); background: var(--c-brand-soft); }
+  .topic:has(input:focus-visible) { outline: 3px solid var(--c-brand); outline-offset: 2px; }
+  .topic input { position: absolute; opacity: 0; pointer-events: none; }
+  .topic :global(svg) { width: 26px; height: 26px; color: var(--c-brand); flex: none; }
+  .contact__panel { display: grid; gap: var(--s-4); }
+  .route { display: grid; gap: var(--s-2); justify-items: start; padding: var(--s-4); background: var(--c-surface); border-radius: var(--r-img); }
+  .route a:not(.btn) { color: var(--c-brand); }
+  .contact-form { display: grid; gap: var(--s-3); }
+  .contact-form__foot { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
+  .juice a { color: var(--c-brand); }
+  .loc-title { margin-bottom: var(--s-5); }
+  .locations { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: var(--grid-gap); }
+  .loc { display: grid; gap: var(--s-2); align-content: start; justify-items: start; padding: var(--s-4); border-radius: var(--r-img); background: var(--c-bg); }
+  .loc address { font-style: normal; }
+  .loc__contacts { list-style: none; padding: 0; display: grid; gap: var(--s-1); }
+  .loc__contacts li { display: flex; gap: 0.5em; align-items: center; }
+  .loc__contacts :global(svg) { width: 18px; height: 18px; color: var(--c-brand); }
+  .loc__contacts a { text-decoration: none; }
+  .loc__contacts a:hover { text-decoration: underline; }
+  .map { display: grid; gap: var(--s-1); }
+  .map svg { border-radius: var(--r-img); width: 100%; height: auto; }
+  @media (max-width: 960px) { .contact, .locations { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .topics { grid-template-columns: 1fr; } }
+</style>

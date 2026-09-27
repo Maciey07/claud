@@ -1,0 +1,314 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RecipeCard from '../../components/RecipeCard.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import {
+  recipes, productBySlug, recipeCategoryName, relatedRecipes, dietName, formatQty, timeLabel, t, type Recipe,
+} from '../../lib/data';
+import { img } from '../../lib/images';
+
+export function getStaticPaths() {
+  return recipes.map((r) => ({ params: { slug: r.slug }, props: { r } }));
+}
+const { r } = Astro.props as { r: Recipe };
+const products = r.products.map((s) => productBySlug(s)!).filter(Boolean);
+const related = relatedRecipes(r, 3);
+const catName = recipeCategoryName(r.category);
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Recipe',
+  name: r.title,
+  description: r.lead,
+  image: [new URL(img.dish(r.slug, '3x2'), Astro.site).href, new URL(img.dish(r.slug, '4x5'), Astro.site).href, new URL(img.dish(r.slug, '1x1'), Astro.site).href],
+  author: { '@type': 'Organization', name: 'Hortex' },
+  datePublished: r.date,
+  totalTime: `PT${r.time}M`,
+  recipeYield: `${r.servings} porcje`,
+  recipeCategory: catName,
+  keywords: r.diet.map(dietName).join(', '),
+  recipeIngredient: r.groups.flatMap((g) => g.items.map((i) => `${formatQty(i.qty)} ${i.unit} ${i.name}`.trim())),
+  recipeInstructions: r.steps.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, text: s })),
+};
+---
+<Base title={r.title} description={r.lead} current="przepisy" jsonLd={ld} preloadImage={img.dish(r.slug, '3x2')}>
+  <article class="recipe" data-recipe data-base-servings={r.servings}>
+    <header class="container recipe-head">
+      <Breadcrumbs items={[{ label: 'Przepisy', href: '/przepisy/' }, { label: catName, href: `/kategorie-przepisow/${r.category}/` }, { label: r.title }]} />
+      <h1>{t(r.title)}</h1>
+      <p class="t-lead recipe-lead">{t(r.lead)}</p>
+    </header>
+
+    <div class="container">
+      <dl class="meta-bar">
+        <div><dt><Icon name="clock" />Czas</dt><dd class="t-num">{timeLabel(r.time)}</dd></div>
+        <div><dt><Icon name="users" />Porcje</dt><dd class="t-num">{r.servings}</dd></div>
+        <div><dt><Icon name="level" />Trudność</dt><dd>{r.difficulty}</dd></div>
+        <div><dt><Icon name="chef" />Kategoria</dt><dd><a href={`/kategorie-przepisow/${r.category}/`}>{catName}</a></dd></div>
+        {r.diet.length > 0 && <div><dt><Icon name="leaf" />Dieta</dt><dd>{r.diet.map(dietName).join(', ')}</dd></div>}
+      </dl>
+      <div class="media recipe-photo" style="--ratio: 3/2">
+        <img src={img.dish(r.slug, '3x2')} alt={`${r.title}: gotowe danie podane na stole`} width="1200" height="800" fetchpriority="high" />
+      </div>
+      <div class="recipe-actions">
+        <button type="button" class="btn" data-cook-open><Icon name="cooking" />Tryb gotowania</button>
+        <button type="button" class="btn btn--ghost" data-print><Icon name="print" />Drukuj</button>
+        <button type="button" class="btn btn--ghost" data-share><Icon name="share" /><span data-label>Udostępnij</span></button>
+      </div>
+    </div>
+
+    <div class="container recipe-body">
+      <aside class="ingredients" aria-labelledby="ing-title">
+        <div class="ingredients__sticky">
+          <div class="ingredients__head">
+            <h2 id="ing-title" class="t-h3">Składniki</h2>
+            <div class="stepper" role="group" aria-label="Liczba porcji">
+              <button type="button" data-servings-dec aria-label="Mniej porcji"><Icon name="minus" /></button>
+              <output aria-live="polite"><span class="t-num" data-servings>{r.servings}</span> <span data-servings-word>porcje</span></output>
+              <button type="button" data-servings-inc aria-label="Więcej porcji"><Icon name="plus" /></button>
+            </div>
+          </div>
+          {r.groups.map((g, gi) => (
+            <fieldset class="ing-group">
+              {g.name ? <legend class="t-meta">{g.name}</legend> : <legend class="visually-hidden">Składniki</legend>}
+              <ul role="list">
+                {g.items.map((it, ii) => (
+                  <li>
+                    <label class="check ing-item">
+                      <input type="checkbox" data-check-item />
+                      <span>
+                        {it.qty != null && <strong class="t-num" data-qty={it.qty}>{formatQty(it.qty)}</strong>} {it.unit && <strong>{it.unit}</strong>} {it.product ? <span class="ing-hortex">{it.name}</span> : it.name}
+                      </span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </fieldset>
+          ))}
+          {products.map((p) => (
+            <a class="used-product" href={`/produkty/${p.slug}/`} style={`--tint: var(--tint-${p.category})`}>
+              <img src={img.pack(p.slug)} alt="" width="400" height="500" loading="lazy" />
+              <span>
+                <span class="t-meta t-muted">Użyty produkt Hortex</span>
+                <span class="used-product__name">{t(p.name)}</span>
+                <span class="t-small t-muted t-num">{p.weight}</span>
+                <span class="link-arrow">Zobacz produkt <Icon name="arrow" /></span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </aside>
+
+      <div class="steps-col">
+        <section aria-labelledby="steps-title">
+          <h2 id="steps-title" class="t-h3">Przygotowanie</h2>
+          <ol class="steps" role="list">
+            {r.steps.map((s, i) => (
+              <li><span class="steps__num t-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><p>{t(s)}</p></li>
+            ))}
+          </ol>
+        </section>
+
+        {(r.tips.length > 0 || r.substitutes.length > 0 || r.allergens.length > 0) && (
+          <section class="extras" aria-label="Wskazówki, zamienniki i alergeny">
+            {r.tips.length > 0 && (
+              <div class="extra extra--tip">
+                <h3 class="t-meta">Wskazówki</h3>
+                <ul>{r.tips.map((x) => <li>{t(x)}</li>)}</ul>
+              </div>
+            )}
+            {r.substitutes.length > 0 && (
+              <div class="extra">
+                <h3 class="t-meta">Zamienniki</h3>
+                <ul>{r.substitutes.map((x) => <li>{t(x)}</li>)}</ul>
+              </div>
+            )}
+            {r.allergens.length > 0 && (
+              <div class="extra extra--allergen">
+                <h3 class="t-meta"><Icon name="alert" />Alergeny</h3>
+                <p><strong>{r.allergens.join(', ')}</strong></p>
+              </div>
+            )}
+          </section>
+        )}
+      </div>
+    </div>
+
+    <dialog class="cook" data-cook aria-labelledby="cook-title">
+      <div class="cook__inner">
+        <header class="cook__head">
+          <p id="cook-title" class="t-meta">Tryb gotowania · {r.title}</p>
+          <p class="cook__lock t-small" data-wake-status></p>
+          <button type="button" class="cook__close" data-cook-close aria-label="Zamknij tryb gotowania"><Icon name="close" /></button>
+        </header>
+        <div class="cook__stage">
+          {r.steps.map((s, i) => (
+            <section class="cook__step" data-cook-step hidden={i !== 0} aria-label={`Krok ${i + 1} z ${r.steps.length}`}>
+              <p class="cook__num t-num">Krok {i + 1}<span> / {r.steps.length}</span></p>
+              <p class="cook__text">{t(s)}</p>
+            </section>
+          ))}
+        </div>
+        <footer class="cook__nav">
+          <button type="button" class="btn btn--ghost-light" data-cook-prev><Icon name="arrow-left" />Wstecz</button>
+          <div class="cook__progress" aria-hidden="true"><span data-cook-bar></span></div>
+          <button type="button" class="btn btn--light" data-cook-next><span data-next-label>Dalej</span><Icon name="arrow" /></button>
+        </footer>
+      </div>
+    </dialog>
+  </article>
+
+  <section class="section band--surface related" aria-labelledby="rel-title">
+    <div class="container">
+      <SectionHeader id="rel-title" title="Powiązane przepisy">
+        <a class="link-arrow" href={`/kategorie-przepisow/${r.category}/`}>Więcej: {catName.toLowerCase()} <Icon name="arrow" /></a>
+      </SectionHeader>
+      <div class="recipe-grid">{related.map((x) => <RecipeCard r={x} ratio="4x5" />)}</div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-recipe]')!;
+  const base = Number(root.dataset.baseServings);
+  let servings = base;
+  const out = root.querySelector('[data-servings]')!;
+  const word = root.querySelector('[data-servings-word]')!;
+  const qtys = Array.from(root.querySelectorAll<HTMLElement>('[data-qty]'));
+  const frac: Record<string, string> = { '0.25': '¼', '0.5': '½', '0.75': '¾' };
+  // Duże ilości zaokrąglamy (gramy do 5, dziesiątki do 1), małe do ćwiartek i piszemy ułamkiem
+  const fmt = (q: number) => {
+    if (q >= 100) return String(Math.round(q / 5) * 5);
+    if (q >= 10) return String(Math.round(q));
+    const r = Math.max(0.25, Math.round(q * 4) / 4);
+    const w = Math.floor(r);
+    const f = r - w;
+    return f ? `${w || ''}${frac[String(f)]}` : String(w);
+  };
+  const pl = (n: number) => (n === 1 ? 'porcja' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'porcje' : 'porcji');
+  const render = () => {
+    out.textContent = String(servings);
+    word.textContent = pl(servings);
+    qtys.forEach((el) => (el.textContent = fmt((Number(el.dataset.qty) * servings) / base)));
+  };
+  root.querySelector('[data-servings-inc]')!.addEventListener('click', () => { servings = Math.min(24, servings + 1); render(); });
+  root.querySelector('[data-servings-dec]')!.addEventListener('click', () => { servings = Math.max(1, servings - 1); render(); });
+  render();
+
+  // Tryb gotowania: duże kroki, ekran nie gaśnie (Wake Lock API)
+  const dialog = root.querySelector<HTMLDialogElement>('[data-cook]')!;
+  const steps = Array.from(dialog.querySelectorAll<HTMLElement>('[data-cook-step]'));
+  const bar = dialog.querySelector<HTMLElement>('[data-cook-bar]')!;
+  const status = dialog.querySelector('[data-wake-status]')!;
+  const prev = dialog.querySelector<HTMLButtonElement>('[data-cook-prev]')!;
+  const next = dialog.querySelector<HTMLButtonElement>('[data-cook-next]')!;
+  let idx = 0;
+  let lock: WakeLockSentinel | null = null;
+  const show = (i: number) => {
+    idx = Math.max(0, Math.min(steps.length - 1, i));
+    steps.forEach((s, k) => (s.hidden = k !== idx));
+    bar.style.transform = `scaleX(${(idx + 1) / steps.length})`;
+    prev.disabled = idx === 0;
+    next.querySelector('[data-next-label]')!.textContent = idx === steps.length - 1 ? 'Gotowe' : 'Dalej';
+  };
+  const requestLock = async () => {
+    try {
+      if ('wakeLock' in navigator) {
+        lock = await navigator.wakeLock.request('screen');
+        status.textContent = 'Ekran nie zgaśnie podczas gotowania';
+      } else status.textContent = 'Twoja przeglądarka nie obsługuje blokady wygaszania ekranu';
+    } catch { status.textContent = ''; }
+  };
+  root.querySelector('[data-cook-open]')!.addEventListener('click', () => { dialog.showModal(); show(0); requestLock(); next.focus(); });
+  dialog.querySelector('[data-cook-close]')!.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('close', () => { lock?.release(); lock = null; });
+  prev.addEventListener('click', () => show(idx - 1));
+  next.addEventListener('click', () => (idx === steps.length - 1 ? dialog.close() : show(idx + 1)));
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') show(idx + 1);
+    if (e.key === 'ArrowLeft') show(idx - 1);
+  });
+  document.addEventListener('visibilitychange', () => { if (dialog.open && document.visibilityState === 'visible') requestLock(); });
+</script>
+
+<style>
+  .recipe-head { padding-top: var(--s-4); display: grid; gap: var(--s-3); }
+  .recipe-head h1 { max-width: 20ch; margin-top: var(--s-2); }
+  .recipe-lead { max-width: 44rem; color: var(--c-ink-muted); }
+  .meta-bar { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); padding-block: var(--s-4); margin-top: var(--s-4); border-top: 1px solid var(--c-line); }
+  .meta-bar dt { display: flex; gap: 0.4em; align-items: center; font-size: var(--fs-meta); letter-spacing: var(--tr-meta); text-transform: uppercase; font-weight: 600; color: var(--c-ink-muted); }
+  .meta-bar dt :global(svg) { width: 16px; height: 16px; }
+  .meta-bar dd { font-weight: 600; font-size: 1.125rem; margin-top: 2px; }
+  .meta-bar a { color: var(--c-brand); text-underline-offset: 3px; }
+  .recipe-photo { max-height: 72vh; }
+  .recipe-actions { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: var(--s-3); }
+  .recipe-body { display: grid; grid-template-columns: minmax(300px, 0.8fr) 1.2fr; gap: var(--s-8); padding-block: var(--s-8) var(--s-section); align-items: start; }
+  .ingredients__sticky { position: sticky; top: calc(var(--header-h) + var(--s-2)); display: grid; gap: var(--s-3); background: var(--c-surface); padding: var(--s-4); border-radius: var(--r-img); }
+  .ingredients__head { display: flex; justify-content: space-between; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
+  .stepper { display: inline-flex; align-items: center; gap: var(--s-1); border: 1.5px solid var(--c-line-strong); border-radius: var(--r-pill); padding: 3px; }
+  .stepper button { width: 36px; height: 36px; border-radius: 50%; border: 0; background: var(--c-sunk); display: grid; place-items: center; }
+  .stepper button:hover { background: var(--c-brand); color: var(--c-on-brand); }
+  .stepper button :global(svg) { width: 16px; height: 16px; }
+  .stepper output { min-width: 5.5em; text-align: center; font-weight: 600; font-size: var(--fs-small); }
+  .ing-group { border: 0; padding: 0; }
+  .ing-group legend { color: var(--c-ink-muted); margin-bottom: var(--s-1); }
+  .ing-group ul { list-style: none; padding: 0; }
+  .ing-item { padding: 0.55em 0; border-bottom: 1px dashed var(--c-line); font-size: 1rem; }
+  .ing-item:has(input:checked) span { text-decoration: line-through; color: var(--c-ink-muted); }
+  .ing-hortex { color: var(--c-brand); font-weight: 600; }
+  .used-product { display: grid; grid-template-columns: 96px 1fr; gap: var(--s-2); align-items: center; padding: var(--s-2); border-radius: var(--r-img); background: var(--tint); text-decoration: none; }
+  .used-product img { transition: transform var(--t-reveal) var(--ease-hortex); }
+  .used-product:hover img { transform: rotate(-4deg) translateY(-4px); }
+  .used-product > span { display: grid; gap: 2px; justify-items: start; }
+  .used-product__name { font-weight: 700; font-size: 1.0625rem; }
+  .used-product .link-arrow { margin-top: var(--s-1); font-size: var(--fs-small); }
+  .steps { list-style: none; padding: 0; margin-top: var(--s-4); display: grid; gap: var(--s-4); }
+  .steps li { display: grid; grid-template-columns: 64px 1fr; gap: var(--s-2); padding-bottom: var(--s-4); border-bottom: 1px solid var(--c-line); }
+  .steps__num { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; line-height: 1; color: var(--c-brand); letter-spacing: -0.03em; }
+  .steps p { font-size: 1.125rem; max-width: 60ch; }
+  .extras { display: grid; gap: var(--s-2); margin-top: var(--s-6); }
+  .extra { padding: var(--s-3); border-radius: var(--r-img); background: var(--c-surface); }
+  .extra h3 { display: flex; gap: 0.4em; align-items: center; margin-bottom: var(--s-1); color: var(--c-ink-muted); }
+  .extra h3 :global(svg) { width: 16px; height: 16px; }
+  .extra ul { padding-left: 1.1em; display: grid; gap: 0.4em; }
+  .extra--tip { background: var(--c-brand-soft); color: var(--c-brand-deep); }
+  .extra--tip h3 { color: var(--c-brand-deep); }
+  .extra--allergen { background: var(--c-danger-soft); color: #6b1f10; }
+  .extra--allergen h3 { color: #6b1f10; }
+
+  .cook { border: 0; padding: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; background: var(--c-brand-deep); color: var(--c-on-brand); }
+  .cook::backdrop { background: var(--c-brand-deep); }
+  .cook__inner { display: grid; grid-template-rows: auto 1fr auto; height: 100%; padding: var(--s-4) var(--gutter); max-width: 1100px; margin-inline: auto; }
+  .cook__head { display: flex; align-items: center; gap: var(--s-2); }
+  .cook__head .t-meta { flex: 1; opacity: 0.8; }
+  .cook__lock { opacity: 0.7; }
+  .cook__close { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--c-on-brand) 50%, transparent); background: none; color: inherit; display: grid; place-items: center; }
+  .cook__close :global(svg) { width: 22px; height: 22px; }
+  .cook__stage { display: grid; align-content: center; }
+  .cook__num { font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 700; margin-bottom: var(--s-3); }
+  .cook__num span { opacity: 0.5; }
+  .cook__text { font-family: var(--font-display); font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3.5rem); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; }
+  .cook__nav { display: flex; align-items: center; gap: var(--s-3); }
+  .cook__progress { flex: 1; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--c-on-brand) 20%, transparent); overflow: hidden; }
+  .cook__progress span { display: block; height: 100%; background: var(--c-on-brand); transform-origin: left; transition: transform var(--t-ui) var(--ease-hortex); }
+  .cook :global(.btn:disabled) { opacity: 0.3; }
+
+  @media (max-width: 900px) {
+    .recipe-body { grid-template-columns: 1fr; gap: var(--s-6); }
+    .ingredients__sticky { position: static; }
+    .steps li { grid-template-columns: 48px 1fr; }
+    .steps__num { font-size: 1.75rem; }
+  }
+
+  @media print {
+    :global(.topbar), :global(.site-header), :global(.site-footer), .recipe-actions, .related, :global(.breadcrumbs), .stepper button, .used-product .link-arrow { display: none !important; }
+    :global(body) { background: #fff; font-size: 11pt; }
+    .recipe-photo { max-height: 8cm; }
+    .recipe-body { grid-template-columns: 1fr 1.4fr; padding-block: 1cm 0; gap: 1cm; }
+    .ingredients__sticky { position: static; background: none; padding: 0; }
+    .steps p { font-size: 11pt; }
+    .ing-item input { display: none; }
+  }
+</style>

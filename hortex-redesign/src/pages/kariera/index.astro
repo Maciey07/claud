@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../lib/data';
+import { img } from '../../lib/images';
+const perks = ['Umowa o pracę i stabilny pracodawca', 'Dopłaty do posiłków i paczki z produktami', 'Szkolenia i ścieżki awansu na produkcji', 'Dowóz do zakładów w Skierniewicach i Makowie'];
+---
+<Base title="Kariera" description="Praca w Hortex: oferty w Skierniewicach, Makowie i w dziale handlowym." current="kariera">
+  <section class="container career">
+    <Breadcrumbs items={[{ label: 'Kariera' }]} />
+    <div class="career__head">
+      <div>
+        <h1>Pracuj przy jedzeniu, które trafia do tysięcy kuchni</h1>
+        <p class="t-lead t-muted">Około 500 osób w dwóch zakładach i biurze handlowym. Szukamy ludzi na produkcję, do jakości i sprzedaży.</p>
+      </div>
+      <div class="media" style="--ratio: 21/9"><img src={img.scene('plant')} alt="Zakład produkcyjny wśród pól (ilustracja)" width="2100" height="900" fetchpriority="high" /></div>
+    </div>
+
+    <h2 class="t-h3 career__sub">Aktualne oferty ({site.jobs.length})</h2>
+    <ul class="jobs" role="list">
+      {site.jobs.map((j) => (
+        <li>
+          <a href="/kontakt/?temat=kariera" class="job">
+            <span class="job__title">{j.title}</span>
+            <span class="t-small t-muted"><Icon name="pin" />{j.place}</span>
+            <span class="t-small t-muted"><Icon name="briefcase" />{j.type}</span>
+            <span class="job__cta">Aplikuj <Icon name="arrow" /></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="prototype-note">Prototyp: oferty przykładowe. Docelowo lista z systemu rekrutacyjnego.</p>
+
+    <h2 class="t-h3 career__sub">Co oferujemy</h2>
+    <ul class="perks" role="list">{perks.map((p) => <li><Icon name="check" />{p}</li>)}</ul>
+  </section>
+</Base>
+<style>
+  .career { padding-block: var(--s-4) var(--s-section); display: grid; gap: var(--s-3); }
+  .career__head { display: grid; gap: var(--s-4); margin-top: var(--s-2); }
+  .career__head h1 { max-width: 20ch; }
+  .career__head .t-lead { margin-top: var(--s-2); max-width: 44rem; }
+  .career__sub { margin-top: var(--s-6); }
+  .jobs { list-style: none; padding: 0; border-top: 1px solid var(--c-line); }
+  .job { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: var(--s-2); align-items: center; padding: var(--s-3) 0; border-bottom: 1px solid var(--c-line); text-decoration: none; }
+  .job:hover .job__title { color: var(--c-brand); }
+  .job__title { font-weight: 600; font-size: 1.125rem; }
+  .job span { display: inline-flex; gap: 0.4em; align-items: center; }
+  .job :global(svg) { width: 16px; height: 16px; }
+  .job__cta { font-weight: 600; }
+  .perks { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-2); }
+  .perks li { display: flex; gap: 0.6em; align-items: center; padding: var(--s-3); background: var(--c-surface); border-radius: var(--r-img); }
+  .perks :global(svg) { color: var(--c-brand); width: 22px; height: 22px; }
+  @media (max-width: 720px) { .job { grid-template-columns: 1fr; gap: 4px; } .perks { grid-template-columns: 1fr; } }
+</style>

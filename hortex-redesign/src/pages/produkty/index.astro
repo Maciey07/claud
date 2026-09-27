@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductListing from '../../components/ProductListing.astro';
+import { products } from '../../lib/data';
+---
+<Base title="Produkty" description="Wszystkie produkty Hortex: warzywa, owoce, zupy, dania gotowe, pizza, frytki i opakowania gastronomiczne." current="produkty">
+  <ProductListing
+    title="Produkty"
+    lead="Warzywa, owoce, zupy i dania z zamrażarki. Wybierz kategorię albo sposób przygotowania."
+    items={products}
+    crumbs={[{ label: 'Produkty' }]}
+    showCategoryChips
+  />
+</Base>

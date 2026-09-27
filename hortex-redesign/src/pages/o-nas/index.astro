@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import CategoryVisual from '../../components/CategoryVisual.astro';
+import { site, categoryBySlug, productBySlug, t } from '../../lib/data';
+import { img } from '../../lib/images';
+
+const steps = [
+  { icon: 'sprout', title: 'Zbiór', text: 'Warzywa i owoce od polskich plantatorów, zbierane w szczycie dojrzałości.' },
+  { icon: 'truck', title: 'Transport', text: 'Z pola do zakładu w kilka godzin, w kontrolowanej temperaturze.' },
+  { icon: 'pot', title: 'Blanszowanie', text: 'Krótka kąpiel w gorącej wodzie zatrzymuje enzymy i utrwala kolor.' },
+  { icon: 'snow', title: 'Mrożenie', text: 'Szybkie mrożenie pojedynczych kawałków (IQF), bez zlepiania się w bryłę.' },
+  { icon: 'box', title: 'Pakowanie', text: 'Porcje dla domu i opakowania 2–2,5 kg dla gastronomii.' },
+] as const;
+---
+<Base title="O nas" description="Hortex: mrożone warzywa i owoce z polskich pól. Zakłady w Skierniewicach i Makowie." current="o-nas">
+  <section class="container about-head">
+    <Breadcrumbs items={[{ label: 'O nas' }]} />
+    <h1 class="t-display">Prosto z&nbsp;natury</h1>
+    <p class="t-lead about-lead">{t('Od pola do zamrażarki w kilka godzin. Tak zatrzymujemy smak i wartości odżywcze warzyw i owoców, żeby w domu i w restauracji można było gotować sezonowo przez cały rok.')}</p>
+  </section>
+  <div class="container">
+    <div class="media" style="--ratio: 21/9">
+      <img src={img.scene('field')} alt="Pole uprawne z rzędami warzyw o poranku" width="2100" height="900" fetchpriority="high" />
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="proc-title">
+    <div class="container">
+      <SectionHeader id="proc-title" eyebrow="Jak pracujemy" title="Pięć kroków od pola do zamrażarki" />
+      <ol class="process" role="list">
+        {steps.map((s, i) => (
+          <li><span class="process__num t-num">{String(i + 1).padStart(2, '0')}</span><Icon name={s.icon} class="process__icon" /><h3>{s.title}</h3><p class="t-muted">{t(s.text)}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section band--tint" style="--section-tint: var(--tint-warzywa)" aria-labelledby="veg-title">
+    <div class="container split">
+      <div>
+        <SectionHeader id="veg-title" eyebrow="Warzywa" title="Brokuł, groszek, fasolka. Z pól wokół Skierniewic." text="Współpracujemy z plantatorami na kontraktach wieloletnich. Wiemy, z którego pola pochodzi każda partia." />
+        <a class="link-arrow" href="/kontakt/?temat=skup">Jesteś plantatorem? Skontaktuj się z działem skupu <Icon name="arrow" /></a>
+      </div>
+      <CategoryVisual category={categoryBySlug('warzywa')!} product={productBySlug('mix-brokul-i-kalafior')} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="plants-title">
+    <div class="container">
+      <SectionHeader id="plants-title" eyebrow="Zakłady" title="Dwa zakłady, około 500 osób" />
+      <div class="plants">
+        {site.facts.plants.map((p, i) => (
+          <article class="card">
+            <div class="media" style="--ratio: 21/9" data-reveal><img src={img.scene(i === 0 ? 'plant' : 'field')} alt={`Zakład w miejscowości ${p.city} (ilustracja)`} width="2100" height="900" loading="lazy" /></div>
+            <h3 class="card__title t-h3">{p.city}</h3>
+            <p class="t-muted">{t(p.role)}</p>
+          </article>
+        ))}
+      </div>
+      <div class="about-ctas">
+        <a class="btn" href="/kariera/">Pracuj z nami <Icon name="arrow" /></a>
+        <a class="btn btn--ghost" href="/dla-biznesu/">Oferta dla biznesu</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-head { padding-block: var(--s-4) var(--s-6); display: grid; gap: var(--s-4); }
+  .about-head h1 { color: var(--c-brand-deep); margin-top: var(--s-2); }
+  .about-lead { max-width: 46rem; color: var(--c-ink-muted); }
+  .process { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--grid-gap); counter-reset: s; }
+  .process li { display: grid; gap: var(--s-1); align-content: start; padding-top: var(--s-2); border-top: 1.5px solid var(--c-ink); }
+  .process__num { font-family: var(--font-display); font-weight: 700; color: var(--c-ink-muted); }
+  .process :global(.process__icon) { width: 36px; height: 36px; color: var(--c-brand); margin-block: var(--s-1); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: center; }
+  .plants { display: grid; grid-template-columns: 1fr 1fr; gap: var(--grid-gap); }
+  .plants .card p { margin-top: var(--s-1); }
+  .about-ctas { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-8); }
+  @media (max-width: 960px) { .process { grid-template-columns: 1fr 1fr; } .split, .plants { grid-template-columns: 1fr; } }
+</style>

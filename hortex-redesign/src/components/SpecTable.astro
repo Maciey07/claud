@@ -1,0 +1,28 @@
+---
+/** Specyfikacja B2B. Pola bez danych oznaczone jako "dane do uzupełnienia" przez Hortex. */
+import type { Product } from '../lib/data';
+interface Props { p: Product }
+const { p } = Astro.props;
+const s = p.spec ?? {};
+const TODO = 'dane do uzupełnienia';
+const rows: [string, string | null | undefined][] = [
+  ['Gramatura', p.weight],
+  ['Kalibracja / cięcie', s.calibre],
+  ['Opakowanie zbiorcze', s.collective],
+  ['Paletyzacja', s.pallet],
+  ['EAN', s.ean],
+  ['Okres przydatności', s.shelfLife],
+  ['Temperatura przechowywania', s.storage],
+  ['Kraj pochodzenia', s.origin],
+  ['Wydajność', p.yield],
+  ['Przygotowanie w kuchni profesjonalnej', p.proPrep],
+];
+---
+<table class="data-table spec">
+  <caption>Specyfikacja dla gastronomii <span class="badge badge--outline">dane przykładowe</span></caption>
+  <tbody>
+    {rows.map(([k, v]) => (
+      <tr><th scope="row">{k}</th><td class={v ? undefined : 'todo'}>{v ?? TODO}</td></tr>
+    ))}
+  </tbody>
+</table>

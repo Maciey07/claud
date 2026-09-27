@@ -1,0 +1,172 @@
+---
+import '@fontsource-variable/anybody/standard.css';
+import '@fontsource-variable/inter/wght.css';
+import '../styles/global.css';
+import anybodyLatin from '@fontsource-variable/anybody/files/anybody-latin-standard-normal.woff2?url';
+import ogDefault from '../assets/photos/teatr-wernisaz.jpg';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AlertBanner from '../components/AlertBanner.astro';
+import CartDrawer from '../components/CartDrawer.astro';
+import BottomTabBar from '../components/BottomTabBar.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import PreviewBadge from '../components/PreviewBadge.astro';
+import { festival, site } from '../site.config';
+import { getFestivalMode } from '../lib/festival-mode';
+import { href, type RouteKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Lang } from '../lib/types';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  route: RouteKey | null;
+  params?: Record<string, string>;
+  /** Własne adresy wersji językowych (np. 404). */
+  alternates?: Partial<Record<Lang, string>>;
+  jsonLd?: object | object[];
+  breadcrumbs?: { name: string; url: string }[];
+  ogImage?: string;
+  noindex?: boolean;
+  theme?: 'cream' | 'ink';
+  /** Strona pokazuje pełną wersję komunikatu, więc pasek nad nagłówkiem jest zbędny. */
+  fullAlert?: boolean;
+}
+
+const { lang, title, description, route, params = {}, jsonLd, breadcrumbs, noindex = false, theme = 'cream', fullAlert = false } = Astro.props;
+const other: Lang = lang === 'pl' ? 'en' : 'pl';
+const alternates: Partial<Record<Lang, string>> = Astro.props.alternates ?? (route ? { pl: href(route, 'pl', params), en: href(route, 'en', params) } : {});
+const canonical = new URL(alternates[lang] ?? Astro.url.pathname, site.url).href;
+const fullTitle = route === 'home' ? title : `${title} · OFCA 2026`;
+const og = Astro.props.ogImage ?? (await getImage({ src: ogDefault, width: 1200, format: 'jpg' })).src;
+const buildMode = getFestivalMode(new Date(), festival);
+const previewEnabled = import.meta.env.DEV || import.meta.env.PUBLIC_MODE_PREVIEW === 'true';
+const modeConfig = {
+  announceAt: festival.announceAt, start: festival.start, end: festival.end, afterDays: festival.afterDays,
+  next: { start: festival.next.start, announceAt: festival.next.announceAt }, forceMode: festival.forceMode,
+  previewAt: festival.previewAt,
+};
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.foundation.name,
+  url: site.url,
+  email: site.emails.office,
+  address: { '@type': 'PostalAddress', streetAddress: 'ul. Ignacego Solarza 2B', postalCode: '56-400', addressLocality: 'Oleśnica', addressCountry: 'PL' },
+  sameAs: Object.values(site.social).filter(Boolean),
+};
+const crumbs = breadcrumbs?.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ name: t(lang).common.breadcrumbHome, url: href('home', lang) }, ...breadcrumbs].map((b, i) => ({
+        '@type': 'ListItem', position: i + 1, name: b.name, item: new URL(b.url, site.url).href,
+      })),
+    }
+  : null;
+const ld = [org, ...(crumbs ? [crumbs] : []), ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+<!doctype html>
+<html lang={lang} data-mode={buildMode} data-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.pl && <link rel="alternate" hreflang="pl" href={new URL(alternates.pl, site.url).href} />}
+    {alternates.en && <link rel="alternate" hreflang="en" href={new URL(alternates.en, site.url).href} />}
+    {alternates.pl && <link rel="alternate" hreflang="x-default" href={new URL(alternates.pl, site.url).href} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#fe6021" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={anybodyLatin} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OFCA" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(og, site.url).href} />
+    <meta property="og:locale" content={lang === 'pl' ? 'pl_PL' : 'en_GB'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline define:vars={{ cfg: modeConfig, previewEnabled }}>
+      // Tryb festiwalu przed pierwszym malowaniem (lustro src/lib/festival-mode.ts) + podgląd ?mode= tylko w dev/preview.
+      (function () {
+        var DAY = 864e5, now = new Date(), mode = null, preview = false, modes = ['offseason', 'announce', 'live', 'after'];
+        try {
+          if (previewEnabled) {
+            var p = new URLSearchParams(location.search), ss = sessionStorage;
+            if (p.get('mode') === 'auto') { ss.removeItem('ofca-preview-mode'); ss.removeItem('ofca-preview-now'); }
+            else {
+              if (p.has('mode')) ss.setItem('ofca-preview-mode', p.get('mode'));
+              if (p.has('now')) ss.setItem('ofca-preview-now', p.get('now'));
+            }
+            var pm = ss.getItem('ofca-preview-mode'), pn = ss.getItem('ofca-preview-now');
+            if (modes.indexOf(pm) > -1) { mode = pm; preview = true; now = new Date(cfg.previewAt[pm]); }
+            if (pn && !isNaN(Date.parse(pn))) { now = new Date(pn); preview = true; }
+          }
+        } catch (e) {}
+        if (!mode) {
+          if (cfg.forceMode) mode = cfg.forceMode;
+          else {
+            var t = now.getTime(), s = Date.parse(cfg.start), e = Date.parse(cfg.end);
+            if (t >= s && t <= e) mode = 'live';
+            else if (t > e) mode = t <= e + cfg.afterDays * DAY ? 'after'
+              : (cfg.next.start && cfg.next.announceAt && t >= Date.parse(cfg.next.announceAt) ? 'announce' : 'offseason');
+            else mode = t >= Date.parse(cfg.announceAt) ? 'announce' : 'offseason';
+          }
+        }
+        var root = document.documentElement;
+        root.dataset.mode = mode;
+        root.classList.add('js');
+        window.__OFCA = { mode: mode, now: now.toISOString(), preview: preview, motionReady: false };
+        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+          root.classList.add('motion');
+          // Bezpiecznik: jeśli skrypt animacji nie ruszy, nagłówki wracają do docelowej szerokości
+          setTimeout(function () { if (!window.__OFCA.motionReady) root.classList.remove('motion'); }, 2500);
+        }
+      })();
+    </script>
+    {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+    <slot name="head" />
+  </head>
+  <body class:list={[{ 'bg-ink': theme === 'ink' }]}>
+    <a class="skip-link" href="#main">{t(lang).skip}</a>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="duo-lilac" color-interpolation-filters="sRGB">
+          <feColorMatrix type="saturate" values="0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="0.067 0.62 1" />
+            <feFuncG type="table" tableValues="0.067 0.435 0.922" />
+            <feFuncB type="table" tableValues="0.067 0.71 0.867" />
+          </feComponentTransfer>
+        </filter>
+        <filter id="duo-orange" color-interpolation-filters="sRGB">
+          <feColorMatrix type="saturate" values="0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="0.067 0.996 1" />
+            <feFuncG type="table" tableValues="0.067 0.376 0.922" />
+            <feFuncB type="table" tableValues="0.067 0.129 0.867" />
+          </feComponentTransfer>
+        </filter>
+      </defs>
+    </svg>
+    {!fullAlert && <AlertBanner lang={lang} variant="compact" />}
+    <Header lang={lang} route={route} alternates={alternates} other={other} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <BottomTabBar lang={lang} route={route} />
+    <CartDrawer lang={lang} />
+    <CookieBanner lang={lang} />
+    {previewEnabled && <PreviewBadge />}
+    <script>
+      import { initLayout } from '../lib/layout-client';
+      initLayout();
+    </script>
+  </body>
+</html>

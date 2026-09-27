@@ -1,0 +1,103 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import Icon from '../components/Icon.astro';
+import { faq, faqCategories } from '../lib/data';
+import { site } from '../site.config';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const c = pl ? {
+  title: 'FAQ', h: 'Pytania i odpowiedzi', desc: 'Najczęstsze pytania o Festiwal OFCA: bilety, pole namiotowe, dzieci, zwierzęta, dostępność i zgłoszenia artystów.',
+  lead: 'Odpowiedź w pierwszym zdaniu, szczegóły niżej.', search: 'Szukaj w pytaniach', all: 'Wszystko', cats: 'Kategorie',
+  none: 'Nic nie znaleźliśmy. Spróbuj innego słowa albo napisz do nas:', count: 'Pasujące pytania: ',
+} : {
+  title: 'FAQ', h: 'Questions and answers', desc: 'Frequently asked questions about OFCA: tickets, the campsite, kids, pets, accessibility and artist applications.',
+  lead: 'Short answer first, details below.', search: 'Search the questions', all: 'All', cats: 'Categories',
+  none: 'Nothing found. Try another word, or email us:', count: 'Matching questions: ',
+};
+const answered = faq.filter((f) => !f.a[lang].includes(T));
+const jsonLd = answered.length ? {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: answered.map((f) => ({ '@type': 'Question', name: f.q[lang], acceptedAnswer: { '@type': 'Answer', text: f.a[lang] } })),
+} : undefined;
+---
+<InfoLayout lang={lang} route="faq" title={c.title} heading={c.h} description={c.desc} lead={c.lead} tone="orange" jsonLd={jsonLd}>
+  <div class="faq" data-faq>
+    <div class="tools">
+      <div class="field search">
+        <label for="faq-search" class="label">{c.search}</label>
+        <div class="search-box"><Icon name="search" size={22} /><input id="faq-search" class="input" type="search" autocomplete="off" data-faq-search /></div>
+      </div>
+      <div class="chips" role="group" aria-label={c.cats}>
+        <button type="button" class="chip" aria-pressed="true" data-faq-cat="all">{c.all}</button>
+        {faqCategories.map((cat) => <button type="button" class="chip" aria-pressed="false" data-faq-cat={cat.id}>{cat.name[lang]}</button>)}
+      </div>
+    </div>
+    <p class="label" aria-live="polite" data-faq-count></p>
+    {faqCategories.map((cat) => (
+      <section class="group" data-faq-group={cat.id} aria-labelledby={`faq-${cat.id}`}>
+        <h2 id={`faq-${cat.id}`} class="h3">{cat.name[lang]}</h2>
+        {faq.filter((f) => f.category === cat.id).map((f) => (
+          <details class="qa" id={f.id} data-faq-item data-text={`${f.q[lang]} ${f.a[lang]}`.toLowerCase()}>
+            <summary><span>{f.q[lang]}</span><Icon name="plus" size={22} class="ic" /></summary>
+            <div class="answer"><p>{f.a[lang].includes(T) ? <>{f.a[lang].replace(T, '')}<span class="tbc">{T}</span></> : f.a[lang]}</p></div>
+          </details>
+        ))}
+      </section>
+    ))}
+    <p class="none" data-faq-none hidden>{c.none} <a href={`mailto:${site.emails.office}`}>{site.emails.office}</a></p>
+  </div>
+  <script type="application/json" data-faq-i18n set:html={JSON.stringify({ count: c.count })} />
+</InfoLayout>
+<style>
+  .faq { max-width: 52rem; display: grid; gap: var(--space-5); }
+  .tools { display: grid; gap: var(--space-4); }
+  .search-box { position: relative; }
+  .search-box :global(svg) { position: absolute; left: 12px; top: 50%; translate: 0 -50%; pointer-events: none; }
+  .search-box .input { padding-left: 44px; }
+  .group { display: grid; gap: var(--space-3); margin-top: var(--space-4); }
+  .group h2 { text-transform: uppercase; }
+  .qa { border: 3px solid var(--ofca-ink); background: var(--ofca-white); }
+  .qa summary { display: flex; justify-content: space-between; gap: var(--space-4); align-items: center; padding: var(--space-4) var(--space-5); cursor: pointer; font-weight: 700; font-size: 1.1rem; list-style: none; min-height: 56px; }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa :global(.ic) { flex-shrink: 0; transition: rotate 200ms var(--ease-out); }
+  .qa[open] :global(.ic) { rotate: 45deg; }
+  .qa[open] summary { background: var(--ofca-orange); }
+  .answer { padding: var(--space-4) var(--space-5) var(--space-5); border-top: 3px solid var(--ofca-ink); }
+  .none { font-weight: 600; font-size: 1.1rem; }
+</style>
+<script>
+  const root = document.querySelector<HTMLElement>('[data-faq]')!;
+  const input = root.querySelector<HTMLInputElement>('[data-faq-search]')!;
+  const items = Array.from(root.querySelectorAll<HTMLDetailsElement>('[data-faq-item]'));
+  const groups = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-group]'));
+  const chips = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-faq-cat]'));
+  const i18n = JSON.parse(document.querySelector('[data-faq-i18n]')!.textContent!) as { count: string };
+  let cat = 'all';
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ł/g, 'l');
+  const run = () => {
+    const q = norm(input.value.trim());
+    let n = 0;
+    groups.forEach((g) => {
+      const inCat = cat === 'all' || g.dataset.faqGroup === cat;
+      let visible = 0;
+      g.querySelectorAll<HTMLDetailsElement>('[data-faq-item]').forEach((it) => {
+        const show = inCat && (!q || norm(it.dataset.text!).includes(q));
+        it.hidden = !show;
+        if (show) { visible++; if (q) it.open = true; }
+      });
+      g.hidden = visible === 0;
+      n += visible;
+    });
+    root.querySelector('[data-faq-count]')!.textContent = q || cat !== 'all' ? `${i18n.count}${n}` : '';
+    (root.querySelector('[data-faq-none]') as HTMLElement).hidden = n > 0;
+    chips.forEach((ch) => ch.setAttribute('aria-pressed', String(ch.dataset.faqCat === cat)));
+  };
+  input.addEventListener('input', run);
+  chips.forEach((ch) => ch.addEventListener('click', () => { cat = ch.dataset.faqCat!; run(); }));
+  const hash = location.hash.slice(1);
+  const target = items.find((i) => i.id === hash);
+  if (target) target.open = true;
+</script>

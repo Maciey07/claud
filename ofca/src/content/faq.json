@@ -1,0 +1,238 @@
+{
+  "_meta": {
+    "status": "Treści do przeniesienia z obecnego FAQ. Odpowiedzi oznaczone [DO UZUPEŁNIENIA] uzupełnić."
+  },
+  "categories": [
+    {
+      "id": "festiwal",
+      "name": {
+        "pl": "Festiwal",
+        "en": "Festival"
+      }
+    },
+    {
+      "id": "bilety",
+      "name": {
+        "pl": "Bilety",
+        "en": "Tickets"
+      }
+    },
+    {
+      "id": "pole",
+      "name": {
+        "pl": "Pole namiotowe",
+        "en": "Campsite"
+      }
+    },
+    {
+      "id": "dzieci",
+      "name": {
+        "pl": "Dzieci",
+        "en": "Kids"
+      }
+    },
+    {
+      "id": "zwierzeta",
+      "name": {
+        "pl": "Zwierzęta",
+        "en": "Pets"
+      }
+    },
+    {
+      "id": "dostepnosc",
+      "name": {
+        "pl": "Dostępność",
+        "en": "Accessibility"
+      }
+    },
+    {
+      "id": "artysci",
+      "name": {
+        "pl": "Dla artystów",
+        "en": "For artists"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "kiedy",
+      "category": "festiwal",
+      "q": {
+        "pl": "Kiedy i gdzie odbywa się festiwal?",
+        "en": "When and where is the festival?"
+      },
+      "a": {
+        "pl": "OFCA 2026 trwa od 14 do 16 sierpnia 2026. Gramy na starym mieście w Oleśnicy: na Rynku, przy Zamku, w amfiteatrze i pod namiotami.",
+        "en": "OFCA 2026 runs 14–16 August 2026 in the old town of Oleśnica: on Rynek (Market Square), by the Castle, in the amphitheatre and under canvas."
+      }
+    },
+    {
+      "id": "nowy-cyrk",
+      "category": "festiwal",
+      "q": {
+        "pl": "Czym jest Nowy Cyrk?",
+        "en": "What is contemporary circus?"
+      },
+      "a": {
+        "pl": "To cyrk współczesny: akrobatyka, żonglerka, taniec i teatr w jednym spektaklu. Bez zwierząt, za to z opowieścią.",
+        "en": "Contemporary circus (New Circus) mixes acrobatics, juggling, dance and theatre into one show. No animals, plenty of story."
+      }
+    },
+    {
+      "id": "infopunkt",
+      "category": "festiwal",
+      "q": {
+        "pl": "Gdzie znajdę Infopunkt?",
+        "en": "Where is the Infopunkt?"
+      },
+      "a": {
+        "pl": "Infopunkt stoi na Rynku. Kupicie tam merch i karnety, zapytacie o program. Godziny otwarcia: [DO UZUPEŁNIENIA]",
+        "en": "The Infopunkt (info point) is on Rynek (Market Square). Grab merch and passes, ask about the programme. Opening hours: [DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "uliczne-platne",
+      "category": "bilety",
+      "q": {
+        "pl": "Czy spektakle uliczne są płatne?",
+        "en": "Do I pay for street shows?"
+      },
+      "a": {
+        "pl": "Nie. Spektakle uliczne są otwarte dla wszystkich. Bilety obowiązują tylko na część spektakli scenicznych.",
+        "en": "No. Street shows are open to everyone. Tickets apply only to some stage shows."
+      }
+    },
+    {
+      "id": "gdzie-bilety",
+      "category": "bilety",
+      "q": {
+        "pl": "Gdzie kupię bilety na spektakle sceniczne?",
+        "en": "Where do I buy tickets for stage shows?"
+      },
+      "a": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "kamper",
+      "category": "pole",
+      "q": {
+        "pl": "Czy mogę przyjechać na pole namiotowe kamperem?",
+        "en": "Can I bring a campervan to the campsite?"
+      },
+      "a": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "karnet",
+      "category": "pole",
+      "q": {
+        "pl": "Jak kupić karnet na pole namiotowe?",
+        "en": "How do I get a campsite pass?"
+      },
+      "a": {
+        "pl": "Karnety kupicie w Infopunkcie na Rynku. Ceny i zasady: [DO UZUPEŁNIENIA]",
+        "en": "Passes are sold at the Infopunkt on Rynek. Prices and rules: [DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "pole-od-kiedy",
+      "category": "pole",
+      "q": {
+        "pl": "Od kiedy działa pole namiotowe?",
+        "en": "When does the campsite open?"
+      },
+      "a": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "dzieci-program",
+      "category": "dzieci",
+      "q": {
+        "pl": "Które spektakle są dla dzieci?",
+        "en": "Which shows suit kids?"
+      },
+      "a": {
+        "pl": "W programie włączcie filtr „Dla dzieci”. Spektakle uliczne są zwykle familijne, a w strefie warsztatów czekają zajęcia cyrkowe dla dzieci.",
+        "en": "Turn on the “For kids” filter in the programme. Street shows are usually family-friendly, and the workshop zone runs circus classes for kids."
+      }
+    },
+    {
+      "id": "dzieci-pole",
+      "category": "dzieci",
+      "q": {
+        "pl": "Czy dzieci mogą nocować na polu namiotowym?",
+        "en": "Can children stay at the campsite?"
+      },
+      "a": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "psy",
+      "category": "zwierzeta",
+      "q": {
+        "pl": "Czy mogę przyjść z psem?",
+        "en": "Can I bring my dog?"
+      },
+      "a": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "psy-pole",
+      "category": "zwierzeta",
+      "q": {
+        "pl": "Czy psy mogą nocować na polu namiotowym?",
+        "en": "Are dogs allowed at the campsite?"
+      },
+      "a": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "id": "wozek",
+      "category": "dostepnosc",
+      "q": {
+        "pl": "Czy dojadę na wózku do miejsc spektakli?",
+        "en": "Can I reach the venues in a wheelchair?"
+      },
+      "a": {
+        "pl": "[DO UZUPEŁNIENIA] Szczegóły na stronie Dostępność.",
+        "en": "[DO UZUPEŁNIENIA] Details on the Accessibility page."
+      }
+    },
+    {
+      "id": "potrzeby",
+      "category": "dostepnosc",
+      "q": {
+        "pl": "Do kogo pisać w sprawie potrzeb dostępności?",
+        "en": "Who do I contact about access needs?"
+      },
+      "a": {
+        "pl": "Napiszcie na biuro@festiwalofca.pl. Odpowiemy i pomożemy zaplanować wizytę.",
+        "en": "Email biuro@festiwalofca.pl. We’ll reply and help you plan your visit."
+      }
+    },
+    {
+      "id": "zgloszenia",
+      "category": "artysci",
+      "q": {
+        "pl": "Jak zgłosić spektakl na OFCĘ?",
+        "en": "How do I apply to perform?"
+      },
+      "a": {
+        "pl": "Wszystko jest na stronie Dla artystów. Terminy naboru: [DO UZUPEŁNIENIA]",
+        "en": "Everything is on the For artists page. Open call dates: [DO UZUPEŁNIENIA]"
+      }
+    }
+  ]
+}

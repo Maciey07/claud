@@ -1,0 +1,28 @@
+---
+/** Pas z hasłami i rombami (M9). */
+interface Props { items: string[]; tone?: 'lilac' | 'ink' | 'orange' | 'cream'; speed?: number }
+const { items, tone = 'ink', speed = 40 } = Astro.props;
+const row = [...items, ...items];
+---
+<div class:list={['marquee', `bg-${tone}`]} data-marquee={speed} aria-hidden="true">
+  <div class="track" data-marquee-track>
+    {[0, 1].map(() => (
+      <div class="group">
+        {row.map((t) => (<><span class="item">{t}</span><span class="dia"></span></>))}
+      </div>
+    ))}
+  </div>
+</div>
+<style>
+  .marquee { overflow: hidden; padding-block: var(--space-3); border-block: 3px solid var(--ofca-ink); }
+  .track { display: flex; width: max-content; }
+  .group { display: flex; align-items: center; }
+  .item {
+    font-family: var(--font-display); font-weight: 900; text-transform: uppercase; white-space: nowrap;
+    font-size: clamp(1.4rem, 3vw, 2.4rem); font-variation-settings: 'wdth' 135; padding-inline: var(--space-5);
+  }
+  .dia { width: 18px; height: 36px; background: var(--ofca-orange); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); flex-shrink: 0; }
+  .bg-orange .dia { background: var(--ofca-lilac); }
+  .bg-lilac .dia { background: var(--ofca-orange); }
+  .bg-ink .dia { background: var(--ofca-orange); }
+</style>

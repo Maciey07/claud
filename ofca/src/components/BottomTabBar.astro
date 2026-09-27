@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import { href, type RouteKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Lang } from '../lib/types';
+
+/** Dolny pasek zakładek w trybie live, tylko mobile (PRD 6). */
+interface Props { lang: Lang; route: RouteKey | null }
+const { lang, route } = Astro.props;
+const d = t(lang);
+const planHref = `${href('program', lang)}?${lang === 'pl' ? 'widok' : 'view'}=plan`;
+const items = [
+  { href: href('program', lang), label: d.nav.program, icon: 'clock' as const, key: 'program' },
+  { href: href('map', lang), label: d.nav.map, icon: 'map' as const, key: 'map' },
+  { href: planHref, label: d.nav.myPlan, icon: 'star' as const, key: 'plan' },
+  { href: href('info', lang), label: d.nav.info, icon: 'info' as const, key: 'info' },
+];
+---
+<nav class="tabbar bg-ink on-ink" data-modes="live" aria-label={lang === 'pl' ? 'Na festiwalu' : 'At the festival'}>
+  <ul>
+    {items.map((i) => (
+      <li><a href={i.href} aria-current={route === i.key ? 'page' : undefined}><Icon name={i.icon} size={22} /><span>{i.label}</span></a></li>
+    ))}
+  </ul>
+</nav>
+<style>
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding-bottom: env(safe-area-inset-bottom); }
+  .tabbar ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .tabbar a {
+    display: grid; justify-items: center; gap: 2px; padding: 8px 4px; min-height: 56px; text-decoration: none;
+    font-family: var(--font-display); font-weight: 800; font-size: 0.72rem; text-transform: uppercase; font-variation-settings: 'wdth' 95;
+  }
+  .tabbar a[aria-current='page'] { color: var(--ofca-orange); }
+  @media (min-width: 1024px) { .tabbar { display: none !important; } }
+  :global(html[data-mode='live']) :global(body) { padding-bottom: 64px; }
+  @media (min-width: 1024px) { :global(html[data-mode='live']) :global(body) { padding-bottom: 0; } }
+</style>

@@ -1,0 +1,49 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import MapArt from '../components/MapArt.astro';
+import MoreLink from '../components/MoreLink.astro';
+import { href } from '../i18n/routes';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const c = pl ? {
+  title: 'Dojazd', desc: 'Jak dojechać na Festiwal OFCA w Oleśnicy: pociąg, samochód, parking, rower.',
+  lead: 'Festiwal dzieje się na starym mieście w Oleśnicy, na północny wschód od Wrocławia. Najważniejsze miejsca: Rynek, Zamek i amfiteatr.',
+  sections: [
+    { h: 'Pociągiem', p: [`Stacja Oleśnica. Połączenia i czas przejazdu z Wrocławia: ${T}`, `Ze stacji na Rynek: ${T}`] },
+    { h: 'Samochodem', p: [`Dojazd i objazdy w dniach festiwalu: ${T}`, 'Na starym mieście część ulic może być zamknięta dla ruchu. Zostawcie auto na parkingu i przejdźcie się pieszo.'] },
+    { h: 'Parking', p: [`Parkingi dla gości festiwalu: ${T}`, 'Położenie parkingów zobaczycie na mapie festiwalu (warstwa Parking).'] },
+    { h: 'Rowerem', p: [`Miejsca na rowery: ${T}`] },
+    { h: 'Adresy', p: ['Rynek, 56-400 Oleśnica', 'Zamek Książąt Oleśnickich, Oleśnica', `Pole namiotowe: ${T}`] },
+  ],
+  map: 'Otwórz mapę festiwalu',
+} : {
+  title: 'Getting here', desc: 'How to get to OFCA in Oleśnica, Poland: train, car, parking and bike.',
+  lead: 'The festival takes over the old town of Oleśnica, north-east of Wrocław. Key places: Rynek (Market Square), the Castle and the amphitheatre.',
+  sections: [
+    { h: 'By train', p: [`Oleśnica station. Connections and journey time from Wrocław: ${T}`, `From the station to Rynek: ${T}`] },
+    { h: 'By car', p: [`Access and diversions during the festival: ${T}`, 'Some old-town streets may be closed to traffic. Leave the car at a car park and walk in.'] },
+    { h: 'Parking', p: [`Car parks for festival guests: ${T}`, 'You’ll find them on the festival map (Parking layer).'] },
+    { h: 'By bike', p: [`Bike parking: ${T}`] },
+    { h: 'Addresses', p: ['Rynek (Market Square), 56-400 Oleśnica', 'Zamek Książąt Oleśnickich (the Castle), Oleśnica', `Campsite: ${T}`] },
+  ],
+  map: 'Open the festival map',
+};
+---
+<InfoLayout lang={lang} route="travel" title={c.title} description={c.desc} lead={c.lead} tone="orange">
+  <div class="cols">
+    <div class="prose">
+      {c.sections.map((s) => (<><h2>{s.h}</h2>{s.p.map((p) => <p>{p}</p>)}</>))}
+    </div>
+    <aside class="stack">
+      <a class="mini" href={href('map', lang)} aria-label={c.map}><MapArt lang={lang} /></a>
+      <MoreLink href={href('map', lang)}>{c.map}</MoreLink>
+    </aside>
+  </div>
+</InfoLayout>
+<style>
+  .prose h2:first-child { margin-top: 0; }
+  .mini { display: block; border: 4px solid var(--ofca-ink); box-shadow: 10px 10px 0 var(--ofca-ink); aspect-ratio: 4 / 3; }
+</style>

@@ -1,0 +1,43 @@
+---
+import Icon from './Icon.astro';
+import { fitFont } from '../lib/fit';
+/** Nagłówek podstrony: plakatowy tytuł na kolorze + zygzak. */
+interface Props {
+  title: string;
+  kicker?: string;
+  lead?: string;
+  tone?: 'orange' | 'lilac' | 'ink';
+  crumbs?: { label: string; href: string }[];
+  stretch?: number;
+}
+const { title, kicker, lead, tone = 'orange', crumbs, stretch = 140 } = Astro.props;
+const zz = { orange: 'var(--ofca-orange)', lilac: 'var(--ofca-lilac)', ink: 'var(--ofca-ink)' }[tone];
+---
+<section class:list={['page-hero', `bg-${tone}`, { 'on-ink': tone === 'ink' }]}>
+  <div class="wrap inner">
+    {crumbs && crumbs.length > 0 && (
+      <nav class="crumbs small" aria-label="Breadcrumb">
+        <ol>
+          {crumbs.map((c) => <li><a href={c.href}>{c.label}</a><Icon name="arrow" size={14} /></li>)}
+        </ol>
+      </nav>
+    )}
+    {kicker && <p class="label kicker">{kicker}</p>}
+    <h1 data-stretch={stretch} style={`font-size:${fitFont(title, 9)}`}>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+  <div class="zigzag" style={`--zz-color:${zz}`} aria-hidden="true"></div>
+</section>
+<style>
+  .page-hero { position: relative; }
+  .inner { padding-block: calc(var(--space-8) + var(--zigzag)) var(--space-7); }
+  .inner { container-type: inline-size; }
+  h1 { line-height: 0.86; }
+  .kicker { margin-bottom: var(--space-4); }
+  .lead { margin-top: var(--space-5); max-width: 44rem; font-weight: 500; }
+  .zigzag { position: absolute; left: 0; right: 0; bottom: calc(var(--zigzag) * -1); z-index: 2; }
+  .crumbs ol { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+  .crumbs li { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .crumbs a { font-weight: 600; }
+</style>

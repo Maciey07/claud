@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArtistPoster from '../components/ArtistPoster.astro';
+import EventCard from '../components/EventCard.astro';
+import Countdown from '../components/Countdown.astro';
+import AlertBanner from '../components/AlertBanner.astro';
+import StatCounter from '../components/StatCounter.astro';
+import Marquee from '../components/Marquee.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Juggler from '../components/Juggler.astro';
+import MapPin from '../components/MapPin.astro';
+import Tent from '../components/Tent.astro';
+import MoreLink from '../components/MoreLink.astro';
+import { artists, events, products } from '../lib/data';
+
+/** Podgląd komponentów i animacji (tylko dev lub PUBLIC_STYLEGUIDE=true). */
+const colors = ['orange', 'orange-deep', 'lilac', 'cream', 'ink', 'white', 'mint'];
+const pinTypes = ['stage', 'street', 'workshop', 'club', 'fire', 'highline', 'food', 'info', 'wc', 'firstaid', 'camping', 'mural', 'parking'] as const;
+---
+<BaseLayout lang="pl" title="Styleguide" description="Podgląd design systemu OFCA." route={null} noindex>
+  <div class="wrap sg">
+    <h1 data-stretch="150">Styleguide</h1>
+
+    <section><h2>Kolory</h2>
+      <ul class="swatches">{colors.map((c) => <li><span style={`background: var(--ofca-${c})`}></span><code>--ofca-{c}</code></li>)}</ul>
+    </section>
+
+    <section class="stack"><h2>Typografia</h2>
+      <p class="mega display" data-stretch="150">1</p>
+      <p class="h1">Display · Miasto w cyrku</p>
+      <p class="h2">H2 · Zabierz arenę do domu</p>
+      <p class="h3">H3 · Karta artysty</p>
+      <p class="label">Etykieta · wdth 85</p>
+      <p class="lead">Lead: Na trzy sierpniowe dni stare miasto w Oleśnicy staje się areną.</p>
+      <p>Tekst ciągły w kroju tekstowym. Szerokość akapitu do 65 znaków.</p>
+    </section>
+
+    <section class="stack"><h2>Przyciski i chipy</h2>
+      <div class="btn-row"><button class="btn">Zobacz program</button><button class="btn btn-orange">Dodaj do koszyka</button><button class="btn btn-lilac">Lilac</button><button class="btn btn-outline">Jak dojechać</button><button class="btn" disabled>Wyłączony</button></div>
+      <div class="chips"><button class="chip" aria-pressed="true">Wszystko</button><button class="chip" aria-pressed="false">Uliczne</button><button class="chip" aria-pressed="false">Dla dzieci</button></div>
+      <div class="btn-row"><span class="badge">Artysta</span><span class="badge badge-orange">Wolontariusz</span><span class="badge badge-ink">Media</span><span class="badge badge-mint">Bezpłatne</span></div>
+      <MoreLink href="#">Link z dłonią</MoreLink>
+    </section>
+
+    <section class="stack"><h2>Motywy (8.4)</h2>
+      <div class="motifs">
+        <div class="flag m" style="background: var(--ofca-lilac)"><span>Chorągiewka</span></div>
+        <div class="m diamonds" style="--d-bg: var(--ofca-white); --d-fg: var(--ofca-lilac)"><span>Romby</span></div>
+        <div class="m checker"><span>Szachownica</span></div>
+        <div class="m tent-rays"><span>Pasy namiotu</span></div>
+        <div class="m tent-stripes"><span>Pasy pionowe</span></div>
+      </div>
+      <SectionDivider variant="zigzag" color="orange" />
+      <div style="height: 2rem"></div>
+      <SectionDivider variant="diamonds" color="lilac" bg="white" />
+      <SectionDivider variant="checker" color="ink" bg="white" />
+    </section>
+
+    <section class="stack"><h2>Plakat artysty</h2>
+      <div class="posters">{artists.slice(-3).map((a, i) => <ArtistPoster artist={a} lang="pl" href="#" index={i} />)}</div>
+    </section>
+
+    <section class="stack"><h2>Karta wydarzenia</h2>
+      <EventCard event={events[9]} lang="pl" />
+    </section>
+
+    <section class="stack"><h2>Produkty</h2>
+      <div class="grid grid-4">{products.slice(0, 4).map((p) => <ProductCard product={p} lang="pl" />)}</div>
+    </section>
+
+    <section class="stack"><h2>Piny mapy</h2>
+      <ul class="pins">{pinTypes.map((t) => <li><MapPin type={t} /><code>{t}</code></li>)}</ul>
+    </section>
+
+    <section class="stack"><h2>Liczniki (M8) i loader (M5)</h2>
+      <div class="grid grid-4"><StatCounter value={227} label="artystów" /><StatCounter value={22} label="krajów" /><div><Juggler label="Ładowanie" /></div></div>
+    </section>
+  </div>
+  <Marquee items={['Marquee', 'M9', 'Romby i hasła']} tone="lilac" />
+  <Countdown lang="pl" />
+  <AlertBanner lang="pl" variant="full" forceVisible />
+  <div class="wrap sg"><Tent /></div>
+</BaseLayout>
+<style>
+  .sg { padding-block: var(--space-8); display: grid; gap: var(--space-8); }
+  .sg h2 { font-size: var(--fs-h3); margin-bottom: var(--space-4); }
+  .swatches { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-4); }
+  .swatches span { display: block; width: 110px; height: 80px; border: 3px solid var(--ofca-ink); }
+  .motifs { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+  .m { height: 10rem; border: 3px solid var(--ofca-ink); display: grid; place-items: end start; }
+  .m span { background: var(--ofca-ink); color: var(--ofca-cream); padding: 0.2em 0.5em; font-weight: 700; }
+  .posters { display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+  .pins { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-5); }
+  .pins li { display: grid; justify-items: center; gap: 4px; }
+</style>

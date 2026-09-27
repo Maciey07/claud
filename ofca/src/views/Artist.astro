@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArtistPoster from '../components/ArtistPoster.astro';
+import EventCard from '../components/EventCard.astro';
+import LiteYouTube from '../components/LiteYouTube.astro';
+import MoreLink from '../components/MoreLink.astro';
+import Icon from '../components/Icon.astro';
+import { artists, eventsForArtist, programIsDemo } from '../lib/data';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Artist, Lang } from '../lib/types';
+
+interface Props { lang: Lang; artist: Artist }
+const { lang, artist } = Astro.props;
+const d = t(lang);
+const pl = lang === 'pl';
+const T = d.common.tbc;
+const evs = eventsForArtist(artist.slug);
+const idx = artists.findIndex((a) => a.slug === artist.slug);
+const related = [1, 2, 3].map((k) => artists[(idx + k) % artists.length]);
+const c = pl ? {
+  about: 'O spektaklu', when: 'Kiedy i gdzie', see: 'Zobacz też', country: 'Kraj', discipline: 'Dyscyplina', links: 'Linki artysty',
+  video: 'Wideo', noEvents: 'Terminy występów pojawią się w programie.', all: 'Wszyscy artyści', program: 'Cały program',
+  desc: `${artist.name} na Festiwalu OFCA 2026 w Oleśnicy: terminy, miejsca i opis spektaklu.`,
+} : {
+  about: 'About the show', when: 'When and where', see: 'See also', country: 'Country', discipline: 'Discipline', links: 'Artist links',
+  video: 'Video', noEvents: 'Show times will appear in the programme.', all: 'All artists', program: 'Full programme',
+  desc: `${artist.name} at OFCA 2026 in Oleśnica: show times, venues and description.`,
+};
+const crumbs = [{ name: pl ? 'Artyści' : 'Artists', url: href('artists', lang) }, { name: artist.name, url: href('artist', lang, { slug: artist.slug }) }];
+---
+<BaseLayout lang={lang} title={artist.name} description={c.desc} route="artist" params={{ slug: artist.slug }} breadcrumbs={crumbs}>
+  <section class="artist-hero bg-ink on-ink">
+    <div class="wrap hero-grid">
+      <div class="poster-col">
+        <ArtistPoster artist={artist} lang={lang} variant="hero" level={1} index={idx} eager />
+      </div>
+      <div class="facts stack">
+        <nav class="small crumbs" aria-label="Breadcrumb"><a href={href('artists', lang)}>{c.all}</a></nav>
+        <p class="badge badge-orange">{pl ? 'Artysta' : 'Artist'} · OFCA 2026</p>
+        <dl class="dl">
+          <div><dt class="label">{c.country}</dt><dd>{artist.country ?? <span class="tbc">{T}</span>}</dd></div>
+          <div><dt class="label">{c.discipline}</dt><dd>{artist.discipline?.[lang] ?? <span class="tbc">{T}</span>}</dd></div>
+        </dl>
+        <div class="btn-row">
+          {evs[0] && <a class="btn btn-orange" href={`${href('map', lang)}?${pl ? 'miejsce' : 'place'}=${evs[0].locationId}`}><Icon name="pin" size={20} />{d.common.showOnMap}</a>}
+          <a class="btn btn-outline" href={`${href('program', lang)}#${evs[0]?.id ?? ''}`}>{c.program}</a>
+        </div>
+      </div>
+    </div>
+    <div class="zigzag" style="--zz-color: var(--ofca-ink)" aria-hidden="true"></div>
+  </section>
+
+  <div class="wrap body">
+    <section aria-labelledby="h-about" class="stack">
+      <h2 id="h-about" data-stretch="130">{c.about}</h2>
+      <p class="lead">{artist.description?.[lang] ?? <span class="tbc">{T}</span>}</p>
+      {artist.links.length > 0 && (
+        <ul>{artist.links.map((l) => <li><a href={l.url} rel="noopener" target="_blank">{l.label}</a></li>)}</ul>
+      )}
+    </section>
+
+    <section aria-labelledby="h-video" class="stack">
+      <h2 id="h-video" class="h3">{c.video}</h2>
+      <LiteYouTube videoId={artist.videoUrl} title={`${c.video}: ${artist.name}`} lang={lang} />
+    </section>
+
+    <section aria-labelledby="h-when" class="stack" data-program>
+      <h2 id="h-when" data-stretch="130">{c.when}</h2>
+      {programIsDemo && <p class="small">{d.common.demoProgram}</p>}
+      {evs.length ? <div class="list">{evs.map((e) => <EventCard event={e} lang={lang} level={3} showPlan={false} />)}</div> : <p>{c.noEvents}</p>}
+    </section>
+
+    <section aria-labelledby="h-see" class="stack">
+      <div class="section-head"><h2 id="h-see" data-stretch="130">{c.see}</h2><MoreLink href={href('artists', lang)}>{c.all}</MoreLink></div>
+      <ul class="related" role="list">
+        {related.map((a, i) => <li><ArtistPoster artist={a} lang={lang} href={href('artist', lang, { slug: a.slug })} index={idx + i + 1} /></li>)}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .artist-hero { position: relative; }
+  .hero-grid { display: grid; gap: var(--space-7); padding-block: calc(var(--space-8) + var(--zigzag)) var(--space-8); align-items: end; }
+  @media (min-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 30rem) 1fr; } }
+  .zigzag { position: absolute; left: 0; right: 0; bottom: calc(var(--zigzag) * -1); z-index: 2; }
+  .dl { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+  .dl dt { color: var(--ofca-orange); }
+  .dl dd { font-size: 1.25rem; font-weight: 600; margin-top: var(--space-1); }
+  .body { display: grid; gap: var(--space-9); padding-block: var(--space-9); }
+  .body h2 { font-size: var(--fs-h2); }
+  .list { display: grid; gap: var(--space-4); }
+  .related { list-style: none; padding: 0; display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+  .related li { max-width: none; }
+  .crumbs a { font-weight: 600; }
+</style>
+
+<script>
+  // Na stronie artysty eksport .ics działa bez „Mojego planu”
+  import { buildIcs } from '../lib/ics';
+  document.querySelectorAll<HTMLElement>('[data-ics]').forEach((btn) => btn.addEventListener('click', () => {
+    const c = btn.closest<HTMLElement>('.event')!;
+    const ics = buildIcs([{ uid: c.dataset.event!, title: c.dataset.title!, location: `${c.dataset.locationName}, Oleśnica`, start: c.dataset.start!, end: c.dataset.end! }]);
+    const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+    Object.assign(document.createElement('a'), { href: url, download: `ofca-${c.dataset.event}.ics` }).click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }));
+</script>

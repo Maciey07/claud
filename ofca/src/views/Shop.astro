@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductCard from '../components/ProductCard.astro';
+import MoreLink from '../components/MoreLink.astro';
+import Icon from '../components/Icon.astro';
+import { products } from '../lib/data';
+import { href } from '../i18n/routes';
+import type { Lang, ProductCategory } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const cats: { id: ProductCategory | 'all'; label: string }[] = pl
+  ? [{ id: 'all', label: 'Wszystko' }, { id: 'odziez', label: 'Odzież' }, { id: 'torby', label: 'Torby' }, { id: 'przypinki-magnesy', label: 'Przypinki i magnesy' }, { id: 'akcesoria', label: 'Akcesoria' }]
+  : [{ id: 'all', label: 'Everything' }, { id: 'odziez', label: 'Clothing' }, { id: 'torby', label: 'Bags' }, { id: 'przypinki-magnesy', label: 'Pins and magnets' }, { id: 'akcesoria', label: 'Accessories' }];
+const c = pl ? {
+  title: 'Sklepik', desc: 'Sklepik Festiwalu OFCA: koszulki, torby, przypinki, magnesy i skarpety w ofcowych kolorach.',
+  lead: 'Koszulki, torby, przypinki i skarpety w ofcowych kolorach. Pamiątki z areny na cały rok.',
+  cats: 'Kategorie', pickup: 'Odbierz na festiwalu w Infopunkcie na Rynku. Bez kosztów wysyłki.',
+  info: 'Dostawa, płatności i zwroty', count: (n: number) => `${n} ${n === 1 ? 'produkt' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'produkty' : 'produktów'}`,
+  photos: 'Zdjęcia produktów: [DO UZUPEŁNIENIA]. Na razie pokazujemy ilustracje w kolorach marki.',
+} : {
+  title: 'Shop', desc: 'OFCA festival shop: T-shirts, totes, pins, magnets and socks in OFCA colours.',
+  lead: 'T-shirts, totes, pins and socks in OFCA colours. Souvenirs from the ring, all year round.',
+  cats: 'Categories', pickup: 'Pick up at the festival, at the Infopunkt on Rynek. No shipping costs.',
+  info: 'Delivery, payment and returns', count: (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`,
+  photos: 'Product photos: [DO UZUPEŁNIENIA]. For now we show illustrations in brand colours.',
+};
+const catParam = pl ? 'kategoria' : 'category';
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="shop" breadcrumbs={[{ name: c.title, url: href('shop', lang) }]}>
+  <PageHero title={c.title} lead={c.lead} tone="orange" />
+  <div class="checker checker-strip" style="--c-size: 22px; margin-top: var(--zigzag)" aria-hidden="true"></div>
+  <section class="wrap shop" data-shop data-param={catParam}>
+    <p class="pickup" data-modes="announce live"><Icon name="info" size={22} />{c.pickup}</p>
+    <div class="bar">
+      <div class="chips" role="group" aria-label={c.cats}>
+        {cats.map((cat, i) => <a class="chip" href={cat.id === 'all' ? href('shop', lang) : `${href('shop', lang)}?${catParam}=${cat.id}`} aria-pressed={i === 0 ? 'true' : 'false'} role="button" data-cat={cat.id}>{cat.label}</a>)}
+      </div>
+      <p class="label" aria-live="polite" data-shop-count>{c.count(products.length)}</p>
+    </div>
+    <ul class="grid grid-products" role="list" data-product-grid>
+      {products.map((p) => <li data-cat-item={p.category}><ProductCard product={p} lang={lang} level={2} /></li>)}
+    </ul>
+    <p class="small note">{c.photos}</p>
+    <MoreLink href={href('shopInfo', lang)}>{c.info}</MoreLink>
+  </section>
+  <script type="application/json" data-shop-i18n set:html={JSON.stringify(Object.fromEntries(Array.from({ length: products.length + 1 }, (_, n) => [n, c.count(n)])))} />
+</BaseLayout>
+<style>
+  .shop { padding-block: var(--space-7) var(--space-9); display: grid; gap: var(--space-6); }
+  .pickup { display: flex; gap: var(--space-3); align-items: center; background: var(--ofca-lilac); padding: var(--space-4); font-weight: 700; max-width: none; }
+  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-4); }
+  .grid-products { list-style: none; padding: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+  .grid-products li { max-width: none; }
+  .note { opacity: 0.85; }
+</style>
+<script>
+  import { gsap, loadFlip, prefersReducedMotion } from '../lib/gsap';
+  const root = document.querySelector<HTMLElement>('[data-shop]')!;
+  const param = root.dataset.param!;
+  const chips = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-cat]'));
+  const items = Array.from(root.querySelectorAll<HTMLElement>('[data-cat-item]'));
+  const counts = JSON.parse(document.querySelector('[data-shop-i18n]')!.textContent!) as Record<string, string>;
+  const flipP = loadFlip();
+  const apply = async (cat: string, animate: boolean) => {
+    const Flip = animate && !prefersReducedMotion() ? await flipP : null;
+    const state = Flip?.getState(items);
+    let n = 0;
+    items.forEach((li) => { li.hidden = cat !== 'all' && li.dataset.catItem !== cat; if (!li.hidden) n++; });
+    chips.forEach((ch) => ch.setAttribute('aria-pressed', String(ch.dataset.cat === cat)));
+    root.querySelector('[data-shop-count]')!.textContent = counts[n];
+    if (Flip && state) Flip.from(state, { duration: 0.45, ease: 'power3.inOut', onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3 }) });
+  };
+  chips.forEach((ch) => ch.addEventListener('click', (e) => {
+    e.preventDefault();
+    const cat = ch.dataset.cat!;
+    const url = new URL(location.href);
+    if (cat === 'all') url.searchParams.delete(param); else url.searchParams.set(param, cat);
+    history.replaceState(null, '', url);
+    apply(cat, true);
+  }));
+  chips.forEach((ch) => ch.addEventListener('keydown', (e) => { if (e.key === ' ') { e.preventDefault(); ch.click(); } }));
+  apply(new URLSearchParams(location.search).get(param) ?? 'all', false);
+</script>

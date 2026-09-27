@@ -1,0 +1,274 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductArt from '../components/ProductArt.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Icon from '../components/Icon.astro';
+import { products } from '../lib/data';
+import { formatPrice } from '../lib/format';
+import { photo, alts } from '../lib/photos';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { site } from '../site.config';
+import type { Lang, Product } from '../lib/types';
+
+interface Props { lang: Lang; product: Product }
+const { lang, product: p } = Astro.props;
+const d = t(lang);
+const pl = lang === 'pl';
+const T = d.common.tbc;
+const catLabel = (pl
+  ? { odziez: 'Odzież', torby: 'Torby', 'przypinki-magnesy': 'Przypinki i magnesy', akcesoria: 'Akcesoria' }
+  : { odziez: 'Clothing', torby: 'Bags', 'przypinki-magnesy': 'Pins and magnets', akcesoria: 'Accessories' })[p.category];
+const c = pl ? {
+  size: 'Wybierz rozmiar', guide: 'Tabela rozmiarów', add: 'Dodaj do koszyka', added: 'Dodano!', desc: 'Opis', material: 'Materiał',
+  delivery: 'Dostawa', deliveryText: 'Wysyłka i odbiór: szczegóły na stronie', deliveryLink: 'Dostawa, płatności i zwroty',
+  soldOut: `Ten rozmiar już się rozszedł. Sprawdź inne albo napisz do nas: ${site.emails.shop}.`, pickSize: 'Najpierw wybierz rozmiar.',
+  more: 'Zobacz też', gallery: 'Zdjęcia produktu', view: 'Pokaż zdjęcie', close: 'Zamknij',
+  guideNote: 'Wymiary w centymetrach, mierzone na płasko. Wartości do uzupełnienia przez Sklepik.',
+  chest: 'Szerokość', length: 'Długość', footSize: 'Rozmiar stopy', sizeCol: 'Rozmiar',
+  lifestyle: 'Merch OFCA w Infopunkcie na Rynku podczas festiwalu.',
+} : {
+  size: 'Choose a size', guide: 'Size guide', add: 'Add to basket', added: 'Added!', desc: 'Description', material: 'Material',
+  delivery: 'Delivery', deliveryText: 'Shipping and pick-up: see', deliveryLink: 'Delivery, payment and returns',
+  soldOut: `This size has sold out. Try another or email us: ${site.emails.shop}.`, pickSize: 'Choose a size first.',
+  more: 'See also', gallery: 'Product images', view: 'Show image', close: 'Close',
+  guideNote: 'Measurements in centimetres, laid flat. Values to be supplied by the shop.',
+  chest: 'Width', length: 'Length', footSize: 'Foot size', sizeCol: 'Size',
+  lifestyle: 'OFCA merch at the Infopunkt on Rynek during the festival.',
+};
+const hasSizes = !!p.variants?.some((v) => v.size);
+const defaultSku = hasSizes ? '' : p.variants?.[0]?.sku ?? `${p.slug.toUpperCase()}`;
+const related = products.filter((x) => x.slug !== p.slug && x.category === p.category).concat(products.filter((x) => x.category !== p.category)).slice(0, 4);
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Product', name: p.name[lang], category: catLabel,
+  brand: { '@type': 'Brand', name: 'OFCA' },
+  offers: { '@type': 'Offer', price: p.price.toFixed(2), priceCurrency: 'PLN', availability: 'https://schema.org/InStock', url: new URL(href('product', lang, { slug: p.slug }), site.url).href },
+};
+const crumbs = [{ name: pl ? 'Sklepik' : 'Shop', url: href('shop', lang) }, { name: p.name[lang], url: href('product', lang, { slug: p.slug }) }];
+---
+<BaseLayout lang={lang} title={p.name[lang]} description={`${p.name[lang]} · ${formatPrice(p.price, lang)} · ${pl ? 'Sklepik Festiwalu OFCA' : 'OFCA festival shop'}`} route="product" params={{ slug: p.slug }} jsonLd={jsonLd} breadcrumbs={crumbs}>
+  <div class="bg-orange top-pad"></div>
+  <div class="zigzag" style="--zz-color: var(--ofca-orange)" aria-hidden="true"></div>
+  <article class="wrap product" data-product-page data-slug={p.slug}>
+    <nav class="crumbs small" aria-label="Breadcrumb"><a href={href('shop', lang)}>{pl ? 'Sklepik' : 'Shop'}</a> / <a href={`${href('shop', lang)}?${pl ? 'kategoria' : 'category'}=${p.category}`}>{catLabel}</a></nav>
+    <div class="grid-2cols">
+      <section class="gallery" aria-label={c.gallery}>
+        <div class="main" data-gallery-main>
+          <figure class="slide" data-slide="0" data-fly-src><ProductArt art={p.art} label={p.name[lang]} /></figure>
+          <figure class="slide" data-slide="1" hidden><ProductArt art={p.art} label={p.name[lang]} view="pattern" /></figure>
+          <figure class="slide" data-slide="2" hidden>
+            <Image src={photo('infopunkt-namiot')} alt={alts.infopunkt[lang]} widths={[500, 800]} sizes="(min-width: 900px) 45vw, 100vw" />
+            <figcaption class="small">{c.lifestyle}</figcaption>
+          </figure>
+        </div>
+        <div class="thumbs" role="group" aria-label={c.gallery}>
+          {[0, 1, 2].map((i) => (
+            <button type="button" class="thumb" aria-pressed={i === 0 ? 'true' : 'false'} data-thumb={i}>
+              {i < 2 ? <ProductArt art={p.art} label="" view={i === 1 ? 'pattern' : 'front'} /> : <Image src={photo('infopunkt-namiot')} alt="" widths={[160]} sizes="80px" />}
+              <span class="visually-hidden">{c.view} {i + 1}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="info stack">
+        <p class="badge">{catLabel}</p>
+        <h1 class="name" data-stretch="120">{p.name[lang]}</h1>
+        <p class="price">{formatPrice(p.price, lang)}</p>
+
+        <form class="buy stack" data-buy novalidate>
+          {hasSizes && (
+            <fieldset class="sizes">
+              <legend class="label">{c.size}</legend>
+              <div class="size-list">
+                {p.variants!.map((v) => (
+                  <label class:list={['size', { out: v.stock === 0 }]}>
+                    <input type="radio" name="size" value={v.sku} data-size={v.size} data-stock={v.stock ?? ''} aria-describedby={v.stock === 0 ? 'sold-out' : undefined} />
+                    <span>{v.size}</span>
+                  </label>
+                ))}
+              </div>
+              {p.sizeGuide && <button type="button" class="guide-btn" data-guide-open>{c.guide}</button>}
+            </fieldset>
+          )}
+          <p id="sold-out" class="field-error" data-sold-out hidden>{c.soldOut}</p>
+          <p class="field-error" data-pick-size hidden>{c.pickSize}</p>
+          <button type="submit" class="btn btn-orange add" data-add data-default-sku={defaultSku}>
+            <Icon name="cart" size={22} /><span data-add-label data-label={c.add} data-added={c.added}>{c.add}</span>
+          </button>
+          <p class="visually-hidden" aria-live="polite" data-add-status></p>
+        </form>
+
+        <dl class="details">
+          <div><dt class="label">{c.desc}</dt><dd>{p.description[lang] === T ? <span class="tbc">{T}</span> : p.description[lang]}</dd></div>
+          <div><dt class="label">{c.material}</dt><dd>{p.material[lang] === T ? <span class="tbc">{T}</span> : p.material[lang]}</dd></div>
+          <div><dt class="label">{c.delivery}</dt><dd>{c.deliveryText} <a href={href('shopInfo', lang)}>{c.deliveryLink}</a>.</dd></div>
+        </dl>
+      </section>
+    </div>
+
+    <section class="related" aria-labelledby="h-more">
+      <h2 id="h-more" data-stretch="130">{c.more}</h2>
+      <ul class="grid grid-4" role="list">{related.map((r) => <li><ProductCard product={r} lang={lang} /></li>)}</ul>
+    </section>
+  </article>
+
+  {p.sizeGuide && (
+    <dialog class="guide" aria-labelledby="guide-title" data-guide>
+      <div class="guide-inner">
+        <div class="guide-head">
+          <h2 id="guide-title" class="h3">{c.guide}</h2>
+          <button type="button" class="close" data-guide-close><Icon name="close" size={24} /><span class="visually-hidden">{c.close}</span></button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <caption class="small">{c.guideNote}</caption>
+            <thead>
+              {p.sizeGuide === 'tee'
+                ? <tr><th scope="col">{c.sizeCol}</th><th scope="col">{c.chest}</th><th scope="col">{c.length}</th></tr>
+                : <tr><th scope="col">{c.sizeCol}</th><th scope="col">{c.footSize}</th></tr>}
+            </thead>
+            <tbody>
+              {p.variants!.map((v) => p.sizeGuide === 'tee'
+                ? <tr><th scope="row">{v.size}</th><td>{T}</td><td>{T}</td></tr>
+                : <tr><th scope="row">{v.size}</th><td>{T}</td></tr>)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+  )}
+</BaseLayout>
+
+<style>
+  .top-pad { height: var(--space-6); }
+  .zigzag { margin-bottom: var(--space-5); }
+  .product { padding-bottom: var(--space-9); }
+  .crumbs { margin-bottom: var(--space-5); }
+  .crumbs a { font-weight: 600; }
+  .grid-2cols { display: grid; gap: var(--space-7); }
+  @media (min-width: 900px) { .grid-2cols { grid-template-columns: 1.1fr 1fr; align-items: start; } .gallery { position: sticky; top: calc(var(--header-h) + 1.5rem); } }
+  .main { border: 4px solid var(--ofca-ink); background: var(--ofca-white); }
+  .slide { margin: 0; }
+  .slide :global(img) { width: 100%; aspect-ratio: 400 / 440; object-fit: cover; }
+  .slide figcaption { padding: var(--space-2) var(--space-3); }
+  .thumbs { display: flex; gap: var(--space-3); margin-top: var(--space-3); }
+  .thumb { width: 84px; padding: 0; border: 3px solid var(--ofca-ink); background: var(--ofca-white); overflow: hidden; }
+  .thumb :global(img) { width: 100%; aspect-ratio: 400 / 440; object-fit: cover; }
+  .thumb[aria-pressed='true'] { outline: 4px solid var(--ofca-orange); outline-offset: 2px; }
+  .name { font-size: clamp(2.2rem, 5vw, 4rem); text-transform: uppercase; }
+  .price { font-family: var(--font-display); font-weight: 900; font-size: 2rem; font-variation-settings: 'wdth' 120; }
+  .sizes { border: 0; padding: 0; margin: 0; }
+  .sizes legend { margin-bottom: var(--space-3); }
+  .size-list { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .size { position: relative; }
+  .size input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .size span { display: grid; place-items: center; min-width: 56px; min-height: 48px; padding: 0 0.8em; border: 3px solid var(--ofca-ink); background: var(--ofca-white); font-family: var(--font-display); font-weight: 900; }
+  .size input:checked + span { background: var(--ofca-ink); color: var(--ofca-cream); }
+  .size input:focus-visible + span { outline: var(--focus); outline-offset: 3px; }
+  .size.out span { text-decoration: line-through; background: var(--ofca-cream); color: var(--ofca-ink); opacity: 0.7; }
+  .guide-btn { margin-top: var(--space-3); background: none; border: 0; padding: 0; font-weight: 700; text-decoration: underline; min-height: 44px; }
+  .add { width: 100%; font-size: 1.2rem; min-height: 60px; }
+  @media (min-width: 900px) { .add { width: auto; min-width: 20rem; } }
+  .details { display: grid; gap: var(--space-4); border-top: 3px solid var(--ofca-ink); padding-top: var(--space-5); }
+  .details dd { margin-top: var(--space-1); }
+  .related { margin-top: var(--space-9); }
+  .related h2 { margin-bottom: var(--space-6); }
+  .related ul { list-style: none; padding: 0; }
+  .related li { max-width: none; }
+  .guide { border: 4px solid var(--ofca-ink); padding: 0; width: min(36rem, calc(100% - 2rem)); background: var(--ofca-cream); box-shadow: 12px 12px 0 var(--ofca-ink); }
+  .guide::backdrop { background: color-mix(in srgb, var(--ofca-ink) 60%, transparent); }
+  .guide-inner { padding: var(--space-5); }
+  .guide-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+  .close { width: 44px; height: 44px; display: grid; place-items: center; background: none; border: 0; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  caption { text-align: left; margin-bottom: var(--space-3); }
+  th, td { border: 2px solid var(--ofca-ink); padding: var(--space-2) var(--space-3); text-align: left; }
+  thead th { background: var(--ofca-orange); }
+</style>
+
+<script>
+  import { gsap, prefersReducedMotion } from '../lib/gsap';
+  import { addToCart, hydrateCart } from '../lib/cart';
+  import { track } from '../lib/analytics';
+
+  hydrateCart();
+  const page = document.querySelector<HTMLElement>('[data-product-page]')!;
+  const slug = page.dataset.slug!;
+  const reduced = prefersReducedMotion();
+
+  // Galeria
+  const slides = Array.from(page.querySelectorAll<HTMLElement>('[data-slide]'));
+  page.querySelectorAll<HTMLButtonElement>('[data-thumb]').forEach((b) => b.addEventListener('click', () => {
+    const i = b.dataset.thumb!;
+    slides.forEach((s) => (s.hidden = s.dataset.slide !== i));
+    page.querySelectorAll('[data-thumb]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    if (!reduced) gsap.fromTo(slides[Number(i)], { opacity: 0 }, { opacity: 1, duration: 0.25 });
+  }));
+
+  // Tabela rozmiarów
+  const guide = document.querySelector<HTMLDialogElement>('[data-guide]');
+  page.querySelector('[data-guide-open]')?.addEventListener('click', () => guide?.showModal());
+  guide?.querySelector('[data-guide-close]')?.addEventListener('click', () => guide.close());
+  guide?.addEventListener('click', (e) => { if (e.target === guide) guide.close(); });
+
+  // Wybór wariantu
+  const form = page.querySelector<HTMLFormElement>('[data-buy]')!;
+  const soldOut = page.querySelector<HTMLElement>('[data-sold-out]')!;
+  const pickSize = page.querySelector<HTMLElement>('[data-pick-size]')!;
+  const addBtn = page.querySelector<HTMLButtonElement>('[data-add]')!;
+  form.querySelectorAll<HTMLInputElement>('input[name="size"]').forEach((r) => r.addEventListener('change', () => {
+    const out = r.dataset.stock === '0';
+    soldOut.hidden = !out;
+    pickSize.hidden = true;
+    addBtn.disabled = out;
+  }));
+
+  // M10: miniatura leci łukiem do koszyka, licznik podskakuje
+  const fly = () => {
+    const src = page.querySelector<HTMLElement>('[data-fly-src]')!;
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-cart-open]')).filter((el) => el.getClientRects().length);
+    const target = targets[0];
+    if (!target || reduced) return;
+    const a = src.getBoundingClientRect(), b = target.getBoundingClientRect();
+    const clone = src.cloneNode(true) as HTMLElement;
+    clone.removeAttribute('data-fly-src');
+    clone.hidden = false;
+    Object.assign(clone.style, { position: 'fixed', left: `${a.left}px`, top: `${a.top}px`, width: `${a.width}px`, zIndex: '100', pointerEvents: 'none', margin: '0' });
+    clone.setAttribute('aria-hidden', 'true');
+    document.body.append(clone);
+    const dx = b.left + b.width / 2 - (a.left + a.width / 2);
+    const dy = b.top + b.height / 2 - (a.top + a.height / 2);
+    const tl = gsap.timeline({ onComplete: () => clone.remove() });
+    tl.to(clone, { x: dx, duration: 0.75, ease: 'power1.inOut' }, 0)
+      .to(clone, { y: dy, duration: 0.75, ease: 'back.in(1.4)' }, 0)
+      .to(clone, { scale: 0.08, rotate: 25, duration: 0.75, ease: 'power2.in' }, 0)
+      .to(clone, { opacity: 0, duration: 0.15 }, 0.62);
+    document.querySelectorAll('[data-cart-count]').forEach((el) => {
+      gsap.fromTo(el, { scale: 1 }, { scale: 1.6, duration: 0.18, delay: 0.72, yoyo: true, repeat: 1, ease: 'power2.out' });
+    });
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const radio = form.querySelector<HTMLInputElement>('input[name="size"]:checked');
+    const hasSizes = !!form.querySelector('input[name="size"]');
+    if (hasSizes && !radio) {
+      pickSize.hidden = false;
+      form.querySelector<HTMLInputElement>('input[name="size"]')!.focus();
+      return;
+    }
+    if (radio?.dataset.stock === '0') return;
+    const sku = radio?.value ?? addBtn.dataset.defaultSku!;
+    addToCart({ sku, slug, size: radio?.dataset.size });
+    track('add_to_cart', { item_id: sku });
+    fly();
+    const label = addBtn.querySelector<HTMLElement>('[data-add-label]')!;
+    label.textContent = label.dataset.added!;
+    page.querySelector('[data-add-status]')!.textContent = label.dataset.added!;
+    setTimeout(() => (label.textContent = label.dataset.label!), 1800);
+  });
+  track('view_item', { item_id: slug });
+</script>

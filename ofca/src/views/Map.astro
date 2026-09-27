@@ -1,0 +1,238 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MapArt from '../components/MapArt.astro';
+import MapPin from '../components/MapPin.astro';
+import Juggler from '../components/Juggler.astro';
+import Icon from '../components/Icon.astro';
+import { events, eventTitle, locations, programIsDemo } from '../lib/data';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Lang, Location, LocationType, MapLayer } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const pl = lang === 'pl';
+const T = d.common.tbc;
+const layers: { id: MapLayer; label: string }[] = pl
+  ? [
+      { id: 'stages', label: 'Sceny i spektakle' }, { id: 'highline', label: 'Highline' }, { id: 'food', label: 'Jedzenie' },
+      { id: 'info', label: 'Infopunkt i WC' }, { id: 'firstaid', label: 'Pierwsza pomoc' }, { id: 'camping', label: 'Nocleg' },
+      { id: 'murals', label: 'Murale' }, { id: 'parking', label: 'Parking' }, { id: 'access', label: 'Dostępność' },
+    ]
+  : [
+      { id: 'stages', label: 'Stages and shows' }, { id: 'highline', label: 'Highline' }, { id: 'food', label: 'Food' },
+      { id: 'info', label: 'Info point and toilets' }, { id: 'firstaid', label: 'First aid' }, { id: 'camping', label: 'Camping' },
+      { id: 'murals', label: 'Murals' }, { id: 'parking', label: 'Parking' }, { id: 'access', label: 'Accessibility' },
+    ];
+const typeLabel: Record<LocationType, string> = pl
+  ? { stage: 'Scena', street: 'Spektakle uliczne', highline: 'Highline', food: 'Jedzenie', info: 'Informacja', wc: 'Toalety', firstaid: 'Pierwsza pomoc', camping: 'Nocleg', mural: 'Mural', parking: 'Parking', club: 'Klub festiwalowy', workshop: 'Warsztaty', fire: 'Pokazy ognia' }
+  : { stage: 'Stage', street: 'Street shows', highline: 'Highline', food: 'Food', info: 'Information', wc: 'Toilets', firstaid: 'First aid', camping: 'Camping', mural: 'Mural', parking: 'Parking', club: 'Festival club', workshop: 'Workshops', fire: 'Fire shows' };
+const c = pl ? {
+  title: 'Mapa festiwalu', h: 'Arena', desc: 'Interaktywna mapa Festiwalu OFCA w Oleśnicy: sceny, highline, jedzenie, Infopunkt, WC, pole namiotowe, parkingi.',
+  view: 'Widok', map: 'Mapa', list: 'Lista', layers: 'Warstwy', zoomIn: 'Przybliż', zoomOut: 'Oddal', reset: 'Pokaż całą mapę',
+  help: 'Mapa poglądowa. Przeciągnij, żeby się rozejrzeć. Przybliżaj przyciskami, dwoma palcami lub Ctrl + scroll. Z klawiatury: strzałki przesuwają mapę, plus i minus zmieniają przybliżenie, Tab przechodzi po miejscach.',
+  touchHint: 'Przesuń palcem, żeby się rozejrzeć. Zbliż dwoma palcami.', wheelHint: 'Przytrzymaj Ctrl (⌘ na Macu) i przewiń, żeby przybliżyć.', ok: 'Jasne',
+  now: 'Teraz tutaj', next: 'Następnie', nothing: 'Na razie nic tu nie gra.', programHere: 'Program w tym miejscu', navigate: 'Nawiguj',
+  amenities: 'Udogodnienia', access: 'Dostępność', close: 'Zamknij kartę miejsca', approx: 'Położenie poglądowe, do potwierdzenia.',
+  noNav: 'Nawigacja pojawi się po potwierdzeniu adresu.', loading: 'Ładowanie mapy',
+} : {
+  title: 'Festival map', h: 'The ring', desc: 'Interactive map of OFCA in Oleśnica: stages, highline, food, Infopunkt, toilets, campsite and parking.',
+  view: 'View', map: 'Map', list: 'List', layers: 'Layers', zoomIn: 'Zoom in', zoomOut: 'Zoom out', reset: 'Show the whole map',
+  help: 'Schematic map. Drag to look around. Zoom with the buttons, two fingers or Ctrl + scroll. Keyboard: arrow keys pan, plus and minus zoom, Tab moves between places.',
+  touchHint: 'Swipe to look around. Pinch to zoom.', wheelHint: 'Hold Ctrl (⌘ on Mac) and scroll to zoom.', ok: 'Got it',
+  now: 'On here now', next: 'Up next', nothing: 'Nothing on here right now.', programHere: 'Programme at this venue', navigate: 'Directions',
+  amenities: 'Facilities', access: 'Accessibility', close: 'Close place card', approx: 'Approximate position, to be confirmed.',
+  noNav: 'Directions will appear once the address is confirmed.', loading: 'Loading the map',
+};
+const navLinks = (l: Location) => {
+  if (l.geo) return { google: `https://www.google.com/maps/dir/?api=1&destination=${l.geo.lat},${l.geo.lng}`, apple: `https://maps.apple.com/?daddr=${l.geo.lat},${l.geo.lng}` };
+  if (l.navQuery) return { google: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(l.navQuery)}`, apple: `https://maps.apple.com/?q=${encodeURIComponent(l.navQuery)}` };
+  return null;
+};
+const programHref = (id: string) => `${href('program', lang)}?${pl ? 'miejsce' : 'place'}=${id}`;
+const placeEvents = events.map((e) => ({ id: e.id, loc: e.locationId, title: eventTitle(e, lang), start: e.start, end: e.end }));
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="map">
+  <section class="map-page" data-map-page aria-labelledby="map-title">
+    <div class="toolbar bg-lilac">
+      <div class="wrap toolbar-inner">
+        <h1 id="map-title" class="map-title">{c.h}<span class="visually-hidden">: {c.title}</span></h1>
+        <div class="view-toggle" role="group" aria-label={c.view}>
+          <button type="button" class="chip" aria-pressed="true" data-view="map"><Icon name="map" size={20} />{c.map}</button>
+          <button type="button" class="chip" aria-pressed="false" data-view="list"><Icon name="list" size={20} />{c.list}</button>
+        </div>
+        <details class="layers" data-layers-box>
+          <summary class="chip"><span>{c.layers}</span> <span data-layer-count></span></summary>
+          <fieldset class="layer-list">
+            <legend class="visually-hidden">{c.layers}</legend>
+            {layers.map((l) => <button type="button" class="chip" aria-pressed="true" data-layer={l.id}>{l.label}</button>)}
+          </fieldset>
+        </details>
+      </div>
+      <div class="zigzag" style="--zz-color: var(--ofca-lilac)" aria-hidden="true"></div>
+    </div>
+
+    <div class="stage" data-stage>
+      <div class="viewport" tabindex="0" role="region" aria-roledescription={pl ? 'mapa' : 'map'} aria-label={c.title} aria-describedby="map-help" data-viewport>
+        <div class="layer" data-map-layer>
+          <MapArt lang={lang} />
+          {locations.map((l) => (
+            <button
+              type="button"
+              class="pin"
+              style={`left:${(l.map.x / 1200) * 100}%;top:${(l.map.y / 900) * 100}%`}
+              data-pin={l.id}
+              data-layers={l.layers.join(' ')}
+              aria-label={`${l.name[lang]}, ${typeLabel[l.type]}`}
+              aria-controls="place-panel"
+              aria-expanded="false"
+            >
+              <MapPin type={l.type} />
+              <span class="pin-label" aria-hidden="true">{l.name[lang]}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <p id="map-help" class="visually-hidden">{c.help}</p>
+
+      <div class="zoom" role="group" aria-label={pl ? 'Przybliżenie' : 'Zoom'}>
+        <button type="button" data-zoom="in"><Icon name="zoom-in" size={22} /><span class="visually-hidden">{c.zoomIn}</span></button>
+        <button type="button" data-zoom="out"><Icon name="zoom-out" size={22} /><span class="visually-hidden">{c.zoomOut}</span></button>
+        <button type="button" data-zoom="reset"><Icon name="reset" size={22} /><span class="visually-hidden">{c.reset}</span></button>
+      </div>
+
+      <p class="hint" data-hint hidden><span data-hint-text></span><button type="button" class="hint-ok" data-hint-ok>{c.ok}</button></p>
+      <div class="map-loader" data-map-loader><Juggler label={c.loading} /></div>
+
+      <aside id="place-panel" class="panel" data-panel aria-labelledby="panel-title" hidden tabindex="-1">
+        <div class="panel-handle" data-panel-handle aria-hidden="true"><span></span></div>
+        <button type="button" class="panel-close" data-panel-close><Icon name="close" size={24} /><span class="visually-hidden">{c.close}</span></button>
+        <div class="panel-body">
+          {locations.map((l) => {
+            const nav = navLinks(l);
+            return (
+              <article class="place" data-place={l.id} hidden>
+                <p class="badge">{typeLabel[l.type]}</p>
+                <h2 class="place-name" data-place-title>{l.name[lang]}</h2>
+                <p>{l.description[lang]}</p>
+                {l.amenities && l.amenities.length > 0 && <p class="small"><strong>{c.amenities}:</strong> {l.amenities.join(', ')}</p>}
+                {l.accessibility && <p class="small"><strong>{c.access}:</strong> {l.accessibility[lang]}</p>}
+                <div class="live-box" data-live-box={l.id}>
+                  <div><h3 class="label">{c.now}</h3><p data-live-now>{c.nothing}</p></div>
+                  <div><h3 class="label">{c.next}</h3><p data-live-next>{T}</p></div>
+                </div>
+                <div class="btn-row">
+                  {events.some((e) => e.locationId === l.id) && <a class="btn btn-orange" href={programHref(l.id)}>{c.programHere}</a>}
+                  {nav ? (
+                    <>
+                      <a class="btn btn-outline" href={nav.google} target="_blank" rel="noopener" data-nav-link><Icon name="nav" size={18} />{c.navigate}: Google Maps</a>
+                      <a class="btn btn-outline" href={nav.apple} target="_blank" rel="noopener" data-nav-link><Icon name="nav" size={18} />Apple Maps</a>
+                    </>
+                  ) : <p class="small">{c.noNav}</p>}
+                </div>
+                <p class="small approx">{c.approx}</p>
+              </article>
+            );
+          })}
+        </div>
+      </aside>
+    </div>
+
+    <div class="list-view wrap" data-list-view hidden>
+      <ul class="place-list">
+        {locations.map((l) => (
+          <li data-list-item={l.id} data-layers={l.layers.join(' ')}>
+            <span class="li-icon"><MapPin type={l.type} /></span>
+            <div>
+              <h2 class="h3">{l.name[lang]}</h2>
+              <p class="small">{typeLabel[l.type]}</p>
+              <p>{l.description[lang]}</p>
+              <div class="btn-row">
+                <button type="button" class="btn" data-show-on-map={l.id}><Icon name="pin" size={18} />{d.common.showOnMap}<span class="visually-hidden">: {l.name[lang]}</span></button>
+                {events.some((e) => e.locationId === l.id) && <a class="btn btn-outline" href={programHref(l.id)}>{c.programHere}<span class="visually-hidden">: {l.name[lang]}</span></a>}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+    {programIsDemo && <p class="wrap small demo">{d.common.demoProgram}</p>}
+  </section>
+  <script type="application/json" data-map-data set:html={JSON.stringify({ events: placeEvents, lang, nothing: c.nothing, nothingNext: pl ? 'Brak kolejnych wydarzeń w programie.' : 'Nothing else scheduled here.', touchHint: c.touchHint, wheelHint: c.wheelHint })} />
+</BaseLayout>
+
+<style>
+  .map-page { position: relative; }
+  .toolbar { position: relative; z-index: 5; }
+  .toolbar-inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); padding-block: calc(var(--zigzag) + var(--space-5)) var(--space-4); }
+  .map-title { font-size: clamp(2.4rem, 7vw, 4.5rem); --wdth: 150; margin-right: auto; }
+  .view-toggle { display: flex; gap: var(--space-2); }
+  .layers { position: relative; }
+  .layers summary { list-style: none; cursor: pointer; }
+  .layers summary::-webkit-details-marker { display: none; }
+  .layer-list { position: absolute; right: 0; top: calc(100% + 8px); z-index: 10; width: min(22rem, 90vw); display: flex; flex-wrap: wrap; gap: var(--space-2); border: 3px solid var(--ofca-ink); background: var(--ofca-cream); padding: var(--space-4); box-shadow: 8px 8px 0 var(--ofca-ink); margin: 0; }
+  .zigzag { position: absolute; left: 0; right: 0; bottom: calc(var(--zigzag) * -1); }
+
+  .stage { position: relative; height: max(520px, calc(100dvh - var(--header-h) - 9rem)); background: var(--ofca-cream); overflow: hidden; border-bottom: 3px solid var(--ofca-ink); }
+  .viewport { position: absolute; inset: 0; overflow: hidden; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+  .viewport:active { cursor: grabbing; }
+  .viewport:focus-visible { outline-offset: -6px; }
+  .layer { position: absolute; left: 0; top: 0; aspect-ratio: 4 / 3; transform-origin: 0 0; --inv: 1; will-change: transform; }
+  :global(html:not(.js)) .layer { position: relative; width: min(100%, 1200px); margin-inline: auto; }
+  .pin {
+    position: absolute; transform: translate(-50%, -100%) scale(var(--inv)); transform-origin: 50% 100%;
+    background: none; border: 0; padding: 0; display: grid; justify-items: center; min-width: 44px; min-height: 44px; cursor: pointer;
+  }
+  .pin :global(svg) { width: 38px; max-width: none; height: auto; filter: drop-shadow(2px 3px 0 color-mix(in srgb, var(--ofca-ink) 35%, transparent)); }
+  .pin:hover :global(svg), .pin[aria-expanded='true'] :global(svg) { filter: drop-shadow(3px 6px 0 var(--ofca-ink)); }
+  .pin-label {
+    position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 2px; white-space: nowrap;
+    background: var(--ofca-ink); color: var(--ofca-cream); font-family: var(--font-display); font-weight: 800; font-size: 0.72rem;
+    text-transform: uppercase; padding: 0.15em 0.45em; opacity: 0; pointer-events: none; transition: opacity 150ms;
+  }
+  .pin:hover .pin-label, .pin:focus-visible .pin-label, .pin[aria-expanded='true'] .pin-label, .layer.show-labels .pin-label { opacity: 1; }
+  .pin:focus-visible { outline-offset: 0; }
+  .pin.is-off { display: none; }
+
+  .zoom { position: absolute; left: var(--space-4); bottom: var(--space-4); display: grid; border: 3px solid var(--ofca-ink); background: var(--ofca-white); z-index: 3; }
+  .zoom button { width: 48px; height: 48px; display: grid; place-items: center; background: none; border: 0; }
+  .zoom button + button { border-top: 2px solid var(--ofca-ink); }
+  .zoom button:hover { background: var(--ofca-orange); }
+
+  .hint { position: absolute; left: 50%; top: var(--space-5); transform: translateX(-50%); z-index: 4; display: flex; align-items: center; gap: var(--space-3); background: var(--ofca-ink); color: var(--ofca-cream); padding: var(--space-3) var(--space-4); font-weight: 600; width: max-content; max-width: calc(100% - 2rem); }
+  .hint-ok { background: var(--ofca-orange); color: var(--ofca-ink); border: 0; min-height: 40px; padding: 0 1em; font-weight: 800; }
+  .map-loader { position: absolute; inset: 0; display: none; place-items: center; background: var(--ofca-cream); z-index: 6; }
+  :global(html.js) .map-loader { display: grid; }
+  .map-loader.is-done { display: none !important; }
+
+  .panel {
+    position: absolute; z-index: 7; background: var(--ofca-cream); border: 3px solid var(--ofca-ink); overflow-y: auto;
+    left: 0; right: 0; bottom: 0; max-height: 70%; box-shadow: 0 -8px 0 var(--ofca-ink);
+  }
+  @media (min-width: 900px) { .panel { left: auto; top: var(--space-4); right: var(--space-4); bottom: var(--space-4); width: 25rem; max-height: none; box-shadow: 10px 10px 0 var(--ofca-ink); } .panel-handle { display: none; } }
+  .panel:focus { outline: none; }
+  .panel-handle { display: grid; place-items: center; height: 26px; background: var(--ofca-orange); touch-action: none; cursor: grab; }
+  .panel-handle span { width: 56px; height: 5px; border-radius: 3px; background: var(--ofca-ink); }
+  .panel-close { position: absolute; right: 6px; top: 30px; width: 44px; height: 44px; display: grid; place-items: center; background: none; border: 0; }
+  @media (min-width: 900px) { .panel-close { top: 6px; } }
+  .panel-body { padding: var(--space-5); }
+  .place { display: grid; gap: var(--space-3); }
+  .place-name { font-size: clamp(1.8rem, 3vw, 2.4rem); text-transform: uppercase; padding-right: 2.5rem; }
+  .live-box { display: grid; gap: var(--space-3); background: var(--ofca-white); border: 2px solid var(--ofca-ink); padding: var(--space-4); }
+  .live-box p { font-weight: 600; }
+  .approx { opacity: 0.8; }
+
+  .list-view { padding-block: var(--space-8); }
+  .place-list { list-style: none; padding: 0; display: grid; gap: var(--space-4); }
+  .place-list li { max-width: none; display: grid; grid-template-columns: 52px 1fr; gap: var(--space-4); padding: var(--space-5); border: 3px solid var(--ofca-ink); background: var(--ofca-white); }
+  .place-list .h3 { text-transform: uppercase; }
+  .place-list .btn-row { margin-top: var(--space-3); }
+  .li-icon :global(svg) { width: 44px; }
+  .demo { padding-block: var(--space-4) var(--space-7); }
+</style>
+
+<script>
+  import { initMap } from '../lib/map-client';
+  initMap();
+</script>

@@ -1,0 +1,115 @@
+---
+/**
+ * Ilustrowany podkład mapy starego miasta (SVG 1200×900). Poglądowy, nie w skali.
+ * Układ kwartałów, murów i miejsc do weryfikacji z organizatorem (PRD 7.4, 11.3).
+ */
+interface Props { lang: 'pl' | 'en'; class?: string; labels?: boolean }
+const { lang, class: cls, labels = true } = Astro.props;
+const uid = `m-${Math.random().toString(36).slice(2, 7)}`;
+const blocks: [number, number, number, number][] = [
+  [300, 250, 104, 94], [440, 250, 100, 94], [580, 250, 100, 94], [716, 262, 34, 82],
+  [300, 380, 104, 180], [716, 380, 90, 180],
+  [300, 596, 104, 104], [440, 596, 100, 104], [580, 596, 100, 104], [716, 596, 104, 104],
+  [380, 170, 140, 44], [560, 170, 140, 44], [380, 736, 140, 50], [560, 736, 140, 50],
+  [214, 300, 50, 260], [842, 400, 44, 190], [214, 596, 50, 104],
+];
+const tents = [[880, 110], [930, 96], [980, 118], [900, 160], [960, 170], [1010, 150], [860, 150]];
+const T = lang === 'pl'
+  ? { rynek: 'RYNEK', zamek: 'ZAMEK', amf: 'AMFITEATR', pole: 'POLE NAMIOTOWE', park: 'PARK', note: 'MAPA POGLĄDOWA · NIE W SKALI', walls: 'mury miejskie' }
+  : { rynek: 'RYNEK (MARKET SQ.)', zamek: 'ZAMEK (CASTLE)', amf: 'AMPHITHEATRE', pole: 'CAMPSITE', park: 'PARK', note: 'SCHEMATIC MAP · NOT TO SCALE', walls: 'town walls' };
+---
+<svg class:list={['map-art', cls]} viewBox="0 0 1200 900" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id={`${uid}-check`} width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="var(--ofca-white)" /><rect width="10" height="10" fill="var(--ofca-ink)" /><rect x="10" y="10" width="10" height="10" fill="var(--ofca-ink)" />
+    </pattern>
+    <pattern id={`${uid}-park`} width="24" height="48" patternUnits="userSpaceOnUse">
+      <rect width="24" height="48" fill="var(--ofca-cream)" /><path d="M12 6l9 18-9 18-9-18z" fill="var(--ofca-lilac)" opacity="0.55" />
+    </pattern>
+    <pattern id={`${uid}-field`} width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="var(--ofca-cream)" /><path d="M0 30L30 0" stroke="var(--ofca-orange)" stroke-width="2" opacity="0.35" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="900" fill="var(--ofca-cream)" />
+
+  <!-- Tereny zielone i pole namiotowe -->
+  <path d="M905 250 C 1010 220, 1150 250, 1170 360 L 1170 600 C 1080 640, 960 610, 900 560 Z" fill={`url(#${uid}-park)`} />
+  <path d="M820 60 L 1060 50 L 1080 200 L 850 215 Z" fill={`url(#${uid}-field)`} stroke="var(--ofca-ink)" stroke-width="3" stroke-dasharray="8 6" />
+
+  <!-- Drogi zewnętrzne -->
+  <g fill="none" stroke="var(--ofca-white)" stroke-linecap="round">
+    <ellipse cx="560" cy="470" rx="440" ry="380" stroke-width="30" />
+    <path d="M160 470 H 20 M960 470 H 1180 M560 90 V 10 M560 850 V 900 M200 760 L 60 880 M900 740 L 1100 880" stroke-width="26" />
+  </g>
+  <g fill="none" stroke="var(--ofca-ink)" stroke-width="2">
+    <ellipse cx="560" cy="470" rx="455" ry="395" />
+    <ellipse cx="560" cy="470" rx="425" ry="365" />
+  </g>
+
+  <!-- Mury miejskie -->
+  <ellipse cx="560" cy="470" rx="390" ry="330" fill="none" stroke="var(--ofca-ink)" stroke-width="7" stroke-dasharray="22 10" />
+
+  <!-- Kwartały -->
+  <g fill="var(--ofca-white)" stroke="var(--ofca-ink)" stroke-width="3">
+    {blocks.map(([x, y, w, h]) => <rect x={x} y={y} width={w} height={h} />)}
+  </g>
+
+  <!-- Rynek: szachownica jak podłoga sceny -->
+  <rect x="440" y="380" width="240" height="180" fill={`url(#${uid}-check)`} opacity="0.22" />
+  <rect x="440" y="380" width="240" height="180" fill="none" stroke="var(--ofca-ink)" stroke-width="4" />
+  <rect x="525" y="440" width="70" height="56" fill="var(--ofca-ink)" />
+  <circle cx="560" cy="468" r="13" fill="var(--ofca-orange)" stroke="var(--ofca-cream)" stroke-width="3" />
+
+  <!-- Zamek -->
+  <g>
+    <path d="M770 228 H 892 V 352 H 770 Z" fill="var(--ofca-orange)" stroke="var(--ofca-ink)" stroke-width="4" />
+    <rect x="796" y="254" width="70" height="72" fill="var(--ofca-cream)" stroke="var(--ofca-ink)" stroke-width="3" />
+    <circle cx="892" cy="228" r="22" fill="var(--ofca-orange)" stroke="var(--ofca-ink)" stroke-width="4" />
+    <path d="M770 228 v-10 h12 v10 h12 v-10 h12 v10 h12 v-10 h12 v10" fill="none" stroke="var(--ofca-ink)" stroke-width="3" />
+  </g>
+
+  <!-- Amfiteatr -->
+  <g fill="none" stroke="var(--ofca-ink)" stroke-width="4">
+    <path d="M950 470 a50 50 0 0 1 100 0" fill="var(--ofca-orange)" />
+    <path d="M930 470 a70 70 0 0 1 140 0" />
+    <path d="M912 470 a88 88 0 0 1 176 0" />
+    <line x1="905" y1="470" x2="1095" y2="470" />
+  </g>
+
+  <!-- Namioty na polu -->
+  <g>
+    {tents.map(([x, y], i) => (
+      <path d={`M${x} ${y - 16} l14 24 h-28 z`} fill={i % 2 ? 'var(--ofca-lilac)' : 'var(--ofca-orange)'} stroke="var(--ofca-ink)" stroke-width="2" />
+    ))}
+  </g>
+
+  <!-- Highline: taśmy nad Rynkiem i przy Zamku -->
+  <g stroke="var(--ofca-ink)" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round">
+    <line x1="452" y1="392" x2="668" y2="548" />
+    <line x1="452" y1="548" x2="668" y2="392" />
+    <line x1="760" y1="220" x2="905" y2="360" />
+  </g>
+
+  {labels && (
+    <g font-family="Anybody Variable, Arial Black, sans-serif" font-weight="900" fill="var(--ofca-ink)" style="font-stretch: 130%">
+      <text x="560" y="590" text-anchor="middle" font-size="22">{T.rynek}</text>
+      <text x="831" y="378" text-anchor="middle" font-size="20">{T.zamek}</text>
+      <text x="1000" y="505" text-anchor="middle" font-size="18">{T.amf}</text>
+      <text x="950" y="38" text-anchor="middle" font-size="18">{T.pole}</text>
+    </g>
+  )}
+
+  <!-- Róża wiatrów i opis -->
+  <g transform="translate(90 90)">
+    <circle r="34" fill="var(--ofca-white)" stroke="var(--ofca-ink)" stroke-width="3" />
+    <path d="M0 -26 L 10 6 L 0 0 L -10 6 Z" fill="var(--ofca-orange)" stroke="var(--ofca-ink)" stroke-width="2" />
+    <text y="24" text-anchor="middle" font-family="Anybody Variable, sans-serif" font-weight="900" font-size="14" fill="var(--ofca-ink)">N</text>
+  </g>
+  <g transform="translate(40 850)">
+    <rect x="0" y="-26" width="330" height="36" fill="var(--ofca-ink)" />
+    <text x="14" y="-2" font-family="Anybody Variable, sans-serif" font-weight="800" font-size="15" fill="var(--ofca-cream)">{T.note}</text>
+  </g>
+</svg>
+<style>
+  .map-art { width: 100%; height: 100%; display: block; }
+</style>

@@ -1,0 +1,55 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import MoreLink from '../components/MoreLink.astro';
+import { faq } from '../lib/data';
+import { href } from '../i18n/routes';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const campFaq = faq.filter((f) => ['pole', 'zwierzeta'].includes(f.category) || f.id === 'dzieci-pole');
+const c = pl ? {
+  title: 'Nocleg i pole namiotowe', h: 'Nocleg', desc: 'Pole namiotowe u podnóża zamku, karnety, zasady i noclegi w Oleśnicy podczas Festiwalu OFCA.',
+  lead: 'Najbliżej areny śpi się pod namiotem, u podnóża zamku. Jeśli wolicie łóżko, szukajcie noclegu w mieście.',
+  camp: 'Pole namiotowe', campP: ['Pole namiotowe leży u podnóża zamku. To też miejsce spotkań społeczności highline, slackline i żonglerki.', `Otwarcie pola: ${T}`, 'Karnety kupicie w Infopunkcie na Rynku. Ceny: ' + T],
+  rules: 'Zasady na polu', rulesList: [`Cisza nocna: ${T}`, `Woda, prysznice, prąd: ${T}`, `Ogień i grille: ${T}`],
+  faqH: 'Pytania o pole', town: 'Noclegi w mieście', townP: [`Lista noclegów w Oleśnicy i okolicy: ${T}`, 'W sierpniu miejsca szybko się kończą. Rezerwujcie z wyprzedzeniem.'],
+  more: 'Wszystkie pytania w FAQ',
+} : {
+  title: 'Accommodation and campsite', h: 'Accommodation', desc: 'The campsite below the Castle, passes, rules and places to stay in Oleśnica during OFCA.',
+  lead: 'The closest you can sleep to the ring is in a tent below the Castle. Prefer a bed? Look for a room in town.',
+  camp: 'Campsite', campP: ['The campsite sits at the foot of the Castle. It’s also where the highline, slackline and juggling community gathers.', `Opening: ${T}`, 'Passes are sold at the Infopunkt on Rynek (Market Square). Prices: ' + T],
+  rules: 'Campsite rules', rulesList: [`Quiet hours: ${T}`, `Water, showers, power: ${T}`, `Fires and barbecues: ${T}`],
+  faqH: 'Campsite questions', town: 'Places to stay in town', townP: [`Accommodation in and around Oleśnica: ${T}`, 'Rooms go fast in August. Book early.'],
+  more: 'All questions in the FAQ',
+};
+---
+<InfoLayout lang={lang} route="stay" title={c.title} heading={c.h} description={c.desc} lead={c.lead} tone="lilac">
+  <div class="cols">
+    <div class="prose">
+      <h2>{c.camp}</h2>
+      {c.campP.map((p) => <p>{p}</p>)}
+      <h3>{c.rules}</h3>
+      <ul>{c.rulesList.map((r) => <li>{r}</li>)}</ul>
+      <h2>{c.town}</h2>
+      {c.townP.map((p) => <p>{p}</p>)}
+    </div>
+    <aside class="card stack">
+      <h2 class="h3">{c.faqH}</h2>
+      {campFaq.map((f) => (
+        <details class="qa">
+          <summary>{f.q[lang]}</summary>
+          <p>{f.a[lang]}</p>
+        </details>
+      ))}
+      <MoreLink href={href('faq', lang)}>{c.more}</MoreLink>
+    </aside>
+  </div>
+</InfoLayout>
+<style>
+  .prose h2:first-child { margin-top: 0; }
+  .qa { border-top: 2px solid var(--ofca-ink); padding-top: var(--space-3); }
+  .qa summary { font-weight: 700; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+  .qa p { margin-top: var(--space-2); }
+</style>

@@ -1,0 +1,69 @@
+---
+import Icon from './Icon.astro';
+import Tent from './Tent.astro';
+import { alerts } from '../lib/data';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Lang } from '../lib/types';
+import { fitFont } from '../lib/fit';
+
+/**
+ * Komunikat „Uwaga zmiana!” (ref-06, PRD 7.10).
+ * compact: pasek nad nagłówkiem na każdej stronie; full: lustrzane namioty (program, styleguide).
+ * Widoczność liczona w przeglądarce (okno from–to, zamknięcie zapamiętane per komunikat).
+ */
+interface Props { lang: Lang; variant: 'compact' | 'full'; forceVisible?: boolean }
+const { lang, variant, forceVisible = false } = Astro.props;
+const d = t(lang);
+const list = alerts.filter((a) => a.active);
+---
+{list.map((a) => {
+  const role = a.priority === 'urgent' ? 'alert' : 'status';
+  const link = a.link === 'program' ? href('program', lang) : a.link;
+  return variant === 'compact' ? (
+    <div class:list={['alert-compact', `p-${a.priority}`]} role={role} data-alert={a.id} data-from={a.from} data-to={a.to} data-force-visible={forceVisible ? '1' : undefined} hidden={!forceVisible}>
+      <div class="wrap alert-row">
+        <p><strong class="alert-title">{a.title[lang]}</strong> {a.body[lang]} {link && <a href={link}>{d.alert.more}</a>}</p>
+        <button type="button" class="alert-close" data-alert-close={a.id}>
+          <Icon name="close" size={20} /><span class="visually-hidden">{d.alert.close}</span>
+        </button>
+      </div>
+    </div>
+  ) : (
+    <section class:list={['alert-full', `p-${a.priority}`]} role={role} aria-labelledby={`alert-${a.id}`} data-alert={a.id} data-from={a.from} data-to={a.to} data-tents data-force-visible={forceVisible ? '1' : undefined} hidden={!forceVisible}>
+      <div class="tent top" data-tent-top><Tent flip /></div>
+      <div class="alert-body" data-tent-text>
+        <h2 id={`alert-${a.id}`} class="alert-heading" style={`font-size:${fitFont(a.title[lang], 7)}`}>{a.title[lang]}</h2>
+        <p>{a.body[lang]}</p>
+      </div>
+      <div class="tent bottom" data-tent-bottom><Tent /></div>
+      <button type="button" class="alert-close full-close" data-alert-close={a.id}>
+        <Icon name="close" size={24} /><span class="visually-hidden">{d.alert.close}</span>
+      </button>
+    </section>
+  );
+})}
+
+<style>
+  .alert-compact { background: var(--ofca-lilac); color: var(--ofca-ink); position: relative; z-index: 51; }
+  .alert-compact.p-urgent { background: var(--ofca-ink); color: var(--ofca-cream); }
+  .alert-compact.p-info { background: var(--ofca-cream); }
+  .alert-row { display: flex; align-items: center; gap: var(--space-3); padding-block: var(--space-2); }
+  .alert-row p { flex: 1; max-width: none; font-size: 0.95rem; line-height: 1.35; }
+  .alert-title { font-family: var(--font-display); font-weight: 900; font-variation-settings: 'wdth' 120; margin-right: 0.4em; }
+  .alert-close { flex-shrink: 0; display: grid; place-items: center; width: 44px; height: 44px; background: none; border: 0; color: inherit; }
+  .alert-compact.p-urgent :focus-visible { outline-color: var(--ofca-cream); }
+
+  .alert-full {
+    position: relative; overflow: hidden; background: var(--ofca-lilac); color: var(--ofca-ink);
+    display: grid; grid-template-rows: auto auto auto; justify-items: center; text-align: center;
+    padding-inline: var(--gutter);
+  }
+  .alert-full .tent { width: min(560px, 80%); }
+  .alert-full .top { margin-top: -2px; }
+  .alert-full .bottom { margin-bottom: -2px; }
+  .alert-body { padding-block: var(--space-5); width: min(100%, 52rem); container-type: inline-size; }
+  .alert-heading { --wdth: 150; line-height: 0.88; }
+  .alert-body p { margin: var(--space-4) auto 0; font-size: 1.1rem; font-weight: 500; }
+  .full-close { position: absolute; top: var(--space-3); right: var(--space-3); }
+</style>

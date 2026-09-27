@@ -1,0 +1,403 @@
+{
+  "_meta": {
+    "status": "demo",
+    "note": "Program demonstracyjny do testów interfejsu. Godziny, miejsca, typy i bilety NIE są potwierdzone. Zastąpić danymi od organizatora."
+  },
+  "events": [
+    {
+      "id": "e01",
+      "artistSlug": "my-laika",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-14T17:00:00+02:00",
+      "end": "2026-08-14T17:45:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e02",
+      "artistSlug": "company-alud-maelstrom",
+      "title": {
+        "pl": "Maelstrom",
+        "en": "Maelstrom"
+      },
+      "locationId": "namioty-cyrkowe",
+      "start": "2026-08-14T18:00:00+02:00",
+      "end": "2026-08-14T19:00:00+02:00",
+      "type": "stage",
+      "ticket": {
+        "kind": "paid",
+        "url": null,
+        "price": null
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e03",
+      "artistSlug": "zirkus-morsa",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-14T19:30:00+02:00",
+      "end": "2026-08-14T20:15:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": false,
+      "minAge": null
+    },
+    {
+      "id": "e04",
+      "artistSlug": null,
+      "title": {
+        "pl": "Pokaz ognia",
+        "en": "Fire show"
+      },
+      "locationId": "amfiteatr",
+      "start": "2026-08-14T21:30:00+02:00",
+      "end": "2026-08-14T22:00:00+02:00",
+      "type": "fire",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e05",
+      "artistSlug": null,
+      "title": {
+        "pl": "Koncert w Barze Żongler",
+        "en": "Live at Bar Żongler"
+      },
+      "locationId": "bar-zongler",
+      "start": "2026-08-14T22:30:00+02:00",
+      "end": "2026-08-15T01:00:00+02:00",
+      "type": "concert",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": false,
+      "minAge": null
+    },
+    {
+      "id": "e06",
+      "artistSlug": null,
+      "title": {
+        "pl": "Warsztaty cyrkowe dla dzieci",
+        "en": "Circus workshops for kids"
+      },
+      "locationId": "warsztaty",
+      "start": "2026-08-15T11:00:00+02:00",
+      "end": "2026-08-15T13:00:00+02:00",
+      "type": "workshop",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e07",
+      "artistSlug": null,
+      "title": {
+        "pl": "Highline nad Rynkiem",
+        "en": "Highline over Rynek"
+      },
+      "locationId": "rynek",
+      "start": "2026-08-15T12:00:00+02:00",
+      "end": "2026-08-15T18:00:00+02:00",
+      "type": "other",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e08",
+      "artistSlug": "be-flat",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-15T14:00:00+02:00",
+      "end": "2026-08-15T14:40:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e09",
+      "artistSlug": "rasoterra-circo",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-15T15:00:00+02:00",
+      "end": "2026-08-15T15:50:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e10",
+      "artistSlug": "liam-lelarge-kim-marro",
+      "title": null,
+      "locationId": "namioty-cyrkowe",
+      "start": "2026-08-15T16:00:00+02:00",
+      "end": "2026-08-15T17:00:00+02:00",
+      "type": "stage",
+      "ticket": {
+        "kind": "paid",
+        "url": null,
+        "price": null
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e11",
+      "artistSlug": "cie-e1nz",
+      "title": null,
+      "locationId": "zamek",
+      "start": "2026-08-15T17:00:00+02:00",
+      "end": "2026-08-15T17:45:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e12",
+      "artistSlug": "barbaren-barbies",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-15T17:30:00+02:00",
+      "end": "2026-08-15T18:20:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": false,
+      "minAge": null
+    },
+    {
+      "id": "e13",
+      "artistSlug": "company-alud-tangled-up",
+      "title": {
+        "pl": "Tangled UP",
+        "en": "Tangled UP"
+      },
+      "locationId": "namioty-cyrkowe",
+      "start": "2026-08-15T19:00:00+02:00",
+      "end": "2026-08-15T20:00:00+02:00",
+      "type": "stage",
+      "ticket": {
+        "kind": "paid",
+        "url": null,
+        "price": null
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e14",
+      "artistSlug": "wise-fools",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-15T20:00:00+02:00",
+      "end": "2026-08-15T20:45:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": false,
+      "minAge": null
+    },
+    {
+      "id": "e15",
+      "artistSlug": "teatr-wernisaz",
+      "title": null,
+      "locationId": "amfiteatr",
+      "start": "2026-08-15T21:30:00+02:00",
+      "end": "2026-08-15T22:00:00+02:00",
+      "type": "fire",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e16",
+      "artistSlug": null,
+      "title": {
+        "pl": "Koncert w Barze Żongler",
+        "en": "Live at Bar Żongler"
+      },
+      "locationId": "bar-zongler",
+      "start": "2026-08-15T22:30:00+02:00",
+      "end": "2026-08-16T01:00:00+02:00",
+      "type": "concert",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": false,
+      "minAge": null
+    },
+    {
+      "id": "e17",
+      "artistSlug": null,
+      "title": {
+        "pl": "Warsztaty cyrkowe dla dzieci",
+        "en": "Circus workshops for kids"
+      },
+      "locationId": "warsztaty",
+      "start": "2026-08-16T11:00:00+02:00",
+      "end": "2026-08-16T13:00:00+02:00",
+      "type": "workshop",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e18",
+      "artistSlug": "pina-polar",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-16T12:00:00+02:00",
+      "end": "2026-08-16T12:40:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e19",
+      "artistSlug": "krzysztof-kostera",
+      "title": null,
+      "locationId": "zamek",
+      "start": "2026-08-16T13:30:00+02:00",
+      "end": "2026-08-16T14:15:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": false,
+      "minAge": null
+    },
+    {
+      "id": "e20",
+      "artistSlug": "domicirco",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-16T15:00:00+02:00",
+      "end": "2026-08-16T15:45:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e21",
+      "artistSlug": "what-is-love",
+      "title": null,
+      "locationId": "namioty-cyrkowe",
+      "start": "2026-08-16T16:30:00+02:00",
+      "end": "2026-08-16T17:30:00+02:00",
+      "type": "stage",
+      "ticket": {
+        "kind": "paid",
+        "url": null,
+        "price": null
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e22",
+      "artistSlug": "tripotes-la-compagnie",
+      "title": null,
+      "locationId": "rynek",
+      "start": "2026-08-16T18:00:00+02:00",
+      "end": "2026-08-16T18:45:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e23",
+      "artistSlug": "my-laika",
+      "title": null,
+      "locationId": "zamek",
+      "start": "2026-08-16T19:00:00+02:00",
+      "end": "2026-08-16T19:40:00+02:00",
+      "type": "street",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": true,
+      "noLanguage": true,
+      "minAge": null
+    },
+    {
+      "id": "e24",
+      "artistSlug": null,
+      "title": {
+        "pl": "Pokaz ognia na zakończenie",
+        "en": "Closing fire show"
+      },
+      "locationId": "amfiteatr",
+      "start": "2026-08-16T20:30:00+02:00",
+      "end": "2026-08-16T21:00:00+02:00",
+      "type": "fire",
+      "ticket": {
+        "kind": "free"
+      },
+      "forKids": false,
+      "noLanguage": true,
+      "minAge": null
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+/*
+ * Tokeny OFCA. Jedyne źródło kolorów na stronie.
+ * HEX-y pobrane z plików referencyjnych (ref-02, ref-05, ref-06). Przed produkcją porównać z brandbookiem (PRD 14, pytanie 2).
+ *
+ * Kontrast (WCAG 2.2 AA), przeliczony dla tych wartości:
+ *   ink na orange         6,2:1  dowolny tekst
+ *   ink na lilac          4,9:1  dowolny tekst
+ *   ink na cream         16,3:1  dowolny tekst
+ *   cream na ink         16,3:1  dowolny tekst
+ *   mint na ink           8,7:1  dowolny tekst (akcent)
+ *   cream na orange-deep  3,7:1  tylko duży tekst (≥ 24 px lub ≥ 18,66 px bold)
+ *   cream na lilac        3,4:1  tylko duży tekst
+ *   cream na orange       2,6:1  tylko dekoracja (aria-hidden) albo tekst zdublowany dostępnie
+ */
+:root {
+  --ofca-orange: #fe6021;
+  --ofca-orange-deep: #d9480f;
+  --ofca-lilac: #9e6fb5;
+  --ofca-cream: #ffebdd;
+  --ofca-ink: #111111;
+  --ofca-white: #ffffff;
+  --ofca-mint: #4fc3a1;
+
+  /* Font główny: Bacalar (licencja web do potwierdzenia). Do czasu wgrania plików: Anybody (też oś wdth). */
+  --font-display: 'Bacalar', 'Anybody Variable', 'Arial Black', system-ui, sans-serif;
+  --font-text: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fs-mega: clamp(6rem, 22vw, 18rem);
+  --fs-display: clamp(3rem, 9vw, 7.5rem);
+  --fs-h2: clamp(2rem, 5vw, 4rem);
+  --fs-h3: clamp(1.5rem, 3vw, 2.25rem);
+  --fs-body: clamp(1.0625rem, 0.3vw + 1rem, 1.125rem);
+  --fs-small: 0.875rem;
+
+  /* Szerokości osi wdth: hero szeroko, etykiety wąsko. */
+  --wdth-hero: 150;
+  --wdth-display: 130;
+  --wdth-heading: 115;
+  --wdth-label: 85;
+
+  --lh-tight: 0.92;
+  --lh-text: 1.55;
+  --measure: 65ch;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: clamp(4rem, 10vw, 8rem);
+
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --max: 1440px;
+  --radius: 0;
+  --notch: 6%;
+  --zigzag: 14px;
+
+  --header-h: 4.25rem;
+  --focus: 3px solid var(--ofca-ink);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

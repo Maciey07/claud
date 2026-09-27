@@ -1,0 +1,66 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../i18n/routes';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const c = pl ? {
+  title: 'Highline i slackline', desc: 'Highline i slackline na Festiwalu OFCA: czym są, gdzie wiszą taśmy nad Oleśnicą, karnety i zasady bezpieczeństwa.',
+  lead: 'Ponad kilometr taśm nad Rynkiem i Zamkiem. Tu wyjaśniamy, co to jest i jak dołączyć.',
+  what: 'Co to jest?', highline: 'Highline', hlText: 'Chodzenie po taśmie rozpiętej wysoko nad ziemią, z asekuracją. Na OFCE taśmy wiszą nad Rynkiem i przy Zamku.',
+  slack: 'Slackline', slText: 'Chodzenie po taśmie rozpiętej nisko nad ziemią. Dobry początek dla każdego.',
+  watch: 'Dla widzów', watchP: ['Taśmy nad Rynkiem widać z każdego miejsca placu. Zadzierajcie głowy.', 'Prosimy nie wchodzić pod stanowiska asekuracyjne i nie dotykać lin.'],
+  community: 'Dla społeczności', commP: [`Karnety dla osób chodzących po taśmach: ${T}`, `Rejestracja i wymagania: ${T}`, 'Nocleg na polu namiotowym u podnóża zamku.'],
+  safety: 'Bezpieczeństwo', safetyList: [`Obowiązkowy sprzęt: ${T}`, `Kto odpowiada za rigging: ${T}`, `Warunki pogodowe i przerwy: ${T}`],
+  map: 'Pokaż taśmy na mapie', stay: 'Pole namiotowe i karnety',
+} : {
+  title: 'Highline and slackline', desc: 'Highline and slackline at OFCA: what they are, where the lines hang over Oleśnica, passes and safety rules.',
+  lead: 'Over a kilometre of line above Rynek (Market Square) and the Castle. Here’s what it is and how to join in.',
+  what: 'What is it?', highline: 'Highline', hlText: 'Walking a line rigged high above the ground, with a safety leash. At OFCA the lines hang over Rynek and by the Castle.',
+  slack: 'Slackline', slText: 'Walking a line rigged close to the ground. A good place for anyone to start.',
+  watch: 'For spectators', watchP: ['You can see the lines above Rynek from anywhere on the square. Look up.', 'Please keep clear of the anchor points and don’t touch the ropes.'],
+  community: 'For the community', commP: [`Passes for line walkers: ${T}`, `Registration and requirements: ${T}`, 'Camp at the foot of the Castle.'],
+  safety: 'Safety', safetyList: [`Required gear: ${T}`, `Who runs the rigging: ${T}`, `Weather and breaks: ${T}`],
+  map: 'Show the lines on the map', stay: 'Campsite and passes',
+};
+---
+<InfoLayout lang={lang} route="highline" title={c.title} description={c.desc} lead={c.lead} tone="ink">
+  <section class="what" aria-labelledby="h-what">
+    <h2 id="h-what" data-stretch="130">{c.what}</h2>
+    <div class="defs">
+      <div class="def bg-orange">
+        <svg viewBox="0 0 200 90" aria-hidden="true"><line x1="0" y1="30" x2="200" y2="30" stroke="currentColor" stroke-width="4" /><circle cx="100" cy="8" r="6" fill="currentColor" /><path d="M100 14 v14 M88 20 l12 3 12-3" stroke="currentColor" stroke-width="4" fill="none" /><path d="M0 88 H200" stroke="currentColor" stroke-width="3" stroke-dasharray="6 6" /></svg>
+        <h3>{c.highline}</h3><p>{c.hlText}</p>
+      </div>
+      <div class="def bg-lilac">
+        <svg viewBox="0 0 200 90" aria-hidden="true"><line x1="0" y1="70" x2="200" y2="70" stroke="currentColor" stroke-width="4" /><circle cx="100" cy="30" r="6" fill="currentColor" /><path d="M100 36 v18 M88 44 l12 3 12-3 M100 54 l-6 14 M100 54 l6 14" stroke="currentColor" stroke-width="4" fill="none" /><path d="M0 88 H200" stroke="currentColor" stroke-width="3" /></svg>
+        <h3>{c.slack}</h3><p>{c.slText}</p>
+      </div>
+    </div>
+  </section>
+  <div class="cols">
+    <div class="prose">
+      <h2>{c.watch}</h2>{c.watchP.map((p) => <p>{p}</p>)}
+      <h2>{c.community}</h2>{c.commP.map((p) => <p>{p}</p>)}
+      <h2>{c.safety}</h2><ul>{c.safetyList.map((s) => <li>{s}</li>)}</ul>
+    </div>
+    <aside class="stack">
+      <a class="btn" href={`${href('map', lang)}?${pl ? 'miejsce' : 'place'}=rynek`}><Icon name="map" size={20} />{c.map}</a>
+      <a class="btn btn-outline" href={href('stay', lang)}>{c.stay}</a>
+    </aside>
+  </div>
+</InfoLayout>
+<style>
+  .what { margin-bottom: var(--space-8); }
+  .what h2 { font-size: var(--fs-h2); margin-bottom: var(--space-5); }
+  .defs { display: grid; gap: var(--space-5); }
+  @media (min-width: 768px) { .defs { grid-template-columns: 1fr 1fr; } }
+  .def { border: 3px solid var(--ofca-ink); padding: var(--space-5); display: grid; gap: var(--space-3); }
+  .def svg { width: 100%; max-width: 260px; color: var(--ofca-ink); }
+  .def h3 { text-transform: uppercase; }
+  .prose h2:first-child { margin-top: 0; }
+  aside { align-content: start; }
+</style>

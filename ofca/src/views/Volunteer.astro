@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { href } from '../i18n/routes';
+import { site } from '../site.config';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const c = pl ? {
+  title: 'Wolontariat', h: 'Bez was ten cyrk by nie ruszył', desc: 'Wolontariat na Festiwalu OFCA: co robisz, co zyskujesz, terminy i zgłoszenie.',
+  lead: 'Co roku ponad 150 osób pomaga nam zamienić Oleśnicę w arenę. Dołączcie do ekipy.',
+  cols: [
+    { h: 'Co robisz', items: ['Pomagasz przy spektaklach ulicznych i scenicznych.', 'Obsługujesz Infopunkt i pomagasz publiczności.', `Inne zadania: ${T}`] },
+    { h: 'Co zyskujesz', items: ['Festiwal od kulis i ekipę, która zostaje na lata.', `Wyżywienie, nocleg, koszulka: ${T}`, `Zaświadczenie o wolontariacie: ${T}`] },
+    { h: 'Terminy', items: [`Nabór: ${T}`, `Szkolenie: ${T}`, 'Festiwal: 14–16 sierpnia 2026.'] },
+  ],
+  cta: 'Dołącz do ekipy', ctaNote: `Formularz zgłoszeniowy: ${T}. Do tego czasu piszcie na adres:`, subject: 'Wolontariat OFCA 2026',
+} : {
+  title: 'Volunteer', h: 'This circus doesn’t move without you', desc: 'Volunteer at OFCA: what you do, what you get, dates and how to apply.',
+  lead: 'Every year 150+ people help us turn Oleśnica into a circus ring. Join the crew.',
+  cols: [
+    { h: 'What you do', items: ['Help out at street and stage shows.', 'Staff the Infopunkt and help the audience.', `Other roles: ${T}`] },
+    { h: 'What you get', items: ['The festival from backstage, and a crew that sticks together for years.', `Meals, accommodation, T-shirt: ${T}`, `Volunteer certificate: ${T}`] },
+    { h: 'Dates', items: [`Applications: ${T}`, `Training: ${T}`, 'Festival: 14–16 August 2026.'] },
+  ],
+  cta: 'Join the crew', ctaNote: `Application form: ${T}. Until then, email us at:`, subject: 'OFCA 2026 volunteering',
+};
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="volunteer" breadcrumbs={[{ name: c.title, url: href('volunteer', lang) }]}>
+  <PageHero title={c.h} kicker={c.title} lead={c.lead} tone="lilac" />
+  <div class="wrap section">
+    <div class="grid grid-3" data-reveal="stagger">
+      {c.cols.map((col, i) => (
+        <section class:list={['col', ['bg-orange', 'bg-white', 'bg-ink on-ink'][i]]}>
+          <h2 class="h3">{col.h}</h2>
+          <ul>{col.items.map((it) => <li>{it}</li>)}</ul>
+        </section>
+      ))}
+    </div>
+    <div class="cta stack">
+      <p>{c.ctaNote} <strong>{site.emails.office}</strong></p>
+      <a class="btn btn-orange big" href={`mailto:${site.emails.office}?subject=${encodeURIComponent(c.subject)}`}>{c.cta}</a>
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .col { border: 3px solid var(--ofca-ink); padding: var(--space-5); display: grid; gap: var(--space-4); align-content: start; }
+  .col h2 { text-transform: uppercase; }
+  .col ul { padding-left: 1.2em; display: grid; gap: var(--space-2); }
+  .cta { margin-top: var(--space-8); max-width: 40rem; }
+  .big { font-size: 1.3rem; min-height: 64px; padding-inline: 2em; }
+</style>

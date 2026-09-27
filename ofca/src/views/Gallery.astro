@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import LiteYouTube from '../components/LiteYouTube.astro';
+import Icon from '../components/Icon.astro';
+import { photo, alts } from '../lib/photos';
+import { href } from '../i18n/routes';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const photos = [
+  { src: 'zongler-rynek', alt: alts.zongler[lang] },
+  { src: 'diabolo-scena', alt: alts.diabolo[lang] },
+  { src: 'infopunkt-namiot', alt: alts.infopunkt[lang] },
+  { src: 'teatr-wernisaz', alt: pl ? 'Trzy artystki Teatru Wernisaż kręcą płonącymi rekwizytami o zmierzchu.' : 'Three Teatr Wernisaż performers spin burning props at dusk.' },
+];
+const c = pl ? {
+  title: 'Galeria', desc: 'Galeria Festiwalu OFCA: zdjęcia, wideo i murale z Oleśnicy.', lead: 'Zdjęcia, wideo i murale. Archiwum kolejnych edycji w przygotowaniu.',
+  tabs: ['Foto', 'Wideo', 'Murale'], ids: ['foto', 'wideo', 'murale'], year: 'Edycja', all: 'Wszystkie', yearsNote: `Podział zdjęć na edycje: ${T}`,
+  open: 'Powiększ zdjęcie', prev: 'Poprzednie zdjęcie', next: 'Następne zdjęcie', close: 'Zamknij', of: 'z',
+  after: 'Aftermovie OFCA 2026', videos: 'Filmy z poprzednich edycji', murals: 'Murale oleśnickie', muralsP: `Sześć murali powstałych podczas festiwalu. Autorzy, lata i adresy: ${T}`, mural: 'Mural', mapMurals: 'Murale na mapie',
+} : {
+  title: 'Gallery', desc: 'OFCA gallery: photos, videos and murals from Oleśnica.', lead: 'Photos, videos and murals. An archive of past editions is on its way.',
+  tabs: ['Photos', 'Video', 'Murals'], ids: ['photos', 'video', 'murals'], year: 'Edition', all: 'All', yearsNote: `Photos by edition: ${T}`,
+  open: 'Enlarge photo', prev: 'Previous photo', next: 'Next photo', close: 'Close', of: 'of',
+  after: 'OFCA 2026 aftermovie', videos: 'Films from past editions', murals: 'Oleśnica murals', muralsP: `Six murals painted during the festival. Artists, years and addresses: ${T}`, mural: 'Mural', mapMurals: 'Murals on the map',
+};
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="gallery" breadcrumbs={[{ name: c.title, url: href('gallery', lang) }]}>
+  <PageHero title={c.title} lead={c.lead} tone="ink" />
+  <div class="wrap gallery" data-gallery>
+    <div class="tabs" role="tablist" aria-label={c.title}>
+      {c.tabs.map((tab, i) => <button type="button" role="tab" class="tab" id={`gt-${c.ids[i]}`} aria-controls={c.ids[i]} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-gtab={c.ids[i]}>{tab}</button>)}
+    </div>
+
+    <section id={c.ids[0]} role="tabpanel" aria-labelledby={`gt-${c.ids[0]}`} data-gpanel tabindex="0">
+      <div class="chips years" role="group" aria-label={c.year}><button type="button" class="chip" aria-pressed="true">{c.all}</button></div>
+      <p class="small">{c.yearsNote}</p>
+      <ul class="masonry" role="list">
+        {photos.map((p, i) => (
+          <li><button type="button" class="ph" data-lb={i}><Image src={photo(p.src)} alt={p.alt} widths={[360, 700]} sizes="(min-width: 1024px) 33vw, (min-width: 600px) 50vw, 100vw" /><span class="visually-hidden">{c.open}</span></button></li>
+        ))}
+      </ul>
+    </section>
+
+    <section id={c.ids[1]} role="tabpanel" aria-labelledby={`gt-${c.ids[1]}`} data-gpanel hidden tabindex="0">
+      <h2 class="h3">{c.after}</h2>
+      <LiteYouTube videoId={null} title={c.after} lang={lang} />
+      <h2 class="h3 mt">{c.videos}</h2>
+      <p><span class="tbc">{T}</span></p>
+    </section>
+
+    <section id={c.ids[2]} role="tabpanel" aria-labelledby={`gt-${c.ids[2]}`} data-gpanel hidden tabindex="0">
+      <h2 class="h3">{c.murals}</h2>
+      <p>{c.muralsP}</p>
+      <ul class="murals" role="list">
+        {Array.from({ length: 6 }, (_, i) => (
+          <li class="mural diamonds" style={`--d-bg: var(--ofca-${i % 2 ? 'cream' : 'lilac'}); --d-fg: var(--ofca-${i % 2 ? 'orange' : 'cream'}); --d-w: 30px`}>
+            <span class="label">{c.mural} {i + 1}: {T}</span>
+          </li>
+        ))}
+      </ul>
+      <a class="btn" href={href('map', lang)}><Icon name="map" size={20} />{c.mapMurals}</a>
+    </section>
+  </div>
+
+  <dialog class="lightbox" aria-label={c.title} data-lightbox>
+    <button type="button" class="lb-btn lb-close" data-lb-close><Icon name="close" size={28} /><span class="visually-hidden">{c.close}</span></button>
+    <button type="button" class="lb-btn lb-prev" data-lb-prev><Icon name="arrow" size={28} class="flip" /><span class="visually-hidden">{c.prev}</span></button>
+    <figure class="lb-fig"><img data-lb-img alt="" /><figcaption data-lb-cap></figcaption></figure>
+    <button type="button" class="lb-btn lb-next" data-lb-next><Icon name="arrow" size={28} /><span class="visually-hidden">{c.next}</span></button>
+  </dialog>
+  <script type="application/json" data-lb-i18n set:html={JSON.stringify({ of: c.of })} />
+</BaseLayout>
+<style>
+  .gallery { padding-block: var(--space-8) var(--space-9); display: grid; gap: var(--space-6); }
+  .tabs { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+  .tab { min-height: 52px; padding: 0.4em 1.2em; border: 3px solid var(--ofca-ink); background: var(--ofca-white); font-family: var(--font-display); font-weight: 900; text-transform: uppercase; font-size: 1.1rem; }
+  .tab[aria-selected='true'] { background: var(--ofca-orange); box-shadow: 5px 5px 0 var(--ofca-ink); }
+  [data-gpanel] { display: grid; gap: var(--space-4); }
+  [data-gpanel]:focus-visible { outline-offset: 8px; }
+  .years { margin-bottom: 0; }
+  .masonry { list-style: none; padding: 0; columns: 3 18rem; column-gap: var(--space-4); }
+  .masonry li { break-inside: avoid; margin-bottom: var(--space-4); max-width: none; }
+  .ph { display: block; padding: 0; border: 3px solid var(--ofca-ink); background: var(--ofca-ink); cursor: zoom-in; width: 100%; }
+  .ph :global(img) { width: 100%; height: auto; transition: opacity 200ms; }
+  .ph:hover :global(img) { opacity: 0.85; }
+  .mt { margin-top: var(--space-6); }
+  .murals { list-style: none; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); }
+  .mural { aspect-ratio: 1; display: grid; align-items: end; border: 3px solid var(--ofca-ink); max-width: none; }
+  .mural .label { background: var(--ofca-ink); color: var(--ofca-cream); padding: var(--space-2) var(--space-3); }
+  .lightbox { width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; border: 0; background: var(--ofca-ink); color: var(--ofca-cream); padding: var(--space-4); }
+  .lightbox[open] { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-3); }
+  .lightbox::backdrop { background: var(--ofca-ink); }
+  .lb-fig { margin: 0; display: grid; gap: var(--space-3); justify-items: center; min-width: 0; touch-action: pan-y; }
+  .lb-fig img { max-height: calc(100dvh - 8rem); width: auto; max-width: 100%; object-fit: contain; }
+  .lb-fig figcaption { max-width: 60ch; text-align: center; }
+  .lb-btn { width: 52px; height: 52px; display: grid; place-items: center; background: var(--ofca-orange); color: var(--ofca-ink); border: 0; }
+  .lb-close { position: absolute; top: var(--space-4); right: var(--space-4); z-index: 2; }
+  .lb-btn:focus-visible { outline-color: var(--ofca-cream); }
+  .lb-prev :global(.flip) { transform: scaleX(-1); }
+  @media (max-width: 599px) { .lightbox[open] { grid-template-columns: 1fr; grid-template-rows: 1fr auto; } .lb-prev, .lb-next { position: absolute; bottom: var(--space-4); } .lb-prev { left: var(--space-4); } .lb-next { right: var(--space-4); } }
+</style>
+<script>
+  import { gsap, prefersReducedMotion } from '../lib/gsap';
+  const root = document.querySelector<HTMLElement>('[data-gallery]')!;
+  // Zakładki
+  const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-gtab]'));
+  const select = (id: string) => {
+    tabs.forEach((t) => { const on = t.dataset.gtab === id; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+    root.querySelectorAll<HTMLElement>('[data-gpanel]').forEach((p) => (p.hidden = p.id !== id));
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => { select(t.dataset.gtab!); history.replaceState(null, '', `#${t.dataset.gtab}`); });
+    t.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); const n = tabs[(i + d + tabs.length) % tabs.length]; n.focus(); n.click(); }
+    });
+  });
+  const hash = location.hash.slice(1);
+  if (tabs.some((t) => t.dataset.gtab === hash)) select(hash);
+
+  // Lightbox: klawiatura i gesty
+  const lb = document.querySelector<HTMLDialogElement>('[data-lightbox]')!;
+  const img = lb.querySelector<HTMLImageElement>('[data-lb-img]')!;
+  const cap = lb.querySelector<HTMLElement>('[data-lb-cap]')!;
+  const i18n = JSON.parse(document.querySelector('[data-lb-i18n]')!.textContent!) as { of: string };
+  const items = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-lb]'));
+  let idx = 0;
+  let opener: HTMLElement | null = null;
+  const show = (i: number, dir = 0) => {
+    idx = (i + items.length) % items.length;
+    const src = items[idx].querySelector('img')!;
+    img.src = src.currentSrc || src.src;
+    img.alt = src.alt;
+    cap.textContent = `${src.alt} (${idx + 1} ${i18n.of} ${items.length})`;
+    if (dir && !prefersReducedMotion()) gsap.fromTo(img, { x: 40 * dir, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3 });
+  };
+  items.forEach((b, i) => b.addEventListener('click', () => { opener = b; show(i); lb.showModal(); }));
+  lb.querySelector('[data-lb-close]')!.addEventListener('click', () => lb.close());
+  lb.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(idx - 1, -1));
+  lb.querySelector('[data-lb-next]')!.addEventListener('click', () => show(idx + 1, 1));
+  lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') show(idx + 1, 1); if (e.key === 'ArrowLeft') show(idx - 1, -1); });
+  lb.addEventListener('close', () => opener?.focus());
+  let startX = 0;
+  img.addEventListener('pointerdown', (e) => (startX = e.clientX));
+  img.addEventListener('pointerup', (e) => { const dx = e.clientX - startX; if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); });
+</script>

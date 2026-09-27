@@ -1,0 +1,25 @@
+---
+import type { LocationType } from '../lib/types';
+/** Ikona pinu: mini namiot, romb, flaga… (PRD 7.4). */
+interface Props { type: LocationType }
+const { type } = Astro.props;
+const fill: Record<LocationType, string> = {
+  stage: 'var(--ofca-orange)', street: 'var(--ofca-orange)', workshop: 'var(--ofca-lilac)', club: 'var(--ofca-lilac)',
+  fire: 'var(--ofca-orange)', highline: 'var(--ofca-cream)', food: 'var(--ofca-mint)', info: 'var(--ofca-lilac)',
+  wc: 'var(--ofca-white)', firstaid: 'var(--ofca-white)', camping: 'var(--ofca-orange)', mural: 'var(--ofca-lilac)', parking: 'var(--ofca-white)',
+};
+---
+<svg viewBox="0 0 44 52" width="44" height="52" aria-hidden="true" focusable="false">
+  <path d="M22 51 L 12 38 H 32 Z" fill="var(--ofca-ink)" />
+  {['stage', 'street', 'workshop', 'club', 'camping'].includes(type) && (
+    <g><path d="M22 3 L 40 36 H 4 Z" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" stroke-linejoin="round" /><path d="M22 3 L 28 36 H 16 Z" fill="var(--ofca-cream)" stroke="var(--ofca-ink)" stroke-width="2" /></g>
+  )}
+  {type === 'info' && <g><path d="M22 2 L 40 20 L 22 38 L 4 20 Z" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" /><text x="22" y="26" text-anchor="middle" font-family="Anybody Variable, sans-serif" font-weight="900" font-size="16" fill="var(--ofca-ink)">i</text></g>}
+  {type === 'highline' && <g><rect x="4" y="4" width="36" height="32" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" /><path d="M8 14 H 36" stroke="var(--ofca-ink)" stroke-width="2" /><circle cx="22" cy="10" r="3" fill="var(--ofca-ink)" /><path d="M22 13 v10 M16 16 l6 2 6-2 M22 23 l-3 6 M22 23 l3 6" stroke="var(--ofca-ink)" stroke-width="2.4" stroke-linecap="round" fill="none" /></g>}
+  {type === 'fire' && <g><rect x="4" y="4" width="36" height="32" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" /><path d="M22 9 C 30 17, 30 24, 26 30 C 25 25, 22 24, 22 21 C 20 25, 16 26, 17 30 C 13 25, 15 16, 22 9 Z" fill="var(--ofca-ink)" /></g>}
+  {type === 'food' && <g><circle cx="22" cy="20" r="17" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" /><path d="M16 11 v8 a3 3 0 0 0 6 0 v-8 M19 11 v19 M27 11 c4 3 4 9 0 11 v8" stroke="var(--ofca-ink)" stroke-width="2.4" fill="none" stroke-linecap="round" /></g>}
+  {type === 'wc' && <g><rect x="4" y="4" width="36" height="32" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" /><text x="22" y="26" text-anchor="middle" font-family="Anybody Variable, sans-serif" font-weight="900" font-size="13" fill="var(--ofca-ink)">WC</text></g>}
+  {type === 'firstaid' && <g><rect x="4" y="4" width="36" height="32" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" /><path d="M22 10 v20 M12 20 h20" stroke="var(--ofca-orange-deep)" stroke-width="6" /></g>}
+  {type === 'parking' && <g><rect x="4" y="4" width="36" height="32" fill="var(--ofca-ink)" stroke="var(--ofca-ink)" stroke-width="3" /><text x="22" y="28" text-anchor="middle" font-family="Anybody Variable, sans-serif" font-weight="900" font-size="20" fill="var(--ofca-cream)">P</text></g>}
+  {type === 'mural' && <g><path d="M22 2 L 40 20 L 22 38 L 4 20 Z" fill={fill[type]} stroke="var(--ofca-ink)" stroke-width="3" /><path d="M14 24 c4-8 12-8 16 0" stroke="var(--ofca-cream)" stroke-width="3" fill="none" /></g>}
+</svg>

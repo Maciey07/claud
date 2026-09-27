@@ -1,0 +1,60 @@
+/* Motywy graficzne OFCA (PRD 8.4). Kolory przez zmienne, kształty przez maski SVG. */
+
+/* 1. Chorągiewka (ref-02): wcięcie V u góry, szczyt u dołu */
+.flag {
+  --notch: 6%;
+  clip-path: polygon(0 0, 50% var(--notch), 100% 0, 100% 100%, 50% calc(100% - var(--notch)), 0 100%);
+}
+
+/* 2. Zygzak falbany (ref-03): pasek trójkątów skierowanych w dół */
+.zigzag {
+  --zz-color: var(--ofca-orange);
+  display: block; height: var(--zigzag); width: 100%;
+  background: var(--zz-color);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 14'%3E%3Cpath d='M0 0h28L14 14z'/%3E%3C/svg%3E") 0 0 / calc(var(--zigzag) * 2) var(--zigzag) repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 14'%3E%3Cpath d='M0 0h28L14 14z'/%3E%3C/svg%3E") 0 0 / calc(var(--zigzag) * 2) var(--zigzag) repeat-x;
+}
+.zigzag-up { transform: scaleY(-1); }
+
+/* 3. Romby arlekina (ref-03) */
+.diamonds {
+  --d-bg: var(--ofca-white);
+  --d-fg: var(--ofca-lilac);
+  --d-w: 40px;
+  position: relative; background: var(--d-bg); isolation: isolate;
+}
+.diamonds::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; background: var(--d-fg);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 80'%3E%3Cpath d='M20 0l20 40-20 40L0 40z'/%3E%3C/svg%3E") 0 0 / var(--d-w) calc(var(--d-w) * 2) repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 80'%3E%3Cpath d='M20 0l20 40-20 40L0 40z'/%3E%3C/svg%3E") 0 0 / var(--d-w) calc(var(--d-w) * 2) repeat;
+}
+.diamond-strip { height: 64px; --d-w: 32px; }
+.diamond-strip.diamonds::before { -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x; }
+
+/* 4. Szachownica (ref-03, podłoga sceny) */
+.checker {
+  --c-a: var(--ofca-ink);
+  --c-b: var(--ofca-white);
+  --c-size: 28px;
+  background: repeating-conic-gradient(var(--c-a) 0 25%, var(--c-b) 0 50%) 0 0 / var(--c-size) var(--c-size);
+}
+.checker-strip { height: calc(var(--c-size) * 2); }
+
+/* 5. Pasy namiotu */
+.tent-rays {
+  background: repeating-conic-gradient(from -90deg at 50% -10%, var(--ofca-orange) 0 6deg, var(--ofca-cream) 6deg 12deg);
+}
+.tent-stripes {
+  background: repeating-linear-gradient(90deg, var(--ofca-orange) 0 48px, var(--ofca-cream) 48px 96px);
+}
+
+/* 6. Duotone (filtry SVG zdefiniowane w BaseLayout) */
+.duo-lilac { filter: url(#duo-lilac); }
+.duo-orange { filter: url(#duo-orange); }
+
+/* 8. Pionowy tekst przy krawędzi */
+.vertical {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: var(--font-display); font-weight: 900; text-transform: uppercase; line-height: 1;
+  font-variation-settings: 'wdth' 120;
+}

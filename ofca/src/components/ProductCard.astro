@@ -1,0 +1,29 @@
+---
+import ProductArt from './ProductArt.astro';
+import { formatPrice } from '../lib/format';
+import { href } from '../i18n/routes';
+import type { Lang, Product } from '../lib/types';
+
+interface Props { product: Product; lang: Lang; level?: 2 | 3 }
+const { product: p, lang, level = 3 } = Astro.props;
+const Tag = `h${level}` as 'h2' | 'h3';
+---
+<article class="product" data-product data-category={p.category}>
+  <a class="link" href={href('product', lang, { slug: p.slug })}>
+    <div class="art"><ProductArt art={p.art} label="" /></div>
+    <div class="meta">
+      <Tag class="name">{p.name[lang]}</Tag>
+      <p class="price">{formatPrice(p.price, lang)}</p>
+    </div>
+  </a>
+</article>
+<style>
+  .link { display: grid; grid-template-columns: minmax(0, 1fr); text-decoration: none; background: var(--ofca-white); border: 3px solid var(--ofca-ink); height: 100%; }
+  .art { min-width: 0; overflow: hidden; border-bottom: 3px solid var(--ofca-ink); }
+  .art :global(svg) { transition: transform 400ms var(--ease-out); }
+  .link:hover .art :global(svg) { transform: scale(1.05) rotate(-1.5deg); }
+  .link:hover .name { text-decoration: underline; text-decoration-thickness: 3px; }
+  .meta { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-4); align-items: start; }
+  .name { font-size: 1.15rem; text-transform: uppercase; --wdth: 105; line-height: 1.05; }
+  .price { font-family: var(--font-display); font-weight: 900; white-space: nowrap; font-size: 1.15rem; }
+</style>

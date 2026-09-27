@@ -1,0 +1,29 @@
+---
+import { t } from '../i18n/ui';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).cookie;
+---
+<section class="cookie bg-ink on-ink" aria-label="Cookies" data-cookie hidden>
+  <div class="inner">
+    <p>{d.text}</p>
+    <form class="settings" data-cookie-form hidden>
+      <label><input type="checkbox" checked disabled /> {lang === 'pl' ? 'Niezbędne (zawsze aktywne)' : 'Necessary (always on)'}</label>
+      <label><input type="checkbox" name="analytics" /> {d.analytics}</label>
+      <button type="submit" class="btn btn-cream">{d.save}</button>
+    </form>
+    <div class="btn-row" data-cookie-actions>
+      <button type="button" class="btn btn-orange" data-cookie-all>{d.all}</button>
+      <button type="button" class="btn btn-cream" data-cookie-necessary>{d.necessary}</button>
+      <button type="button" class="btn btn-outline" data-cookie-toggle aria-expanded="false">{d.settings}</button>
+    </div>
+  </div>
+</section>
+<style>
+  .cookie { position: fixed; z-index: 60; left: var(--space-3); right: var(--space-3); bottom: var(--space-3); max-width: 40rem; border: 3px solid var(--ofca-orange); }
+  .inner { padding: var(--space-5); display: grid; gap: var(--space-4); }
+  .settings { display: grid; gap: var(--space-3); }
+  .settings label { display: flex; align-items: center; gap: var(--space-2); min-height: 32px; }
+  .settings input { width: 22px; height: 22px; accent-color: var(--ofca-orange); }
+</style>

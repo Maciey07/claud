@@ -1,0 +1,461 @@
+{
+  "_meta": {
+    "status": "Nazwy i ceny z obecnego Sklepiku (27.09.2026). Opisy, materiały, rozmiary i stany magazynowe: [DO UZUPEŁNIENIA] Rozmiary wariantów i brak XL koszulki Highline są demonstracyjne. „Skarpety, romby” występują w sklepie dwa razy: do scalenia lub rozróżnienia. 17. produkt: [DO UZUPEŁNIENIA]"
+  },
+  "products": [
+    {
+      "slug": "koszulka-festiwal-ofca-2026",
+      "name": {
+        "pl": "Koszulka Festiwal OFCA 2026",
+        "en": "T-shirt OFCA Festival 2026"
+      },
+      "category": "odziez",
+      "price": 85,
+      "art": {
+        "kind": "tee",
+        "bg": "orange",
+        "fg": "cream",
+        "print": "ofca-2026"
+      },
+      "variants": [
+        {
+          "size": "S",
+          "sku": "TEE-F26-S",
+          "stock": null
+        },
+        {
+          "size": "M",
+          "sku": "TEE-F26-M",
+          "stock": null
+        },
+        {
+          "size": "L",
+          "sku": "TEE-F26-L",
+          "stock": null
+        },
+        {
+          "size": "XL",
+          "sku": "TEE-F26-XL",
+          "stock": null
+        }
+      ],
+      "sizeGuide": "tee",
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "koszulka-ofca-2026",
+      "name": {
+        "pl": "Koszulka OFCA 2026",
+        "en": "T-shirt OFCA 2026"
+      },
+      "category": "odziez",
+      "price": 85,
+      "art": {
+        "kind": "tee",
+        "bg": "lilac",
+        "fg": "white",
+        "print": "ofca"
+      },
+      "variants": [
+        {
+          "size": "S",
+          "sku": "TEE-26-S",
+          "stock": null
+        },
+        {
+          "size": "M",
+          "sku": "TEE-26-M",
+          "stock": null
+        },
+        {
+          "size": "L",
+          "sku": "TEE-26-L",
+          "stock": null
+        },
+        {
+          "size": "XL",
+          "sku": "TEE-26-XL",
+          "stock": null
+        }
+      ],
+      "sizeGuide": "tee",
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "koszulka-ofca-highline",
+      "name": {
+        "pl": "Koszulka OFCA Highline",
+        "en": "T-shirt OFCA Highline"
+      },
+      "category": "odziez",
+      "price": 85,
+      "art": {
+        "kind": "tee",
+        "bg": "ink",
+        "fg": "cream",
+        "print": "highline"
+      },
+      "variants": [
+        {
+          "size": "S",
+          "sku": "TEE-HL-S",
+          "stock": null
+        },
+        {
+          "size": "M",
+          "sku": "TEE-HL-M",
+          "stock": null
+        },
+        {
+          "size": "L",
+          "sku": "TEE-HL-L",
+          "stock": null
+        },
+        {
+          "size": "XL",
+          "sku": "TEE-HL-XL",
+          "stock": 0
+        }
+      ],
+      "sizeGuide": "tee",
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "kubek",
+      "name": {
+        "pl": "Kubek",
+        "en": "Mug"
+      },
+      "category": "akcesoria",
+      "price": 40,
+      "art": {
+        "kind": "mug",
+        "bg": "cream",
+        "fg": "orange"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "magnes-pomaranczowy",
+      "name": {
+        "pl": "Magnes, pomarańczowy",
+        "en": "Magnet, orange"
+      },
+      "category": "przypinki-magnesy",
+      "price": 28,
+      "art": {
+        "kind": "magnet",
+        "bg": "lilac",
+        "fg": "orange"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "napis-ofca-pomarancz",
+      "name": {
+        "pl": "Napis OFCA, pomarańcz",
+        "en": "OFCA lettering, orange"
+      },
+      "category": "przypinki-magnesy",
+      "price": 22,
+      "art": {
+        "kind": "lettering",
+        "bg": "cream",
+        "fg": "orange"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "pins-namiot-cyrkowy-pomaranczowy",
+      "name": {
+        "pl": "Pins namiot cyrkowy, pomarańczowy",
+        "en": "Circus tent pin, orange"
+      },
+      "category": "przypinki-magnesy",
+      "price": 24,
+      "art": {
+        "kind": "pin-tent",
+        "bg": "lilac",
+        "fg": "orange"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "pins-namiot-cyrkowy-zielony",
+      "name": {
+        "pl": "Pins namiot cyrkowy, zielony",
+        "en": "Circus tent pin, green"
+      },
+      "category": "przypinki-magnesy",
+      "price": 24,
+      "art": {
+        "kind": "pin-tent",
+        "bg": "ink",
+        "fg": "mint"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "pins-napis-ofca-fioletowy",
+      "name": {
+        "pl": "Pins napis OFCA, fioletowy",
+        "en": "OFCA lettering pin, purple"
+      },
+      "category": "przypinki-magnesy",
+      "price": 22,
+      "art": {
+        "kind": "pin-text",
+        "bg": "orange",
+        "fg": "lilac"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "skarpety-cyrkowe-namioty",
+      "name": {
+        "pl": "Skarpety, cyrkowe namioty",
+        "en": "Socks, circus tents"
+      },
+      "category": "odziez",
+      "price": 30,
+      "art": {
+        "kind": "socks",
+        "bg": "lilac",
+        "fg": "orange",
+        "motif": "tents"
+      },
+      "variants": [
+        {
+          "size": "36–40",
+          "sku": "SOCK-TENT-36-40",
+          "stock": null
+        },
+        {
+          "size": "41–46",
+          "sku": "SOCK-TENT-41-46",
+          "stock": null
+        }
+      ],
+      "sizeGuide": "socks",
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "skarpety-romby",
+      "name": {
+        "pl": "Skarpety, romby",
+        "en": "Socks, diamonds"
+      },
+      "category": "odziez",
+      "price": 30,
+      "art": {
+        "kind": "socks",
+        "bg": "orange",
+        "fg": "lilac",
+        "motif": "diamonds"
+      },
+      "variants": [
+        {
+          "size": "36–40",
+          "sku": "SOCK-DIA-36-40",
+          "stock": null
+        },
+        {
+          "size": "41–46",
+          "sku": "SOCK-DIA-41-46",
+          "stock": null
+        }
+      ],
+      "sizeGuide": "socks",
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "torba-festiwalowa-duza",
+      "name": {
+        "pl": "Torba festiwalowa, duża",
+        "en": "Festival tote, large"
+      },
+      "category": "torby",
+      "price": 65,
+      "art": {
+        "kind": "tote",
+        "bg": "lilac",
+        "fg": "cream",
+        "size": "l"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "torba-festiwalowa-srednia",
+      "name": {
+        "pl": "Torba festiwalowa, średnia",
+        "en": "Festival tote, medium"
+      },
+      "category": "torby",
+      "price": 55,
+      "art": {
+        "kind": "tote",
+        "bg": "orange",
+        "fg": "cream",
+        "size": "m"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "torba-festiwalowa-czarna-mala",
+      "name": {
+        "pl": "Torba festiwalowa czarna, mała",
+        "en": "Festival tote, black, small"
+      },
+      "category": "torby",
+      "price": 50,
+      "art": {
+        "kind": "tote",
+        "bg": "cream",
+        "fg": "ink",
+        "size": "s"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    },
+    {
+      "slug": "torba-festiwalowa-mala",
+      "name": {
+        "pl": "Torba festiwalowa, mała",
+        "en": "Festival tote, small"
+      },
+      "category": "torby",
+      "price": 50,
+      "art": {
+        "kind": "tote",
+        "bg": "orange",
+        "fg": "cream",
+        "size": "s"
+      },
+      "variants": null,
+      "sizeGuide": null,
+      "description": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "material": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      }
+    }
+  ]
+}

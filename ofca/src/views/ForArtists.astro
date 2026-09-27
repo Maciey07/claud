@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { href } from '../i18n/routes';
+import { site } from '../site.config';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const c = pl ? {
+  title: 'Dla artystów', h: 'Wystąp na OFCE', desc: 'Jak zgłosić spektakl na Festiwal Cyrku Współczesnego OFCA: kroki, terminy, kontakt.',
+  lead: 'Szukamy spektakli, które zamieniają ulicę w scenę.',
+  steps: [
+    { h: 'Przygotuj materiały', p: `Opis spektaklu, zdjęcia, wideo, rider techniczny. Szczegóły: ${T}` },
+    { h: 'Wyślij zgłoszenie', p: `Formularz lub e-mail: ${T}` },
+    { h: 'Czekaj na odpowiedź', p: `Termin ogłoszenia wyników: ${T}` },
+  ],
+  dates: 'Terminy naboru', datesP: `Otwarcie i zamknięcie naboru na edycję ${2027}: ${T}`,
+  what: 'Czego szukamy', whatList: ['Spektakli ulicznych, otwartych dla wszystkich, zwykle familijnych.', 'Spektakli scenicznych pod namiotami.', 'Pokazów ognia do amfiteatru.', `Warunki (honoraria, nocleg, podróż): ${T}`],
+  cta: 'Zgłoś spektakl', subject: 'Zgłoszenie spektaklu OFCA',
+} : {
+  title: 'For artists', h: 'Perform at OFCA', desc: 'How to apply to perform at the OFCA Contemporary Circus Festival: steps, dates, contact.',
+  lead: 'We’re looking for shows that turn a street into a stage.',
+  steps: [
+    { h: 'Prepare your materials', p: `Show description, photos, video, tech rider. Details: ${T}` },
+    { h: 'Send your application', p: `Form or email: ${T}` },
+    { h: 'Hear back from us', p: `Results announced: ${T}` },
+  ],
+  dates: 'Open call dates', datesP: `Open call for the 2027 edition opens and closes: ${T}`,
+  what: 'What we’re looking for', whatList: ['Street shows, open to all, usually family-friendly.', 'Stage shows under canvas.', 'Fire shows for the amphitheatre.', `Terms (fees, accommodation, travel): ${T}`],
+  cta: 'Apply with your show', subject: 'OFCA show application',
+};
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="forArtists" breadcrumbs={[{ name: c.title, url: href('forArtists', lang) }]}>
+  <PageHero title={c.h} kicker={c.title} lead={c.lead} tone="orange" />
+  <div class="wrap section stack" style="--flow: var(--space-8)">
+    <ol class="steps" data-reveal="stagger">
+      {c.steps.map((s, i) => <li><span class="num" aria-hidden="true">{i + 1}</span><h2 class="h3">{s.h}</h2><p>{s.p}</p></li>)}
+    </ol>
+    <div class="cols">
+      <section class="prose"><h2>{c.what}</h2><ul>{c.whatList.map((w) => <li>{w}</li>)}</ul></section>
+      <section class="card bg-lilac stack"><h2 class="h3">{c.dates}</h2><p>{c.datesP}</p>
+        <a class="btn" href={`mailto:${site.emails.office}?subject=${encodeURIComponent(c.subject)}`}>{c.cta}</a>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .steps { list-style: none; padding: 0; display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); counter-reset: s; }
+  .steps li { border: 3px solid var(--ofca-ink); background: var(--ofca-white); padding: var(--space-5); display: grid; gap: var(--space-3); align-content: start; max-width: none; }
+  .num { font-family: var(--font-display); font-weight: 900; font-size: 4rem; line-height: 0.8; color: var(--ofca-orange-deep); font-variation-settings: 'wdth' 150; }
+  .steps h2 { text-transform: uppercase; }
+  .cols { display: grid; gap: var(--space-7); }
+  @media (min-width: 900px) { .cols { grid-template-columns: 1.3fr 1fr; align-items: start; } }
+  .card { border: 3px solid var(--ofca-ink); padding: var(--space-5); }
+  .prose h2 { margin-top: 0; }
+</style>

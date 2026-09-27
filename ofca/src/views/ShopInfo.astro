@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { href } from '../i18n/routes';
+import { site } from '../site.config';
+import type { Lang } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const sections = pl ? [
+  { id: 'dostawa', h: 'Dostawa', body: [`Sposoby i koszty dostawy: ${T}`, `Czas realizacji: ${T}`, 'W trakcie festiwalu możecie też odebrać zamówienie w Infopunkcie na Rynku. Bez kosztów wysyłki.'] },
+  { id: 'platnosci', h: 'Płatności', body: [`Metody płatności: ${T} (przenieść z obecnego /sklepik/informacje/).`] },
+  { id: 'zwroty', h: 'Zwroty', body: [`Zasady i termin zwrotu: ${T}`, `Pytania o zwrot: ${site.emails.shop}`] },
+  { id: 'reklamacje', h: 'Reklamacje', body: [`Procedura reklamacji: ${T}`, `Zgłoszenia: ${site.emails.shop}`] },
+  { id: 'regulamin', h: 'Regulamin Sklepiku', body: [`Treść regulaminu: ${T}`] },
+  { id: 'prywatnosc', h: 'Polityka prywatności', body: [`Administrator danych: ${site.foundation.name}, ${site.foundation.street}, ${site.foundation.city}.`, `Pełna treść polityki prywatności i cookies: ${T}`] },
+] : [
+  { id: 'delivery', h: 'Delivery', body: [`Delivery options and costs: ${T}`, `Processing time: ${T}`, 'During the festival you can also pick up your order at the Infopunkt on Rynek (Market Square). No shipping costs.'] },
+  { id: 'payment', h: 'Payment', body: [`Payment methods: ${T}`] },
+  { id: 'returns', h: 'Returns', body: [`Return policy and deadline: ${T}`, `Questions about returns: ${site.emails.shop}`] },
+  { id: 'complaints', h: 'Complaints', body: [`Complaints procedure: ${T}`, `Contact: ${site.emails.shop}`] },
+  { id: 'terms', h: 'Shop terms', body: [`Terms: ${T}`] },
+  { id: 'privacy', h: 'Privacy policy', body: [`Data controller: OFCA Foundation (${site.foundation.name}), ${site.foundation.street}, ${site.foundation.city}, Poland.`, `Full privacy and cookie policy: ${T}`] },
+];
+const title = pl ? 'Informacje o zakupach' : 'Shopping information';
+---
+<BaseLayout lang={lang} title={title} description={pl ? 'Dostawa, płatności, zwroty, reklamacje i regulamin Sklepiku OFCA.' : 'Delivery, payment, returns, complaints and terms for the OFCA shop.'} route="shopInfo" breadcrumbs={[{ name: pl ? 'Sklepik' : 'Shop', url: href('shop', lang) }, { name: title, url: href('shopInfo', lang) }]}>
+  <PageHero title={title} tone="ink" crumbs={[{ label: pl ? 'Sklepik' : 'Shop', href: href('shop', lang) }]} />
+  <div class="wrap layout">
+    <nav class="toc" aria-label={pl ? 'Spis treści' : 'Contents'}>
+      <ul>{sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}</ul>
+    </nav>
+    <div class="prose">
+      {sections.map((s) => (
+        <section id={s.id} aria-labelledby={`h-${s.id}`}>
+          <h2 id={`h-${s.id}`}>{s.h}</h2>
+          {s.body.map((b) => <p>{b}</p>)}
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .layout { display: grid; gap: var(--space-7); padding-block: var(--space-8) var(--space-9); }
+  @media (min-width: 900px) { .layout { grid-template-columns: 16rem 1fr; } .toc { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; } }
+  .toc ul { list-style: none; padding: 0; display: grid; gap: var(--space-2); border-left: 4px solid var(--ofca-orange); padding-left: var(--space-4); }
+  .toc a { font-weight: 700; display: inline-block; min-height: 32px; }
+  section:first-child h2 { margin-top: 0; }
+</style>

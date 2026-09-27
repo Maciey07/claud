@@ -1,0 +1,27 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import InfoNav from '../components/InfoNav.astro';
+import { href, type RouteKey } from '../i18n/routes';
+import type { Lang } from '../lib/types';
+
+interface Props { lang: Lang; route: RouteKey; title: string; heading?: string; description: string; lead?: string; tone?: 'orange' | 'lilac' | 'ink'; jsonLd?: object }
+const { lang, route, title, heading, description, lead, tone = 'lilac', jsonLd } = Astro.props;
+const crumbs = route === 'info' ? [{ name: 'Info', url: href('info', lang) }] : [{ name: 'Info', url: href('info', lang) }, { name: title, url: href(route, lang) }];
+---
+<BaseLayout lang={lang} title={title} description={description} route={route} breadcrumbs={crumbs} jsonLd={jsonLd}>
+  <PageHero title={heading ?? title} lead={lead} tone={tone} crumbs={route === 'info' ? undefined : [{ label: 'Info', href: href('info', lang) }]} />
+  <div class="wrap"><InfoNav lang={lang} current={route} /></div>
+  <div class="wrap info-body">
+    <slot />
+  </div>
+</BaseLayout>
+<style>
+  .info-body { padding-block: var(--space-7) var(--space-9); }
+  .info-body :global(.prose) { max-width: 46rem; }
+  .info-body :global(.cols) { display: grid; gap: var(--space-7); }
+  .info-body :global(.cols > *) { min-width: 0; }
+  @media (min-width: 1024px) { .info-body :global(.cols) { grid-template-columns: minmax(0, 46rem) 1fr; } }
+  .info-body :global(.card) { border: 3px solid var(--ofca-ink); background: var(--ofca-white); padding: var(--space-5); }
+  .info-body :global(.card h2), .info-body :global(.card h3) { margin-top: 0; }
+</style>

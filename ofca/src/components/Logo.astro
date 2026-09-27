@@ -1,0 +1,14 @@
+---
+/** Znak słowny OFCA. [DO UZUPEŁNIENIA] zamienić na wektor logotypu z identyfikacji. */
+interface Props { size?: 'sm' | 'lg'; class?: string; labelled?: boolean }
+const { size = 'sm', class: cls, labelled = false } = Astro.props;
+---
+<span class:list={['logo', size, cls]} aria-hidden={labelled ? undefined : 'true'}>OFCA</span>
+<style>
+  .logo {
+    font-family: var(--font-display); font-weight: 900; line-height: 0.8; letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 150; text-transform: uppercase; display: inline-block;
+  }
+  .sm { font-size: 2rem; }
+  .lg { font-size: clamp(4rem, 14vw, 10rem); }
+</style>

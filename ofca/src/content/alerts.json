@@ -1,0 +1,20 @@
+{
+  "alerts": [
+    {
+      "id": "2026-08-15-zmiana-deszcz",
+      "active": true,
+      "from": "2026-08-15T09:00:00+02:00",
+      "to": "2026-08-15T23:59:00+02:00",
+      "priority": "change",
+      "title": {
+        "pl": "UWAGA ZMIANA!",
+        "en": "HEADS UP: CHANGE!"
+      },
+      "body": {
+        "pl": "[Tytuł spektaklu] w sobotę 15.08 zagramy o [godzina] w [miejsce] zamiast na Rynku. Powód: prognoza deszczu. Wstęp bez zmian.",
+        "en": "[Show title] on Saturday 15 August moves to [venue] at [time] instead of Rynek (Market Square). Reason: rain forecast. Entry unchanged."
+      },
+      "link": "program"
+    }
+  ]
+}

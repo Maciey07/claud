@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import { photo } from '../lib/photos';
+import type { Artist, Lang } from '../lib/types';
+import { fitCqi } from '../lib/fit';
+
+/** Plakat artysty w stylu ref-02: ramka, zdjęcie „chorągiewka”, pionowe OFCA i rok, nazwa w dwóch rozmiarach. */
+interface Props {
+  artist: Artist;
+  lang: Lang;
+  href?: string;
+  variant?: 'card' | 'hero';
+  level?: 1 | 2 | 3;
+  index?: number;
+  eager?: boolean;
+}
+const { artist, lang, href, variant = 'card', level = 3, index = 0, eager = false } = Astro.props;
+const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
+const Wrapper = href ? 'a' : 'div';
+const patterns = [
+  'diamonds p-lilac', 'checker p-checker', 'tent-rays p-rays', 'diamonds p-orange',
+];
+const pattern = patterns[index % patterns.length];
+const year = artist.editions.at(-1) ?? 2026;
+const mixedSize = fitCqi(artist.posterLines[0], 10, 0.78, 80);
+const capsSize = fitCqi(artist.posterLines[1], variant === 'hero' ? 14 : 13, 1.12, 80);
+---
+<article class:list={['poster', variant]}>
+  <Wrapper class="frame" href={href}>
+    <div class="photo flag" data-flag-anim="7%">
+      {artist.image ? (
+        <Image
+          src={photo(artist.image)}
+          alt={artist.imageAlt?.[lang] ?? ''}
+          widths={variant === 'hero' ? [480, 800, 1100] : [360, 540, 720]}
+          sizes={variant === 'hero' ? '(min-width: 1024px) 45vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 600px) 45vw, 90vw'}
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : undefined}
+        />
+      ) : (
+        <div class:list={['placeholder', pattern]} role="img" aria-label={lang === 'pl' ? 'Zdjęcie artysty w przygotowaniu' : 'Artist photo coming soon'}>
+          <svg viewBox="0 0 120 120" class="balls" aria-hidden="true"><circle cx="30" cy="80" r="14" /><circle cx="60" cy="40" r="14" /><circle cx="90" cy="80" r="14" /></svg>
+          <span class="ph-label">{lang === 'pl' ? 'Zdjęcie' : 'Photo'} [DO UZUPEŁNIENIA]</span>
+        </div>
+      )}
+    </div>
+    <span class="v v-ofca" aria-hidden="true">OFCA</span>
+    <span class="v v-year" aria-hidden="true">{year}</span>
+    <Tag class="name">
+      <span class="mixed" style={`font-size:${mixedSize}`}>{artist.posterLines[0]}</span>
+      <span class="caps" style={`font-size:${capsSize}`}>{artist.posterLines[1]}</span>
+      <span class="visually-hidden">{artist.name !== `${artist.posterLines[0]} ${artist.posterLines[1]}` ? `(${artist.name})` : ''}</span>
+    </Tag>
+  </Wrapper>
+</article>
+
+<style>
+  .poster { container-type: inline-size; height: 100%; }
+  .frame {
+    display: grid; grid-template-rows: auto 1fr; height: 100%; position: relative; text-decoration: none;
+    background: var(--ofca-orange-deep); color: var(--ofca-cream);
+    padding: 9cqi max(30px, 9cqw) 7cqi max(30px, 9cqw);
+    transition: transform 250ms var(--ease-out);
+  }
+  a.frame:hover { transform: rotate(-1.2deg) scale(1.015); }
+  a.frame:hover .caps { text-decoration: underline; text-decoration-thickness: 4px; }
+  .photo { aspect-ratio: 4 / 4.4; overflow: hidden; background: var(--ofca-ink); }
+  .photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .v {
+    position: absolute; writing-mode: vertical-rl; transform: rotate(180deg);
+    font-family: var(--font-display); font-weight: 900; font-size: max(24px, 6.5cqw); line-height: 1;
+    font-variation-settings: 'wdth' 120;
+  }
+  .v-ofca { left: max(3px, 1.4cqw); top: 3cqw; }
+  .v-year { right: 1.2cqw; bottom: 3cqw; }
+  .name { margin-top: 3cqi; line-height: 0.88; text-transform: none; font-size: inherit; overflow-wrap: anywhere; }
+  .name .mixed { display: block; font-variation-settings: 'wdth' 110; letter-spacing: -0.02em; }
+  .name .caps { display: block; font-variation-settings: 'wdth' 115; text-transform: uppercase; }
+  .placeholder { width: 100%; height: 100%; position: relative; display: grid; place-items: center; }
+  .p-lilac { --d-bg: var(--ofca-cream); --d-fg: var(--ofca-lilac); --d-w: 12cqi; }
+  .p-orange { --d-bg: var(--ofca-lilac); --d-fg: var(--ofca-orange); --d-w: 12cqi; }
+  .p-checker { --c-a: var(--ofca-ink); --c-b: var(--ofca-cream); --c-size: 14cqi; }
+  .balls { width: 50%; fill: var(--ofca-ink); }
+  .p-checker .balls { fill: var(--ofca-orange); }
+  .p-rays .balls { fill: var(--ofca-lilac); }
+  .ph-label {
+    position: absolute; left: 0; right: 0; bottom: 0; background: var(--ofca-ink); color: var(--ofca-cream);
+    font-size: max(0.75rem, 3.6cqi); font-weight: 700; padding: 1.5cqi 3cqi; text-align: center;
+  }
+</style>

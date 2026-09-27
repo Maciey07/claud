@@ -1,0 +1,298 @@
+{
+  "_meta": {
+    "status": "Lista z obecnej podstrony Artyści, do weryfikacji. Kraje, dyscypliny, opisy i zdjęcia: [DO UZUPEŁNIENIA]"
+  },
+  "artists": [
+    {
+      "slug": "my-laika",
+      "name": "My!Laika",
+      "posterLines": [
+        "My!",
+        "LAIKA"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "liam-lelarge-kim-marro",
+      "name": "Liam Lelarge et Kim Marro",
+      "posterLines": [
+        "Liam Lelarge et",
+        "KIM MARRO"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "barbaren-barbies",
+      "name": "Barbaren Barbies",
+      "posterLines": [
+        "Barbaren",
+        "BARBIES"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "company-alud-maelstrom",
+      "name": "Company Alud: Maelstrom",
+      "posterLines": [
+        "Company Alud",
+        "MAELSTROM"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "company-alud-tangled-up",
+      "name": "Company Alud: Tangled UP",
+      "posterLines": [
+        "Company Alud",
+        "TANGLED UP"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "cie-e1nz",
+      "name": "Cie E1NZ",
+      "posterLines": [
+        "Cie",
+        "E1NZ"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "zirkus-morsa",
+      "name": "Zirkus Morsa",
+      "posterLines": [
+        "Zirkus",
+        "MORSA"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "be-flat",
+      "name": "Be Flat",
+      "posterLines": [
+        "Be",
+        "FLAT"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "rasoterra-circo",
+      "name": "Rasoterra Circo",
+      "posterLines": [
+        "Rasoterra",
+        "CIRCO"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "wise-fools",
+      "name": "Wise Fools",
+      "posterLines": [
+        "Wise",
+        "FOOLS"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "pina-polar",
+      "name": "Pina Polar",
+      "posterLines": [
+        "Pina",
+        "POLAR"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "what-is-love",
+      "name": "What is Love",
+      "posterLines": [
+        "What is",
+        "LOVE"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "krzysztof-kostera",
+      "name": "Krzysztof Kostera",
+      "posterLines": [
+        "Krzysztof",
+        "KOSTERA"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "domicirco",
+      "name": "DomiCirco",
+      "posterLines": [
+        "Domi",
+        "CIRCO"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "tripotes-la-compagnie",
+      "name": "Tripotes la Compagnie",
+      "posterLines": [
+        "Tripotes la",
+        "COMPAGNIE"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    },
+    {
+      "slug": "teatr-wernisaz",
+      "name": "Teatr Wernisaż",
+      "posterLines": [
+        "Teatr",
+        "WERNISAŻ"
+      ],
+      "country": null,
+      "discipline": null,
+      "description": null,
+      "image": "teatr-wernisaz",
+      "imageAlt": {
+        "pl": "Trzy artystki w klaunowskim makijażu i białych kryzach kręcą płonącymi rekwizytami na tle wieczornego nieba.",
+        "en": "Three performers in clown make-up and white ruffs spin burning props against the evening sky."
+      },
+      "videoUrl": null,
+      "links": [],
+      "editions": [
+        2026
+      ]
+    }
+  ]
+}

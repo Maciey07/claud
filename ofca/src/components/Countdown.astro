@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import { photo } from '../lib/photos';
+import { dayForms } from '../lib/pluralize';
+import { countdownTarget, daysUntil } from '../lib/festival-mode';
+import { festival } from '../site.config';
+import type { Lang } from '../lib/types';
+
+/**
+ * Odliczanie w stylu ref-05: ogromna cyfra, postać w fioletowym duotonie.
+ * Tło orange-deep zamiast orange: kremowy tekst ma wtedy 3,7:1 (duży tekst, WCAG AA).
+ */
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const buildNow = new Date();
+const target = countdownTarget(buildNow, festival) ?? festival.start;
+const n = daysUntil(buildNow, target);
+const forms = dayForms(n);
+---
+<section class="countdown bg-deep" aria-labelledby="countdown-title" data-countdown data-target={target} data-lang={lang}>
+  <div class="wrap inner">
+    <h2 id="countdown-title" class="visually-hidden" data-cd-sr>
+      {lang === 'pl' ? `Do festiwalu ${forms.verb} ${n} ${forms.unit}` : `${n === 1 ? '1 day' : `${n} days`} to go until the festival`}
+    </h2>
+    <div class="art" aria-hidden="true">
+      <p class="top">{lang === 'pl' ? <>Do festiwalu<br /><span data-cd-verb>{forms.verb}</span></> : <>Until the<br />festival</>}</p>
+      <p class="num" data-cd-num>{String(n).split('').map((c) => <span data-digit>{c}</span>)}</p>
+      <p class="unit" data-cd-unit>{lang === 'pl' ? forms.unit : n === 1 ? 'day' : 'days'}</p>
+      <div class="figure" data-sway>
+        <Image src={photo('parasol-duotone')} alt="" widths={[360, 600, 810]} sizes="(min-width: 1024px) 40vw, 70vw" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .countdown { overflow: hidden; }
+  .inner { padding-block: var(--space-8); }
+  .art { position: relative; aspect-ratio: 1; max-width: 760px; margin-inline: auto; container-type: inline-size; }
+  .art > p { max-width: none; z-index: 2; }
+  .top, .unit {
+    font-family: var(--font-display); font-weight: 900; text-transform: uppercase; line-height: 0.95;
+    font-size: 8cqi; color: var(--ofca-cream); font-variation-settings: 'wdth' 140;
+  }
+  .top { position: absolute; top: 5cqi; left: 6cqi; }
+  .unit { position: absolute; bottom: 6cqi; left: 6cqi; }
+  .num {
+    position: absolute; left: 5cqi; top: 34cqi; display: flex; perspective: 600px;
+    font-family: var(--font-display); font-weight: 900; font-size: 42cqi; line-height: 0.72; color: var(--ofca-cream);
+    font-variation-settings: 'wdth' 150; letter-spacing: -0.03em;
+  }
+  .num span { display: inline-block; transform-style: preserve-3d; }
+  .figure { position: absolute; right: -2cqi; bottom: -4cqi; width: 76cqi; z-index: 1; }
+  .figure :global(img) { width: 100%; height: auto; }
+</style>
+
+<script>
+  import { dayForms } from '../lib/pluralize';
+  import { daysUntil } from '../lib/festival-mode';
+  import { now } from '../lib/clock';
+
+  // Aktualizacja po stronie klienta (strona statyczna mogła zostać zbudowana kilka dni temu)
+  document.querySelectorAll<HTMLElement>('[data-countdown]').forEach((el) => {
+    const n = daysUntil(now(), el.dataset.target!);
+    const lang = el.dataset.lang;
+    const forms = dayForms(n);
+    const num = el.querySelector('[data-cd-num]')!;
+    num.innerHTML = String(n).split('').map((c) => `<span data-digit>${c}</span>`).join('');
+    const verb = el.querySelector('[data-cd-verb]');
+    if (verb) verb.textContent = forms.verb;
+    el.querySelector('[data-cd-unit]')!.textContent = lang === 'pl' ? forms.unit : n === 1 ? 'day' : 'days';
+    el.querySelector('[data-cd-sr]')!.textContent = lang === 'pl' ? `Do festiwalu ${forms.verb} ${n} ${forms.unit}` : `${n === 1 ? '1 day' : `${n} days`} to go until the festival`;
+  });
+</script>

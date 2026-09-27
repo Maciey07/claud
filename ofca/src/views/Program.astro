@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import EventCard from '../components/EventCard.astro';
+import AlertBanner from '../components/AlertBanner.astro';
+import Icon from '../components/Icon.astro';
+import { events, eventDay, eventTitle, festivalDays, locationById, locations, programIsDemo } from '../lib/data';
+import { dayLabel, dayLong } from '../lib/format';
+import { href, queryKeys } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { site } from '../site.config';
+import type { EventType, Lang } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const pl = lang === 'pl';
+const q = queryKeys[lang];
+const daySlugs = pl ? ['pt', 'sob', 'nd'] : ['fri', 'sat', 'sun'];
+const typeSlugs: Record<EventType, string> = pl
+  ? { street: 'uliczne', stage: 'sceniczne', workshop: 'warsztaty', concert: 'koncerty', fire: 'ogien', other: 'inne' }
+  : { street: 'street', stage: 'stage', workshop: 'workshops', concert: 'concerts', fire: 'fire', other: 'other' };
+const typeOrder: EventType[] = ['street', 'stage', 'workshop', 'fire', 'concert', 'other'];
+const usedPlaces = locations.filter((l) => events.some((e) => e.locationId === l.id));
+const c = pl ? {
+  title: 'Program', desc: 'Program Festiwalu OFCA 2026: spektakle uliczne i sceniczne, warsztaty, ogień i koncerty. Filtruj po dniu, miejscu i typie, ułóż swój plan.',
+  lead: `Trzy dni, ${events.length} wydarzeń, jedno miasto.`,
+  days: 'Dni festiwalu', plan: 'Mój plan', filters: 'Filtry', all: 'Wszystko', type: 'Typ', place: 'Miejsce', anyPlace: 'Wszystkie miejsca',
+  ticket: 'Bilet', free: 'Bezpłatne', paid: 'Biletowane', empty: 'Nic tu nie znaleźliśmy. Spróbuj usunąć któryś filtr.',
+  planEmpty: 'Twój plan jest pusty. Dodaj spektakle gwiazdką przy wydarzeniu.', planExport: 'Pobierz cały plan do kalendarza',
+  results: (n: number) => n === 1 ? 'Pokazujemy 1 wydarzenie' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? `Pokazujemy ${n} wydarzenia` : `Pokazujemy ${n} wydarzeń`,
+  conflict: 'Ten spektakl nakłada się z: {x}. Wybierz jeden albo biegnij szybko.',
+  added: 'Dodano do planu', removed: 'Usunięto z planu',
+} : {
+  title: 'Programme', desc: 'OFCA 2026 programme: street and stage shows, workshops, fire and concerts. Filter by day, venue and type, and build your own plan.',
+  lead: `Three days, ${events.length} events, one town.`,
+  days: 'Festival days', plan: 'My plan', filters: 'Filters', all: 'Everything', type: 'Type', place: 'Venue', anyPlace: 'All venues',
+  ticket: 'Ticket', free: 'Free', paid: 'Ticketed', empty: 'Nothing here. Try removing a filter.',
+  planEmpty: 'Your plan is empty. Add shows with the star on each event.', planExport: 'Add the whole plan to your calendar',
+  results: (n: number) => (n === 1 ? 'Showing 1 event' : `Showing ${n} events`),
+  conflict: 'This overlaps with: {x}. Pick one, or run fast.',
+  added: 'Added to your plan', removed: 'Removed from your plan',
+};
+const config = {
+  lang, q, daySlugs, days: festivalDays, typeSlugs, labels: { results: '', conflict: c.conflict, added: c.added, removed: c.removed },
+  siteUrl: site.url, programPath: href('program', lang),
+};
+const resultsForms = pl
+  ? { one: 'Pokazujemy 1 wydarzenie', few: 'Pokazujemy {n} wydarzenia', many: 'Pokazujemy {n} wydarzeń' }
+  : { one: 'Showing 1 event', few: 'Showing {n} events', many: 'Showing {n} events' };
+const jsonLd = events.slice(0, 50).map((e) => {
+  const loc = locationById(e.locationId);
+  return {
+    '@context': 'https://schema.org', '@type': 'Event', name: eventTitle(e, lang), startDate: e.start, endDate: e.end,
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', eventStatus: 'https://schema.org/EventScheduled',
+    location: { '@type': 'Place', name: loc?.name[lang], address: { '@type': 'PostalAddress', addressLocality: 'Oleśnica', addressCountry: 'PL' } },
+    ...(e.ticket.kind === 'free' ? { isAccessibleForFree: true } : {}),
+    organizer: { '@type': 'Organization', name: site.foundation.name, url: site.url },
+  };
+});
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="program" fullAlert jsonLd={programIsDemo ? undefined : jsonLd} breadcrumbs={[{ name: c.title, url: href('program', lang) }]}>
+  <PageHero title={c.title} lead={c.lead} tone="orange" />
+  <AlertBanner lang={lang} variant="full" />
+
+  <section class="program wrap" aria-label={c.title} data-program>
+    {programIsDemo && <p class="demo" role="note"><Icon name="info" size={22} />{d.common.demoProgram}</p>}
+
+    <div class="controls">
+      <div class="tabs" role="tablist" aria-label={c.days}>
+        {festivalDays.map((day, i) => (
+          <button type="button" role="tab" class="tab" id={`tab-${daySlugs[i]}`} aria-controls="program-panel" aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab={daySlugs[i]}>
+            {dayLabel(day, lang)}
+          </button>
+        ))}
+        <button type="button" role="tab" class="tab tab-plan" id="tab-plan" aria-controls="program-panel" aria-selected="false" tabindex="-1" data-tab="plan">
+          <Icon name="star-filled" size={20} />{c.plan} <span class="plan-count" data-plan-count>0</span>
+        </button>
+      </div>
+
+      <details class="filters" open data-filters>
+        <summary class="label">{c.filters} <span data-filter-count></span></summary>
+        <div class="filter-body">
+          <fieldset>
+            <legend class="label">{c.type}</legend>
+            <div class="chips">
+              <button type="button" class="chip" aria-pressed="true" data-filter-all>{c.all}</button>
+              {typeOrder.filter((ty) => events.some((e) => e.type === ty)).map((ty) => (
+                <button type="button" class="chip" aria-pressed="false" data-filter-type={ty}>{d.types[ty]}</button>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend class="visually-hidden">{lang === 'pl' ? 'Dla kogo i bilety' : 'Audience and tickets'}</legend>
+            <div class="chips">
+              <button type="button" class="chip" aria-pressed="false" data-filter-flag="kids">{d.common.forKids}</button>
+              <button type="button" class="chip" aria-pressed="false" data-filter-flag="nolang">{d.common.noWords}</button>
+              <button type="button" class="chip" aria-pressed="false" data-filter-ticket="free">{c.free}</button>
+              <button type="button" class="chip" aria-pressed="false" data-filter-ticket="paid">{c.paid}</button>
+            </div>
+          </fieldset>
+          <div class="field place-field">
+            <label for="place-select" class="label">{c.place}</label>
+            <select id="place-select" class="input" data-filter-place>
+              <option value="">{c.anyPlace}</option>
+              {usedPlaces.map((l) => <option value={l.id}>{l.name[lang]}</option>)}
+            </select>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <p class="results label" aria-live="polite" data-results></p>
+
+    <div id="program-panel" role="tabpanel" aria-labelledby="tab-pt" data-panel tabindex="-1">
+      {festivalDays.map((day) => (
+        <section class="day" data-day-group={day} aria-labelledby={`day-${day}`}>
+          <h2 id={`day-${day}`} class="day-title">{dayLong(day, lang)}</h2>
+          <div class="list">
+            {events.filter((e) => eventDay(e) === day).map((e) => <EventCard event={e} lang={lang} level={3} />)}
+          </div>
+        </section>
+      ))}
+      <p class="empty" data-empty hidden>{c.empty}</p>
+      <div class="plan-empty" data-plan-empty hidden>
+        <p>{c.planEmpty}</p>
+      </div>
+      <div class="plan-tools" data-plan-tools hidden>
+        <button type="button" class="btn" data-ics-all><Icon name="download" size={22} />{c.planExport}</button>
+      </div>
+    </div>
+    <p class="visually-hidden" aria-live="polite" data-plan-announce></p>
+  </section>
+  <script type="application/json" data-program-config set:html={JSON.stringify({ ...config, resultsForms })} />
+</BaseLayout>
+
+<style>
+  .program { padding-block: var(--space-8) var(--space-9); }
+  .demo { display: flex; gap: var(--space-3); align-items: flex-start; max-width: none; background: var(--ofca-white); border: 3px dashed var(--ofca-ink); padding: var(--space-4); margin-bottom: var(--space-6); font-weight: 600; }
+  .demo :global(svg) { flex-shrink: 0; }
+  .controls { display: grid; gap: var(--space-5); position: sticky; top: calc(var(--header-h) + 4px); z-index: 20; background: var(--ofca-cream); padding-block: var(--space-4) var(--space-3); border-bottom: 3px solid var(--ofca-ink); }
+  @media (max-width: 767px) { .controls { position: static; } }
+  .tabs { display: flex; gap: var(--space-2); overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+  .tab {
+    flex-shrink: 0; min-height: 52px; padding: 0.4em 1.1em; border: 3px solid var(--ofca-ink); background: var(--ofca-white);
+    font-family: var(--font-display); font-weight: 900; font-size: 1.15rem; text-transform: uppercase; font-variation-settings: 'wdth' 115;
+    display: inline-flex; align-items: center; gap: 0.4em;
+  }
+  .tab[aria-selected='true'] { background: var(--ofca-orange); box-shadow: 5px 5px 0 var(--ofca-ink); }
+  .tab-plan { background: var(--ofca-lilac); }
+  .plan-count { background: var(--ofca-ink); color: var(--ofca-cream); border-radius: 1em; min-width: 1.7em; padding: 0 0.4em; font-size: 0.85rem; line-height: 1.7; text-align: center; }
+  .filters summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; gap: 0.5em; }
+  @media (min-width: 768px) { .filters summary { display: none; } }
+  .filter-body { display: grid; gap: var(--space-4); padding-top: var(--space-2); }
+  @media (min-width: 1024px) { .filter-body { grid-template-columns: auto auto minmax(14rem, 18rem); align-items: end; } }
+  fieldset { border: 0; padding: 0; min-width: 0; }
+  legend { margin-bottom: var(--space-2); }
+  .place-field .input { min-height: 44px; }
+  .results { margin-block: var(--space-5) var(--space-4); }
+  [data-panel]:focus { outline: none; }
+  .day + .day { margin-top: var(--space-8); }
+  .day-title { font-size: var(--fs-h3); margin-bottom: var(--space-4); text-transform: uppercase; }
+  .list { display: grid; gap: var(--space-4); }
+  .empty, .plan-empty { padding: var(--space-7) var(--space-5); border: 3px dashed var(--ofca-ink); font-size: 1.2rem; font-weight: 600; text-align: center; }
+  .empty, .plan-empty p { margin-inline: auto; }
+  .plan-tools { margin-top: var(--space-6); }
+</style>
+
+<script>
+  import { initProgram } from '../lib/program-client';
+  initProgram();
+</script>

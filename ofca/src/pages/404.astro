@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tent from '../components/Tent.astro';
+---
+<BaseLayout lang="pl" title="Ten numer wypadł z programu" description="Nie ma takiej strony. Wróć na arenę." route={null} alternates={{}} noindex>
+  <section class="nf bg-lilac" data-tents aria-labelledby="nf-title">
+    <div class="tent" data-tent-top><Tent flip /></div>
+    <div class="body wrap" data-tent-text>
+      <p class="code label">404</p>
+      <h1 id="nf-title">Ten numer wypadł z programu</h1>
+      <p class="lead">Strona, której szukasz, zniknęła jak królik z kapelusza.</p>
+      <div class="btn-row">
+        <a class="btn" href="/">Wróć na arenę</a>
+        <a class="btn btn-outline" href="/program">Zobacz program</a>
+      </div>
+      <p class="en" lang="en">This act has dropped out of the programme. <a href="/en/">Back to the ring</a>.</p>
+    </div>
+    <div class="tent" data-tent-bottom><Tent /></div>
+  </section>
+</BaseLayout>
+<style>
+  .nf { overflow: hidden; display: grid; justify-items: center; text-align: center; padding-top: var(--zigzag); }
+  .tent { width: min(520px, 80%); }
+  .body { padding-block: var(--space-6); display: grid; gap: var(--space-4); justify-items: center; container-type: inline-size; }
+  h1 { font-size: min(7rem, 9.5cqi); --wdth: 150; max-width: 16ch; }
+  .lead { max-width: 36rem; }
+  .btn-row { justify-content: center; }
+  .en { margin-top: var(--space-4); }
+</style>

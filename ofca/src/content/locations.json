@@ -1,0 +1,314 @@
+{
+  "_meta": {
+    "status": "Rozmieszczenie poglądowe. Dokładne lokalizacje i współrzędne potwierdzić z organizatorem (PRD 14, pytanie 6)."
+  },
+  "locations": [
+    {
+      "id": "rynek",
+      "name": {
+        "pl": "Rynek",
+        "en": "Rynek (Market Square)"
+      },
+      "type": "street",
+      "layers": [
+        "stages",
+        "highline",
+        "access"
+      ],
+      "description": {
+        "pl": "Główna arena festiwalu. Spektakle uliczne, a nad głowami taśmy highline.",
+        "en": "The main arena. Street shows below, highline webbing overhead."
+      },
+      "map": {
+        "x": 600,
+        "y": 520
+      },
+      "navQuery": "Rynek, Oleśnica",
+      "accessibility": {
+        "pl": "[DO UZUPEŁNIENIA]",
+        "en": "[DO UZUPEŁNIENIA]"
+      },
+      "amenities": [
+        "Infopunkt",
+        "WC"
+      ]
+    },
+    {
+      "id": "infopunkt",
+      "name": {
+        "pl": "Infopunkt",
+        "en": "Infopunkt (info point)"
+      },
+      "type": "info",
+      "layers": [
+        "info",
+        "access"
+      ],
+      "description": {
+        "pl": "Punkt informacyjny festiwalu na Rynku. Informacja, merch i karnety. Godziny otwarcia: [DO UZUPEŁNIENIA]",
+        "en": "The festival info point on Rynek. Questions, merch and passes. Opening hours: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 480,
+        "y": 410
+      },
+      "navQuery": "Rynek, Oleśnica",
+      "amenities": [
+        "Merch",
+        "Karnety"
+      ]
+    },
+    {
+      "id": "zamek",
+      "name": {
+        "pl": "Zamek Książąt Oleśnickich",
+        "en": "Zamek (the Castle)"
+      },
+      "type": "highline",
+      "layers": [
+        "highline",
+        "stages"
+      ],
+      "description": {
+        "pl": "Taśmy highline przy Zamku. Wydarzenia: [DO UZUPEŁNIENIA]",
+        "en": "Highline webbing by the Castle. Events: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 830,
+        "y": 290
+      },
+      "navQuery": "Zamek Książąt Oleśnickich, Oleśnica"
+    },
+    {
+      "id": "amfiteatr",
+      "name": {
+        "pl": "Amfiteatr",
+        "en": "Amphitheatre"
+      },
+      "type": "fire",
+      "layers": [
+        "stages"
+      ],
+      "description": {
+        "pl": "Wieczorne pokazy ognia.",
+        "en": "Fire shows after dark."
+      },
+      "map": {
+        "x": 1000,
+        "y": 430
+      },
+      "navQuery": "Amfiteatr, Oleśnica"
+    },
+    {
+      "id": "pole-namiotowe",
+      "name": {
+        "pl": "Pole namiotowe",
+        "en": "Campsite"
+      },
+      "type": "camping",
+      "layers": [
+        "camping"
+      ],
+      "description": {
+        "pl": "Nocleg pod namiotem u podnóża zamku i festiwalowe życie po spektaklach. Zasady i karnety w zakładce Nocleg.",
+        "en": "Camping at the foot of the Castle, and festival life after the shows. Rules and passes on the Accommodation page."
+      },
+      "map": {
+        "x": 930,
+        "y": 150
+      }
+    },
+    {
+      "id": "bar-zongler",
+      "name": {
+        "pl": "Bar Żongler",
+        "en": "Bar Żongler (festival club)"
+      },
+      "type": "club",
+      "layers": [
+        "stages",
+        "food"
+      ],
+      "description": {
+        "pl": "Klub festiwalowy z własnym programem.",
+        "en": "The festival club, with its own programme."
+      },
+      "map": {
+        "x": 380,
+        "y": 400
+      }
+    },
+    {
+      "id": "food-trucki",
+      "name": {
+        "pl": "Strefa food trucków",
+        "en": "Food truck zone"
+      },
+      "type": "food",
+      "layers": [
+        "food"
+      ],
+      "description": {
+        "pl": "Jedzenie i napoje. Lista food trucków: [DO UZUPEŁNIENIA]",
+        "en": "Food and drinks. Food truck list: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 720,
+        "y": 640
+      }
+    },
+    {
+      "id": "namioty-cyrkowe",
+      "name": {
+        "pl": "Namioty cyrkowe",
+        "en": "Circus tents"
+      },
+      "type": "stage",
+      "layers": [
+        "stages"
+      ],
+      "description": {
+        "pl": "Spektakle sceniczne pod namiotem. Szczegóły: [DO UZUPEŁNIENIA]",
+        "en": "Stage shows under canvas. Details: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 300,
+        "y": 640
+      }
+    },
+    {
+      "id": "warsztaty",
+      "name": {
+        "pl": "Strefa warsztatów",
+        "en": "Workshop zone"
+      },
+      "type": "workshop",
+      "layers": [
+        "stages"
+      ],
+      "description": {
+        "pl": "Warsztaty cyrkowe dla dzieci.",
+        "en": "Circus workshops for kids."
+      },
+      "map": {
+        "x": 480,
+        "y": 690
+      }
+    },
+    {
+      "id": "mural-2026",
+      "name": {
+        "pl": "Mural 2026",
+        "en": "Mural 2026"
+      },
+      "type": "mural",
+      "layers": [
+        "murals"
+      ],
+      "description": {
+        "pl": "Tegoroczny mural festiwalowy. Autor i lokalizacja: [DO UZUPEŁNIENIA]",
+        "en": "This year’s festival mural. Artist and location: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 220,
+        "y": 300
+      }
+    },
+    {
+      "id": "wc-rynek",
+      "name": {
+        "pl": "WC przy Rynku",
+        "en": "Toilets by Rynek"
+      },
+      "type": "wc",
+      "layers": [
+        "info",
+        "access"
+      ],
+      "description": {
+        "pl": "Toalety. Dokładne położenie: [DO UZUPEŁNIENIA]",
+        "en": "Toilets. Exact location: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 760,
+        "y": 470
+      }
+    },
+    {
+      "id": "wc-zamek",
+      "name": {
+        "pl": "WC przy Zamku",
+        "en": "Toilets by the Castle"
+      },
+      "type": "wc",
+      "layers": [
+        "info"
+      ],
+      "description": {
+        "pl": "Toalety. Dokładne położenie: [DO UZUPEŁNIENIA]",
+        "en": "Toilets. Exact location: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 900,
+        "y": 390
+      }
+    },
+    {
+      "id": "pierwsza-pomoc",
+      "name": {
+        "pl": "Pierwsza pomoc",
+        "en": "First aid"
+      },
+      "type": "firstaid",
+      "layers": [
+        "firstaid"
+      ],
+      "description": {
+        "pl": "Punkt medyczny. Dokładne położenie i godziny: [DO UZUPEŁNIENIA]",
+        "en": "First aid point. Exact location and hours: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 650,
+        "y": 400
+      }
+    },
+    {
+      "id": "parking-zachod",
+      "name": {
+        "pl": "Parking (zachód)",
+        "en": "Car park (west)"
+      },
+      "type": "parking",
+      "layers": [
+        "parking"
+      ],
+      "description": {
+        "pl": "Parking. Adres i zasady: [DO UZUPEŁNIENIA]",
+        "en": "Car park. Address and rules: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 150,
+        "y": 780
+      }
+    },
+    {
+      "id": "parking-wschod",
+      "name": {
+        "pl": "Parking (wschód)",
+        "en": "Car park (east)"
+      },
+      "type": "parking",
+      "layers": [
+        "parking"
+      ],
+      "description": {
+        "pl": "Parking. Adres i zasady: [DO UZUPEŁNIENIA]",
+        "en": "Car park. Address and rules: [DO UZUPEŁNIENIA]"
+      },
+      "map": {
+        "x": 1060,
+        "y": 760
+      }
+    }
+  ]
+}

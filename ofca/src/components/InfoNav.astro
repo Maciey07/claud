@@ -1,0 +1,26 @@
+---
+import { href, type RouteKey } from '../i18n/routes';
+import type { Lang } from '../lib/types';
+/** Nawigacja między podstronami Info (rejestr Infopunkt). */
+interface Props { lang: Lang; current: RouteKey }
+const { lang, current } = Astro.props;
+const pl = lang === 'pl';
+const items: { key: RouteKey; label: string }[] = [
+  { key: 'info', label: pl ? 'Wszystko' : 'Overview' },
+  { key: 'travel', label: pl ? 'Dojazd' : 'Getting here' },
+  { key: 'stay', label: pl ? 'Nocleg i pole namiotowe' : 'Accommodation' },
+  { key: 'highline', label: pl ? 'Highline i slackline' : 'Highline and slackline' },
+  { key: 'faq', label: 'FAQ' },
+  { key: 'access', label: pl ? 'Dostępność' : 'Accessibility' },
+];
+---
+<nav class="info-nav" aria-label={pl ? 'Informacje praktyczne' : 'Practical info'}>
+  <ul class="chips">
+    {items.map((i) => <li><a class="chip" href={href(i.key, lang)} aria-current={i.key === current ? 'page' : undefined}>{i.label}</a></li>)}
+  </ul>
+</nav>
+<style>
+  .info-nav { padding-block: var(--space-7) 0; }
+  .info-nav ul { list-style: none; padding: 0; }
+  .chip[aria-current='page'] { background: var(--ofca-ink); color: var(--ofca-cream); }
+</style>

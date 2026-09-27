@@ -1,0 +1,150 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { href, type RouteKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Lang } from '../lib/types';
+
+interface Props { lang: Lang; route: RouteKey | null; alternates: Partial<Record<Lang, string>>; other: Lang }
+const { lang, route, alternates, other } = Astro.props;
+const d = t(lang);
+const primary: { key: RouteKey; label: string; match: RouteKey[] }[] = [
+  { key: 'program', label: d.nav.program, match: ['program', 'artists', 'artist'] },
+  { key: 'map', label: d.nav.map, match: ['map'] },
+  { key: 'info', label: d.nav.info, match: ['info', 'travel', 'stay', 'highline', 'faq', 'access'] },
+  { key: 'shop', label: d.nav.shop, match: ['shop', 'product', 'checkout', 'shopInfo'] },
+  { key: 'about', label: d.nav.about, match: ['about'] },
+];
+const secondary: { key: RouteKey; label: string }[] = [
+  { key: 'artists', label: d.nav.artists },
+  { key: 'gallery', label: d.nav.gallery },
+  { key: 'volunteer', label: d.nav.volunteer },
+  { key: 'forArtists', label: d.nav.forArtists },
+  { key: 'partners', label: d.nav.partners },
+  { key: 'contact', label: d.nav.contact },
+];
+const altHref = alternates[other] ?? href('home', other);
+---
+<header class="site-header" data-header>
+  <div class="bar bg-orange">
+    <div class="wrap bar-inner">
+      <a class="brand" href={href('home', lang)}>
+        <Logo labelled />
+        <span class="brand-meta label">14–16.08.2026<br />Oleśnica</span>
+        <span class="visually-hidden">, {d.nav.homeSuffix}</span>
+      </a>
+      <nav class="primary" aria-label={d.nav.label}>
+        <ul>
+          {primary.map((item) => (
+            <li>
+              <a href={href(item.key, lang)} aria-current={route && item.match.includes(route) ? 'page' : undefined}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div class="tools">
+        <a class="lang" href={altHref} hreflang={other} lang={other} data-lang-switch>
+          <span>{other.toUpperCase()}</span><span class="visually-hidden"> ({d.lang.switchTo})</span>
+        </a>
+        <button class="icon-btn cart-btn" type="button" data-cart-open aria-haspopup="dialog">
+          <Icon name="cart" size={26} />
+          <span class="visually-hidden">{d.cart.open}</span>
+          <span class="count" data-cart-count aria-hidden="true" hidden>0</span>
+          <span class="visually-hidden" data-cart-count-sr aria-live="polite"></span>
+        </button>
+        <button class="icon-btn menu-btn" type="button" data-menu-open aria-haspopup="dialog" aria-controls="mobile-menu">
+          <Icon name="menu" size={26} />
+          <span class="visually-hidden">{d.nav.menu}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="zigzag" style="--zz-color: var(--ofca-orange)" aria-hidden="true"></div>
+  <div class="highliner" aria-hidden="true">
+    <div class="rope"></div>
+    <div class="walker" data-highliner-walker>
+      <svg viewBox="0 0 20 30" width="16" height="24"><circle cx="10" cy="4" r="3.2" fill="currentColor" /><path d="M10 7.5v11M2 10.5l8 2 8-2M10 18.5l-3.5 10M10 18.5l3.5 10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" /></svg>
+    </div>
+  </div>
+</header>
+
+<dialog id="mobile-menu" class="mobile-menu bg-lilac" aria-label={d.nav.menu} data-menu>
+  <div class="menu-top">
+    <a class="brand" href={href('home', lang)}><Logo labelled /><span class="visually-hidden">, {d.nav.homeSuffix}</span></a>
+    <button class="icon-btn" type="button" data-menu-close>
+      <Icon name="close" size={28} /><span class="visually-hidden">{d.nav.close}</span>
+    </button>
+  </div>
+  <nav aria-label={d.nav.label}>
+    <ul class="menu-list">
+      {[...primary, ...secondary].map((item) => (
+        <li data-menu-item><a href={href(item.key, lang)} aria-current={route === item.key ? 'page' : undefined}>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+  <div class="menu-foot" data-menu-item>
+    <a class="btn" href={altHref} hreflang={other} lang={other}>{d.lang.switchTo}</a>
+  </div>
+  <div class="diamonds menu-deco" style="--d-bg: var(--ofca-lilac); --d-fg: var(--ofca-orange); --d-w: 28px" aria-hidden="true"></div>
+</dialog>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; margin-bottom: calc(var(--zigzag) * -1); pointer-events: none; }
+  .site-header > .bar { pointer-events: auto; }
+  .bar-inner { display: flex; align-items: center; gap: var(--space-5); min-height: var(--header-h); }
+  .brand { display: inline-flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--ofca-ink); min-height: 44px; }
+  .brand-meta { line-height: 1.05; font-size: 0.72rem; white-space: nowrap; }
+  .primary { margin-left: auto; display: none; }
+  .primary ul { display: flex; gap: clamp(0.75rem, 2vw, 2rem); list-style: none; padding: 0; }
+  .primary a {
+    font-family: var(--font-display); font-weight: 900; text-transform: uppercase; text-decoration: none;
+    font-variation-settings: 'wdth' 112; font-size: 1.05rem; padding-block: 0.6rem; display: inline-block;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 3px no-repeat;
+    transition: background-size 220ms var(--ease-out);
+  }
+  .primary a:hover, .primary a[aria-current='page'] { background-size: 100% 3px; }
+  .tools { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; }
+  .lang {
+    display: none; align-items: center; justify-content: center; min-width: 44px; min-height: 44px;
+    font-family: var(--font-display); font-weight: 900; text-decoration: none; border: 2px solid var(--ofca-ink);
+  }
+  .lang:hover { background: var(--ofca-ink); color: var(--ofca-orange); }
+  .icon-btn {
+    position: relative; display: inline-grid; place-items: center; width: 48px; height: 48px;
+    background: transparent; border: 0; color: var(--ofca-ink);
+  }
+  .count {
+    position: absolute; top: 2px; right: 0; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px;
+    background: var(--ofca-ink); color: var(--ofca-cream); font-size: 0.75rem; font-weight: 800; line-height: 22px; text-align: center;
+  }
+  @media (max-width: 389px) { .brand-meta { display: none; } }
+  @media (min-width: 600px) { .lang { display: inline-flex; } }
+  @media (min-width: 1024px) {
+    .primary { display: block; }
+    .tools { margin-left: var(--space-3); }
+    .menu-btn { display: none; }
+  }
+
+  .highliner { position: relative; height: 0; }
+  .rope { position: absolute; left: 0; right: 0; top: calc(var(--zigzag) + 2px); height: 2px; background: var(--ofca-ink); opacity: 0.85; }
+  .walker { position: absolute; left: 4px; top: calc(var(--zigzag) - 22px); color: var(--ofca-ink); will-change: transform; }
+  .walker svg { display: block; }
+  @media (prefers-reduced-motion: reduce) { .highliner { display: none; } }
+
+  .mobile-menu {
+    width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: var(--space-4) var(--gutter) 0;
+    border: 0; overflow-y: auto; display: none; flex-direction: column;
+  }
+  .mobile-menu[open] { display: flex; }
+  .mobile-menu::backdrop { background: var(--ofca-lilac); }
+  .menu-top { display: flex; justify-content: space-between; align-items: center; min-height: 56px; }
+  .menu-top .brand { color: var(--ofca-ink); }
+  .menu-list { list-style: none; padding: var(--space-6) 0; display: grid; gap: var(--space-2); }
+  .menu-list a {
+    font-family: var(--font-display); font-weight: 900; text-transform: uppercase; text-decoration: none;
+    font-size: clamp(2.2rem, 11vw, 4rem); line-height: 0.95; font-variation-settings: 'wdth' 125; display: inline-block;
+  }
+  .menu-list a[aria-current='page'] { text-decoration: underline; text-decoration-thickness: 5px; }
+  .menu-foot { padding-bottom: var(--space-6); }
+  .menu-deco { height: 80px; margin: auto calc(var(--gutter) * -1) 0; flex-shrink: 0; }
+</style>

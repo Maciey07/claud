@@ -1,0 +1,78 @@
+---
+import Icon from './Icon.astro';
+import { products } from '../lib/data';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Lang } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const catalog = products.map((p) => ({
+  slug: p.slug, name: p.name[lang], price: p.price, href: href('product', lang, { slug: p.slug }), kind: p.art.kind, bg: p.art.bg, fg: p.art.fg,
+}));
+const labels = {
+  lang, remove: d.cart.remove, qty: d.cart.qty, decrease: d.cart.decrease, increase: d.cart.increase, size: lang === 'pl' ? 'Rozmiar' : 'Size',
+};
+---
+<dialog class="drawer" aria-labelledby="cart-title" data-cart-drawer>
+  <div class="sheet" data-cart-sheet>
+    <div class="handle" data-cart-handle aria-hidden="true"><span></span></div>
+    <div class="head">
+      <h2 id="cart-title" class="h3">{d.cart.title}</h2>
+      <button type="button" class="close" data-cart-close>
+        <Icon name="close" size={26} /><span class="visually-hidden">{d.nav.close}</span>
+      </button>
+    </div>
+    <div class="zigzag" style="--zz-color: var(--ofca-orange)" aria-hidden="true"></div>
+    <div class="body">
+      <p class="empty" data-cart-empty>{d.cart.empty}</p>
+      <a class="btn btn-orange empty-cta" href={href('shop', lang)} data-cart-empty>{d.cart.emptyCta}</a>
+      <ul class="lines" data-cart-lines></ul>
+    </div>
+    <div class="foot" data-cart-foot hidden>
+      <div class="total"><span class="label">{d.cart.total}</span><strong data-cart-total></strong></div>
+      <p class="small">{d.cart.shippingNote}</p>
+      <a class="btn btn-orange" href={href('checkout', lang)}>{d.cart.checkout}</a>
+      <button type="button" class="btn btn-outline" data-cart-close>{d.cart.continue}</button>
+    </div>
+  </div>
+  <script type="application/json" data-catalog set:html={JSON.stringify({ catalog, labels })}></script>
+</dialog>
+
+<style>
+  .drawer {
+    margin: 0; padding: 0; border: 0; background: transparent; max-width: none; max-height: none;
+    width: 100%; height: 100dvh; overflow: hidden;
+  }
+  .drawer::backdrop { background: color-mix(in srgb, var(--ofca-ink) 60%, transparent); }
+  .sheet {
+    position: absolute; left: 0; right: 0; bottom: 0; max-height: 88dvh; display: flex; flex-direction: column;
+    background: var(--ofca-cream); color: var(--ofca-ink); will-change: transform;
+  }
+  .handle { display: grid; place-items: center; height: 28px; cursor: grab; touch-action: none; background: var(--ofca-orange); }
+  .handle span { width: 56px; height: 5px; background: var(--ofca-ink); border-radius: 3px; }
+  .head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) var(--space-5) var(--space-4); background: var(--ofca-orange); }
+  .close { display: grid; place-items: center; width: 48px; height: 48px; background: none; border: 0; }
+  .body { overflow-y: auto; padding: var(--space-6) var(--space-5) var(--space-4); flex: 1; }
+  .empty-cta { margin-top: var(--space-4); }
+  .lines { list-style: none; padding: 0; display: grid; gap: var(--space-4); }
+  .foot { padding: var(--space-4) var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom)); border-top: 3px solid var(--ofca-ink); display: grid; gap: var(--space-3); }
+  .total { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-display); }
+  .total strong { font-size: 1.8rem; font-weight: 900; font-variation-settings: 'wdth' 120; }
+  @media (min-width: 768px) {
+    .sheet { left: auto; top: 0; width: min(440px, 100%); max-height: none; }
+    .handle { display: none; }
+  }
+  .drawer :global(.line) { display: grid; grid-template-columns: 72px 1fr; gap: var(--space-3); align-items: start; }
+  .drawer :global(.thumb) { width: 72px; height: 72px; display: block; }
+  .drawer :global(.line-name) { font-weight: 700; line-height: 1.25; text-decoration: none; }
+  .drawer :global(.line-name:hover) { text-decoration: underline; }
+  .drawer :global(.line-meta) { font-size: var(--fs-small); }
+  .drawer :global(.line-row) { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-2); flex-wrap: wrap; }
+  .drawer :global(.qty) { display: inline-flex; align-items: center; border: 2px solid var(--ofca-ink); }
+  .drawer :global(.qty button) { width: 44px; height: 44px; display: grid; place-items: center; background: none; border: 0; }
+  .drawer :global(.qty output) { min-width: 2ch; text-align: center; font-weight: 800; }
+  .drawer :global(.remove) { background: none; border: 0; text-decoration: underline; min-height: 44px; padding: 0 var(--space-2); }
+  .drawer :global(.line-price) { font-family: var(--font-display); font-weight: 900; }
+</style>

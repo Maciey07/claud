@@ -1,0 +1,112 @@
+---
+import Icon from './Icon.astro';
+import { artistBySlug, eventDay, eventTitle, locationById } from '../lib/data';
+import { durationMinutes, timeRange } from '../lib/format';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { FestivalEvent, Lang } from '../lib/types';
+
+interface Props { event: FestivalEvent; lang: Lang; level?: 2 | 3 | 4; showPlan?: boolean }
+const { event: e, lang, level = 3, showPlan = true } = Astro.props;
+const d = t(lang);
+const Tag = `h${level}` as 'h2' | 'h3' | 'h4';
+const artist = artistBySlug(e.artistSlug);
+const loc = locationById(e.locationId);
+const title = eventTitle(e, lang);
+const showArtist = artist && e.title && e.title[lang] !== artist.name;
+const mapHref = `${href('map', lang)}?${lang === 'pl' ? 'miejsce' : 'place'}=${e.locationId}`;
+const minutes = durationMinutes(e.start, e.end);
+---
+<article
+  id={e.id}
+  class:list={['event', `t-${e.type}`]}
+  data-event={e.id}
+  data-day={eventDay(e)}
+  data-type={e.type}
+  data-place={e.locationId}
+  data-ticket={e.ticket.kind}
+  data-kids={e.forKids ? '1' : '0'}
+  data-nolang={e.noLanguage ? '1' : '0'}
+  data-start={e.start}
+  data-end={e.end}
+  data-title={title}
+  data-location-name={loc?.name[lang]}
+>
+  <div class="time">
+    <span class="range">{timeRange(e.start, e.end)}</span>
+    <span class="now-flag label" data-now-flag hidden>{lang === 'pl' ? 'Teraz' : 'Now'}</span>
+  </div>
+  <div class="main">
+    <Tag class="title">
+      {artist ? <a href={href('artist', lang, { slug: artist.slug })}>{title}</a> : title}
+    </Tag>
+    {showArtist && <p class="artist">{artist!.name}</p>}
+    <p class="place"><Icon name="pin" size={18} /><a href={mapHref}>{loc?.name[lang]}</a></p>
+    <ul class="tags" aria-label={lang === 'pl' ? 'Szczegóły' : 'Details'}>
+      <li class="badge badge-plain type">{d.typeSingle[e.type]}</li>
+      {e.ticket.kind === 'free'
+        ? <li class="badge badge-mint badge-plain">{d.common.free}</li>
+        : <li class="badge badge-ink badge-plain">{d.common.tickets}</li>}
+      {e.forKids && <li class="badge badge-orange badge-plain">{d.common.forKids}</li>}
+      {e.noLanguage && <li class="badge badge-cream badge-plain">{d.common.noWords}</li>}
+      <li class="badge badge-cream badge-plain">{d.common.minutes(minutes)}</li>
+      {e.minAge && <li class="badge badge-cream badge-plain">{d.common.age(e.minAge)}</li>}
+    </ul>
+    <p class="conflict small" data-conflict hidden></p>
+  </div>
+  <div class="actions">
+    {e.ticket.kind === 'paid' && (
+      e.ticket.url
+        ? <a class="btn btn-orange" href={e.ticket.url} target="_blank" rel="noopener"><Icon name="ticket" size={20} />{d.common.buyTicket}<span class="visually-hidden">: {title}</span></a>
+        : <span class="small ticket-tbc">{d.common.buyTicket}: <span class="tbc">{d.common.tbc}</span></span>
+    )}
+    {showPlan && (
+      <button type="button" class="plan-btn" data-plan-toggle={e.id} aria-pressed="false">
+        <Icon name="star" size={20} class="off" /><Icon name="star-filled" size={20} class="on" />
+        <span data-plan-label data-add={d.common.addToPlan} data-added={d.common.inPlan}>{d.common.addToPlan}</span>
+        <span class="visually-hidden">: {title}</span>
+      </button>
+    )}
+    <button type="button" class="ics-btn" data-ics={e.id}>
+      <Icon name="calendar" size={20} /><span>{d.common.downloadIcs}</span><span class="visually-hidden">: {title}</span>
+    </button>
+  </div>
+</article>
+
+<style>
+  .event {
+    display: grid; gap: var(--space-3) var(--space-5); padding: var(--space-5); background: var(--ofca-white);
+    border: 3px solid var(--ofca-ink); position: relative;
+  }
+  @media (min-width: 768px) { .event { grid-template-columns: 11rem 1fr auto; align-items: start; } }
+  .time { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+  .range { font-family: var(--font-display); font-weight: 900; font-size: 1.45rem; line-height: 1; font-variation-settings: 'wdth' 88; white-space: nowrap; }
+  .now-flag { background: var(--ofca-orange); padding: 0.2em 0.5em; }
+  .title { font-size: clamp(1.35rem, 2.4vw, 1.9rem); text-transform: uppercase; --wdth: 112; }
+  .title a { text-decoration: none; }
+  .title a:hover { text-decoration: underline; }
+  .artist { margin-top: var(--space-1); font-weight: 600; }
+  .place { display: flex; align-items: center; gap: var(--space-1); margin-top: var(--space-2); font-weight: 600; }
+  .place a { min-height: 32px; display: inline-flex; align-items: center; }
+  .tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+  .tags li { max-width: none; }
+  .type { background: var(--ofca-lilac); }
+  .t-stage .type { background: var(--ofca-ink); color: var(--ofca-cream); }
+  .t-fire .type { background: var(--ofca-orange); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+  @media (min-width: 768px) { .actions { flex-direction: column; align-items: stretch; min-width: 12rem; } }
+  .plan-btn, .ics-btn {
+    display: inline-flex; align-items: center; gap: 0.45em; min-height: 44px; padding: 0.4em 0.8em;
+    background: var(--ofca-cream); border: 2px solid var(--ofca-ink); font-weight: 700; font-size: 0.92rem;
+  }
+  .plan-btn:hover, .ics-btn:hover { background: var(--ofca-white); }
+  .plan-btn :global(.on) { display: none; }
+  .plan-btn[aria-pressed='true'] { background: var(--ofca-ink); color: var(--ofca-cream); }
+  .plan-btn[aria-pressed='true'] :global(.on) { display: block; color: var(--ofca-orange); }
+  .plan-btn[aria-pressed='true'] :global(.off) { display: none; }
+  .conflict { margin-top: var(--space-3); background: var(--ofca-lilac); padding: var(--space-2) var(--space-3); font-weight: 600; }
+  .event.is-now { box-shadow: 8px 8px 0 var(--ofca-orange); }
+  .event.is-past { background: var(--ofca-cream); border-style: dashed; }
+  .event.is-past .range { text-decoration: line-through; text-decoration-thickness: 3px; }
+  .ticket-tbc { font-weight: 600; }
+</style>

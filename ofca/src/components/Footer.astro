@@ -1,0 +1,92 @@
+---
+import Logo from './Logo.astro';
+import { href, type RouteKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { site } from '../site.config';
+import type { Lang } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const map: { key: RouteKey; label: string }[] = [
+  { key: 'program', label: d.nav.program },
+  { key: 'artists', label: d.nav.artists },
+  { key: 'map', label: d.nav.map },
+  { key: 'info', label: d.nav.info },
+  { key: 'faq', label: 'FAQ' },
+  { key: 'shop', label: d.nav.shop },
+  { key: 'gallery', label: d.nav.gallery },
+  { key: 'about', label: d.nav.about },
+  { key: 'volunteer', label: d.nav.volunteer },
+  { key: 'forArtists', label: d.nav.forArtists },
+  { key: 'partners', label: d.nav.partners },
+  { key: 'contact', label: d.nav.contact },
+];
+const social = [
+  { label: 'Instagram', url: site.social.instagram, handle: '@festiwalofca' },
+  { label: 'Facebook', url: site.social.facebook, handle: null },
+  { label: 'YouTube', url: site.social.youtube, handle: null },
+];
+---
+<footer class="site-footer bg-ink on-ink">
+  <div class="checker checker-strip" style="--c-a: var(--ofca-ink); --c-b: var(--ofca-cream); --c-size: 24px" aria-hidden="true"></div>
+  <div class="wrap footer-grid">
+    <div class="col brand-col">
+      <Logo size="lg" />
+      <p class="label">{lang === 'pl' ? 'Festiwal Cyrku Współczesnego' : 'Contemporary Circus Festival'} · 14–16.08.2026 · Oleśnica</p>
+    </div>
+    <div class="col">
+      <h2 class="label col-title">{d.footer.contact}</h2>
+      <ul class="plain">
+        <li><a href={`mailto:${site.emails.office}`}>{site.emails.office}</a></li>
+        <li><a href={`mailto:${site.emails.media}`}>{site.emails.media}</a></li>
+        <li><a href={`mailto:${site.emails.shop}`}>{site.emails.shop}</a></li>
+      </ul>
+      <address>
+        {site.foundation.name}<br />{site.foundation.street}<br />{site.foundation.city}
+      </address>
+    </div>
+    <div class="col">
+      <h2 class="label col-title">{d.footer.follow}</h2>
+      <ul class="plain">
+        {social.map((s) => (
+          <li>{s.url ? <a href={s.url} rel="me noopener" target="_blank">{s.label}{s.handle && ` ${s.handle}`}</a> : <span>{s.label} <span class="tbc">{d.common.tbc}</span></span>}</li>
+        ))}
+      </ul>
+    </div>
+    <nav class="col sitemap" aria-label={d.footer.sitemap}>
+      <h2 class="label col-title">{d.footer.sitemap}</h2>
+      <ul class="plain cols">
+        {map.map((m) => <li><a href={href(m.key, lang)}>{m.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="wrap grants">
+    <h2 class="label col-title">{d.footer.grants}</h2>
+    <div class="grant-box">{d.footer.grantsTbc}</div>
+  </div>
+  <div class="wrap bottom small">
+    <span>© {new Date().getFullYear()} {d.footer.rights}</span>
+    <a href={`${href('shopInfo', lang)}#${lang === 'pl' ? 'prywatnosc' : 'privacy'}`}>{d.footer.privacy}</a>
+    <button type="button" class="link-btn" data-cookie-settings>{d.footer.cookies}</button>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-bottom: var(--space-7); }
+  .footer-grid { display: grid; gap: var(--space-7) var(--space-6); padding-block: var(--space-8) var(--space-7); }
+  @media (min-width: 768px) { .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; } .sitemap { grid-column: 1 / -1; } }
+  @media (min-width: 1200px) { .footer-grid { grid-template-columns: 1.5fr 1fr 0.8fr 1.4fr; } .sitemap { grid-column: auto; } }
+  .brand-col :global(.logo) { color: var(--ofca-orange); }
+  .brand-col p { margin-top: var(--space-4); }
+  .col-title { color: var(--ofca-orange); margin-bottom: var(--space-4); font-size: 0.95rem; }
+  .plain { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+  .plain a { display: inline-block; min-height: 32px; }
+  .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-5); }
+  address { font-style: normal; margin-top: var(--space-4); }
+  .grants { padding-bottom: var(--space-6); }
+  .grant-box { border: 2px dashed var(--ofca-cream); padding: var(--space-5); text-align: center; }
+  .bottom { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); border-top: 2px solid var(--ofca-cream); padding-top: var(--space-4); }
+  .link-btn { background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 0.18em; min-height: 24px; }
+  .tbc { font-size: 0.8em; }
+</style>

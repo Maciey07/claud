@@ -1,0 +1,59 @@
+---
+import InfoLayout from '../layouts/InfoLayout.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../i18n/routes';
+import { site } from '../site.config';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const c = pl ? {
+  title: 'Dostępność', desc: 'Dostępność Festiwalu OFCA: dojście do miejsc spektakli, toalety, miejsca siedzące, strefy ciszy i kontakt w sprawie potrzeb.',
+  lead: 'Chcemy, żeby każdy mógł zobaczyć spektakl. Tu zbieramy informacje o miejscach i udogodnieniach.',
+  contact: 'Masz pytanie albo konkretną potrzebę?', contactP: 'Napisz do nas przed przyjazdem. Pomożemy zaplanować wizytę.',
+  sections: [
+    { h: 'Miejsca spektakli', p: [`Rynek: ${T}`, `Zamek: ${T}`, `Amfiteatr: ${T}`, `Namioty cyrkowe: ${T}`] },
+    { h: 'Toalety', p: [`Toalety dostępne dla osób z niepełnosprawnościami: ${T}`, 'Położenie toalet zobaczycie na mapie (warstwa Infopunkt i WC).'] },
+    { h: 'Miejsca siedzące', p: [`Strefy z miejscami siedzącymi przy spektaklach ulicznych: ${T}`] },
+    { h: 'Strefa ciszy', p: [`Czy będzie strefa ciszy i gdzie: ${T}`] },
+    { h: 'Spektakle bez słów', p: ['W programie włączcie filtr „Bez słów”. Te spektakle nie wymagają znajomości języka.'] },
+    { h: 'Ta strona', p: ['Stronę projektujemy zgodnie z WCAG 2.2 AA. Działa z klawiatury i czytnikami ekranu, a animacje wyłączają się, gdy system prosi o ograniczenie ruchu.'] },
+  ],
+  map: 'Warstwa Dostępność na mapie', program: 'Spektakle bez słów w programie',
+} : {
+  title: 'Accessibility', desc: 'Accessibility at OFCA: getting to venues, toilets, seating, quiet zones and contact about access needs.',
+  lead: 'We want everyone to be able to see a show. Here’s what we know about venues and facilities.',
+  contact: 'Have a question or a specific need?', contactP: 'Email us before you come. We’ll help you plan your visit.',
+  sections: [
+    { h: 'Venues', p: [`Rynek (Market Square): ${T}`, `The Castle: ${T}`, `Amphitheatre: ${T}`, `Circus tents: ${T}`] },
+    { h: 'Toilets', p: [`Accessible toilets: ${T}`, 'See toilet locations on the map (Info point and toilets layer).'] },
+    { h: 'Seating', p: [`Seating areas at street shows: ${T}`] },
+    { h: 'Quiet zone', p: [`Whether there will be a quiet zone, and where: ${T}`] },
+    { h: 'No words needed', p: ['Use the “No words needed” filter in the programme. These shows need no language at all.'] },
+    { h: 'This website', p: ['We design this site to WCAG 2.2 AA. It works with a keyboard and screen readers, and animations switch off when your system asks for reduced motion.'] },
+  ],
+  map: 'Accessibility layer on the map', program: 'No-words shows in the programme',
+};
+---
+<InfoLayout lang={lang} route="access" title={c.title} description={c.desc} lead={c.lead} tone="lilac">
+  <div class="cols">
+    <div class="prose">
+      {c.sections.map((s) => (<><h2>{s.h}</h2>{s.p.map((p) => <p>{p}</p>)}</>))}
+    </div>
+    <aside class="stack">
+      <div class="card bg-orange stack">
+        <h2 class="h3">{c.contact}</h2>
+        <p>{c.contactP}</p>
+        <a class="btn" href={`mailto:${site.emails.office}`}>{site.emails.office}</a>
+      </div>
+      <a class="btn btn-outline" href={href('map', lang)}><Icon name="map" size={20} />{c.map}</a>
+      <a class="btn btn-outline" href={`${href('program', lang)}?${pl ? 'bez-slow' : 'no-words'}=1`}>{c.program}</a>
+    </aside>
+  </div>
+</InfoLayout>
+<style>
+  .prose h2:first-child { margin-top: 0; }
+  aside { align-content: start; }
+  .card.bg-orange { background: var(--ofca-orange); }
+</style>

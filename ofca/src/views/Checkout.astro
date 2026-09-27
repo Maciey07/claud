@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Juggler from '../components/Juggler.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import type { Lang } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const pl = lang === 'pl';
+const T = d.common.tbc;
+const c = pl ? {
+  title: 'Zamówienie', desc: 'Zamówienie w Sklepiku Festiwalu OFCA.', mock: 'Makieta zamówienia. Po kliknięciu nic nie zostanie wysłane ani pobrane.',
+  you: 'Twoje dane', name: 'Imię i nazwisko', email: 'E-mail', phone: 'Telefon', delivery: 'Dostawa', courier: 'Kurier', locker: 'Paczkomat',
+  pickup: 'Odbiór w Infopunkcie na festiwalu', pickupNote: 'Odbierz na festiwalu w Infopunkcie na Rynku. Bez kosztów wysyłki.', cost: 'koszt',
+  address: 'Adres dostawy', street: 'Ulica i numer', zip: 'Kod pocztowy', city: 'Miejscowość', payment: 'Płatność',
+  payOnline: 'Płatność online (metody jak w obecnym sklepie)', consents: 'Zgody', terms: 'Akceptuję regulamin Sklepiku i politykę prywatności.',
+  termsLink: 'Regulamin i polityka prywatności', submit: 'Zamawiam i płacę', summary: 'Podsumowanie', shipping: 'Dostawa', total: 'Do zapłaty',
+  empty: 'Koszyk jest pusty jak arena o świcie. Zajrzyj do Sklepiku.', emptyCta: 'Wejdź do Sklepiku', required: 'pole wymagane',
+  errTitle: 'Popraw zaznaczone pola:', errName: 'Wpisz imię i nazwisko.', errEmail: 'Wpisz adres e-mail w formacie nazwa@domena.pl.',
+  errPhone: 'Wpisz numer telefonu, np. 600 100 200.', errStreet: 'Wpisz ulicę i numer.', errZip: 'Wpisz kod w formacie 00-000.', errCity: 'Wpisz miejscowość.',
+  errTerms: 'Zaznacz zgodę na regulamin, żeby złożyć zamówienie.', errDelivery: 'Wybierz sposób dostawy.',
+  success: 'Mamy to! Odezwiemy się na podany adres e-mail.', successNote: 'To makieta: zamówienie nie zostało wysłane, a koszyk wyczyściliśmy na potrzeby testu.',
+  sending: 'Wysyłamy zamówienie', back: 'Wróć do Sklepiku', qty: 'szt.',
+} : {
+  title: 'Checkout', desc: 'Checkout for the OFCA festival shop.', mock: 'Checkout mock-up. Nothing is sent or charged when you submit.',
+  you: 'Your details', name: 'Full name', email: 'Email', phone: 'Phone', delivery: 'Delivery', courier: 'Courier', locker: 'Parcel locker',
+  pickup: 'Pick up at the festival Infopunkt', pickupNote: 'Pick up at the festival, at the Infopunkt on Rynek. No shipping costs.', cost: 'cost',
+  address: 'Delivery address', street: 'Street and number', zip: 'Postcode', city: 'Town or city', payment: 'Payment',
+  payOnline: 'Online payment (same methods as the current shop)', consents: 'Consents', terms: 'I accept the shop terms and the privacy policy.',
+  termsLink: 'Terms and privacy policy', submit: 'Place order and pay', summary: 'Summary', shipping: 'Delivery', total: 'Total',
+  empty: 'Your basket is as empty as the ring at dawn. Have a look around the shop.', emptyCta: 'Visit the shop', required: 'required',
+  errTitle: 'Please fix these fields:', errName: 'Enter your full name.', errEmail: 'Enter an email address like name@example.com.',
+  errPhone: 'Enter a phone number, e.g. +48 600 100 200.', errStreet: 'Enter the street and number.', errZip: 'Enter a postcode.', errCity: 'Enter a town or city.',
+  errTerms: 'Tick the terms box to place your order.', errDelivery: 'Choose a delivery option.',
+  success: 'Got it! We’ll be in touch at the email address you gave.', successNote: 'This is a mock-up: no order was sent, and we emptied your basket for testing.',
+  sending: 'Sending your order', back: 'Back to the shop', qty: 'pcs',
+};
+const fields = [
+  { id: 'name', label: c.name, type: 'text' as const, auto: 'name', err: c.errName },
+  { id: 'email', label: c.email, type: 'email' as const, auto: 'email', err: c.errEmail },
+  { id: 'phone', label: c.phone, type: 'tel' as const, auto: 'tel', err: c.errPhone },
+];
+const addr = [
+  { id: 'street', label: c.street, auto: 'street-address', err: c.errStreet },
+  { id: 'zip', label: c.zip, auto: 'postal-code', err: c.errZip },
+  { id: 'city', label: c.city, auto: 'address-level2', err: c.errCity },
+];
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="checkout" noindex>
+  <PageHero title={c.title} tone="lilac" crumbs={[{ label: pl ? 'Sklepik' : 'Shop', href: href('shop', lang) }]} />
+  <div class="wrap checkout" data-checkout data-lang={lang}>
+    <p class="mock" role="note"><Icon name="info" size={22} />{c.mock}</p>
+
+    <div class="empty" data-co-empty hidden>
+      <p class="lead">{c.empty}</p>
+      <a class="btn btn-orange" href={href('shop', lang)}>{c.emptyCta}</a>
+    </div>
+
+    <div class="success" data-co-success hidden tabindex="-1">
+      <h2 class="h2">{c.success}</h2>
+      <p>{c.successNote}</p>
+      <a class="btn" href={href('shop', lang)}>{c.back}</a>
+    </div>
+
+    <div class="layout" data-co-layout>
+      <form class="form stack" novalidate data-co-form>
+        <div class="errors" role="alert" data-co-errors hidden tabindex="-1">
+          <p><strong>{c.errTitle}</strong></p>
+          <ul data-co-error-list></ul>
+        </div>
+
+        <fieldset class="group">
+          <legend class="h3">{c.you}</legend>
+          {fields.map((f) => (
+            <div class="field">
+              <label for={`co-${f.id}`}>{f.label} <span class="req">({c.required})</span></label>
+              <input class="input" id={`co-${f.id}`} name={f.id} type={f.type} autocomplete={f.auto} required aria-describedby={`co-${f.id}-err`} data-err={f.err} />
+              <p class="field-error" id={`co-${f.id}-err`} hidden></p>
+            </div>
+          ))}
+        </fieldset>
+
+        <fieldset class="group">
+          <legend class="h3">{c.delivery}</legend>
+          <label class="option"><input type="radio" name="delivery" value="courier" required /> <span>{c.courier} <span class="small">({c.cost}: <span class="tbc">{T}</span>)</span></span></label>
+          <label class="option"><input type="radio" name="delivery" value="locker" /> <span>{c.locker} <span class="small">({c.cost}: <span class="tbc">{T}</span>)</span></span></label>
+          <label class="option" data-modes="announce live"><input type="radio" name="delivery" value="pickup" /> <span>{c.pickup}<br /><span class="small">{c.pickupNote}</span></span></label>
+          <p class="field-error" data-delivery-err hidden>{c.errDelivery}</p>
+        </fieldset>
+
+        <fieldset class="group" data-address>
+          <legend class="h3">{c.address}</legend>
+          {addr.map((f) => (
+            <div class="field">
+              <label for={`co-${f.id}`}>{f.label} <span class="req">({c.required})</span></label>
+              <input class="input" id={`co-${f.id}`} name={f.id} type="text" autocomplete={f.auto} required aria-describedby={`co-${f.id}-err`} data-err={f.err} inputmode={f.id === 'zip' ? 'numeric' : undefined} />
+              <p class="field-error" id={`co-${f.id}-err`} hidden></p>
+            </div>
+          ))}
+        </fieldset>
+
+        <fieldset class="group">
+          <legend class="h3">{c.payment}</legend>
+          <label class="option"><input type="radio" name="payment" value="online" checked /> <span>{c.payOnline} <span class="tbc">{T}</span></span></label>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend class="h3">{c.consents}</legend>
+          <label class="option"><input type="checkbox" name="terms" id="co-terms" required aria-describedby="co-terms-err" data-err={c.errTerms} /> <span>{c.terms} <a href={href('shopInfo', lang)} target="_blank">{c.termsLink}</a></span></label>
+          <p class="field-error" id="co-terms-err" hidden></p>
+        </fieldset>
+
+        <button type="submit" class="btn btn-orange submit" data-co-submit>{c.submit}</button>
+        <div class="sending" data-co-sending hidden><Juggler label={c.sending} /></div>
+      </form>
+
+      <aside class="summary" aria-labelledby="co-sum">
+        <h2 id="co-sum" class="h3">{c.summary}</h2>
+        <ul class="lines" data-co-lines></ul>
+        <dl>
+          <div><dt>{c.shipping}</dt><dd><span class="tbc">{T}</span></dd></div>
+          <div class="total"><dt>{c.total}</dt><dd data-co-total></dd></div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+  <script type="application/json" data-co-i18n set:html={JSON.stringify({ qty: c.qty })} />
+</BaseLayout>
+
+<style>
+  .checkout { padding-block: var(--space-8) var(--space-9); }
+  .mock { display: flex; gap: var(--space-3); max-width: none; border: 3px dashed var(--ofca-ink); background: var(--ofca-white); padding: var(--space-4); font-weight: 600; margin-bottom: var(--space-6); }
+  .layout { display: grid; gap: var(--space-7); }
+  @media (min-width: 1024px) { .layout { grid-template-columns: 1.4fr 1fr; align-items: start; } .summary { position: sticky; top: calc(var(--header-h) + 1.5rem); } }
+  .group { border: 3px solid var(--ofca-ink); background: var(--ofca-white); padding: var(--space-5); display: grid; gap: var(--space-4); margin: 0; min-width: 0; }
+  .group legend { padding: 0 var(--space-2); font-size: 1.4rem; text-transform: uppercase; }
+  .req { font-weight: 400; font-size: var(--fs-small); }
+  .option { display: flex; gap: var(--space-3); align-items: flex-start; min-height: 44px; }
+  .option input { width: 22px; height: 22px; margin-top: 3px; accent-color: var(--ofca-orange-deep); flex-shrink: 0; }
+  .errors { border: 3px solid var(--ofca-ink); border-left-width: 12px; border-left-color: var(--ofca-orange-deep); background: var(--ofca-white); padding: var(--space-4); }
+  .errors ul { margin-top: var(--space-2); padding-left: 1.2em; }
+  .submit { width: 100%; min-height: 60px; font-size: 1.2rem; }
+  .sending { display: grid; place-items: center; padding: var(--space-5); }
+  .summary { border: 4px solid var(--ofca-ink); background: var(--ofca-orange); padding: var(--space-5); display: grid; gap: var(--space-4); }
+  .lines { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+  .summary :global(.co-line) { display: flex; justify-content: space-between; gap: var(--space-3); border-bottom: 2px solid var(--ofca-ink); padding-bottom: var(--space-2); max-width: none; }
+  .summary dl > div { display: flex; justify-content: space-between; gap: var(--space-3); }
+  .total { font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; border-top: 3px solid var(--ofca-ink); padding-top: var(--space-3); }
+  .empty, .success { display: grid; gap: var(--space-5); justify-items: start; padding: var(--space-7) 0; }
+  .success:focus { outline: none; }
+</style>
+
+<script>
+  import { cart, hydrateCart, clearCart } from '../lib/cart';
+  import { track } from '../lib/analytics';
+  import { formatMoney } from '../lib/layout-client';
+
+  hydrateCart();
+  const root = document.querySelector<HTMLElement>('[data-checkout]')!;
+  const lang = root.dataset.lang as 'pl' | 'en';
+  const i18n = JSON.parse(document.querySelector('[data-co-i18n]')!.textContent!) as { qty: string };
+  const catalogEl = document.querySelector('[data-catalog]');
+  const { catalog } = JSON.parse(catalogEl?.textContent || '{"catalog":[]}') as { catalog: { slug: string; name: string; price: number }[] };
+  const bySlug = new Map(catalog.map((c) => [c.slug, c]));
+  const form = root.querySelector<HTMLFormElement>('[data-co-form]')!;
+  const esc = (s: string) => s.replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]!);
+
+  const render = () => {
+    const items = cart.get().filter((i) => bySlug.has(i.slug));
+    const done = !(root.querySelector('[data-co-success]') as HTMLElement).hidden;
+    (root.querySelector('[data-co-empty]') as HTMLElement).hidden = items.length > 0 || done;
+    (root.querySelector('[data-co-layout]') as HTMLElement).hidden = items.length === 0;
+    root.querySelector('[data-co-lines]')!.innerHTML = items.map((i) => {
+      const p = bySlug.get(i.slug)!;
+      return `<li class="co-line"><span>${esc(p.name)}${i.size ? ` (${esc(i.size)})` : ''} × ${i.qty} ${i18n.qty}</span><strong>${formatMoney(p.price * i.qty, lang)}</strong></li>`;
+    }).join('');
+    root.querySelector('[data-co-total]')!.textContent = formatMoney(items.reduce((s, i) => s + bySlug.get(i.slug)!.price * i.qty, 0), lang);
+  };
+  cart.subscribe(render);
+  if (cart.get().length) track('begin_checkout', { items: cart.get().length });
+
+  // Adres niepotrzebny przy odbiorze w Infopunkcie
+  const address = root.querySelector<HTMLFieldSetElement>('[data-address]')!;
+  form.querySelectorAll<HTMLInputElement>('input[name="delivery"]').forEach((r) => r.addEventListener('change', () => {
+    address.hidden = r.value === 'pickup' && r.checked;
+    (root.querySelector('[data-delivery-err]') as HTMLElement).hidden = true;
+  }));
+
+  const validators: Record<string, (v: string) => boolean> = {
+    name: (v) => v.trim().length > 2,
+    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()),
+    phone: (v) => v.replace(/[^\d]/g, '').length >= 9,
+    street: (v) => v.trim().length > 2,
+    zip: (v) => (lang === 'pl' ? /^\d{2}-\d{3}$/.test(v.trim()) : v.trim().length >= 3),
+    city: (v) => v.trim().length > 1,
+  };
+
+  const setError = (input: HTMLInputElement, msg: string | null) => {
+    const err = document.getElementById(`${input.id}-err`)!;
+    input.setAttribute('aria-invalid', String(!!msg));
+    err.hidden = !msg;
+    err.textContent = msg ?? '';
+  };
+  // Błędy pokazujemy po wysłaniu, a gasimy już w trakcie pisania (bez przeskoków układu przy zmianie fokusu)
+  form.querySelectorAll<HTMLInputElement>('.input').forEach((input) => input.addEventListener('input', () => {
+    if (input.getAttribute('aria-invalid') === 'true' && validators[input.name]?.(input.value)) setError(input, null);
+  }));
+  form.querySelector<HTMLInputElement>('#co-terms')!.addEventListener('change', (e) => {
+    if ((e.target as HTMLInputElement).checked) setError(e.target as HTMLInputElement, null);
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const errors: { id: string; msg: string }[] = [];
+    form.querySelectorAll<HTMLInputElement>('.input').forEach((input) => {
+      if (input.closest('[hidden]')) { setError(input, null); return; }
+      const ok = validators[input.name]?.(input.value) ?? true;
+      setError(input, ok ? null : input.dataset.err!);
+      if (!ok) errors.push({ id: input.id, msg: input.dataset.err! });
+    });
+    const delivery = form.querySelector<HTMLInputElement>('input[name="delivery"]:checked');
+    const dErr = root.querySelector<HTMLElement>('[data-delivery-err]')!;
+    dErr.hidden = !!delivery;
+    if (!delivery) errors.push({ id: 'delivery', msg: dErr.textContent! });
+    const terms = form.querySelector<HTMLInputElement>('#co-terms')!;
+    setError(terms, terms.checked ? null : terms.dataset.err!);
+    if (!terms.checked) errors.push({ id: 'co-terms', msg: terms.dataset.err! });
+
+    const box = root.querySelector<HTMLElement>('[data-co-errors]')!;
+    if (errors.length) {
+      box.hidden = false;
+      root.querySelector('[data-co-error-list]')!.innerHTML = errors.map((er) => `<li><a href="#${er.id === 'delivery' ? '' : er.id}" data-jump="${er.id}">${esc(er.msg)}</a></li>`).join('');
+      box.querySelectorAll<HTMLAnchorElement>('[data-jump]').forEach((a) => a.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const id = a.dataset.jump!;
+        (id === 'delivery' ? form.querySelector<HTMLInputElement>('input[name="delivery"]') : document.getElementById(id))?.focus();
+      }));
+      box.focus();
+      return;
+    }
+    box.hidden = true;
+    const submit = root.querySelector<HTMLButtonElement>('[data-co-submit]')!;
+    submit.disabled = true;
+    (root.querySelector('[data-co-sending]') as HTMLElement).hidden = false;
+    setTimeout(() => {
+      track('purchase', { items: cart.get().length });
+      const success = root.querySelector<HTMLElement>('[data-co-success]')!;
+      success.hidden = false;
+      clearCart();
+      (root.querySelector('[data-co-layout]') as HTMLElement).hidden = true;
+      success.focus();
+      window.scrollTo({ top: 0 });
+    }, 1400);
+  });
+</script>

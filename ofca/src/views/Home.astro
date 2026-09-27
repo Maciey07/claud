@@ -1,0 +1,502 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArtistPoster from '../components/ArtistPoster.astro';
+import Countdown from '../components/Countdown.astro';
+import StatCounter from '../components/StatCounter.astro';
+import Marquee from '../components/Marquee.astro';
+import ProductCard from '../components/ProductCard.astro';
+import MoreLink from '../components/MoreLink.astro';
+import MapArt from '../components/MapArt.astro';
+import AlertBanner from '../components/AlertBanner.astro';
+import EventCard from '../components/EventCard.astro';
+import LiteYouTube from '../components/LiteYouTube.astro';
+import Icon from '../components/Icon.astro';
+import { artists, events, locations, products, programIsDemo } from '../lib/data';
+import { photo, alts } from '../lib/photos';
+import { href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { festival, site } from '../site.config';
+import type { Lang } from '../lib/types';
+import { fitFont } from '../lib/fit';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const pl = lang === 'pl';
+const P = (x: string) => href(x as never, lang);
+
+const c = pl ? {
+  title: 'OFCA 2026 · Festiwal Cyrku Współczesnego · Oleśnica 14–16.08',
+  desc: 'Festiwal Cyrku Współczesnego OFCA: 14–16 sierpnia 2026 stare miasto w Oleśnicy zamienia się w arenę. Program, mapa, nocleg i Sklepik.',
+  kicker: 'Festiwal Cyrku Współczesnego OFCA',
+  heroAnnounce: 'Miasto w cyrku',
+  heroLive: 'Teraz na festiwalu',
+  heroLiveLead: 'Co teraz, gdzie teraz. Program aktualizuje się na bieżąco.',
+  heroAfter: 'Dziękujemy, Oleśnico!',
+  heroAfterLead: 'Oleśnica znów jest tylko miastem. Do następnego sierpnia.',
+  heroOff: 'Do zobaczenia na arenie',
+  heroOffLead: 'Arena odpoczywa. Ekipa już pracuje.',
+  place: '14–16.08.2026 · Oleśnica',
+  ctaProgram: 'Zobacz program',
+  ctaTravel: 'Jak dojechać',
+  ctaToday: 'Program na dziś',
+  ctaMap: 'Mapa',
+  ctaGallery: 'Galeria 2026',
+  ctaMerch: 'Merch z edycji',
+  ctaAftermovie: 'Obejrzyj aftermovie',
+  ctaShop: 'Sklepik',
+  nowTitle: 'Teraz',
+  nextTitle: 'Za chwilę',
+  nothingNow: 'W tej chwili nic nie gra. Sprawdź, co za chwilę.',
+  dayOver: 'Na dziś to już koniec programu. Widzimy się jutro.',
+  manifestTitle: 'Cyrk w mieście czy miasto w cyrku?',
+  manifest: 'Na trzy sierpniowe dni stare miasto w Oleśnicy staje się areną. Nad Rynkiem i Zamkiem rozpinamy taśmy, na ulice wychodzą artyści z całego świata, a amfiteatr rozgrzewa ogień. Przychodzicie jako widzowie. Wychodzicie jako część przedstawienia.',
+  aboutMore: 'Poznaj OFCĘ',
+  statsTitle: 'OFCA w liczbach',
+  statsNote: 'Dane łączne z dotychczasowych edycji.',
+  stats: [
+    { v: 227, s: '', l: 'artystów' }, { v: 22, s: '', l: 'krajów' }, { v: 150, s: '+', l: 'wolontariuszy' },
+    { v: 1000, s: '+', l: 'metrów taśm nad miastem' }, { v: festival.edition - 2014, s: '', l: 'lat na arenie' },
+  ],
+  marquee: ['Miasto w cyrku', 'Oleśnica', '14–16.08.2026', 'Nowy Cyrk', 'Highline nad Rynkiem'],
+  artistsTitle: 'Kto wystąpi',
+  artistsCta: 'Wszyscy artyści',
+  todayTitle: 'Program na dziś',
+  todayCta: 'Cały program',
+  mapTitle: 'Gdzie co jest',
+  mapLead: 'Rynek, Zamek, amfiteatr i pole namiotowe. Cała arena na jednej mapie.',
+  mapCta: 'Otwórz mapę',
+  shopTitle: 'Zabierz arenę do domu',
+  shopCta: 'Wejdź do Sklepiku',
+  infoTitle: 'Zanim przyjedziecie',
+  tiles: [
+    { k: 'travel', l: 'Dojazd', s: 'Pociąg, auto, rower, parking.' },
+    { k: 'stay', l: 'Nocleg i pole namiotowe', s: 'Namiot u podnóża zamku albo łóżko w mieście.' },
+    { k: 'faq', l: 'FAQ', s: 'Bilety, dzieci, psy, kampery.' },
+    { k: 'access', l: 'Dostępność', s: 'Trasy, toalety, miejsca siedzące.' },
+  ],
+  galleryTitle: 'Tak było w 2026',
+  aftermovieTitle: 'Aftermovie OFCA 2026',
+  galleryCta: 'Zobacz galerię',
+  communityTitle: 'Arena potrzebuje ludzi',
+  community: [
+    { k: 'volunteer', l: 'Dołącz do ekipy', s: 'Bez was ten cyrk by nie ruszył.', tone: 'lilac' },
+    { k: 'forArtists', l: 'Wystąp na OFCE', s: 'Szukamy spektakli, które zamieniają ulicę w scenę.', tone: 'orange' },
+    { k: 'partners', l: 'Wesprzyj festiwal', s: 'Jedno z najważniejszych wydarzeń Nowego Cyrku w Polsce.', tone: 'ink' },
+  ],
+  saveDate: 'Save the date',
+} : {
+  title: 'OFCA 2026 · Contemporary Circus Festival · Oleśnica, 14–16 August',
+  desc: 'OFCA Contemporary Circus Festival: on 14–16 August 2026 the old town of Oleśnica becomes a circus ring. Programme, map, places to stay and the shop.',
+  kicker: 'OFCA Contemporary Circus Festival',
+  heroAnnounce: 'The town becomes the circus',
+  heroLive: 'On right now',
+  heroLiveLead: 'What’s on, and where. The programme updates as we go.',
+  heroAfter: 'Thank you, Oleśnica!',
+  heroAfterLead: 'Oleśnica is just a town again. See you next August.',
+  heroOff: 'See you in the ring',
+  heroOffLead: 'The ring is resting. The crew is already at work.',
+  place: '14–16.08.2026 · Oleśnica, Poland',
+  ctaProgram: 'See the programme',
+  ctaTravel: 'Getting here',
+  ctaToday: 'Today’s programme',
+  ctaMap: 'Map',
+  ctaGallery: 'Gallery 2026',
+  ctaMerch: 'Festival merch',
+  ctaAftermovie: 'Watch the aftermovie',
+  ctaShop: 'Shop',
+  nowTitle: 'Now',
+  nextTitle: 'Up next',
+  nothingNow: 'Nothing is on this very minute. Here’s what’s next.',
+  dayOver: 'That’s all for today. See you tomorrow.',
+  manifestTitle: 'Circus in town, or a town in the circus?',
+  manifest: 'For three days in August, the old town of Oleśnica turns into a circus ring. We rig lines high above Rynek (Market Square) and the Castle, artists from around the world take to the streets, and the amphitheatre catches fire. You arrive as the audience. You leave as part of the show.',
+  aboutMore: 'About OFCA',
+  statsTitle: 'OFCA in numbers',
+  statsNote: 'Totals across past editions.',
+  stats: [
+    { v: 227, s: '', l: 'artists' }, { v: 22, s: '', l: 'countries' }, { v: 150, s: '+', l: 'volunteers' },
+    { v: 1000, s: '+', l: 'metres of line over town' }, { v: festival.edition - 2014, s: '', l: 'years in the ring' },
+  ],
+  marquee: ['The town becomes the circus', 'Oleśnica', '14–16.08.2026', 'Contemporary circus', 'Highline over Rynek'],
+  artistsTitle: 'Who’s performing',
+  artistsCta: 'All artists',
+  todayTitle: 'Today’s programme',
+  todayCta: 'Full programme',
+  mapTitle: 'Find your way',
+  mapLead: 'Rynek (Market Square), the Castle, the amphitheatre and the campsite. The whole ring on one map.',
+  mapCta: 'Open the map',
+  shopTitle: 'Take the ring home',
+  shopCta: 'Visit the shop',
+  infoTitle: 'Before you come',
+  tiles: [
+    { k: 'travel', l: 'Getting here', s: 'Train, car, bike, parking.' },
+    { k: 'stay', l: 'Accommodation and campsite', s: 'A tent below the Castle, or a bed in town.' },
+    { k: 'faq', l: 'FAQ', s: 'Tickets, kids, dogs, campervans.' },
+    { k: 'access', l: 'Accessibility', s: 'Routes, toilets, seating.' },
+  ],
+  galleryTitle: 'That was 2026',
+  aftermovieTitle: 'OFCA 2026 aftermovie',
+  galleryCta: 'See the gallery',
+  communityTitle: 'The ring needs people',
+  community: [
+    { k: 'volunteer', l: 'Join the crew', s: 'This circus doesn’t move without you.', tone: 'lilac' },
+    { k: 'forArtists', l: 'Perform at OFCA', s: 'We’re looking for shows that turn a street into a stage.', tone: 'orange' },
+    { k: 'partners', l: 'Support the festival', s: 'One of the key contemporary circus events in Poland.', tone: 'ink' },
+  ],
+  saveDate: 'Save the date',
+};
+
+const featuredArtists = artists.slice(0, 8);
+const featuredProducts = [products[0], products[11], products[6], products[10]];
+const keyPlaces = ['rynek', 'zamek', 'amfiteatr'].map((id) => locations.find((l) => l.id === id)!);
+const eventsJson = events.map((e) => ({ id: e.id, start: e.start, end: e.end }));
+const festivalJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Festival',
+  name: site.fullName[lang] + ' 2026',
+  startDate: '2026-08-14',
+  endDate: '2026-08-16',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: { '@type': 'Place', name: pl ? 'Stare miasto, Oleśnica' : 'Old town, Oleśnica', address: { '@type': 'PostalAddress', addressLocality: 'Oleśnica', addressCountry: 'PL' } },
+  organizer: { '@type': 'Organization', name: site.foundation.name, url: site.url },
+  inLanguage: lang,
+};
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="home" jsonLd={festivalJsonLd} fullAlert>
+  <div class="home">
+
+    <!-- HERO: announce -->
+    <section class="hero hero-announce bg-orange" data-modes="announce" style="--o-announce:1" aria-labelledby="h-announce">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="label">{c.kicker}</p>
+          <h1 id="h-announce" class="hero-title" data-split style={`font-size:${fitFont(c.heroAnnounce, 11)}`}>{c.heroAnnounce}</h1>
+          <p class="hero-place">{c.place}</p>
+          <div class="btn-row">
+            <a class="btn" href={P('program')}>{c.ctaProgram}</a>
+            <a class="btn btn-outline" href={P('travel')}>{c.ctaTravel}</a>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <div class="flag photo-frame" data-flag-anim="7%">
+            <Image src={photo('zongler-rynek')} alt={alts.zongler[lang]} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 48vw, 100vw" loading="eager" fetchpriority="high" />
+          </div>
+          <span class="v v1" aria-hidden="true">OFCA</span>
+          <span class="v v2" aria-hidden="true">2026</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERO: live -->
+    <section class="hero hero-live bg-ink on-ink" data-modes="live" style="--o-live:1" aria-labelledby="h-live">
+      <div class="wrap">
+        <p class="label kicker-live"><span class="dot" aria-hidden="true"></span>{c.kicker} · <span data-today-label></span></p>
+        <h1 id="h-live" class="hero-title" data-stretch="150" style={`font-size:${fitFont(c.heroLive, 10)}`}>{c.heroLive}</h1>
+        <p class="lead">{c.heroLiveLead}</p>
+        <div class="nowbar" data-nowbar>
+          <div>
+            <h2 class="label nb-title">{c.nowTitle}</h2>
+            <ul class="nb-list" data-nb-now></ul>
+            <p class="nb-empty" data-nb-now-empty hidden>{c.nothingNow}</p>
+          </div>
+          <div>
+            <h2 class="label nb-title">{c.nextTitle}</h2>
+            <ul class="nb-list" data-nb-next></ul>
+            <p class="nb-empty" data-nb-next-empty hidden>{c.dayOver}</p>
+          </div>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-orange" href={P('program')}>{c.ctaToday}</a>
+          <a class="btn btn-outline" href={P('map')}>{c.ctaMap}</a>
+        </div>
+        {programIsDemo && <p class="small demo-note">{d.common.demoProgram}</p>}
+      </div>
+    </section>
+
+    <!-- HERO: after -->
+    <section class="hero hero-after bg-lilac" data-modes="after" style="--o-after:1" aria-labelledby="h-after">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="label">{c.kicker}</p>
+          <h1 id="h-after" class="hero-title" data-split style={`font-size:${fitFont(c.heroAfter, 9)}`}>{c.heroAfter}</h1>
+          <p class="lead">{c.heroAfterLead}</p>
+          <div class="btn-row">
+            <a class="btn" href={P('gallery')}>{c.ctaGallery}</a>
+            <a class="btn btn-outline" href={P('shop')}>{c.ctaMerch}</a>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <div class="flag photo-frame duo" data-flag-anim="7%">
+            <Image src={photo('diabolo-scena')} alt={alts.diabolo[lang]} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 48vw, 100vw" loading="eager" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERO: offseason -->
+    <section class="hero hero-off tent-rays" data-modes="offseason" style="--o-offseason:1" aria-labelledby="h-off">
+      <div class="wrap">
+        <div class="off-card bg-cream">
+          <p class="label">{c.kicker}</p>
+          <h1 id="h-off" class="hero-title" data-split style={`font-size:${fitFont(c.heroOff, 8.5)}`}>{c.heroOff}</h1>
+          <p class="lead">{c.heroOffLead}</p>
+          {festival.next.start && <p class="label save-date">{c.saveDate}: {festival.next.start.slice(0, 10)}</p>}
+          <div class="btn-row">
+            <a class="btn" href={`${P('gallery')}#${pl ? 'wideo' : 'video'}`}>{c.ctaAftermovie}</a>
+            <a class="btn btn-orange" href={P('shop')}>{c.ctaShop}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Odliczanie -->
+    <div data-modes="announce" style="--o-announce:2"><Countdown lang={lang} /></div>
+
+    <!-- Komunikaty (live) -->
+    <div data-modes="live" style="--o-live:2"><AlertBanner lang={lang} variant="full" /></div>
+
+    <!-- Manifest -->
+    <section class="section manifest bg-cream" data-modes="announce offseason after" style="--o-announce:3;--o-offseason:5;--o-after:6" aria-labelledby="h-manifest">
+      <div class="wrap manifest-grid">
+        <h2 id="h-manifest" class="manifest-title" data-stretch="120">{c.manifestTitle}</h2>
+        <div class="stack">
+          <p class="lead">{c.manifest}</p>
+          <MoreLink href={P('about')}>{c.aboutMore}</MoreLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- Liczby -->
+    <section class="stats-wrap bg-ink on-ink" data-modes="announce offseason" style="--o-announce:4;--o-offseason:6" aria-labelledby="h-stats">
+      <div class="wrap section">
+        <div class="section-head"><h2 id="h-stats" data-stretch="140">{c.statsTitle}</h2><p class="small">{c.statsNote}</p></div>
+        <div class="stats-grid" data-reveal="stagger">
+          {c.stats.map((s) => <StatCounter value={s.v} suffix={s.s} label={s.l} />)}
+        </div>
+      </div>
+      <Marquee items={c.marquee} tone="orange" />
+    </section>
+
+    <!-- Artyści -->
+    <section class="section bg-cream" data-modes="announce after" style="--o-announce:5;--o-after:4" aria-labelledby="h-artists">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="h-artists" data-stretch="135">{c.artistsTitle}</h2>
+          <MoreLink href={P('artists')}>{c.artistsCta}</MoreLink>
+        </div>
+        <ul class="poster-rail" role="list">
+          {featuredArtists.map((a, i) => (
+            <li><ArtistPoster artist={a} lang={lang} href={href('artist', lang, { slug: a.slug })} index={i} /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Program na dziś (live) -->
+    <section class="section bg-cream" data-modes="live" style="--o-live:3" aria-labelledby="h-today">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="h-today" data-stretch="135">{c.todayTitle}</h2>
+          <MoreLink href={P('program')}>{c.todayCta}</MoreLink>
+        </div>
+        <div class="today-list" data-today-list>
+          {events.map((e) => <div data-today-item={e.start.slice(0, 10)} hidden><EventCard event={e} lang={lang} level={3} showPlan={false} /></div>)}
+        </div>
+      </div>
+    </section>
+
+    <!-- Mapa (zajawka) -->
+    <section class="section map-teaser bg-lilac" data-modes="announce live" style="--o-announce:6;--o-live:4" aria-labelledby="h-map">
+      <div class="wrap map-grid">
+        <div class="stack">
+          <h2 id="h-map" data-stretch="135">{c.mapTitle}</h2>
+          <p class="lead">{c.mapLead}</p>
+          <ul class="key-places">
+            {keyPlaces.map((l) => <li><a href={`${P('map')}?${pl ? 'miejsce' : 'place'}=${l.id}`}><Icon name="pin" size={22} />{l.name[lang]}</a></li>)}
+          </ul>
+          <a class="btn" href={P('map')}><Icon name="map" size={22} />{c.mapCta}</a>
+        </div>
+        <a class="mini-map" href={P('map')} tabindex="-1" aria-hidden="true">
+          <MapArt lang={lang} />
+          {keyPlaces.map((l) => <span class="mini-pin" style={`left:${(l.map.x / 1200) * 100}%;top:${(l.map.y / 900) * 100}%`}><span>{l.name[lang]}</span></span>)}
+        </a>
+      </div>
+    </section>
+
+    <!-- Sklepik (zajawka) -->
+    <section class="shop-teaser" data-modes="announce live after offseason" style="--o-announce:7;--o-live:6;--o-after:3;--o-offseason:3" aria-labelledby="h-shop">
+      <div class="checker checker-strip" style="--c-size: 22px" aria-hidden="true"></div>
+      <div class="section bg-orange">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 id="h-shop" data-stretch="130">{c.shopTitle}</h2>
+            <MoreLink href={P('shop')}>{c.shopCta}</MoreLink>
+          </div>
+          <div class="grid grid-4">
+            {featuredProducts.map((p) => <ProductCard product={p} lang={lang} />)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info praktyczne -->
+    <section class="section bg-cream" data-modes="announce live" style="--o-announce:8;--o-live:5" aria-labelledby="h-info">
+      <div class="wrap">
+        <h2 id="h-info" class="section-head" data-stretch="135">{c.infoTitle}</h2>
+        <ul class="tiles grid grid-4" data-reveal="stagger">
+          {c.tiles.map((tile, i) => (
+            <li><a class:list={['tile', ['bg-orange', 'bg-lilac', 'bg-ink on-ink', 'bg-white'][i]]} href={P(tile.k)}>
+              <span class="h3" style={`font-size:${fitFont(tile.l, 2.25)}`}>{tile.l}</span><span>{tile.s}</span><Icon name="hand" size={40} />
+            </a></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Aftermovie / galeria -->
+    <section class="section bg-ink on-ink" data-modes="offseason after" style="--o-offseason:2;--o-after:2" aria-labelledby="h-gallery">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="h-gallery" data-stretch="135">{c.galleryTitle}</h2>
+          <MoreLink href={P('gallery')}>{c.galleryCta}</MoreLink>
+        </div>
+        <div class="gallery-grid">
+          <div class="aftermovie"><LiteYouTube videoId={null} title={c.aftermovieTitle} lang={lang} /></div>
+          <div class="flag g-photo" data-flag-anim="6%"><Image src={photo('zongler-rynek')} alt={alts.zongler[lang]} widths={[400, 700]} sizes="(min-width: 1024px) 30vw, 100vw" /></div>
+          <div class="flag g-photo" data-flag-anim="6%"><Image src={photo('infopunkt-namiot')} alt={alts.infopunkt[lang]} widths={[400, 700]} sizes="(min-width: 1024px) 30vw, 100vw" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Społeczność -->
+    <section class="section bg-cream" data-modes="announce offseason after" style="--o-announce:9;--o-offseason:4;--o-after:5" aria-labelledby="h-community">
+      <div class="wrap">
+        <h2 id="h-community" class="section-head" data-stretch="130">{c.communityTitle}</h2>
+        <ul class="grid grid-3 community" data-reveal="stagger">
+          {c.community.map((item) => (
+            <li><a class:list={['tile tall', `bg-${item.tone}`, { 'on-ink': item.tone === 'ink' }]} href={P(item.k)}>
+              <span class="h2" style={`font-size:${fitFont(item.l, 3)}`}>{item.l}</span><span>{item.s}</span><Icon name="hand" size={44} />
+            </a></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </div>
+  <script type="application/json" data-home-events set:html={JSON.stringify(eventsJson)} />
+</BaseLayout>
+
+<style>
+  .home { display: flex; flex-direction: column; }
+  :global(html[data-mode='offseason']) .home > * { order: var(--o-offseason, 50); }
+  :global(html[data-mode='announce']) .home > * { order: var(--o-announce, 50); }
+  :global(html[data-mode='live']) .home > * { order: var(--o-live, 50); }
+  :global(html[data-mode='after']) .home > * { order: var(--o-after, 50); }
+
+  .hero { position: relative; overflow: hidden; }
+  .hero-copy, .off-card, .hero-live > .wrap { container-type: inline-size; }
+  .hero-grid { display: grid; gap: var(--space-7); padding-block: calc(var(--space-8) + var(--zigzag)) var(--space-8); align-items: center; }
+  @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+  .hero-title { font-size: clamp(3.4rem, 13.5vw, 11rem); line-height: 0.84; --wdth: 150; margin-block: var(--space-4) var(--space-5); }
+  .hero-place { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.4rem, 3vw, 2.2rem); font-variation-settings: 'wdth' 130; margin-bottom: var(--space-6); }
+  .hero-photo { position: relative; padding-inline: 2.6rem; }
+  .photo-frame { aspect-ratio: 4 / 4.6; overflow: hidden; background: var(--ofca-ink); }
+  .photo-frame :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 38% 30%; }
+  .v { position: absolute; writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-display); font-weight: 900; font-size: 2rem; line-height: 1; font-variation-settings: 'wdth' 130; }
+  .v1 { left: 0; top: 0; }
+  .v2 { right: 0; bottom: 0; }
+  .duo :global(img) { filter: url(#duo-orange); }
+
+  .hero-live { padding-block: calc(var(--space-8) + var(--zigzag)) var(--space-8); }
+  .kicker-live { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--ofca-orange); animation: pulse 1.4s infinite; }
+  @keyframes pulse { 50% { opacity: 0.25; } }
+  @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+  .nowbar { display: grid; gap: var(--space-5); margin-block: var(--space-6); }
+  @media (min-width: 768px) { .nowbar { grid-template-columns: 1fr 1fr; } }
+  .nb-title { color: var(--ofca-orange); font-size: 1rem; margin-bottom: var(--space-3); }
+  .nb-list { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+  .nb-list :global(a) { display: grid; gap: 2px; padding: var(--space-4); background: var(--ofca-cream); color: var(--ofca-ink); text-decoration: none; border-left: 10px solid var(--ofca-orange); }
+  .nb-list :global(a:hover) { background: var(--ofca-white); }
+  .nb-list :global(.nb-time) { font-family: var(--font-display); font-weight: 900; font-size: 1.2rem; }
+  .nb-list :global(.nb-name) { font-family: var(--font-display); font-weight: 900; font-size: 1.4rem; text-transform: uppercase; font-variation-settings: 'wdth' 115; line-height: 1; }
+  .demo-note { margin-top: var(--space-5); opacity: 0.85; }
+
+  .hero-off { padding-block: calc(var(--space-9) + var(--zigzag)) var(--space-9); }
+  .off-card { max-width: 64rem; padding: clamp(1.5rem, 4vw, 3.5rem); border: 4px solid var(--ofca-ink); box-shadow: 14px 14px 0 var(--ofca-ink); }
+  .off-card .lead { margin-bottom: var(--space-6); }
+  .save-date { font-size: 1.2rem; margin-bottom: var(--space-5); }
+
+  .manifest-grid { display: grid; gap: var(--space-6); }
+  @media (min-width: 1024px) { .manifest-grid { grid-template-columns: 1.2fr 1fr; align-items: end; } }
+  .manifest-title { font-size: clamp(2.6rem, 7vw, 6rem); }
+
+  .stats-grid { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
+
+  .poster-rail { list-style: none; padding: 0; display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+
+  .today-list { display: grid; gap: var(--space-4); }
+
+  .map-grid { display: grid; gap: var(--space-7); align-items: center; }
+  @media (min-width: 1024px) { .map-grid { grid-template-columns: 1fr 1.4fr; } }
+  .key-places { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+  .key-places a { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 700; min-height: 44px; }
+  .mini-map { position: relative; display: block; border: 4px solid var(--ofca-ink); box-shadow: 12px 12px 0 var(--ofca-ink); aspect-ratio: 4 / 3; background: var(--ofca-cream); }
+  .mini-pin { position: absolute; transform: translate(-50%, -100%); display: grid; justify-items: center; }
+  .mini-pin span {
+    background: var(--ofca-ink); color: var(--ofca-cream); padding: 0.3em 0.6em; white-space: nowrap;
+    font-family: var(--font-display); font-weight: 900; font-size: clamp(0.65rem, 1.2vw, 0.9rem); text-transform: uppercase;
+  }
+  .mini-pin::after { content: ''; width: 16px; height: 16px; background: var(--ofca-orange); border: 3px solid var(--ofca-ink); transform: rotate(45deg); margin-top: -4px; }
+
+  .tiles, .community { list-style: none; padding: 0; }
+  .tiles li, .community li { max-width: none; }
+  .tile {
+    display: grid; gap: var(--space-3); align-content: space-between; min-height: 14rem; height: 100%; padding: var(--space-5);
+    text-decoration: none; border: 3px solid var(--ofca-ink); container-type: inline-size; transition: transform 200ms var(--ease-out), box-shadow 200ms;
+  }
+  .tile.tall { min-height: 20rem; }
+  .tile:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--ofca-ink); }
+  .tile .h3, .tile .h2 { text-transform: uppercase; }
+
+  .gallery-grid { display: grid; gap: var(--space-5); }
+  @media (min-width: 1024px) { .gallery-grid { grid-template-columns: 2fr 1fr 1fr; align-items: stretch; } }
+  .g-photo { aspect-ratio: 3 / 4; overflow: hidden; }
+  .g-photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+</style>
+
+<script>
+  import { now } from '../lib/clock';
+  import { dayKeyOf, timeRange } from '../lib/format';
+
+  // Pasek „Teraz / Za chwilę” i program dnia (tryb live)
+  const root = document.querySelector<HTMLElement>('[data-nowbar]');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-today-list] .event'));
+  if (root && document.documentElement.dataset.mode === 'live') {
+    const t = now().getTime();
+    const today = dayKeyOf(now());
+    const lang = document.documentElement.lang;
+    document.querySelectorAll('[data-today-label]').forEach((el) => {
+      el.textContent = new Intl.DateTimeFormat(lang === 'pl' ? 'pl-PL' : 'en-GB', { timeZone: 'Europe/Warsaw', weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(now());
+    });
+    document.querySelectorAll<HTMLElement>('[data-today-item]').forEach((el) => (el.hidden = el.dataset.todayItem !== today));
+    const item = (c: HTMLElement) => {
+      const link = c.querySelector<HTMLAnchorElement>('.title a')?.href ?? c.querySelector<HTMLAnchorElement>('.place a')!.href;
+      return `<li><a href="${link}"><span class="nb-time">${timeRange(c.dataset.start!, c.dataset.end!)}</span><span class="nb-name">${c.dataset.title}</span><span>${c.dataset.locationName}</span></a></li>`;
+    };
+    const current = cards.filter((c) => Date.parse(c.dataset.start!) <= t && Date.parse(c.dataset.end!) > t);
+    const next = cards.filter((c) => Date.parse(c.dataset.start!) > t && c.dataset.day === today).slice(0, 3);
+    root.querySelector('[data-nb-now]')!.innerHTML = current.slice(0, 3).map(item).join('');
+    root.querySelector('[data-nb-next]')!.innerHTML = next.map(item).join('');
+    (root.querySelector('[data-nb-now-empty]') as HTMLElement).hidden = current.length > 0;
+    (root.querySelector('[data-nb-next-empty]') as HTMLElement).hidden = next.length > 0;
+    cards.forEach((c) => {
+      const s = Date.parse(c.dataset.start!), e = Date.parse(c.dataset.end!);
+      c.classList.toggle('is-now', s <= t && e > t);
+      c.classList.toggle('is-past', e <= t);
+      (c.querySelector('[data-now-flag]') as HTMLElement).hidden = !(s <= t && e > t);
+    });
+  }
+</script>

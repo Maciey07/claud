@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import InfoLayout from '../layouts/InfoLayout.astro';
+import Icon from '../components/Icon.astro';
+import { photo, alts } from '../lib/photos';
+import { href, type RouteKey } from '../i18n/routes';
+import { fitFont } from '../lib/fit';
+import type { Lang } from '../lib/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const tiles: { key: RouteKey; l: string; s: string; tone: string }[] = pl ? [
+  { key: 'travel', l: 'Dojazd', s: 'Pociąg, samochód, rower i parkingi.', tone: 'bg-orange' },
+  { key: 'stay', l: 'Nocleg i pole namiotowe', s: 'Namiot u podnóża zamku, karnety, kampery, noclegi w mieście.', tone: 'bg-lilac' },
+  { key: 'highline', l: 'Highline i slackline', s: 'Co to jest, gdzie wiszą taśmy i jak dołączyć.', tone: 'bg-white' },
+  { key: 'faq', l: 'FAQ', s: 'Bilety, dzieci, psy, pole namiotowe.', tone: 'bg-ink on-ink' },
+  { key: 'access', l: 'Dostępność', s: 'Trasy, toalety, miejsca siedzące, kontakt w sprawie potrzeb.', tone: 'bg-orange' },
+  { key: 'map', l: 'Mapa', s: 'Wszystkie miejsca festiwalu na jednej mapie.', tone: 'bg-lilac' },
+] : [
+  { key: 'travel', l: 'Getting here', s: 'Train, car, bike and parking.', tone: 'bg-orange' },
+  { key: 'stay', l: 'Accommodation', s: 'A tent below the Castle, passes, campervans, beds in town.', tone: 'bg-lilac' },
+  { key: 'highline', l: 'Highline and slackline', s: 'What it is, where the lines hang and how to join.', tone: 'bg-white' },
+  { key: 'faq', l: 'FAQ', s: 'Tickets, kids, dogs, the campsite.', tone: 'bg-ink on-ink' },
+  { key: 'access', l: 'Accessibility', s: 'Routes, toilets, seating, contact about access needs.', tone: 'bg-orange' },
+  { key: 'map', l: 'Map', s: 'Every festival venue on one map.', tone: 'bg-lilac' },
+];
+const c = pl
+  ? { title: 'Zanim przyjedziecie', desc: 'Informacje praktyczne o Festiwalu OFCA: dojazd, nocleg, pole namiotowe, highline, FAQ i dostępność.', lead: 'Spokojnie i konkretnie: jak dojechać, gdzie spać i o co zapytać.', ip: 'Infopunkt', ipText: 'Punkt informacyjny festiwalu stoi na Rynku. Zapytacie tam o program, kupicie merch i karnety na pole namiotowe.', hours: 'Godziny otwarcia', where: 'Pokaż Infopunkt na mapie' }
+  : { title: 'Before you come', desc: 'Practical info for OFCA: getting here, accommodation, the campsite, highline, FAQ and accessibility.', lead: 'Calm and clear: how to get here, where to sleep, and who to ask.', ip: 'Infopunkt', ipText: 'The festival info point is on Rynek (Market Square). Ask about the programme, buy merch and campsite passes.', hours: 'Opening hours', where: 'Show the Infopunkt on the map' };
+---
+<InfoLayout lang={lang} route="info" title={c.title} description={c.desc} lead={c.lead}>
+  <ul class="tiles" role="list">
+    {tiles.map((tile) => (
+      <li><a class:list={['tile', tile.tone]} href={href(tile.key, lang)}><span class="h3" style={`font-size:${fitFont(tile.l, 2.25)}`}>{tile.l}</span><span>{tile.s}</span><Icon name="hand" size={40} /></a></li>
+    ))}
+  </ul>
+  <section class="ip" aria-labelledby="h-ip">
+    <div class="flag ip-photo" data-flag-anim="5%"><Image src={photo('infopunkt-namiot')} alt={alts.infopunkt[lang]} widths={[400, 700]} sizes="(min-width: 900px) 35vw, 100vw" /></div>
+    <div class="stack">
+      <h2 id="h-ip" data-stretch="140">{c.ip}</h2>
+      <p class="lead">{c.ipText}</p>
+      <p><strong>{c.hours}:</strong> <span class="tbc">[DO UZUPEŁNIENIA]</span></p>
+      <a class="btn" href={`${href('map', lang)}?${pl ? 'miejsce' : 'place'}=infopunkt`}><Icon name="pin" size={20} />{c.where}</a>
+    </div>
+  </section>
+</InfoLayout>
+<style>
+  .tiles { list-style: none; padding: 0; display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
+  .tiles li { max-width: none; }
+  .tile { display: grid; gap: var(--space-3); align-content: space-between; min-height: 14rem; height: 100%; padding: var(--space-5); text-decoration: none; border: 3px solid var(--ofca-ink); container-type: inline-size; }
+  .tile:hover { box-shadow: 8px 8px 0 var(--ofca-ink); }
+  .tile .h3 { text-transform: uppercase; }
+  .ip { display: grid; gap: var(--space-7); margin-top: var(--space-9); align-items: center; }
+  @media (min-width: 900px) { .ip { grid-template-columns: minmax(0, 26rem) 1fr; } }
+  .ip-photo { aspect-ratio: 3 / 4; overflow: hidden; }
+  .ip-photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .ip h2 { font-size: var(--fs-h2); }
+</style>

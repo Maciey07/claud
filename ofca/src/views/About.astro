@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import StatCounter from '../components/StatCounter.astro';
+import Marquee from '../components/Marquee.astro';
+import MoreLink from '../components/MoreLink.astro';
+import Icon from '../components/Icon.astro';
+import { photo, alts } from '../lib/photos';
+import { href } from '../i18n/routes';
+import { site } from '../site.config';
+import type { Lang } from '../lib/types';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pl = lang === 'pl';
+const T = '[DO UZUPEŁNIENIA]';
+const reports = [2024, 2023, 2022].map((y) => ({ year: y, url: null as string | null }));
+const c = pl ? {
+  title: 'O festiwalu', h: 'Miasto w cyrku', desc: 'Czym jest Festiwal Cyrku Współczesnego OFCA: historia od 2014 roku, Nowy Cyrk, liczby, Fundacja OFCA i sprawozdania finansowe.',
+  lead: 'OFCA to festiwal cyrku współczesnego w Oleśnicy. Od 2014 roku co sierpień zamieniamy stare miasto w arenę.',
+  what: 'Czym jest Nowy Cyrk?', whatP: ['To cyrk współczesny: akrobatyka, żonglerka, taniec, teatr i muzyka połączone w jedną opowieść. Bez zwierząt, za to z historią, którą da się przeczytać bez słów.', 'Na OFCE gramy spektakle uliczne, otwarte dla wszystkich, i spektakle sceniczne pod namiotami. Nad głowami wiszą taśmy highline, w amfiteatrze płonie ogień.'],
+  history: 'Historia', historyItems: [
+    { y: '2014', t: 'Pierwsza edycja festiwalu.' },
+    { y: '2015', t: 'Powstaje Fundacja OFCA.' },
+    { y: '2016–2025', t: `Kolejne edycje, murale i rosnąca ekipa. Kalendarium: ${T}` },
+    { y: '2026', t: 'Edycja 14–16 sierpnia 2026.' },
+  ],
+  numbers: 'OFCA w liczbach', numbersNote: 'Dane łączne z dotychczasowych edycji.',
+  stats: [
+    { v: 227, s: '', l: 'artystów' }, { v: 22, s: '', l: 'krajów' }, { v: 150, s: '+', l: 'wolontariuszy' }, { v: 6, s: '', l: 'murali' },
+    { v: 100, s: '+', l: 'godzin warsztatów' }, { v: 82, s: '', l: 'przedstawienia' },
+  ],
+  foundation: 'Fundacja OFCA', foundationP: 'Festiwal organizuje Fundacja OFCA. Publikujemy sprawozdania finansowe, bo po każdej edycji coś zostaje w mieście, także przejrzystość.',
+  reports: 'Sprawozdania finansowe', reportLabel: (y: number) => `Sprawozdanie finansowe ${y} (PDF)`, team: 'Zespół', teamP: `Zespół festiwalu: ${T}`,
+  grants: 'Grantodawcy', grantsP: `Logotypy i informacje o dofinansowaniu (m.in. MKiDN): ${T}`, contact: 'Kontakt z Fundacją',
+  marquee: ['Od 2014 roku', 'Nowy Cyrk', 'Oleśnica', 'Fundacja OFCA'],
+} : {
+  title: 'About', h: 'The town becomes the circus', desc: 'About the OFCA Contemporary Circus Festival: history since 2014, contemporary circus, numbers, the OFCA Foundation and financial reports.',
+  lead: 'OFCA is a contemporary circus festival in Oleśnica, Poland. Every August since 2014 we turn the old town into a circus ring.',
+  what: 'What is contemporary circus?', whatP: ['Contemporary circus (New Circus) blends acrobatics, juggling, dance, theatre and music into one story. No animals, and stories you can follow without words.', 'At OFCA you’ll find street shows, open to everyone, and stage shows under canvas. Highline webbing hangs overhead and the amphitheatre catches fire.'],
+  history: 'History', historyItems: [
+    { y: '2014', t: 'The first festival.' },
+    { y: '2015', t: 'The OFCA Foundation is set up.' },
+    { y: '2016–2025', t: `More editions, murals and a growing crew. Timeline: ${T}` },
+    { y: '2026', t: 'This edition: 14–16 August 2026.' },
+  ],
+  numbers: 'OFCA in numbers', numbersNote: 'Totals across past editions.',
+  stats: [
+    { v: 227, s: '', l: 'artists' }, { v: 22, s: '', l: 'countries' }, { v: 150, s: '+', l: 'volunteers' }, { v: 6, s: '', l: 'murals' },
+    { v: 100, s: '+', l: 'hours of workshops' }, { v: 82, s: '', l: 'unique shows' },
+  ],
+  foundation: 'OFCA Foundation', foundationP: 'The festival is run by the OFCA Foundation (Fundacja OFCA). We publish our financial reports: every edition leaves something behind in town, including transparency.',
+  reports: 'Financial reports', reportLabel: (y: number) => `Financial report ${y} (PDF, in Polish)`, team: 'Team', teamP: `Festival team: ${T}`,
+  grants: 'Funders', grantsP: `Funder logos and grant information (incl. the Ministry of Culture): ${T}`, contact: 'Contact the Foundation',
+  marquee: ['Since 2014', 'Contemporary circus', 'Oleśnica', 'OFCA Foundation'],
+};
+---
+<BaseLayout lang={lang} title={c.title} description={c.desc} route="about" breadcrumbs={[{ name: c.title, url: href('about', lang) }]}>
+  <PageHero title={c.h} kicker={c.title} lead={c.lead} tone="orange" />
+  <section class="wrap section what">
+    <div class="stack">
+      <h2 data-stretch="120">{c.what}</h2>
+      {c.whatP.map((p) => <p class="lead">{p}</p>)}
+    </div>
+    <div class="flag photo" data-flag-anim="6%"><Image src={photo('diabolo-scena')} alt={alts.diabolo[lang]} widths={[500, 900]} sizes="(min-width: 1024px) 45vw, 100vw" /></div>
+  </section>
+
+  <section class="bg-ink on-ink" aria-labelledby="h-num">
+    <div class="wrap section">
+      <div class="section-head"><h2 id="h-num" data-stretch="140">{c.numbers}</h2><p class="small">{c.numbersNote}</p></div>
+      <div class="stats" data-reveal="stagger">{c.stats.map((s) => <StatCounter value={s.v} suffix={s.s} label={s.l} />)}</div>
+    </div>
+    <Marquee items={c.marquee} tone="lilac" />
+  </section>
+
+  <section class="wrap section" aria-labelledby="h-hist">
+    <h2 id="h-hist" class="section-head" data-stretch="140">{c.history}</h2>
+    <ol class="timeline" data-reveal="stagger">
+      {c.historyItems.map((h) => <li><span class="year">{h.y}</span><p>{h.t}</p></li>)}
+    </ol>
+  </section>
+
+  <section class="diamonds found" style="--d-bg: var(--ofca-white); --d-fg: var(--ofca-lilac); --d-w: 44px" aria-labelledby="h-found">
+    <div class="wrap section">
+      <div class="found-card stack">
+        <h2 id="h-found" data-stretch="130">{c.foundation}</h2>
+        <p>{c.foundationP}</p>
+        <address>{site.foundation.name}<br />{site.foundation.street}<br />{site.foundation.city}</address>
+        <h3 class="h3">{c.reports}</h3>
+        <ul class="reports">
+          {reports.map((r) => <li>{r.url ? <a href={r.url}><Icon name="download" size={20} />{c.reportLabel(r.year)}</a> : <span><Icon name="download" size={20} />{c.reportLabel(r.year)}: <span class="tbc">{T}</span></span>}</li>)}
+        </ul>
+        <h3 class="h3">{c.team}</h3><p>{c.teamP}</p>
+        <h3 class="h3">{c.grants}</h3><p>{c.grantsP}</p>
+        <MoreLink href={href('contact', lang)}>{c.contact}</MoreLink>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .what { display: grid; gap: var(--space-7); align-items: center; }
+  @media (min-width: 1024px) { .what { grid-template-columns: 1fr 1fr; } }
+  .what > * { min-width: 0; }
+  .what h2 { font-size: var(--fs-h2); }
+  .photo { aspect-ratio: 3 / 2; overflow: hidden; }
+  .photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .stats { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+  .timeline { list-style: none; padding: 0; display: grid; gap: var(--space-4); }
+  .timeline li { display: grid; grid-template-columns: minmax(7rem, 14rem) 1fr; gap: var(--space-5); align-items: baseline; border-top: 4px solid var(--ofca-ink); padding-top: var(--space-4); max-width: none; }
+  .year { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.6rem, 4vw, 3rem); font-variation-settings: 'wdth' 130; line-height: 1; }
+  .found-card { background: var(--ofca-cream); border: 4px solid var(--ofca-ink); padding: clamp(1.25rem, 4vw, 3rem); max-width: 48rem; box-shadow: 14px 14px 0 var(--ofca-ink); }
+  .found-card h2 { font-size: var(--fs-h2); }
+  address { font-style: normal; font-weight: 600; }
+  .reports { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+  .reports a, .reports span { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; font-weight: 600; flex-wrap: wrap; }
+</style>

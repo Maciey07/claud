@@ -76,7 +76,7 @@ const ACCS = {
   cover: { name: 'Osłona jednostki zewnętrznej', desc: 'Stal lakierowana proszkowo, chroni przed śniegiem.', price: 399, icon: 'cover' }
 };
 const accVisual = id => ACCS[id].img ? `<img src="${ACCS[id].img}" alt="">` : ICONS[ACCS[id].icon];
-const PROMOS = { LATO26: 0.05, CLIMOO10: 0.10 };
+const PROMOS = { CISZA5: 0.05, LATO26: 0.05, CLIMOO10: 0.10 };
 const RATY = 20;
 const recommend = a => a <= 30 ? '25' : a <= 45 ? '35' : '50';
 
@@ -208,7 +208,34 @@ function unitSVG(temp) {
   <rect class="led" x="300" y="182" width="400" height="3" rx="1.5" fill="url(#ug${i})"/>
 </svg>`;
 }
-$$('[data-unit]').forEach(el => { el.innerHTML = unitSVG(el.dataset.temp); });
+/* Starsza generacja: Climoo X4 (kanciasta obudowa, kratka, klapa na wierzchu) */
+function unitX4SVG() {
+  const i = ++uid;
+  const grille = Array.from({ length: 7 }, (_, k) => `<rect x="70" y="${30 + k * 5}" width="860" height="1.6" rx=".8" fill="#000" fill-opacity=".09"/>`).join('');
+  const vanes = Array.from({ length: 21 }, (_, k) => `<path d="M${90 + k * 41} 214v18" stroke="#3b3f47" stroke-width="3"/>`).join('');
+  return `<svg viewBox="0 0 1000 300" aria-hidden="true">
+  <defs>
+    <linearGradient id="xb${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfbf7"/><stop offset=".55" stop-color="#ecebe4"/><stop offset="1" stop-color="#cfcdc4"/></linearGradient>
+    <linearGradient id="xs${i}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".14"/><stop offset=".04" stop-color="#000" stop-opacity="0"/><stop offset=".96" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient>
+    <filter id="xf${i}" x="-20%" y="-50%" width="140%" height="220%"><feGaussianBlur stdDeviation="16"/></filter>
+  </defs>
+  <rect x="50" y="70" width="900" height="200" rx="20" fill="#000" opacity=".2" filter="url(#xf${i})"/>
+  <rect x="14" y="10" width="972" height="244" rx="16" fill="url(#xb${i})"/>
+  <rect x="14" y="10" width="972" height="244" rx="16" fill="url(#xs${i})"/>
+  <rect x="14.5" y="10.5" width="971" height="243" rx="15.5" fill="none" stroke="#000" stroke-opacity=".1"/>
+  ${grille}
+  <rect x="34" y="72" width="932" height="112" rx="8" fill="none" stroke="#000" stroke-opacity=".08"/>
+  <text x="70" y="136" font-family="Arial,sans-serif" font-size="21" font-weight="700" letter-spacing="1" fill="#a7a69f">climoo</text>
+  <circle cx="742" cy="120" r="4" fill="#5bd67a"/>
+  <rect x="768" y="100" width="150" height="42" rx="5" fill="#1b1d22"/>
+  <text x="843" y="131" text-anchor="middle" font-family="'Courier New',monospace" font-size="26" font-weight="700" fill="#79e7ff">22°C</text>
+  <rect x="14" y="192" width="972" height="62" rx="0" fill="#000" fill-opacity=".045"/>
+  <rect x="56" y="204" width="888" height="34" rx="6" fill="#14161a"/>
+  ${vanes}
+  <path d="M52 238h896l-10 22H62Z" fill="#e3e2da" stroke="#000" stroke-opacity=".08"/>
+</svg>`;
+}
+$$('[data-unit]').forEach(el => { el.innerHTML = el.dataset.unit === 'x4' ? unitX4SVG() : unitSVG(el.dataset.temp); });
 
 /* =====================================================
    AIRFLOW (canvas)
@@ -288,6 +315,23 @@ function carousel(track, prev, next, counter) {
    ===================================================== */
 function home() {
   requestAnimationFrame(() => document.documentElement.classList.add('loaded'));
+
+  /* hero: najbliższy termin montażu i lekkie przechylenie urządzenia za kursorem */
+  const DAYG = ['niedzieli', 'poniedziałku', 'wtorku', 'środy', 'czwartku', 'piątku', 'soboty'];
+  const first = addDays(3);
+  $('#heroDate').textContent = `${DAYG[first.getDay()]}, ${first.getDate()} ${MONN[first.getMonth()]}`;
+  const heroUnit = $('#heroStage .unit'), hero = $('.hero');
+  if (!reduce && matchMedia('(pointer: fine)').matches) {
+    hero.addEventListener('pointermove', e => {
+      const r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      heroUnit.style.transform = `perspective(1400px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+    });
+    hero.addEventListener('pointerleave', () => { heroUnit.style.transform = ''; });
+  }
+
+  /* X4 i X5: suwak porównania */
+  const vs = $('#vs'), vsRange = $('#vsRange');
+  if (vs) { const upd = () => vs.style.setProperty('--pos', vsRange.value + '%'); vsRange.addEventListener('input', upd); upd(); }
 
   /* highlights */
   const track = $('#hlTrack'), slides = $$('.hl', track), dotsEl = $('#hlDots');
@@ -626,7 +670,7 @@ function bag() {
       </div>
       <aside class="summary"><h3>Podsumowanie</h3>${totalsHTML()}
         <div class="promo"><input id="promoIn" placeholder="Kod rabatowy" value="${esc(S.promo || '')}" aria-label="Kod rabatowy" ${S.promo ? 'readonly' : ''}><button class="btn ghost sm" style="height:44px" id="promoBtn">${S.promo ? 'Usuń' : 'Zastosuj'}</button></div>
-        <p class="promo-msg ${S.promo ? 'ok' : ''}" id="promoMsg">${S.promo ? `Kod aktywny: -${PROMOS[S.promo] * 100}%.` : 'Masz kod? Wypróbuj LATO26.'}</p>
+        <p class="promo-msg ${S.promo ? 'ok' : ''}" id="promoMsg">${S.promo ? `Kod aktywny: -${PROMOS[S.promo] * 100}%.` : 'Masz kod rabatowy? Wypróbuj CISZA5.'}</p>
         <a class="btn block lg" href="kasa.html">Przejdź do kasy</a>
         ${TRUST}
       </aside></div>`;

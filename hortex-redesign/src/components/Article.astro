@@ -1,0 +1,25 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import { t } from '../lib/data';
+interface Props { title: string; lead: string; body: string[]; crumbs: { label: string; href?: string }[]; meta?: string; image: string; imageAlt: string }
+const { title, lead, body, crumbs, meta, image, imageAlt } = Astro.props;
+---
+<article class="container article">
+  <Breadcrumbs items={crumbs} />
+  {meta && <p class="t-meta t-muted article__meta">{meta}</p>}
+  <h1>{t(title)}</h1>
+  <p class="t-lead t-muted article__lead">{t(lead)}</p>
+  <div class="media article__img" style="--ratio: 3/2"><img src={image} alt={imageAlt} width="1200" height="800" fetchpriority="high" /></div>
+  <div class="prose article__body hyphenate">
+    {body.map((b) => (b.startsWith('## ') ? <h2>{b.slice(3)}</h2> : <p>{t(b)}</p>))}
+  </div>
+  <slot />
+</article>
+<style>
+  .article { padding-block: var(--s-4) var(--s-section); display: grid; gap: var(--s-3); }
+  .article h1 { max-width: 22ch; margin-top: var(--s-2); }
+  .article__meta { margin-top: var(--s-2); }
+  .article__lead { max-width: 44rem; }
+  .article__img { max-width: 1000px; margin-block: var(--s-3); }
+  .article__body { font-size: 1.0625rem; }
+</style>

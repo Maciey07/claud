@@ -1,0 +1,1122 @@
+[
+  {
+    "diet": [
+      "wege"
+    ],
+    "collections": [],
+    "tips": [
+      "Im lepiej osuszysz warzywa, tym mniej mąki potrzeba i tym bardziej chrupiące będą placuszki.",
+      "Placuszki można upiec w piekarniku: 200°C, 20 minut, w połowie przewrócić."
+    ],
+    "substitutes": [
+      "Mąkę pszenną zastąp gryczaną, żeby danie było bezglutenowe.",
+      "Zamiast jogurtu greckiego sprawdzi się skyr."
+    ],
+    "allergens": [
+      "jaja",
+      "gluten",
+      "mleko"
+    ],
+    "slug": "placuszki-z-brokula-i-kalafiora-z-sosem-koperkowym",
+    "title": "Placuszki z brokuła i kalafiora z sosem koperkowym",
+    "category": "dania-glowne",
+    "time": 35,
+    "servings": 4,
+    "difficulty": "łatwy",
+    "products": [
+      "mix-brokul-i-kalafior"
+    ],
+    "dish": "patties",
+    "pieces": [
+      "broccoli",
+      "cauliflower",
+      "dill"
+    ],
+    "date": "2026-09-12",
+    "lead": "Chrupiące z zewnątrz, miękkie w środku placuszki z warzywnego miksu. Sos koperkowy na jogurcie robi się w czasie, gdy smaży się pierwsza partia.",
+    "groups": [
+      {
+        "name": "Placuszki",
+        "items": [
+          {
+            "qty": 450,
+            "unit": "g",
+            "name": "mix brokuł i kalafior Hortex",
+            "product": "mix-brokul-i-kalafior"
+          },
+          {
+            "qty": 2,
+            "unit": "szt.",
+            "name": "jajka"
+          },
+          {
+            "qty": 4,
+            "unit": "łyżki",
+            "name": "mąki pszennej"
+          },
+          {
+            "qty": 50,
+            "unit": "g",
+            "name": "startego sera żółtego"
+          },
+          {
+            "qty": 1,
+            "unit": "ząbek",
+            "name": "czosnku"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "sól, pieprz, gałka muszkatołowa"
+          },
+          {
+            "qty": 3,
+            "unit": "łyżki",
+            "name": "oleju do smażenia"
+          }
+        ]
+      },
+      {
+        "name": "Sos",
+        "items": [
+          {
+            "qty": 200,
+            "unit": "g",
+            "name": "jogurtu greckiego"
+          },
+          {
+            "qty": 0.5,
+            "unit": "pęczka",
+            "name": "koperku"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżeczka",
+            "name": "soku z cytryny"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "sól"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Warzywa ugotuj w osolonej wodzie przez 5 minut, odcedź i dokładnie osusz.",
+      "Rozdrobnij je widelcem lub krótko blenderem, tak żeby zostały małe kawałki.",
+      "Dodaj jajka, mąkę, ser i przeciśnięty czosnek. Dopraw solą, pieprzem i gałką.",
+      "Rozgrzej olej na patelni. Nakładaj łyżką porcje masy i lekko spłaszczaj.",
+      "Smaż po 3 minuty z każdej strony, aż placuszki będą złociste.",
+      "Wymieszaj jogurt z posiekanym koperkiem, sokiem z cytryny i solą. Podawaj od razu."
+    ]
+  },
+  {
+    "diet": [
+      "wege"
+    ],
+    "collections": [],
+    "tips": [
+      "Część brokułów rozgnieć łyżką na patelni: zrobią kremowy sos."
+    ],
+    "substitutes": [],
+    "allergens": [
+      "gluten",
+      "mleko"
+    ],
+    "slug": "makaron-z-brokulami-i-groszkiem",
+    "title": "Makaron z brokułami, groszkiem i cytryną",
+    "category": "dania-glowne",
+    "time": 20,
+    "servings": 4,
+    "difficulty": "łatwy",
+    "products": [
+      "brokuly-rozyczki",
+      "groszek-zielony"
+    ],
+    "dish": "pasta",
+    "pieces": [
+      "broccoli",
+      "pea"
+    ],
+    "date": "2026-09-05",
+    "lead": "Szybki obiad z dwóch mrożonek i makaronu. Skórka z cytryny i parmezan robią tu całą robotę.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 350,
+            "unit": "g",
+            "name": "makaronu orecchiette lub penne"
+          },
+          {
+            "qty": 300,
+            "unit": "g",
+            "name": "brokułów różyczek Hortex",
+            "product": "brokuly-rozyczki"
+          },
+          {
+            "qty": 150,
+            "unit": "g",
+            "name": "groszku zielonego Hortex",
+            "product": "groszek-zielony"
+          },
+          {
+            "qty": 2,
+            "unit": "ząbki",
+            "name": "czosnku"
+          },
+          {
+            "qty": 3,
+            "unit": "łyżki",
+            "name": "oliwy"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "cytryna (skórka i sok)"
+          },
+          {
+            "qty": 40,
+            "unit": "g",
+            "name": "parmezanu"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Ugotuj makaron al dente. Na 4 minuty przed końcem wrzuć do garnka brokuły, na 2 minuty groszek.",
+      "Na patelni rozgrzej oliwę i krótko podsmaż plasterki czosnku.",
+      "Odcedź makaron z warzywami, zachowując pół szklanki wody z gotowania.",
+      "Przełóż wszystko na patelnię, dodaj skórkę i sok z cytryny oraz wodę z gotowania.",
+      "Wymieszaj z tartym parmezanem i dopraw pieprzem."
+    ]
+  },
+  {
+    "diet": [
+      "wege",
+      "bez-glutenu"
+    ],
+    "collections": [
+      "jesien"
+    ],
+    "tips": [
+      "Kurek nie rozmrażaj przed smażeniem: puszczą mniej wody."
+    ],
+    "substitutes": [],
+    "allergens": [
+      "mleko"
+    ],
+    "slug": "risotto-z-kurkami",
+    "title": "Risotto z kurkami i tymiankiem",
+    "category": "dania-glowne",
+    "time": 40,
+    "servings": 4,
+    "difficulty": "średni",
+    "products": [
+      "kurki"
+    ],
+    "dish": "risotto",
+    "pieces": [
+      "chanterelle",
+      "dill"
+    ],
+    "date": "2026-08-28",
+    "lead": "Kurki smażone osobno, żeby były rumiane, a nie gotowane w ryżu. Na koniec zimne masło i parmezan.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 300,
+            "unit": "g",
+            "name": "ryżu arborio"
+          },
+          {
+            "qty": 230,
+            "unit": "g",
+            "name": "kurek Hortex",
+            "product": "kurki"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "szalotka"
+          },
+          {
+            "qty": 100,
+            "unit": "ml",
+            "name": "białego wina"
+          },
+          {
+            "qty": 1,
+            "unit": "l",
+            "name": "gorącego bulionu warzywnego"
+          },
+          {
+            "qty": 40,
+            "unit": "g",
+            "name": "masła"
+          },
+          {
+            "qty": 50,
+            "unit": "g",
+            "name": "parmezanu"
+          },
+          {
+            "qty": 3,
+            "unit": "gałązki",
+            "name": "tymianku"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Kurki wrzuć na rozgrzaną suchą patelnię. Gdy odparują wodę, dodaj łyżkę masła i smaż do zrumienienia. Odłóż.",
+      "W garnku zeszklij posiekaną szalotkę na łyżce masła.",
+      "Dodaj ryż i smaż minutę, aż ziarna staną się szkliste. Wlej wino i odparuj.",
+      "Dolewaj bulion po jednej chochli, mieszając, przez około 18 minut.",
+      "Zdejmij z ognia, dodaj resztę zimnego masła, parmezan i większość kurek. Przykryj na 2 minuty.",
+      "Podawaj z pozostałymi kurkami i listkami tymianku."
+    ]
+  },
+  {
+    "diet": [
+      "wege",
+      "bez-glutenu"
+    ],
+    "collections": [
+      "jesien"
+    ],
+    "tips": [
+      "Odłóż kilka różyczek przed miksowaniem i dodaj je na talerz."
+    ],
+    "substitutes": [],
+    "allergens": [
+      "mleko",
+      "orzechy"
+    ],
+    "slug": "krem-z-kalafiora",
+    "title": "Krem z kalafiora z prażonymi migdałami",
+    "category": "zupy",
+    "time": 30,
+    "servings": 4,
+    "difficulty": "łatwy",
+    "products": [
+      "kalafior-rozyczki"
+    ],
+    "dish": "soup",
+    "pieces": [
+      "cauliflower",
+      "dill"
+    ],
+    "date": "2026-09-18",
+    "lead": "Aksamitna zupa bez śmietany: kremowość daje sam kalafior i odrobina masła.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 450,
+            "unit": "g",
+            "name": "kalafiora różyczek Hortex",
+            "product": "kalafior-rozyczki"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "cebula"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "ziemniak"
+          },
+          {
+            "qty": 900,
+            "unit": "ml",
+            "name": "bulionu warzywnego"
+          },
+          {
+            "qty": 20,
+            "unit": "g",
+            "name": "masła"
+          },
+          {
+            "qty": 30,
+            "unit": "g",
+            "name": "płatków migdałów"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "sól, pieprz, gałka muszkatołowa"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Na maśle zeszklij posiekaną cebulę.",
+      "Dodaj pokrojony ziemniak i kalafior, zalej bulionem.",
+      "Gotuj 15 minut do miękkości warzyw.",
+      "Zmiksuj na gładki krem i dopraw.",
+      "Migdały upraż na suchej patelni. Posyp nimi zupę tuż przed podaniem."
+    ]
+  },
+  {
+    "diet": [
+      "wege"
+    ],
+    "collections": [],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "mleko",
+      "seler"
+    ],
+    "slug": "zupa-jarzynowa-z-koperkiem",
+    "title": "Zupa jarzynowa z koperkiem",
+    "category": "zupy",
+    "time": 35,
+    "servings": 6,
+    "difficulty": "łatwy",
+    "products": [
+      "zupa-jarzynowa"
+    ],
+    "dish": "soup-green",
+    "pieces": [
+      "carrot",
+      "pea",
+      "potato-cube",
+      "dill"
+    ],
+    "date": "2026-09-01",
+    "lead": "Klasyka bez obierania i krojenia. Śmietana zahartowana wywarem, dużo koperku.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 450,
+            "unit": "g",
+            "name": "zupy jarzynowej Hortex",
+            "product": "zupa-jarzynowa"
+          },
+          {
+            "qty": 1.5,
+            "unit": "l",
+            "name": "bulionu"
+          },
+          {
+            "qty": 2,
+            "unit": "łyżki",
+            "name": "masła"
+          },
+          {
+            "qty": 100,
+            "unit": "ml",
+            "name": "śmietany 18%"
+          },
+          {
+            "qty": 1,
+            "unit": "pęczek",
+            "name": "koperku"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "sól, pieprz, liść laurowy, ziele angielskie"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Zagotuj bulion z liściem laurowym i zielem angielskim.",
+      "Wsyp zamrożone warzywa i gotuj 15–20 minut.",
+      "Śmietanę zahartuj kilkoma łyżkami wywaru i wlej do zupy.",
+      "Dodaj masło, posiekany koperek i dopraw."
+    ]
+  },
+  {
+    "diet": [
+      "wege"
+    ],
+    "collections": [
+      "wielkanoc"
+    ],
+    "tips": [
+      "Tarta smakuje też na zimno, następnego dnia."
+    ],
+    "substitutes": [],
+    "allergens": [
+      "gluten",
+      "jaja",
+      "mleko"
+    ],
+    "slug": "tarta-ze-szparagami",
+    "title": "Tarta ze szparagami i kozim serem",
+    "category": "przekaski",
+    "time": 60,
+    "servings": 6,
+    "difficulty": "średni",
+    "products": [
+      "szparagi-zielone"
+    ],
+    "dish": "tart",
+    "pieces": [
+      "asparagus"
+    ],
+    "date": "2026-04-02",
+    "lead": "Szparagi ułożone w słońce na kremowym nadzieniu. Na wielkanocny stół i na piknik.",
+    "groups": [
+      {
+        "name": "Spód",
+        "items": [
+          {
+            "qty": 1,
+            "unit": "opak.",
+            "name": "ciasta kruchego (ok. 275 g)"
+          }
+        ]
+      },
+      {
+        "name": "Nadzienie",
+        "items": [
+          {
+            "qty": 300,
+            "unit": "g",
+            "name": "szparagów zielonych Hortex",
+            "product": "szparagi-zielone"
+          },
+          {
+            "qty": 3,
+            "unit": "szt.",
+            "name": "jajka"
+          },
+          {
+            "qty": 200,
+            "unit": "ml",
+            "name": "śmietanki 30%"
+          },
+          {
+            "qty": 100,
+            "unit": "g",
+            "name": "koziego sera"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "sól, pieprz, skórka z cytryny"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Wyłóż formę ciastem, nakłuj widelcem i podpiecz 12 minut w 190°C.",
+      "Szparagi zblanszuj 2 minuty we wrzątku i osusz.",
+      "Wymieszaj jajka ze śmietanką, pokruszonym serem, skórką z cytryny i przyprawami.",
+      "Wylej masę na spód i ułóż szparagi promieniście.",
+      "Piecz 25–30 minut w 180°C, aż nadzienie się zetnie."
+    ]
+  },
+  {
+    "diet": [
+      "wege",
+      "bez-glutenu"
+    ],
+    "collections": [
+      "lato"
+    ],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "jaja",
+      "gorczyca"
+    ],
+    "slug": "salatka-z-fasolka-szparagowa-i-jajkiem",
+    "title": "Sałatka z fasolką szparagową, jajkiem i pomidorami",
+    "category": "salatki",
+    "time": 20,
+    "servings": 2,
+    "difficulty": "łatwy",
+    "products": [
+      "fasolka-szparagowa-zielona"
+    ],
+    "dish": "salad",
+    "pieces": [
+      "bean",
+      "tomato"
+    ],
+    "date": "2026-07-10",
+    "lead": "Lekki obiad lub kolacja. Fasolka prosto z zamrażarki, gotowa w 8 minut.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 300,
+            "unit": "g",
+            "name": "fasolki szparagowej zielonej Hortex",
+            "product": "fasolka-szparagowa-zielona"
+          },
+          {
+            "qty": 4,
+            "unit": "szt.",
+            "name": "jajka"
+          },
+          {
+            "qty": 200,
+            "unit": "g",
+            "name": "pomidorków koktajlowych"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "czerwona cebula"
+          },
+          {
+            "qty": 2,
+            "unit": "łyżki",
+            "name": "oliwy"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżeczka",
+            "name": "musztardy"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżka",
+            "name": "octu winnego"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Ugotuj jajka na twardo (9 minut), ostudź i obierz.",
+      "Fasolkę gotuj 7–8 minut, przelej zimną wodą.",
+      "Wymieszaj oliwę, musztardę i ocet na sos.",
+      "Połącz fasolkę z pomidorkami i cebulą, polej sosem i ułóż ćwiartki jajek."
+    ]
+  },
+  {
+    "diet": [
+      "wege"
+    ],
+    "collections": [],
+    "tips": [],
+    "substitutes": [
+      "Płatki owsiane bezglutenowe, jeśli potrzebujesz diety bez glutenu."
+    ],
+    "allergens": [
+      "gluten",
+      "mleko",
+      "orzeszki ziemne"
+    ],
+    "slug": "owsianka-z-malinami",
+    "title": "Owsianka z malinami i masłem orzechowym",
+    "category": "sniadania",
+    "time": 10,
+    "servings": 2,
+    "difficulty": "łatwy",
+    "products": [
+      "maliny"
+    ],
+    "dish": "berries",
+    "pieces": [
+      "raspberry"
+    ],
+    "date": "2026-09-20",
+    "lead": "Maliny wrzucone do gorącej owsianki puszczają sok i robią różowy sos.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 100,
+            "unit": "g",
+            "name": "płatków owsianych"
+          },
+          {
+            "qty": 400,
+            "unit": "ml",
+            "name": "mleka lub napoju roślinnego"
+          },
+          {
+            "qty": 150,
+            "unit": "g",
+            "name": "malin Hortex",
+            "product": "maliny"
+          },
+          {
+            "qty": 2,
+            "unit": "łyżki",
+            "name": "masła orzechowego"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżeczka",
+            "name": "miodu"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Zagotuj mleko, wsyp płatki i gotuj 4 minuty, mieszając.",
+      "Dodaj połowę zamrożonych malin i zamieszaj.",
+      "Przełóż do misek, dodaj resztę malin, masło orzechowe i miód."
+    ]
+  },
+  {
+    "diet": [
+      "wege",
+      "bez-glutenu"
+    ],
+    "collections": [
+      "lato"
+    ],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "mleko"
+    ],
+    "slug": "koktajl-truskawkowy",
+    "title": "Koktajl truskawkowy z bananem",
+    "category": "napoje",
+    "time": 5,
+    "servings": 2,
+    "difficulty": "łatwy",
+    "products": [
+      "truskawki"
+    ],
+    "dish": "smoothie",
+    "pieces": [
+      "strawberry"
+    ],
+    "date": "2026-06-15",
+    "lead": "Zamrożone truskawki zastępują lód, więc koktajl jest gęsty i zimny bez rozwadniania.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 200,
+            "unit": "g",
+            "name": "truskawek Hortex",
+            "product": "truskawki"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "banan"
+          },
+          {
+            "qty": 300,
+            "unit": "ml",
+            "name": "kefiru lub jogurtu naturalnego"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżeczka",
+            "name": "miodu"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Wszystkie składniki włóż do blendera.",
+      "Miksuj 40 sekund na najwyższych obrotach.",
+      "Podawaj od razu."
+    ]
+  },
+  {
+    "diet": [
+      "wege"
+    ],
+    "collections": [
+      "swieta"
+    ],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "gluten",
+      "mleko"
+    ],
+    "slug": "crumble-z-owocami-lesnymi",
+    "title": "Crumble z owocami leśnymi",
+    "category": "desery",
+    "time": 45,
+    "servings": 6,
+    "difficulty": "łatwy",
+    "products": [
+      "owoce-lesne"
+    ],
+    "dish": "crumble",
+    "pieces": [
+      "raspberry",
+      "blueberry",
+      "currant"
+    ],
+    "date": "2026-08-20",
+    "lead": "Owoce prosto z zamrażarki, kruszonka z trzech składników. Z lodami waniliowymi.",
+    "groups": [
+      {
+        "name": "Owoce",
+        "items": [
+          {
+            "qty": 600,
+            "unit": "g",
+            "name": "owoców leśnych Hortex",
+            "product": "owoce-lesne"
+          },
+          {
+            "qty": 2,
+            "unit": "łyżki",
+            "name": "cukru"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżka",
+            "name": "skrobi ziemniaczanej"
+          }
+        ]
+      },
+      {
+        "name": "Kruszonka",
+        "items": [
+          {
+            "qty": 120,
+            "unit": "g",
+            "name": "mąki pszennej"
+          },
+          {
+            "qty": 80,
+            "unit": "g",
+            "name": "zimnego masła"
+          },
+          {
+            "qty": 70,
+            "unit": "g",
+            "name": "cukru trzcinowego"
+          },
+          {
+            "qty": 40,
+            "unit": "g",
+            "name": "płatków owsianych"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Zamrożone owoce wymieszaj z cukrem i skrobią, przełóż do naczynia.",
+      "Mąkę, masło, cukier i płatki rozetrzyj palcami na grudki.",
+      "Posyp owoce kruszonką.",
+      "Piecz 35 minut w 190°C, aż owoce zaczną bulgotać."
+    ]
+  },
+  {
+    "diet": [
+      "wege",
+      "weganskie",
+      "bez-glutenu"
+    ],
+    "collections": [],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "seler",
+      "gorczyca"
+    ],
+    "slug": "curry-z-warzywami-i-ciecierzyca",
+    "title": "Curry z warzywami i ciecierzycą",
+    "category": "dania-glowne",
+    "time": 30,
+    "servings": 4,
+    "difficulty": "łatwy",
+    "products": [
+      "warzywa-na-patelnie-orientalne"
+    ],
+    "dish": "curry",
+    "pieces": [
+      "bean",
+      "carrot",
+      "pepper",
+      "broccoli"
+    ],
+    "date": "2026-09-08",
+    "lead": "Warzywa na patelnię, mleko kokosowe i pasta curry. Wegański obiad bez planowania.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 450,
+            "unit": "g",
+            "name": "warzyw na patelnię orientalnych Hortex",
+            "product": "warzywa-na-patelnie-orientalne"
+          },
+          {
+            "qty": 400,
+            "unit": "g",
+            "name": "ciecierzycy z puszki"
+          },
+          {
+            "qty": 400,
+            "unit": "ml",
+            "name": "mleka kokosowego"
+          },
+          {
+            "qty": 2,
+            "unit": "łyżki",
+            "name": "czerwonej pasty curry"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "limonka"
+          },
+          {
+            "qty": 200,
+            "unit": "g",
+            "name": "ryżu jaśminowego"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Ugotuj ryż według przepisu na opakowaniu.",
+      "Na głębokiej patelni podsmaż pastę curry przez minutę.",
+      "Dodaj zamrożone warzywa i smaż 5 minut.",
+      "Wlej mleko kokosowe, dodaj odsączoną ciecierzycę i gotuj 8 minut.",
+      "Dopraw sokiem z limonki i podawaj z ryżem."
+    ]
+  },
+  {
+    "diet": [
+      "wege",
+      "bez-glutenu"
+    ],
+    "collections": [],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "mleko",
+      "jaja"
+    ],
+    "slug": "frytki-steakhouse-z-dipem-czosnkowym",
+    "title": "Frytki steakhouse z dipem czosnkowym",
+    "category": "przekaski",
+    "time": 25,
+    "servings": 4,
+    "difficulty": "łatwy",
+    "products": [
+      "frytki-steakhouse"
+    ],
+    "dish": "fries",
+    "pieces": [
+      "fry",
+      "dill"
+    ],
+    "date": "2026-09-15",
+    "lead": "Grube frytki z air fryera i dip na jogurcie. Na wieczór z filmem.",
+    "groups": [
+      {
+        "name": "Frytki",
+        "items": [
+          {
+            "qty": 750,
+            "unit": "g",
+            "name": "frytek steakhouse Hortex",
+            "product": "frytki-steakhouse"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżeczka",
+            "name": "wędzonej papryki"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "sól morska"
+          }
+        ]
+      },
+      {
+        "name": "Dip",
+        "items": [
+          {
+            "qty": 200,
+            "unit": "g",
+            "name": "jogurtu greckiego"
+          },
+          {
+            "qty": 2,
+            "unit": "ząbki",
+            "name": "czosnku"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżka",
+            "name": "majonezu"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "szczypiorek"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Frytki piecz w air fryerze w 200°C przez 18 minut, potrząsając koszem w połowie.",
+      "Wymieszaj jogurt, majonez, przeciśnięty czosnek i szczypiorek.",
+      "Gorące frytki posyp papryką i solą."
+    ]
+  },
+  {
+    "diet": [
+      "wege",
+      "bez-glutenu"
+    ],
+    "collections": [
+      "swieta"
+    ],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "orzechy"
+    ],
+    "slug": "pieczona-brukselka-z-miodem-i-orzechami",
+    "title": "Pieczona brukselka z miodem i orzechami",
+    "category": "przekaski",
+    "time": 30,
+    "servings": 4,
+    "difficulty": "łatwy",
+    "products": [
+      "brukselka"
+    ],
+    "dish": "plate",
+    "pieces": [
+      "brussels"
+    ],
+    "date": "2025-12-10",
+    "lead": "Karmelizowana brukselka, która przekona nawet sceptyków. Świetna na świąteczny stół.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 450,
+            "unit": "g",
+            "name": "brukselki Hortex",
+            "product": "brukselka"
+          },
+          {
+            "qty": 2,
+            "unit": "łyżki",
+            "name": "oliwy"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżka",
+            "name": "miodu"
+          },
+          {
+            "qty": 40,
+            "unit": "g",
+            "name": "orzechów włoskich"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżka",
+            "name": "octu balsamicznego"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Zamrożoną brukselkę przekrój na pół i wymieszaj z oliwą i solą.",
+      "Piecz 20 minut w 220°C.",
+      "Polej miodem i octem, dodaj orzechy i piecz jeszcze 5 minut."
+    ]
+  },
+  {
+    "diet": [
+      "wege"
+    ],
+    "collections": [
+      "jesien"
+    ],
+    "tips": [],
+    "substitutes": [],
+    "allergens": [
+      "gluten",
+      "jaja",
+      "mleko"
+    ],
+    "slug": "kopytka-z-sosem-kurkowym",
+    "title": "Kopytka z sosem kurkowym",
+    "category": "dania-glowne",
+    "time": 25,
+    "servings": 3,
+    "difficulty": "łatwy",
+    "products": [
+      "kopytka",
+      "kurki"
+    ],
+    "dish": "plate",
+    "pieces": [
+      "chanterelle",
+      "dill",
+      "potato"
+    ],
+    "date": "2026-09-22",
+    "lead": "Dwa produkty z zamrażarki i śmietanka. Jesienny obiad w 25 minut.",
+    "groups": [
+      {
+        "name": "",
+        "items": [
+          {
+            "qty": 450,
+            "unit": "g",
+            "name": "kopytek Hortex",
+            "product": "kopytka"
+          },
+          {
+            "qty": 230,
+            "unit": "g",
+            "name": "kurek Hortex",
+            "product": "kurki"
+          },
+          {
+            "qty": 1,
+            "unit": "szt.",
+            "name": "cebula"
+          },
+          {
+            "qty": 200,
+            "unit": "ml",
+            "name": "śmietanki 18%"
+          },
+          {
+            "qty": 1,
+            "unit": "łyżka",
+            "name": "masła"
+          },
+          {
+            "qty": null,
+            "unit": "",
+            "name": "koperek, sól, pieprz"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Na maśle zeszklij cebulę, dodaj kurki i smaż 8 minut.",
+      "Wlej śmietankę i gotuj 3 minuty, aż sos zgęstnieje.",
+      "Kopytka ugotuj w osolonej wodzie (3–4 minuty od wypłynięcia).",
+      "Wymieszaj z sosem i posyp koperkiem."
+    ]
+  }
+]

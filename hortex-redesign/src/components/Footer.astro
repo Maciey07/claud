@@ -1,0 +1,100 @@
+---
+import { categories, site } from '../lib/data';
+const year = new Date().getFullYear();
+const stale = categories.filter((c) => c.group !== 'b2b');
+---
+<footer class="site-footer band--brand">
+  <div class="container">
+    <div class="footer__top">
+      <p class="footer__claim t-display" aria-hidden="true">Prosto<br />z&nbsp;natury</p>
+      <div class="footer__newsletter">
+        <p class="t-h3">Przepis na każdy tydzień</p>
+        <p class="footer__muted">Raz w tygodniu jeden sezonowy przepis i nowości z&nbsp;zamrażarki.</p>
+        <form class="footer__form" data-demo-form novalidate>
+          <div class="field">
+            <label for="nl-email" class="visually-hidden">Adres e-mail</label>
+            <input id="nl-email" name="email" type="email" class="input" placeholder="Twój e-mail" autocomplete="email" required />
+            <p class="error" role="alert">Wpisz poprawny adres e-mail.</p>
+          </div>
+          <button class="btn btn--light" type="submit">Zapisz się</button>
+          <p class="footer__muted footer__success" data-success hidden role="status">Dziękujemy! (prototyp: dane nie zostały wysłane)</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      <nav aria-labelledby="f-prod">
+        <p id="f-prod" class="t-meta">Produkty</p>
+        <ul role="list">
+          {stale.map((c) => <li><a href={`/kategorie-produktow/${c.slug}/`}>{c.name}</a></li>)}
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-przep">
+        <p id="f-przep" class="t-meta">Przepisy</p>
+        <ul role="list">
+          {site.recipeCategories.map((c) => <li><a href={`/kategorie-przepisow/${c.slug}/`}>{c.name}</a></li>)}
+          <li><a href="/porady/">Porady</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-biz">
+        <p id="f-biz" class="t-meta">Dla biznesu</p>
+        <ul role="list">
+          <li><a href="/dla-biznesu/">Strefa dla biznesu</a></li>
+          <li><a href="/kategorie-produktow/horeca/">HoReCa</a></li>
+          <li><a href="/dla-biznesu/katalogi/">Katalogi</a></li>
+          <li><a href="/dla-biznesu/#zapytanie">Zapytanie ofertowe</a></li>
+          <li><a href="/kontakt/?temat=skup">Skup surowca</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-firma">
+        <p id="f-firma" class="t-meta">Hortex</p>
+        <ul role="list">
+          <li><a href="/o-nas/">O nas</a></li>
+          <li><a href="/aktualnosci/">Aktualności</a></li>
+          <li><a href="/kariera/">Kariera</a></li>
+          <li><a href="/kontakt/">Kontakt</a></li>
+          <li><a href="/en/" lang="en">English</a></li>
+        </ul>
+      </nav>
+      <address class="footer__address">
+        <p class="t-meta">Siedziba</p>
+        <p>ul. Przykładowa 1<br />96-100 Skierniewice</p>
+        <p><a href="tel:+48000000000">+48 00 000 00 00</a><br /><a href="mailto:kontakt@example.com">kontakt@example.com</a></p>
+      </address>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© {year} Hortex. Koncepcja redesignu do portfolio, projekt nieoficjalny.</p>
+      <ul role="list">
+        <li><a href="/polityka-prywatnosci/">Polityka prywatności</a></li>
+        <li><a href="/klauzula-rodo/">Klauzula RODO</a></li>
+        <li><a href="https://sokihortex.pl/" rel="noopener">Reklamacje soków</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-block: var(--s-section) var(--s-4); overflow: hidden; }
+  .site-footer a { text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .footer__top { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-8); align-items: end; padding-bottom: var(--s-8); border-bottom: 1px solid color-mix(in srgb, var(--c-on-brand) 25%, transparent); }
+  .footer__claim { color: var(--c-on-brand); }
+  .footer__muted { color: color-mix(in srgb, var(--c-on-brand) 92%, transparent); margin-top: var(--s-1); }
+  .footer__form { display: grid; grid-template-columns: 1fr auto; gap: var(--s-1); margin-top: var(--s-3); align-items: start; }
+  .footer__form .input { background: color-mix(in srgb, var(--c-on-brand) 10%, transparent); border-color: color-mix(in srgb, var(--c-on-brand) 40%, transparent); color: var(--c-on-brand); }
+  .footer__form .input::placeholder { color: color-mix(in srgb, var(--c-on-brand) 70%, transparent); }
+  .footer__form .error { color: #ffd0c2; }
+  .footer__success { grid-column: 1 / -1; }
+  .footer__cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s-4); padding-block: var(--s-6); }
+  .footer__cols ul { list-style: none; padding: 0; display: grid; gap: 0.45em; margin-top: var(--s-2); }
+  .footer__cols .t-meta, .footer__address .t-meta { color: color-mix(in srgb, var(--c-on-brand) 90%, transparent); }
+  .footer__address { font-style: normal; display: grid; gap: var(--s-2); align-content: start; }
+  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-2); padding-top: var(--s-3); border-top: 1px solid color-mix(in srgb, var(--c-on-brand) 25%, transparent); font-size: var(--fs-small); color: color-mix(in srgb, var(--c-on-brand) 92%, transparent); }
+  .footer__bottom ul { display: flex; flex-wrap: wrap; gap: var(--s-3); list-style: none; padding: 0; }
+  @media (max-width: 960px) {
+    .footer__top { grid-template-columns: 1fr; gap: var(--s-4); }
+    .footer__cols { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) { .footer__form { grid-template-columns: 1fr; } }
+</style>

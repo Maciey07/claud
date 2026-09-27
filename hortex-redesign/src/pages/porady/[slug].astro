@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import Article from '../../components/Article.astro';
+import { site } from '../../lib/data';
+import { img } from '../../lib/images';
+import articles from '../../../content/articles.json';
+
+export function getStaticPaths() {
+  return site.advice.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+const { a } = Astro.props as { a: (typeof site.advice)[number] };
+const body = (articles as Record<string, string[]>)[a.slug] ?? [];
+---
+<Base title={a.title} description={a.excerpt} current="porady">
+  <Article title={a.title} lead={a.excerpt} body={body} crumbs={[{ label: 'Porady', href: '/porady/' }, { label: a.title }]} image={img.scene('kitchen-home')} imageAlt="Domowa kuchnia: miska zupy z warzywami" />
+</Base>

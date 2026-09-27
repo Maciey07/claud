@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import RecipeListing from '../../components/RecipeListing.astro';
+---
+<Base title="Przepisy" description="Przepisy z warzywami, owocami i daniami Hortex. Filtruj po czasie, diecie, trudności i produkcie z zamrażarki." current="przepisy">
+  <RecipeListing title="Przepisy" lead="Szybkie obiady, zupy, desery i przekąski z produktami, które masz w zamrażarce." crumbs={[{ label: 'Przepisy' }]} />
+</Base>

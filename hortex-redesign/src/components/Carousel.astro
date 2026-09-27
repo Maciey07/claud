@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+interface Props { label: string }
+const { label } = Astro.props;
+---
+<div class="carousel" data-carousel>
+  <div class="carousel__nav">
+    <button type="button" class="carousel__btn" data-carousel-prev aria-label={`Poprzednie: ${label}`}><Icon name="arrow-left" /></button>
+    <button type="button" class="carousel__btn" data-carousel-next aria-label={`Następne: ${label}`}><Icon name="arrow" /></button>
+  </div>
+  <ul class="carousel__track" role="list" aria-label={label} data-carousel-track tabindex="0">
+    <slot />
+  </ul>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((c) => {
+    const track = c.querySelector<HTMLElement>('[data-carousel-track]')!;
+    const prev = c.querySelector<HTMLButtonElement>('[data-carousel-prev]')!;
+    const next = c.querySelector<HTMLButtonElement>('[data-carousel-next]')!;
+    const step = () => (track.firstElementChild as HTMLElement | null)?.getBoundingClientRect().width ?? 300;
+    const sync = () => {
+      prev.disabled = track.scrollLeft < 4;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      c.classList.toggle('is-static', prev.disabled && next.disabled);
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step() - 24, behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step() + 24, behavior: 'smooth' }));
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  });
+</script>
+
+<style>
+  .carousel { position: relative; }
+  .carousel__nav { position: absolute; right: 0; top: calc(-1 * var(--s-6) - 44px); display: flex; gap: var(--s-1); }
+  .carousel.is-static .carousel__nav { display: none; }
+  .carousel__btn { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--c-ink); background: none; display: grid; place-items: center; transition: background-color var(--t-ui), color var(--t-ui); }
+  .carousel__btn:hover:not(:disabled) { background: var(--c-ink); color: var(--c-bg); }
+  .carousel__btn:disabled { opacity: 0.3; cursor: default; }
+  .carousel__btn :global(svg) { width: 20px; height: 20px; }
+  .carousel__track {
+    list-style: none; padding: 0 0 var(--s-2); margin: 0;
+    display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, calc((100% - 2 * var(--grid-gap)) / 3));
+    gap: var(--grid-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+  }
+  .carousel__track > :global(li) { scroll-snap-align: start; }
+  @media (max-width: 720px) { .carousel__nav { position: static; justify-content: flex-end; margin-bottom: var(--s-2); } .carousel__track { grid-auto-columns: 78%; } }
+</style>

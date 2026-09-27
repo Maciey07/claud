@@ -1,0 +1,13 @@
+---
+interface Props { eyebrow?: string; title: string; text?: string; id?: string; level?: 'h1' | 'h2'; split?: boolean }
+const { eyebrow, title, text, id, level = 'h2', split = true } = Astro.props;
+const H = level;
+---
+<div class="section-header">
+  <div class="section-header__text">
+    {eyebrow && <span class="section-header__eyebrow t-meta">{eyebrow}</span>}
+    <H id={id} data-split={split ? '' : undefined}>{title}</H>
+    {text && <p>{text}</p>}
+  </div>
+  <slot />
+</div>

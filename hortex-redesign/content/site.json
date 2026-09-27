@@ -1,0 +1,205 @@
+{
+  "recipeCategories": [
+    {
+      "slug": "dania-glowne",
+      "name": "Dania główne"
+    },
+    {
+      "slug": "zupy",
+      "name": "Zupy"
+    },
+    {
+      "slug": "salatki",
+      "name": "Sałatki"
+    },
+    {
+      "slug": "przekaski",
+      "name": "Przekąski"
+    },
+    {
+      "slug": "sniadania",
+      "name": "Śniadania"
+    },
+    {
+      "slug": "desery",
+      "name": "Desery"
+    },
+    {
+      "slug": "napoje",
+      "name": "Napoje"
+    }
+  ],
+  "collections": [
+    {
+      "slug": "jesien",
+      "name": "Jesienne obiady",
+      "pieces": [
+        "chanterelle",
+        "cauliflower",
+        "potato"
+      ]
+    },
+    {
+      "slug": "swieta",
+      "name": "Na Święta",
+      "pieces": [
+        "brussels",
+        "cherry",
+        "currant"
+      ]
+    },
+    {
+      "slug": "wielkanoc",
+      "name": "Wielkanoc",
+      "pieces": [
+        "asparagus",
+        "asparagus-white",
+        "dill"
+      ]
+    },
+    {
+      "slug": "lato",
+      "name": "Lato",
+      "pieces": [
+        "strawberry",
+        "bean",
+        "tomato"
+      ]
+    }
+  ],
+  "diets": [
+    {
+      "slug": "wege",
+      "name": "Wege"
+    },
+    {
+      "slug": "weganskie",
+      "name": "Wegańskie"
+    },
+    {
+      "slug": "bez-glutenu",
+      "name": "Bez glutenu"
+    }
+  ],
+  "facts": {
+    "plants": [
+      {
+        "city": "Skierniewice",
+        "role": "Siedziba i zakład: warzywa, owoce, dania gotowe"
+      },
+      {
+        "city": "Maków",
+        "role": "Zakład: frytki i produkty ziemniaczane"
+      }
+    ],
+    "employees": "ok. 500",
+    "channels": [
+      "Handel detaliczny",
+      "HoReCa i foodservice",
+      "Eksport"
+    ]
+  },
+  "stores": {
+    "retail": [
+      "Biedronka",
+      "Lidl",
+      "Kaufland",
+      "Carrefour",
+      "Auchan",
+      "Dino",
+      "Stokrotka",
+      "Żabka"
+    ],
+    "online": [
+      "Frisco",
+      "Barbora",
+      "Carrefour online",
+      "Glovo"
+    ]
+  },
+  "news": [
+    {
+      "slug": "lody-wowoc-lato-2026",
+      "title": "Lody WOWOC: owoce w roli głównej",
+      "date": "2026-09-20",
+      "excerpt": "Kampania sezonowa: lody z dużą ilością owoców. Tak wygląda moduł kampanii, który zastępuje dawny rotator wideo.",
+      "image": "cat/owoce",
+      "tag": "Kampania"
+    },
+    {
+      "slug": "linia-szparagowa-caly-rok",
+      "title": "Linia szparagowa: polskie szparagi przez cały rok",
+      "date": "2026-09-10",
+      "excerpt": "Zielone i białe szparagi zamrożone w szczycie sezonu trafiają do zamrażarek w nowych opakowaniach.",
+      "image": "dish/tarta-ze-szparagami-3x2",
+      "tag": "Nowości"
+    },
+    {
+      "slug": "hortex-na-targach-gastronomicznych",
+      "title": "Spotkajmy się na targach gastronomicznych",
+      "date": "2026-08-25",
+      "excerpt": "Pokażemy asortyment 2–2,5 kg, nowe frytki steakhouse i karty specyfikacji dla szefów kuchni.",
+      "image": "scene/kitchen-pro",
+      "tag": "Dla biznesu"
+    },
+    {
+      "slug": "sezon-zbiorow-w-skierniewicach",
+      "title": "Sezon zbiorów w Skierniewicach",
+      "date": "2026-07-18",
+      "excerpt": "Od pola do zamrażarki w kilka godzin. Zajrzeliśmy na linię, gdy przyjeżdżają pierwsze brokuły.",
+      "image": "scene/plant",
+      "tag": "O firmie"
+    }
+  ],
+  "advice": [
+    {
+      "slug": "jak-przechowywac-mrozonki",
+      "title": "Jak przechowywać mrożonki, żeby nie traciły smaku",
+      "excerpt": "Temperatura, szczelne zamknięcie i zasada, której nie warto łamać: nie zamrażamy ponownie.",
+      "pieces": [
+        "pea",
+        "broccoli"
+      ]
+    },
+    {
+      "slug": "czy-mrozonki-sa-zdrowe",
+      "title": "Czy warzywa mrożone są tak samo wartościowe jak świeże?",
+      "excerpt": "Mrożenie kilka godzin po zbiorze zatrzymuje witaminy. Wyjaśniamy, kiedy mrożonka wygrywa ze świeżym.",
+      "pieces": [
+        "carrot",
+        "spinach"
+      ]
+    },
+    {
+      "slug": "warzywa-na-parze-bez-parowaru",
+      "title": "Warzywa na parze bez parowaru",
+      "excerpt": "Garnek, sitko i pokrywka. Czasy dla najpopularniejszych warzyw w jednej tabeli.",
+      "pieces": [
+        "cauliflower",
+        "bean"
+      ]
+    }
+  ],
+  "jobs": [
+    {
+      "title": "Operator linii produkcyjnej",
+      "place": "Skierniewice",
+      "type": "Pełny etat"
+    },
+    {
+      "title": "Specjalista ds. jakości",
+      "place": "Skierniewice",
+      "type": "Pełny etat"
+    },
+    {
+      "title": "Key Account Manager HoReCa",
+      "place": "Warszawa / zdalnie",
+      "type": "Pełny etat"
+    },
+    {
+      "title": "Mechanik utrzymania ruchu",
+      "place": "Maków",
+      "type": "Praca zmianowa"
+    }
+  ]
+}

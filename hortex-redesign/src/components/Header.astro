@@ -1,0 +1,257 @@
+---
+import Icon from './Icon.astro';
+import { categories, site, recipes, consumerProducts, t } from '../lib/data';
+import { img } from '../lib/images';
+
+interface Props { audience?: 'dom' | 'biznes'; current?: string }
+const { audience = 'dom', current = '' } = Astro.props;
+
+const stale = categories.filter((c) => c.group === 'stale');
+const linie = categories.filter((c) => c.group === 'linie');
+const featuredNew = consumerProducts.find((p) => p.isNew && p.category === 'linia-szparagowa') ?? consumerProducts[0];
+const featuredRecipe = recipes[0];
+
+const nav = [
+  { key: 'produkty', label: 'Produkty', href: '/produkty/', mega: true },
+  { key: 'przepisy', label: 'Przepisy', href: '/przepisy/', mega: true },
+  { key: 'porady', label: 'Porady', href: '/porady/' },
+  { key: 'o-nas', label: 'O nas', href: '/o-nas/' },
+  { key: 'aktualnosci', label: 'Aktualności', href: '/aktualnosci/' },
+  { key: 'kariera', label: 'Kariera', href: '/kariera/' },
+  { key: 'kontakt', label: 'Kontakt', href: '/kontakt/' },
+];
+---
+<div class="topbar">
+  <div class="container topbar__inner">
+    <nav class="audience" aria-label="Wybór ścieżki">
+      <a href="/" aria-current={audience === 'dom' ? 'true' : undefined}>Dla domu</a>
+      <a href="/dla-biznesu/" aria-current={audience === 'biznes' ? 'true' : undefined}>Dla biznesu</a>
+    </nav>
+    <ul class="topbar__links" role="list">
+      <li><a href="/dla-biznesu/katalogi/"><Icon name="download" /><span class="topbar__label">Pobierz katalog</span></a></li>
+      <li class="hide-sm"><a href="/#gdzie-kupic"><Icon name="cart" />Gdzie kupić</a></li>
+      <li><a href="/en/" lang="en" hreflang="en"><Icon name="globe" />ENG</a></li>
+    </ul>
+  </div>
+</div>
+
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a href="/" class="wordmark" aria-label="Hortex, strona główna">
+      <span class="wordmark__text">Hortex</span>
+      <svg class="wordmark__leaf" viewBox="0 0 20 16" aria-hidden="true"><path d="M0 16C0 6 8 0 20 0c0 12-8 18-20 16Z" fill="currentColor"/></svg>
+    </a>
+
+    <nav class="nav" id="main-nav" aria-label="Menu główne" data-nav>
+      <ul class="nav__list" role="list">
+        {nav.map((item) => (
+          <li class={`nav__item${item.mega ? ' has-mega' : ''}`}>
+            {item.mega ? (
+              <>
+                <button class="nav__link" type="button" aria-expanded="false" aria-controls={`mega-${item.key}`} data-mega-toggle aria-current={current === item.key ? 'true' : undefined}>
+                  {item.label}
+                  <svg class="nav__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                </button>
+                {item.key === 'produkty' ? (
+                  <div class="mega" id="mega-produkty" data-mega hidden>
+                    <div class="container mega__inner">
+                      <div class="mega__col mega__col--wide">
+                        <p class="t-meta mega__title">Kategorie</p>
+                        <ul class="mega__cats" role="list">
+                          {stale.map((c) => (
+                            <li><a href={`/kategorie-produktow/${c.slug}/`} style={`--tint: var(--tint-${c.slug})`}><span class="mega__thumb"><img src={img.ing(c.pieces[0])} alt="" width="200" height="200" loading="lazy" /></span>{c.name}</a></li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div class="mega__col">
+                        <p class="t-meta mega__title">Nowości i linie sezonowe</p>
+                        <ul class="mega__links" role="list">
+                          {linie.map((c) => <li><a href={`/kategorie-produktow/${c.slug}/`}>{c.name}</a></li>)}
+                        </ul>
+                        <p class="t-meta mega__title">Dla gastronomii</p>
+                        <ul class="mega__links" role="list">
+                          <li><a href="/kategorie-produktow/horeca/">HoReCa 2–2,5&nbsp;kg</a></li>
+                          <li><a href="/dla-biznesu/">Strefa dla biznesu</a></li>
+                        </ul>
+                        <a class="link-arrow mega__all" href="/produkty/">Wszystkie produkty <Icon name="arrow" /></a>
+                      </div>
+                      <a class="mega__feature" href={`/produkty/${featuredNew.slug}/`} style={`--tint: var(--tint-${featuredNew.category})`}>
+                        <span class="badge badge--brand">Nowość</span>
+                        <img src={img.pack(featuredNew.slug)} alt="" width="400" height="500" loading="lazy" />
+                        <span class="mega__feature-title">{t(featuredNew.name)}</span>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div class="mega" id="mega-przepisy" data-mega hidden>
+                    <div class="container mega__inner">
+                      <div class="mega__col">
+                        <p class="t-meta mega__title">Kategorie przepisów</p>
+                        <ul class="mega__links" role="list">
+                          {site.recipeCategories.map((c) => <li><a href={`/kategorie-przepisow/${c.slug}/`}>{c.name}</a></li>)}
+                        </ul>
+                      </div>
+                      <div class="mega__col">
+                        <p class="t-meta mega__title">Szybkie wejścia</p>
+                        <ul class="mega__links" role="list">
+                          <li><a href="/przepisy/?czas=30">Do 30&nbsp;minut</a></li>
+                          <li><a href="/przepisy/?dieta=wege">Wege</a></li>
+                          <li><a href="/przepisy/?dieta=bez-glutenu">Bez glutenu</a></li>
+                          {site.collections.map((c) => <li><a href={`/przepisy/?kolekcja=${c.slug}`}>{c.name}</a></li>)}
+                        </ul>
+                        <a class="link-arrow mega__all" href="/przepisy/">Wszystkie przepisy <Icon name="arrow" /></a>
+                      </div>
+                      <a class="mega__feature mega__feature--recipe" href={`/przepisy/${featuredRecipe.slug}/`}>
+                        <img src={img.dish(featuredRecipe.slug, '4x5')} alt="" width="800" height="1000" loading="lazy" />
+                        <span class="mega__feature-title">{t(featuredRecipe.title)}</span>
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <a class="nav__link" href={item.href} aria-current={current === item.key ? 'page' : undefined}>{item.label}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+      <div class="nav__mobile-extra">
+        <a class="btn btn--ghost btn--block" href="/dla-biznesu/">Dla biznesu</a>
+        <a class="btn btn--block" href="/#gdzie-kupic"><Icon name="cart" />Gdzie kupić</a>
+      </div>
+    </nav>
+
+    <div class="site-header__actions">
+      <button class="icon-btn" type="button" data-search-open aria-label="Szukaj" aria-haspopup="dialog"><Icon name="search" /></button>
+      <a class="icon-btn inquiry-link" href="/dla-biznesu/#zapytanie" data-inquiry-link hidden aria-label="Lista zapytania">
+        <Icon name="list" /><span class="inquiry-count" data-inquiry-count>0</span>
+      </a>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-toggle aria-label="Menu"><Icon name="menu" class="icon menu-btn__open" /><Icon name="close" class="icon menu-btn__close" /></button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .topbar { background: var(--c-brand-deep); color: var(--c-on-brand); font-size: 0.875rem; }
+  .topbar__inner { display: flex; justify-content: space-between; align-items: center; min-height: var(--topbar-h); gap: var(--s-2); }
+  .audience { display: flex; gap: 2px; padding: 3px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--c-on-brand) 12%, transparent); }
+  .audience a { padding: 0.15em 0.9em; border-radius: var(--r-pill); text-decoration: none; font-weight: 500; line-height: 1.6; }
+  .audience a[aria-current] { background: var(--c-on-brand); color: var(--c-brand-deep); font-weight: 600; }
+  .audience a:not([aria-current]):hover { background: color-mix(in srgb, var(--c-on-brand) 18%, transparent); }
+  .topbar__links { display: flex; gap: var(--s-3); list-style: none; padding: 0; }
+  .topbar__links a { display: inline-flex; gap: 0.4em; align-items: center; text-decoration: none; opacity: 0.92; }
+  .topbar__links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+  .topbar__links :global(svg) { width: 1em; height: 1em; }
+  .topbar :global(:focus-visible) { outline-color: var(--c-on-brand); }
+  .audience a, .topbar__links a { white-space: nowrap; }
+  @media (max-width: 640px) {
+    .hide-sm { display: none; }
+    .topbar { font-size: 0.8125rem; }
+    .topbar__links { gap: var(--s-2); }
+    .audience a { padding-inline: 0.7em; }
+  }
+  @media (max-width: 420px) { .topbar__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+
+  .site-header {
+    position: sticky; top: 0; z-index: var(--z-header);
+    background: color-mix(in srgb, var(--c-bg) 92%, transparent);
+    backdrop-filter: saturate(1.2) blur(12px);
+    -webkit-backdrop-filter: saturate(1.2) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: transform var(--t-ui) var(--ease-hortex), border-color var(--t-ui) var(--ease-hortex);
+  }
+  .site-header.is-scrolled { border-bottom-color: var(--c-line); }
+  .site-header.is-hidden { transform: translateY(-100%); }
+  .site-header__inner { display: flex; align-items: center; gap: var(--s-4); min-height: var(--header-h); }
+
+  .wordmark { display: inline-flex; align-items: flex-start; gap: 3px; text-decoration: none; color: var(--c-brand); flex: none; }
+  .wordmark__text { font-family: var(--font-display); font-weight: 800; font-size: 1.85rem; letter-spacing: -0.04em; line-height: 1; }
+  .wordmark__leaf { width: 16px; height: 13px; color: #5fae4a; margin-top: 1px; }
+
+  .nav { flex: 1; }
+  .nav__list { display: flex; gap: clamp(8px, 1.6vw, 28px); list-style: none; padding: 0; justify-content: center; }
+  .nav__link {
+    display: inline-flex; align-items: center; gap: 0.3em;
+    padding: 0.6em 0.1em; border: 0; background: none;
+    font-weight: 500; font-size: 0.975rem; text-decoration: none;
+    position: relative;
+  }
+  .nav__link::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0.25em; height: 2px; background: var(--c-brand);
+    transform: scaleX(0); transform-origin: left; transition: transform var(--t-ui) var(--ease-hortex);
+  }
+  .nav__link:hover::after, .nav__link[aria-current]::after, .nav__link[aria-expanded='true']::after { transform: scaleX(1); }
+  .nav__caret { width: 12px; height: 12px; transition: transform var(--t-ui) var(--ease-hortex); }
+  .nav__link[aria-expanded='true'] .nav__caret { transform: rotate(180deg); }
+  .nav__mobile-extra { display: none; }
+
+  .mega {
+    position: absolute; left: 0; right: 0; top: 100%;
+    background: var(--c-bg);
+    border-top: 1px solid var(--c-line);
+    border-bottom: 1px solid var(--c-line);
+    padding-block: var(--s-5);
+    box-shadow: 0 30px 60px -30px rgb(40 30 10 / 0.25);
+  }
+  .mega__inner { display: grid; grid-template-columns: 1.6fr 1fr 0.9fr; gap: var(--s-6); align-items: start; }
+  .mega__title { color: var(--c-ink-muted); margin-bottom: var(--s-2); }
+  .mega__title:not(:first-child) { margin-top: var(--s-4); }
+  .mega__cats { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-1) var(--s-3); }
+  .mega__cats a { display: flex; align-items: center; gap: var(--s-2); text-decoration: none; font-weight: 600; padding: 6px; border-radius: var(--r-img); transition: background-color var(--t-ui); }
+  .mega__cats a:hover { background: var(--tint); }
+  .mega__thumb { width: 56px; height: 56px; border-radius: var(--r-img); background: var(--tint); display: grid; place-items: center; flex: none; }
+  .mega__thumb img { width: 44px; height: 44px; transition: transform var(--t-ui) var(--ease-hortex); }
+  .mega__cats a:hover img { transform: rotate(-10deg) scale(1.08); }
+  .mega__links { list-style: none; padding: 0; display: grid; gap: 0.35em; }
+  .mega__links a { text-decoration: none; font-weight: 500; }
+  .mega__links a:hover { color: var(--c-brand); text-decoration: underline; text-underline-offset: 3px; }
+  .mega__all { margin-top: var(--s-4); }
+  .mega__feature { position: relative; display: grid; gap: var(--s-2); padding: var(--s-3); border-radius: var(--r-img); background: var(--tint, var(--c-sunk)); text-decoration: none; overflow: hidden; }
+  .mega__feature img { width: 70%; margin-inline: auto; transition: transform var(--t-reveal) var(--ease-hortex); }
+  .mega__feature:hover img { transform: translateY(-4px) rotate(-2deg); }
+  .mega__feature .badge { position: absolute; top: var(--s-2); left: var(--s-2); }
+  .mega__feature-title { font-weight: 600; }
+  .mega__feature--recipe { padding: 0; background: none; }
+  .mega__feature--recipe img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--r-img); max-height: 300px; }
+
+  .site-header__actions { display: flex; gap: 4px; align-items: center; margin-left: auto; }
+  .icon-btn {
+    position: relative; display: inline-grid; place-items: center;
+    width: 44px; height: 44px; border-radius: 50%; border: 0; background: transparent;
+    transition: background-color var(--t-ui);
+  }
+  .icon-btn:hover { background: var(--c-sunk); }
+  .icon-btn :global(svg) { width: 22px; height: 22px; }
+  .inquiry-count {
+    position: absolute; top: 4px; right: 2px; min-width: 18px; height: 18px; padding: 0 4px;
+    border-radius: 9px; background: var(--c-brand); color: var(--c-on-brand);
+    font-size: 11px; font-weight: 700; line-height: 18px; text-align: center;
+  }
+  .menu-btn { display: none; }
+  .menu-btn :global(.menu-btn__close), .menu-btn[aria-expanded='true'] :global(.menu-btn__open) { display: none; }
+  .menu-btn[aria-expanded='true'] :global(.menu-btn__close) { display: block; }
+
+  @media (min-width: 1025px) {
+    .nav__item.has-mega { position: static; }
+  }
+  @media (max-width: 1024px) {
+    .menu-btn { display: inline-grid; }
+    .nav {
+      position: fixed; inset: calc(var(--header-h)) 0 0 0; z-index: var(--z-menu);
+      background: var(--c-bg); overflow-y: auto; padding: var(--s-3) var(--gutter) var(--s-8);
+      display: none;
+    }
+    .nav.is-open { display: block; }
+    .nav__list { flex-direction: column; gap: 0; }
+    .nav__item { border-bottom: 1px solid var(--c-line); }
+    .nav__link { width: 100%; justify-content: space-between; padding: 0.9em 0; font-size: 1.25rem; font-family: var(--font-display); font-weight: 600; }
+    .nav__link::after { display: none; }
+    .mega { position: static; box-shadow: none; border: 0; padding: 0 0 var(--s-3); }
+    .mega .container { padding: 0; }
+    .mega__inner { grid-template-columns: 1fr; gap: var(--s-2); }
+    .mega__cats { grid-template-columns: 1fr 1fr; }
+    .mega__feature { display: none; }
+    .nav__mobile-extra { display: grid; gap: var(--s-1); margin-top: var(--s-4); }
+  }
+  @media (max-width: 480px) { .mega__cats { grid-template-columns: 1fr; } }
+</style>

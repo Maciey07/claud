@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import Article from '../../components/Article.astro';
+import { site, formatDate } from '../../lib/data';
+import { img } from '../../lib/images';
+import articles from '../../../content/articles.json';
+
+export function getStaticPaths() {
+  return site.news.map((n) => ({ params: { slug: n.slug }, props: { n } }));
+}
+const { n } = Astro.props as { n: (typeof site.news)[number] };
+const body = (articles as Record<string, string[]>)[n.slug] ?? [];
+---
+<Base title={n.title} description={n.excerpt} current="aktualnosci">
+  <Article title={n.title} lead={n.excerpt} body={body} meta={`${n.tag} · ${formatDate(n.date)}`} crumbs={[{ label: 'Aktualności', href: '/aktualnosci/' }, { label: n.title }]} image={img.path(n.image)} imageAlt="" />
+</Base>

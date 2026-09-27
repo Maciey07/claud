@@ -1,0 +1,242 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import NutritionTable from '../../components/NutritionTable.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import RecipeCard from '../../components/RecipeCard.astro';
+import Carousel from '../../components/Carousel.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import {
+  products, categoryBySlug, productBySlug, recipesForProduct, relatedProducts, site,
+  PREP_LABELS, PREP_TEXT, t, type Product,
+} from '../../lib/data';
+import { img } from '../../lib/images';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props as { p: Product };
+const isPro = p.pack === 'gastronomiczne';
+const cat = categoryBySlug(p.category)!;
+const consumer = p.consumer ? productBySlug(p.consumer) : undefined;
+const consumerCat = consumer ? categoryBySlug(consumer.category) : undefined;
+const pro = p.horeca ? productBySlug(p.horeca) : undefined;
+const recs = recipesForProduct(p).slice(0, 6);
+const related = relatedProducts(p, 4);
+const prepKeys = Object.keys(p.prep).filter((k) => PREP_LABELS[k]);
+const prepIcon: Record<string, 'pan' | 'pot' | 'oven' | 'flame' | 'air' | 'snow'> = { patelnia: 'pan', gotowanie: 'pot', piekarnik: 'oven', frytkownica: 'flame', airfryer: 'air', rozmrazanie: 'snow' };
+const tint = `var(--tint-${isPro ? 'horeca' : p.category})`;
+const motif = (consumerCat ?? cat).motif === 'owoce' ? 'owoce' : 'warzywa';
+
+const crumbs = isPro
+  ? [{ label: 'Produkty', href: '/produkty/' }, { label: 'HoReCa', href: '/kategorie-produktow/horeca/' }, { label: `${p.name} ${p.weight}` }]
+  : [{ label: 'Produkty', href: '/produkty/' }, { label: cat.name, href: `/kategorie-produktow/${cat.slug}/` }, { label: p.name }];
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${p.name} ${p.weight}`,
+  brand: { '@type': 'Brand', name: 'Hortex' },
+  category: isPro ? 'HoReCa' : cat.name,
+  description: p.description,
+  image: new URL(img.pack(p.slug), Astro.site).href,
+  weight: { '@type': 'QuantitativeValue', value: parseFloat(p.weight.replace(',', '.')), unitCode: p.weight.includes('kg') ? 'KGM' : 'GRM' },
+  nutrition: { '@type': 'NutritionInformation', servingSize: '100 g', calories: `${p.nutrition.kcal} kcal`, fatContent: `${p.nutrition.fat} g`, carbohydrateContent: `${p.nutrition.carbs} g`, proteinContent: `${p.nutrition.protein} g`, sodiumContent: `${Math.round(p.nutrition.salt * 400)} mg` },
+};
+---
+<Base title={`${p.name} ${p.weight}`} description={p.description} current="produkty" audience={isPro ? 'biznes' : 'dom'} jsonLd={ld} preloadImage={img.pack(p.slug)}>
+  <div class="container product-top"><Breadcrumbs items={crumbs} /></div>
+
+  <div class="container product-main" data-motif={motif} data-motif-trigger="[data-ingredients]">
+    <div class="product-main__media">
+      <div class="product-pack" style={`--media-bg: ${tint}`}>
+        <img data-motif-origin src={img.pack(p.slug)} alt={`Opakowanie: ${p.name}, ${p.weight}`} width="400" height="500" fetchpriority="high" />
+      </div>
+    </div>
+
+    <div class="product-main__info">
+      <header class="product-head">
+        <div class="cluster">
+          {p.isNew && <span class="badge badge--brand">Nowość</span>}
+          {isPro ? <span class="badge">HoReCa</span> : p.line && <span class="badge badge--soft">{p.line}</span>}
+        </div>
+        <h1>{t(p.name)}</h1>
+        <p class="product-weight t-num">{p.weight}{isPro && p.spec?.collective ? ` · ${p.spec.collective}` : ''}</p>
+        <p class="t-lead">{t(p.description)}</p>
+      </header>
+
+      {prepKeys.length > 0 && (
+        <ul class="prep-facts" role="list" aria-label="Sposoby przygotowania">
+          {prepKeys.map((k) => (
+            <li><Icon name={prepIcon[k]} /><span><strong>{PREP_LABELS[k]}</strong>{p.prep[k] && <span class="t-num">{p.prep[k]}</span>}</span></li>
+          ))}
+        </ul>
+      )}
+
+      {isPro ? (
+        <div class="product-ctas">
+          <button type="button" class="btn inquiry-btn" data-inquiry-add={p.slug} aria-pressed="false"><Icon name="plus" /><span data-label>Dodaj do zapytania</span></button>
+          <a class="btn btn--ghost" href="/dla-biznesu/#zapytanie">Zapytaj o ofertę</a>
+          <a class="link-arrow" href="/dla-biznesu/katalogi/"><Icon name="download" />Karta specyfikacji PDF</a>
+        </div>
+      ) : (
+        <div class="product-ctas">
+          <details class="buy">
+            <summary class="btn"><Icon name="cart" />Gdzie kupić</summary>
+            <div class="buy__panel">
+              <p class="t-meta t-muted">Sieci handlowe</p>
+              <ul role="list" class="buy__list">{site.stores.retail.map((s) => <li>{s}</li>)}</ul>
+              <p class="t-meta t-muted">Sklepy online</p>
+              <ul role="list" class="buy__list">{site.stores.online.map((s) => <li>{s}</li>)}</ul>
+              <p class="t-small t-muted">Dostępność zależy od sklepu. W docelowej wersji: lista z linkami do sklepów online.</p>
+            </div>
+          </details>
+          {recs.length > 0 && <a class="link-arrow" href="#przepisy">Przepisy z tym produktem ({recs.length}) <Icon name="arrow" /></a>}
+        </div>
+      )}
+
+      {isPro && (
+        <section class="product-block" aria-label="Specyfikacja">
+          <SpecTable p={p} />
+          {consumer && <p class="t-small t-muted consumer-link">Wersja dla domu: <a href={`/produkty/${consumer.slug}/`}>{consumer.name} {consumer.weight}</a></p>}
+        </section>
+      )}
+
+      <section class="product-block" aria-labelledby="ing-title" data-ingredients>
+        <h2 id="ing-title" class="t-h3">Składniki</h2>
+        <ul class="ing-list" role="list">
+          {p.ingredients.map((i) => (
+            <li>
+              <img data-piece src={img.ing(i.key)} alt="" width="200" height="200" loading="lazy" />
+              <span class="ing-list__name">{i.name}</span>
+              {i.pct && <span class="ing-list__pct t-num">{i.pct}%</span>}
+            </li>
+          ))}
+        </ul>
+        {p.composition && <p class="t-small composition"><strong>Skład:</strong> {t(p.composition)}</p>}
+      </section>
+
+      {prepKeys.length > 0 && (
+        <section class="product-block" aria-labelledby="prep-title">
+          <h2 id="prep-title" class="t-h3">Przygotowanie</h2>
+          <div data-tabs>
+            <div class="tabs__list" role="tablist" aria-label="Sposób przygotowania">
+              {prepKeys.map((k, i) => (
+                <button class="tabs__tab" type="button" role="tab" id={`tab-${k}`} aria-controls={`panel-${k}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+                  <Icon name={prepIcon[k]} />{PREP_LABELS[k]}
+                </button>
+              ))}
+            </div>
+            {prepKeys.map((k, i) => (
+              <div class="tabs__panel" role="tabpanel" id={`panel-${k}`} aria-labelledby={`tab-${k}`} hidden={i !== 0} tabindex="0">
+                {p.prep[k] && <p class="prep-time"><Icon name="clock" /><span class="t-num">{p.prep[k]}</span></p>}
+                <p>{t(PREP_TEXT[k])}</p>
+                {isPro && p.proPrep && k === prepKeys[0] && <p class="t-small t-muted pro-note"><strong>Kuchnia profesjonalna:</strong> {t(p.proPrep)}</p>}
+              </div>
+            ))}
+          </div>
+          <p class="t-small t-muted">Nie zamrażać ponownie po rozmrożeniu. Przechowywać w&nbsp;temperaturze -18°C lub niższej.</p>
+        </section>
+      )}
+
+      <section class="product-block" aria-labelledby="nut-title">
+        <h2 id="nut-title" class="visually-hidden">Wartości odżywcze i alergeny</h2>
+        <NutritionTable n={p.nutrition} portion={p.portion} />
+        <div class={`allergens ${p.allergens.length ? 'allergens--has' : ''}`}>
+          <Icon name={p.allergens.length ? 'alert' : 'shield'} />
+          <div>
+            <p class="allergens__title">{p.allergens.length ? 'Alergeny' : 'Bez alergenów z listy UE'}</p>
+            {p.allergens.length > 0 && <p><strong>Zawiera: {p.allergens.join(', ')}.</strong></p>}
+            {p.mayContain.length > 0 && <p class="t-small">Może zawierać: {p.mayContain.join(', ')}.</p>}
+            {!p.allergens.length && !p.mayContain.length && <p class="t-small">Produkt nie zawiera składników alergennych wymagających deklaracji.</p>}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  {pro && (
+    <aside class="container pro-bar" aria-label="Wersja gastronomiczna">
+      <a href={`/produkty/${pro.slug}/`} class="pro-bar__inner band--deep">
+        <Icon name="briefcase" />
+        <span><strong>Dostępne dla gastronomii w&nbsp;{pro.weight}</strong><span class="t-small">Specyfikacja, wydajność i zapytanie ofertowe w strefie Dla biznesu.</span></span>
+        <Icon name="arrow" />
+      </a>
+    </aside>
+  )}
+
+  {recs.length > 0 && (
+    <section class="section band--surface" id="przepisy" aria-labelledby="rec-title">
+      <div class="container">
+        <SectionHeader id="rec-title" eyebrow="Inspiracje" title={isPro ? 'Pomysły na kartę menu' : 'Przepisy z tym produktem'} />
+        <Carousel label="Przepisy z produktem">
+          {recs.map((r) => <li><RecipeCard r={r} ratio="4x5" showProduct={false} /></li>)}
+        </Carousel>
+        <p class="more-link"><a class="link-arrow" href={`/przepisy/?produkt=${p.consumer ?? p.slug}`}>Wszystkie przepisy z produktem <Icon name="arrow" /></a></p>
+      </div>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="rel-title">
+    <div class="container">
+      <SectionHeader id="rel-title" title="Spróbuj również" text={isPro ? 'Inne produkty w opakowaniach gastronomicznych.' : undefined} />
+      <div class="product-grid">
+        {related.map((r) => <ProductCard p={r} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .product-top { padding-top: var(--s-4); }
+  .product-main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-8); padding-block: var(--s-4) var(--s-section); align-items: start; }
+  .product-main__media { position: sticky; top: calc(var(--header-h) + var(--s-2)); }
+  .product-pack { aspect-ratio: 4 / 5; border-radius: var(--r-img); background: var(--media-bg); display: grid; place-items: center; padding: 10%; }
+  .product-pack img { width: 100%; height: 100%; object-fit: contain; }
+  .product-main__info { display: grid; gap: var(--s-5); }
+  .product-head { display: grid; gap: var(--s-2); }
+  .product-head h1 { margin-top: var(--s-1); }
+  .product-weight { font-size: var(--fs-lead); font-weight: 600; color: var(--c-ink-muted); }
+  .product-head .t-lead { max-width: 38rem; }
+  .prep-facts { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .prep-facts li { display: flex; gap: var(--s-1); align-items: center; padding: var(--s-1) var(--s-2); border: 1px solid var(--c-line); border-radius: var(--r-ui); font-size: var(--fs-small); }
+  .prep-facts li > span { display: grid; line-height: 1.3; }
+  .prep-facts :global(svg) { width: 26px; height: 26px; color: var(--c-brand); }
+  .product-ctas { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); align-items: center; }
+  .buy { position: relative; }
+  .buy summary { list-style: none; }
+  .buy summary::-webkit-details-marker { display: none; }
+  .buy__panel { position: absolute; z-index: 10; top: calc(100% + 8px); left: 0; width: min(420px, 86vw); padding: var(--s-3); background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-ui); box-shadow: 0 20px 40px -20px rgb(40 30 10 / 0.3); display: grid; gap: var(--s-1); }
+  .buy__list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--s-1); }
+  .buy__list li { padding: 0.3em 0.8em; border-radius: var(--r-pill); background: var(--c-sunk); font-weight: 600; font-size: var(--fs-small); }
+  .product-block { display: grid; gap: var(--s-3); padding-top: var(--s-5); border-top: 1px solid var(--c-line); }
+  .ing-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--s-3); }
+  .ing-list li { display: grid; justify-items: center; text-align: center; gap: 4px; }
+  .ing-list img { width: 100%; max-width: 120px; }
+  .ing-list__name { font-weight: 600; font-size: var(--fs-small); }
+  .ing-list__pct { font-size: var(--fs-meta); color: var(--c-ink-muted); }
+  .composition { color: var(--c-ink-muted); max-width: var(--measure); }
+  .prep-time { display: inline-flex; gap: 0.4em; align-items: center; font-weight: 600; margin-bottom: var(--s-1); }
+  .tabs__panel { max-width: var(--measure); }
+  .pro-note { margin-top: var(--s-2); }
+  .allergens { display: flex; gap: var(--s-2); padding: var(--s-3); border-radius: var(--r-img); background: var(--c-brand-soft); color: var(--c-brand-deep); }
+  .allergens--has { background: var(--c-danger-soft); color: #6b1f10; }
+  .allergens :global(svg) { width: 28px; height: 28px; flex: none; }
+  .allergens__title { font-weight: 700; }
+  .consumer-link a { color: var(--c-brand); }
+  .pro-bar { margin-bottom: var(--s-section); }
+  .pro-bar__inner { display: flex; gap: var(--s-3); align-items: center; padding: var(--s-3) var(--s-4); border-radius: var(--r-img); text-decoration: none; }
+  .pro-bar__inner > span { display: grid; flex: 1; }
+  .pro-bar__inner :global(svg) { width: 28px; height: 28px; flex: none; }
+  .more-link { margin-top: var(--s-4); }
+  @media (max-width: 900px) {
+    .product-main { grid-template-columns: 1fr; gap: var(--s-4); }
+    .product-main__media { position: static; }
+    .product-pack { max-width: 420px; margin-inline: auto; width: 100%; }
+  }
+  @media print {
+    .product-main__media { position: static; }
+  }
+</style>

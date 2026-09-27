@@ -1,0 +1,129 @@
+---
+import Icon from './Icon.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import RecipeCard from './RecipeCard.astro';
+import { recipes, site, productBySlug, t } from '../lib/data';
+import { img } from '../lib/images';
+
+interface Props { title: string; lead: string; activeCategory?: string; crumbs: { label: string; href?: string }[] }
+const { title, lead, activeCategory, crumbs } = Astro.props;
+const items = activeCategory ? recipes.filter((r) => r.category === activeCategory) : recipes;
+const usedProducts = [...new Set(recipes.flatMap((r) => r.products))].map((s) => productBySlug(s)!).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name, 'pl'));
+const difficulties = [...new Set(recipes.map((r) => r.difficulty))];
+---
+<div data-filter-root data-page-size="9" data-noun="przepis|przepisy|przepisów">
+  <section class="rl-hero">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <div class="rl-hero__row">
+        <div>
+          <h1>{title}</h1>
+          <p class="t-lead t-muted">{t(lead)}</p>
+        </div>
+        <div class="rl-search">
+          <label for="recipe-q" class="visually-hidden">Szukaj przepisu</label>
+          <Icon name="search" />
+          <input id="recipe-q" class="input" type="search" placeholder="Szukaj przepisu, np. risotto" data-filter-search />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container rl-collections" aria-labelledby="coll-title">
+    <h2 id="coll-title" class="t-meta t-muted">Kolekcje sezonowe</h2>
+    <div class="rl-collections__row" data-filter-group data-toggle data-param="kolekcja" data-attr="collections" role="group" aria-labelledby="coll-title">
+      {site.collections.map((c) => (
+        <button type="button" class="coll" data-value={c.slug} aria-pressed="false">
+          <span class="coll__art" aria-hidden="true">{c.pieces.map((k) => <img src={img.ing(k)} alt="" width="200" height="200" loading="lazy" />)}</span>
+          <span class="coll__name">{c.name}</span>
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="rlist-title">
+    <div class="container">
+      <h2 id="rlist-title" class="visually-hidden">Lista przepisów</h2>
+      <div class="filters" role="search" aria-label="Filtry przepisów">
+        <nav class="chip-row chip-row--scroll" aria-label="Kategorie przepisów">
+          <a class="chip" href="/przepisy/" aria-current={!activeCategory ? 'page' : undefined}>Wszystkie</a>
+          {site.recipeCategories.map((c) => <a class="chip" href={`/kategorie-przepisow/${c.slug}/`} aria-current={activeCategory === c.slug ? 'page' : undefined}>{c.name}</a>)}
+        </nav>
+        <div class="filters__grid">
+          <div class="filters__inline">
+            <span class="t-meta filters__label" id="f-time">Czas</span>
+            <div class="chip-row" data-filter-group data-toggle data-param="czas" data-attr="time" data-mode="lte" role="group" aria-labelledby="f-time">
+              {[15, 30, 60].map((m) => <button type="button" class="chip" data-value={String(m)} aria-pressed="false">do {m}&nbsp;min</button>)}
+            </div>
+          </div>
+          <div class="filters__inline">
+            <span class="t-meta filters__label" id="f-diet">Dieta</span>
+            <div class="chip-row" data-filter-group data-toggle data-param="dieta" data-attr="diet" role="group" aria-labelledby="f-diet">
+              {site.diets.map((d) => <button type="button" class="chip" data-value={d.slug} aria-pressed="false">{d.name}</button>)}
+            </div>
+          </div>
+          <div class="filters__inline">
+            <span class="t-meta filters__label" id="f-diff">Trudność</span>
+            <div class="chip-row" data-filter-group data-toggle data-param="trudnosc" data-attr="difficulty" role="group" aria-labelledby="f-diff">
+              {difficulties.map((d) => <button type="button" class="chip" data-value={d} aria-pressed="false">{d}</button>)}
+            </div>
+          </div>
+          <div class="filters__inline">
+            <label class="t-meta filters__label" for="f-prod">Produkt Hortex</label>
+            <select id="f-prod" class="select select--sm" data-filter-select data-param="produkt" data-attr="products">
+              <option value="">Wszystkie produkty</option>
+              {usedProducts.map((p) => <option value={p.slug}>{p.name}</option>)}
+            </select>
+          </div>
+        </div>
+        <div class="filters__foot">
+          <p class="t-small t-muted" aria-live="polite"><span data-filter-count>{items.length} przepisów</span></p>
+          <button type="button" class="link-reset" data-filter-reset>Wyczyść filtry</button>
+        </div>
+      </div>
+
+      <div class="recipe-grid" data-filter-list>
+        {items.map((r, i) => <RecipeCard r={r} ratio="4x5" eager={i < 3} reveal={i >= 3} />)}
+      </div>
+      <div class="empty-state" data-filter-empty hidden>
+        <p class="t-h3">Brak przepisów dla tych filtrów</p>
+        <p class="t-muted">Spróbuj usunąć jeden z filtrów.</p>
+        <button type="button" class="btn btn--ghost" data-filter-reset>Wyczyść filtry</button>
+      </div>
+      <p class="more"><button type="button" class="btn btn--ghost" data-filter-more hidden>Pokaż więcej</button></p>
+    </div>
+  </section>
+</div>
+
+<script>
+  import '../scripts/filters';
+</script>
+
+<style>
+  .rl-hero { padding-block: var(--s-4) var(--s-4); }
+  .rl-hero__row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--s-4); margin-top: var(--s-3); }
+  .rl-hero .t-lead { margin-top: var(--s-2); max-width: 40rem; }
+  .rl-search { position: relative; width: min(100%, 380px); }
+  .rl-search :global(svg) { position: absolute; left: 14px; top: 50%; translate: 0 -50%; width: 20px; height: 20px; color: var(--c-ink-muted); }
+  .rl-search .input { padding-left: 44px; border-radius: var(--r-pill); }
+  .rl-collections { display: grid; gap: var(--s-2); }
+  .rl-collections__row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--grid-gap); }
+  .coll { display: grid; gap: var(--s-1); padding: 0; border: 0; background: none; text-align: left; }
+  .coll__art { display: flex; justify-content: center; align-items: center; aspect-ratio: 16 / 9; border-radius: var(--r-img); background: var(--c-sunk); border: 2px solid transparent; transition: border-color var(--t-ui); }
+  .coll__art img { width: 30%; margin-inline: -4%; transition: transform var(--t-reveal) var(--ease-hortex); }
+  .coll:hover .coll__art img:nth-child(odd) { transform: translateY(-6px) rotate(-8deg); }
+  .coll:hover .coll__art img:nth-child(even) { transform: translateY(4px) rotate(8deg); }
+  .coll[aria-pressed='true'] .coll__art { border-color: var(--c-brand); background: var(--c-brand-soft); }
+  .coll__name { font-weight: 600; }
+  .coll[aria-pressed='true'] .coll__name::after { content: ' ✓'; color: var(--c-brand); }
+  .filters { display: grid; gap: var(--s-3); margin-bottom: var(--s-6); padding-bottom: var(--s-3); border-bottom: 1px solid var(--c-line); }
+  .filters__grid { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); }
+  .filters__inline { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
+  .filters__label { color: var(--c-ink-muted); }
+  .select--sm { min-height: 40px; padding-block: 0.4em; width: auto; border-radius: var(--r-pill); }
+  .filters__foot { display: flex; justify-content: space-between; align-items: center; }
+  .link-reset { border: 0; background: none; text-decoration: underline; text-underline-offset: 3px; font-size: var(--fs-small); color: var(--c-ink-muted); }
+  .empty-state { text-align: center; padding: var(--s-8) 0; display: grid; gap: var(--s-2); justify-items: center; }
+  .more { text-align: center; margin-top: var(--s-8); }
+  @media (max-width: 900px) { .rl-collections__row { grid-template-columns: repeat(2, 1fr); } }
+</style>
